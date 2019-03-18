@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Generating Statistics Tables</title>
+    <link rel="StyleSheet" href="css/Chapter%201.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%201.2.1.html#1016139">1	Introduction</a> &gt; 1.1  Generating Statistics Tables</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">1.1  <a name="1016139">Generating Statistics Tables</a></div>
+      <div class="BodyAfterHead"><span class="Variable"><a name="1049981">QualNet</a></span> uses SQLite and MySQL 5.0 to generate the statistics database. </div>
+      <div class="Body"><a name="1066987">SQLite is a C library that implements a self-contained, embeddable, zero-configuration SQL database engine. By default, </a><span class="Variable">QualNet</span> uses SQLite for database operations. SQLite is ideal for small databases and sequential operation. For details on SQLite, go to <span class="Hyperlink">http:\\www.sqlite.org</span>. </div>
+      <div class="BodyAfterHead"><a name="1246747">MySQL must be used when running </a><span class="Variable">QualNet</span> in parallel mode. MySQL can be found at <br /><span class="Hyperlink">http://www.mysql.com</span>. Note that MySQL must be available on the machine that will be used to compile <span class="Variable">QualNet</span>. Likewise, MySQL must be properly licensed for the installation. See the MySQL website for more information.</div>
+      <div class="BodyAfterHead"><a name="1246754">If the user enables statistics database generation (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Statistics_Database_Users_Guide', 'Chapter%203.4.1.html#1240161', '');" title="Configuring Statistics Tables">Section&nbsp;3.1</a></span> and <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Statistics_Database_Users_Guide', 'Chapter%203.4.2.html#1323297', '');" title="GUI Configuration">Section&nbsp;3.2</a></span>), then <span class="Variable">QualNet</span> creates statistics tables in a database. If the simulation uses SQLite, the database file is created in the directory from where <span class="Variable">QualNet</span> is run and is named after the <span style="font-family: &quot;Courier New&quot;">EXPERIMENT-NAME</span> parameter in the scenario configuration (.config) file and the date and time of the run. If MySQL is used, a new logical database is created for each run within MySQL.</div>
+      <div class="Body"><a name="1067031">If MySQL is used to generate the database, the database is named using the following convention:</a></div>
+      <div class="Declaration"><a name="1020161">&lt;experiment-name&gt;_&lt;date&gt;_&lt;time&gt;</a></div>
+      <div class="Body"><a name="1067045">If SQLite is used to generate the database, the database is named using the following convention:</a></div>
+      <div class="Declaration"><a name="1067046">&lt;experiment-name&gt;_&lt;date&gt;_&lt;time&gt;.sqlite</a></div>
+      <div class="Where"><a name="1020163">where</a></div>
+      <table class="ArgumentTable" style="text-align: left; width: 431.87472pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 108pt">
+            <div class="BodyCourier"><a name="1049437">&lt;experiment-name&gt;</a></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 323.87472pt">
+            <div class="Body"><a name="1049439">Experiment name (value of the EXPERIMENT-NAME parameter)</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="BodyCourier"><a name="1049466">&lt;date&gt;</a></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Body"><a name="1049468">Date of the run (year, month, day) in YYYYMMDD format</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="BodyCourier"><a name="1049470">&lt;time&gt;</a></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Body"><a name="1049472">Time of the run (hour, minutes, seconds) in HHMMSS format</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Example"><a name="1020166">Example</a></div>
+      <div class="Indented" style="margin-left: 36pt; text-indent: 0pt"><a name="1049502">If the </a><span style="font-family: &quot;Courier New&quot;">EXPERIMENT-NAME</span> parameter is set to “myscenario” and the simulation run began at 1:58:22 P.M. on September 2<span style="vertical-align: super">nd</span>, 2007, then a database with the name “myscenario_20070902_135822” is created if MySQL is used. The name of the database is “myscenario_20070902_135822.sqlite” if SQLite is used. </div>
+      <div class="Body"><a name="1016140">The user can specify which statistics tables are to be generated and the information to be included in each table by means of configuration parameters (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Statistics_Database_Users_Guide', 'Chapter%203.4.1.html#1240161', '');" title="Configuring Statistics Tables">Section&nbsp;3.1</a></span> and <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Statistics_Database_Users_Guide', 'Chapter%203.4.2.html#1323297', '');" title="GUI Configuration">Section&nbsp;3.2</a></span>).</div>
+      <div class="Heading2Numbered">1.1.1  <a name="1070146">Installing and Configuring MySQL</a></div>
+      <div class="BodyAfterHead"><a name="1090542">To install and configure MySQL on your system, perform the following steps:</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="1070147">Install MySQL 5.0 or later available from </a><span class="Hyperlink">http://www.mysql.com</span>. Note the installation directory.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1089834">&nbsp;</a></div>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Note_003a">
+              <span class="Bold">Note:</span><a name="1089815">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="NoteText"><a name="1089817">The statistics database functionality is not compatible with MySQL 4.x.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1070176">Add a user to MySQL as follows (and note the ’ tick marks around your username and '%' character).</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_Sub1__0028first_0029_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_Sub1__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">a.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_Sub1__0028first_0029_inner"><a name="1070177">Open a command window and type the following command (modify the command to match the MySQL installation directory):</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Command_Input"><a name="1090136">&nbsp;</a></div>
+      <div class="Command_Input"><a name="1090154">mysql -u root --socket=/tmp/mysql.sock</a></div>
+      <div class="Command_Input"><a name="1090168">&nbsp;</a></div>
+      <div class="Numbered_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">b.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_Sub1_inner"><a name="1070178">Open a MySQL shell by typing the following command:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Command_Input"><a name="1090185">&nbsp;</a></div>
+      <div class="Command_Input"><a name="1090186">mysql</a></div>
+      <div class="Command_Input"><a name="1090187">&nbsp;</a></div>
+      <div class="Numbered_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">c.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_Sub1_inner"><a name="1090161">In the MySQL shell, enter the following command:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Command_Input"><a name="1090242">&nbsp;</a></div>
+      <div class="Command_Input"><a name="1090243">GRANT ALL PRIVILEGES ON *.* TO '&lt;user&gt;’@’localhost' IDENTIFIED BY '&lt;pass&gt;';</a></div>
+      <div class="Command_Input"><a name="1090244">&nbsp;</a></div>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Notes_003a">
+              <span class="Bold">Notes:</span><a name="1090273">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="Note_Numbered__0028first_0029_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Note_Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                      <span class="StepNumber">1.	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Note_Numbered__0028first_0029_inner"><a name="1090275">To use the database remotely, enter the following command as well:</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Command_Input"><a name="1090337">&nbsp;</a></div>
+            <div class="Command_Input"><a name="1090350">GRANT ALL PRIVILEGES ON *.* TO '&lt;user&gt;’@’%' IDENTIFIED BY '&lt;pass&gt;';</a></div>
+            <div class="Command_Input"><a name="1090359">&nbsp;</a></div>
+            <div class="Note_Numbered_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Note_Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                      <span class="StepNumber">2.	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Note_Numbered_inner"><a name="1090306">On a Windows system, the </a><span style="font-family: &quot;Courier New&quot;; font-weight: bold">IDENTIFIED BY '&lt;pass&gt;'</span> clause may have to be replaced by <span style="font-family: &quot;Courier New&quot;; font-weight: bold">IDENTIFIED BY PASSWORD('&lt;pass&gt;')</span> or <span style="font-family: &quot;Courier New&quot;; font-weight: bold">OLD_PASSWORD('&lt;pass&gt;')</span>, depending on the installation.</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1070184">Test that the installation works using the </a><span class="Courier">mysql&gt; show databases</span> command as below:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Command_Input" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span class="Courier"><a name="1070185">mysql&gt; show databases;</a></span></div>
+      <div class="Declaration"><a name="1070186">+----------------------+</a></div>
+      <div class="Declaration"><a name="1070187">| Database             |</a></div>
+      <div class="Declaration"><a name="1070188">+----------------------+</a></div>
+      <div class="Declaration"><a name="1070189">| information_schema   |</a></div>
+      <div class="Declaration"><a name="1070190">| SRW1b20080821_111335 |</a></div>
+      <div class="Declaration"><a name="1070191">| SRW1b20080821_111424 |</a></div>
+      <div class="Declaration"><a name="1070192">| mysql                |</a></div>
+      <div class="Declaration"><a name="1070193">| test                 |</a></div>
+      <div class="Declaration"><a name="1070194">+----------------------+</a></div>
+      <div class="Declaration"><a name="1070195">5 rows in set (0.00 sec)</a></div>
+      <div class="Declaration"><span class="Courier"><a name="1070196">mysql&gt;</a></span></div>
+      <div class="Declaration"><a name="1090406">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1090387">In the scenario configuration (.config) file, include the following parameters for your username and password for MySQL on that host. See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Statistics_Database_Users_Guide', 'Chapter%203.4.1.html#1324371', '');" title="Configuring Statistics Tables">Section&nbsp;3.1.2</a></span> for details.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Declaration"><a name="1090391">&nbsp;</a></div>
+      <div class="Declaration"><a name="1090392">STATS-DB-USERNAME  &lt;user&gt;</a></div>
+      <div class="Declaration"><a name="1090393">STATS-DB-PASSWORD &lt;pass&gt;</a></div>
+      <div class="Declaration"><a name="1090394">STATS-DB-SERVER &lt;SQL-server&gt;</a></div>
+      <div class="Declaration"><a name="1090395">GESTALT-USE-WORKER-THREAD YES</a></div>
+      <div class="Declaration"><a name="1090418">&nbsp;</a></div>
+      <div class="Heading4"><a name="1090425">Troubleshooting Tips</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1090109">If you cannot connect to MySQL, first ensure that the service is installed on the local machine. This can be done by reviewing the process list in the Task Manager (in Windows) or by using the </a><span class="Courier" style="font-weight: bold">ps</span> command (in UNIX). </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1090117">It is recommended that MySQL be configured using the mysql.ini file to support extremely large simulations (refer to the MySQL documentation for the location of the mysql.ini file on different platforms). Enter the following lines in the mysql.ini file:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Declaration"><a name="1095218">&nbsp;</a></div>
+      <div class="Declaration"><a name="1095219">[mysqld]</a></div>
+      <div class="Declaration"><a name="1095220">max_allowed_packet = 32000000;</a></div>
+      <div class="Declaration"><a name="1095221">wait_timeout = 129600;</a></div>
+      <div class="Declaration"><a name="1090121">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="1091819">Alternatively, enter the following commands in the MySQL shell:</a></div>
+      <div class="Command_Input"><a name="1095203">&nbsp;</a></div>
+      <div class="Command_Input"><a name="1095204">set max_allowed_packet = 32000000;</a></div>
+      <div class="Command_Input"><a name="1095205">set wait_timeout = 129600;</a></div>
+      <div class="Command_Input"><a name="1095206">&nbsp;</a></div>
+      <div class="Heading2Numbered">1.1.2  <a name="1070245">Performance Considerations</a></div>
+      <div class="BodyAfterHead"><a name="1070246">There are a number of different considerations which effect performance.  Recommendations are as follows:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1070247">Single machine, single processor: SQLite, no worker thread, sequential mode.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1070248">Database server and single machine, single processor: MySQL, no worker thread, sequential mode.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1070249">Parallel machine, N processors, SQLite or MySQL, worker threads M=N-1 partitions.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1070250">Database server, N processors, MySQL, worker threads M=N-1 partitions or no worker thread M=N partitions.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1070251">Cluster machine, single processor per machine, database server, MySQL.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1070257">Cluster machine, n=2+ processors per machine, database server, MySQL, worker threads M=N-1 partitions, suggest multiprocessor SQL database server.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1089914">&nbsp;</a></div>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Note_003a">
+              <span class="Bold">Note:</span><a name="1089934">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="NoteText"><a name="1089936">SQLite can behave incorrectly or fail entirely when the database file is stored on an NFS partition. Avoid placing database files on NFS partitions when using SQLite3</a></div>
+          </td>
+        </tr>
+      </table>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

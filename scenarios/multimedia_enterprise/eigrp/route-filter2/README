@@ -1,0 +1,46 @@
+PURPOSE
+-------
+To test EIGRP's route filtering property.
+
+    N8-4.0
+   (11)--+
+         |
+         |     N2-1.0   N2-2.0   N2-3.0
+   (21)--+--(1)------(2)------(3)------(4)
+         |            |
+         |            |
+   (41)--+            |N2-5.0
+                      |
+                     (5)
+
+
+
+Node 1, 2, 3, 4, and 5 are EIGRP routers. Node 11, 21, and 41 are
+hosts and belong to subnet N8-4.0. Router 1 belongs to both
+the subnets 4.0 and 1.0.
+
+Distribute list out at node 2 is specified such that it will filter
+out the route 0.0.4.0/8 while sending update to the node 3.
+Thus the route 0.0.4.0/8 will not propagate to node 3 and onwards.
+But it will not filter out the route while advertising it to node 5.
+Thus node 5 will have 0.0.4.0 but not node 3 or 4.
+
+
+APPLICATIONS
+------------
+CBR 1 4 1 1460 1S 4M 0M
+
+RUN:
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.eigrp - EIGRP configuration file.
+4. default.router-config - router configuration file.
+5. default.expected.stat - QualNet statistics collection.
+6. README - This file.
+

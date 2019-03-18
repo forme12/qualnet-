@@ -1,0 +1,72 @@
+#Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+--------
+Test gateway behavior in DYMO Routing Protocol.
+
+
+
+SCENARIO:-
+---------
+
+--------- means a wireless link.
+
+-----------
+|        |
+|        |    means a wireless subnet.
+|        |
+----------
+
+_________ means a static route.
+
+
+
+-----------
+|      2 |_______4_________________
+|        |                         |
+|1       |                         6
+|      3 |_______5_________________|
+----------
+
+In the above topology, node 1,2 and 3 are connected through a wireless subnet. Nodes 4, 5 and 6 are connected through wired link 
+(Static Route).Gateway Nodes are 2 and 3.
+Application CBR is established between Node 1 and Node 6.Application start time is 1S. Node 1 will send 100 packets to Node 6.Each packet 
+Duration is 1S.Source node will continuously send the data packets to the target node till the end of simulation time is not reached.
+Node 1 (Source node) has no route for the target node 6 so it generate RREQ Routing Message. Node 2 and 3 are Gateway which reply RREQ 
+routing message by generating Route Reply (RREP) Routing Message. Each intermediate node creates an entry for gateway node in its 
+routing table. Route is established between node 1 to node 6 through gateway, so node1 1 will send data packets to gateway which 
+forward it to its next hop.
+
+
+Note :- In this scenario MOBILITY of nodes is NONE. 
+----
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet Gateway-Implementation.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. Gateway-Implementation.app -  QualNet configuration file for application input.
+2. Gateway-Implementation.config - QualNet configuration input file.
+3. Gateway-Implementation.expected.stat - QualNet statistics collection.
+4. Gateway-Implementation.nodes - QualNet node position file.
+5. Gateway-Implementation.routes-static- QualNet static route file.
+7. Gateway-Implementation.routes-default- Qualnet default route file.
+6. README - This file.

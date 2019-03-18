@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="MPLS Specs" addon="multimedia_enterprise">
+        <variable name="Enable MPLS" key="MPLS-PROTOCOL" type="Selection" default="NO">
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+                <variable name="Configure as Edge Router" key="MPLS-EDGE-ROUTER" type="Checkbox" default="NO"/>
+                <variable name="Route to IP on Error" key="MPLS-ROUTE-TO-IP-ON-ERROR" type="Checkbox" default="NO"/>
+                <variable name="Label Distribution Style" key="DUMMY-DYNAMIC-LDP" type="Selection" default="STATIC">
+                    <option value="STATIC" name="Static">
+                        <variable name="MPLS Static Label Assignment File" key="MPLS-STATIC-ROUTE-FILE" type="File" default="[Optional]" filetype="mpls-routes" />
+                    </option>
+                    <option value="DYNAMIC" name="Dynamic">
+                        <variable name="Label Distribution Procotol" key="MPLS-LABEL-DISTRIBUTION-PROTOCOL" type="Selection" default="LDP">
+                            <option value="LDP" name="LDP">
+                                <variable name="Label Distribution Control Mode" key="MPLS-LABEL-DISTRIBUTION-CONTROL-MODE" type="Selection" default="ORDERED">
+                                    <option value="INDEPENDENT" name="Independent" />
+                                    <option value="ORDERED" name="Ordered" />
+                                </variable>
+                                <variable name="Label Advertisement Mode" key="MPLS-LDP-LABEL-ADVERTISEMENT-MODE" type="Selection" default="ON-DEMAND">
+                                    <option value="ON-DEMAND" name="On-demand" />
+                                    <option value="UNSOLICITED" name="Unsolicited" />
+                                </variable>
+                                <variable name="Label Retention Mode" key="MPLS-LABEL-RETENTION-MODE" type="Selection" default="LIBERAL">
+                                    <option value="LIBERAL" name="Liberal" />
+                                    <option value="CONSERVATIVE" name="Conservative" />
+                                </variable>
+                                <variable name="Configured for Label Release Message Propagate" key="CONFIGURED-FOR-LABEL-RELEASE-MESSAGE-PROPAGATE" type="Checkbox" default="NO" />
+                                <variable name="Enable LDP Loop Detection" key="MPLS-LDP-LOOP-DETECTION" type="Selection" default="NO" >
+                                    <option value="NO" name="No"/>
+                                    <option value="YES" name="Yes">
+                                        <variable name="LDP Path Vector Limit" key="MPLS-LDP-PATH-VECTOR-LIMIT" type="Integer" default="64" min="0"/>
+                                        <variable name="Configure to Decrement TTL" key="MPLS-LDP-DECREMENTS-TTL" type="Checkbox" default="NO"/>
+                                        <variable name="Configure as a Member of Decrement TTL Domain" key="MPLS-MEMBER-OF-DECREMENT-TTL-DOMAIN" type="Checkbox" default="NO"/>
+                                        <variable name="Support Label Merging" key="SUPPORT-LABEL-MERGING" type="Checkbox" default="NO"/>
+                                    </option>
+                                </variable>
+                                <variable name="Maximum Allowable Hop Count" key="MAX-ALLOWABLE-HOP-COUNT" type="Integer" default="64" />
+                                <variable name="Enable Hop Count in Lable Request" key="HOP-COUNT-REQUIRED-IN-LABEL-REQUEST" type="Checkbox" default="NO"/>
+                                <variable name="LDP Maximum PDU Length" key="MPLS-LDP-MAX-PDU-LENGTH" type="Integer" default="4096" min="256"/>
+                            </option>
+                            <option value="RSVP-TE" name="RSVP-TE">
+                                <variable name="Route Recording" key="RSVP-TE-RECORD-ROUTE" type="Selection" default="OFF">
+                                    <option value="OFF" name="Off" help="No recording of the path during LSP creation, no loop detection" />
+                                    <option value="NORMAL" name="Normal" help="Path will be recorded along the path of establishing RSVP messages" />
+                                    <option value="LABELED" name="Labeled" help="The label ID of the RSVP messages will also be considered" />
+                                </variable>
+                                <variable name="Reservation Style" key="RSVP-RESERVATION-STYLE" type="Selection" default="FF">
+                                    <option value="FF" name="Fixed Filter" help="Creates a distinct reservation for traffic from each sender that is not shared by other senders." />
+                                    <option value="SE" name="Shared Explicit" help="Allows a receiver to explicitly specify the senders to be included in a reservation. There is a single reservation on a link for all the senders listed." />
+                                </variable>
+                                <variable name="Explicit Route File" key="RSVP-TE-EXPLICIT-ROUTE-FILE" type="File" default="[Optional]" filetype="rte,routes-explicit" />
+                            </option>
+                        </variable>
+                    </option>
+                </variable>
+            </option>
+        </variable>
+    </subcategory>   
+</category>

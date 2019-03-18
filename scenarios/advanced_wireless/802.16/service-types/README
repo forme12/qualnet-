@@ -1,0 +1,44 @@
+PURPOSE:-
+--------
+To test the four service types, namely UGS, ertPs, rtPS, nrtPS and BE. 
+Five flows are defined with different service types. They
+will get different quality of service based on their service types.
+
+
+
+SCENARIO:-
+---------
+Only one wireless subnet is created with 1 BS node and 5 SSs. The BS node is
+ centered at the middle and 5 SSs are same distance away from the BS.
+ Each SS has one flow to the BS with exactly same parameters except service type.
+
+                                3(SS)
+
+                     4(SS)
+
+                             1(BS)      2(SS)
+
+
+                     5(SS)     
+                                6(SS)
+
+Five CBR flows are defined for each SS to the BS with different service types.
+
+CBR 2 1 0 1024 0.0007S 15S 0S PRECEDENCE 0 // bePs
+CBR 3 1 0 1024 0.0007S 15S 0S PRECEDENCE 2 // nrtPs 
+CBR 4 1 0 1024 0.0007S 15S 0S PRECEDENCE 3 // rtPs
+CBR 5 1 0 1024 0.001S 15S 0S PRECEDENCE 4  // ertPs
+CBR 6 1 0 1024 0.001S 15S 0S PRECEDENCE 7  // UGS
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet service-types.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. service-types.app -  QualNet configuration file for application input.
+2. service-types.config - QualNet configuration input file.
+3. service-types.nodes - QualNet node placement file for the simulation run.
+4. service-types.expected.stat - QualNet statistics collection.
+5. README - This file.

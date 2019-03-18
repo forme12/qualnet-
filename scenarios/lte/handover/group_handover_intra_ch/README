@@ -1,0 +1,80 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+-------
+To test simultaneous group handover.
+
+SCENARIO:-
+---------
+One LTE subnet is present in the scenario, having two base stations (eNodeBs) 
+and ten user equipments (UEs). Nodes 100 - 109 are UEs. Node 2 and 3 are eNodeBs.
+All the eNBs are using the same channel(Ch1 and 2).
+
+TOPOLOGY:
+---------
+
+                         CN
+                         |
+                         SW
+                         |
+                         HUB
+                       /    \
+                      /      \
+                     /        \
+                eNB1[2]       eNB2[3]
+
+      [Group of UEs]  --------->
+                     (move to)
+
+CBR flows ares:
+CBR 100 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 100 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 101 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 101 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 102 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 102 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 103 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 103 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 104 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 104 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 105 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 105 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 106 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 106 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 107 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 107 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 108 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 108 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 109 6 0 512 100MS 2S 28S PRECEDENCE 0
+CBR 6 109 0 512 100MS 2S 28S PRECEDENCE 0
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet group_handover_intra_ch.config'.
+
+
+DESCRIPTION OF THE FILES:-
+------------------------
+1.group_handover_intra_ch.config - QualNet configuration input file.
+2.group_handover_intra_ch.app    - QualNet configuration file for application input.
+3.group_handover_intra_ch.nodes  - QualNet node placement file for the simulation run.
+  UE's mobility pattern is described in this file.
+4.group_handover_intra_ch.expected.stat - QualNet statistics collection.
+6.UL_BER_MCS*.ber - Bit error rate table for various MCS(modulation, coding systems) for Uplink.
+7.DL_BER_MCS*.ber - Bit error rate table for various MCS(modulation, coding systems) for Downlink.
+8.README - This file

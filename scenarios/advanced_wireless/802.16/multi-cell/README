@@ -1,0 +1,63 @@
+PURPOSE:-
+--------
+To test the interoperability between 802.16 and wired 802.3 subnet
+as well as wireless 802.11 hot spots.
+
+
+SCENARIO:-
+---------
+A WiFi hot spot running IEEE 802.11 MAC DCF. The access point (node 11)
+connects to a SS (node 3) of one 802.16 access network. This 802.16 subnet
+has node 1 as the base station. Node 1 connects to the wired backbone. At
+the other side of the network, a 802.3 wired LAN connects to a SS of another
+802.16 access network which has node 6 as the base station connecting to the
+wired backbone. The topology integrate WiFi hot spot, 802.3 wired LAN,
+802.16 access network, wired backbone together.
+
+4 subnets 192.0.0.0, 192.0.1.0, 192.0.3.0 and 192.0.5.0
+192.0.0.0 has 5 nodes (1 to 5) and is running 802.16 MAC with node 1 as BS.
+192.0.1.0 has 5 nodes (6 to 10) and is running 802.16 MAC with node 6 as BS.
+192.0.3.0 has 5 nodes (11 to 15) and is running 802.11 MAC DCF.
+192.0.5.0 has 5 nodes (8, 16 to 19) and is a wired LAN (via hub) running 802.3 MAC
+
+In addition, node 11 of subnet 192.0.3.0 connects to node 3 of 192.0.0.0 via
+a wired point-to-point link.
+
+Node 8 of subnet 192.0.1.0 has another interface connects to the hub of subnet
+192.0.5.0 too.
+
+The BS node 1 of subnet 192.0.0.0 connects to BS node 6 of subnet 192.0.1.0
+
+        -------------------------
+       |                         |
+       1 (BS)                    6 (BS)
+   2        5               7         10
+         4                          9
+      3                        8 
+      |                        |
+      |                        |
+      |                        |
+      11                 ________________________
+                            |     |    |    |
+  12         15             16    17    18    19
+          14
+     13
+
+A CBR flow is from node 13 to node 19.
+
+- CBR 13 19 200 512 1S 20S 0S PRECEDENCE 0
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet multi-cell.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. multi-cell.app -  QualNet configuration file for application input.
+2. multi-cell.config - QualNet configuration input file.
+3. multi-cell.nodes - QualNet node placement file for the simulation run.
+4. multi-cell.expected.stat - QualNet statistics collection.
+5. README - This file.

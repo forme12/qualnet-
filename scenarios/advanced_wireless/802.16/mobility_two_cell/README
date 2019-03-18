@@ -1,0 +1,46 @@
+PURPOSE:-
+--------
+To test the basic handover functionality of IEEE 802.16e.
+
+
+SCENARIO:-
+---------
+2 subnets 192.0.0.0 and 192.0.1.0
+192.0.0.0 has 4 nodes (1 to 4) with 1 as base station (BS) and rests as MS
+192.0.1.0 has 4 nodes (5 to 8) with 5 as BS and rests as MS
+
+Both node 5 and node 8 connect to node 9 via wired point-to-point links.
+
+The two BSs (node 1 and node 5) are operating on different wireless
+channels. Node 1 is operating on channel 0 and node 5 is operating on
+channel 1.
+
+Node 3 moves from left to right. It is original close to BS node 1. So it
+register with BS node 1. When it moves to right, it will perform handover
+to BS node 5.
+
+        ----------- 9 -----------
+       |                         |
+       1 (BS)                    5 (BS)
+   2        4                6
+                                      8
+       3                         7 
+
+A CBR flow is from node 9 to node 3.
+
+- CBR 9 3 0 512 1S 10S 0S PRECEDENCE 0
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet mobility_two_cell.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. mobility_two_cell.app -  QualNet configuration file for application input.
+2. mobility_two_cell.config - QualNet configuration input file.
+3. mobility_two_cell.nodes - QualNet node placement file for the simulation run.
+4. mobility_two_cell.expected.stat - QualNet statistics collection.
+5. README - This file.

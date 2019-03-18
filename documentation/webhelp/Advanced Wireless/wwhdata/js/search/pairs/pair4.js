@@ -1,0 +1,27 @@
+function FileData_Pairs(x)
+{
+x.t("2008","2012");
+x.t("scalable","network");
+x.t("describes","features");
+x.t("layer","models");
+x.t("mac","2008");
+x.t("mac","layer");
+x.t("mac","802.16e");
+x.t("consists","following");
+x.t("network","technologies");
+x.t("features","configuration");
+x.t("requirements","parameters");
+x.t("parameters","statistics");
+x.t("2012","scalable");
+x.t("chapter","describes");
+x.t("section","802.16");
+x.t("scenarios","mac");
+x.t("configuration","requirements");
+x.t("802.16e","mac");
+x.t("models","mac");
+x.t("models","consists");
+x.t("models","chapter");
+x.t("following","section");
+x.t("statistics","scenarios");
+x.t("802.16","mac");
+}

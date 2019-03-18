@@ -1,0 +1,56 @@
+PURPOSE:-
+--------
+
+To test Group Address field of IGMP messages conforms to RFC 2236.
+
+"In a Membership Query message, the group address field is set to zero
+when sending a General Query, and set to the group address being
+queried when sending a Group-Specific Query. In a Membership Report or
+Leave Group message, the group address field holds the IP multicast
+group address of the group being reported or left."
+So a report message should be only received by hosts
+which are member of the group for which report has been sent and leave
+report should be received by the routers. Group specific query should be
+received by the hosts of the group from which leave report has come.
+
+
+
+SCENARIO:-
+---------
+
+
+
+
+                         (1R)                   (5)
+                          |                     |
+                1.0    ___|_____________________|______
+                               |      |               |
+                               |      |               |
+                              (2)    (3R)           (4R)
+
+
+INPUT:-
+-----
+default.config file:-
+--------------------
+SUBNET N8-1.0 {1, 2, 3, 4, 5}
+IGMP-ROUTER-LIST            {1, 3, 4}
+IGMP-UNSOLICITED-REPORT-COUNT    2
+
+default.member file:-
+--------------------
+2 225.0.0.1 0S 5M
+2 225.0.0.1 6M 15M
+5 225.0.0.1 0S 15M
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.config - QualNet configuration input file.
+2. default.member - QualNet group join information input file.
+3. default.expected.stat - QualNet statistics collection.
+4. README - This file.

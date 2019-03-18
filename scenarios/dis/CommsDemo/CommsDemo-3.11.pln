@@ -1,0 +1,111 @@
+(
+   (Plan-File (version "2.0"))
+(Plan 
+      (execution-stack 
+      )
+      (pending-triggers )
+      (plan-name  "M1A2 1")
+      (Block 
+         (Task 
+            (task-type "wait-duration")
+            (subtask False)
+            (seconds-to-wait  5.000000)
+         )
+         (Task 
+            (task-type "send-text-task")
+            (subtask False)
+            (destination-name  "UAV 1")
+            (text  "Start Survey Mission")
+         )
+         (Task 
+            (task-type "send-set-message-task")
+            (set-request 
+               (set-data-request-type "set-spot-reporting-request")
+               (spot-reporting-turned-on True)
+            )
+
+            (subtask False)
+            (object-name  "UAV 1")
+         )
+         (When 
+            (Trigger-name  "")
+            (Condition 
+               (CheckEntityDetectionLevel 
+                  (Entity  "GndV 1")
+                  (Level  3)
+               )
+            )
+            (Option  "ReTask")
+            (Block 
+               (Task 
+                  (task-type "send-task-message-task")
+                  (task 
+                     (task-type "plan-and-move-to")
+                     (subtask False)
+                     (control-point  "Point 1")
+                  )
+
+                  (subtask False)
+                  (object-name  "M1A2 2")
+               )
+               (Task 
+                  (task-type "plan-and-move-to")
+                  (subtask False)
+                  (control-point  "Point 1")
+               )
+            )
+         )
+      )
+   )
+   (Plan 
+      (execution-stack 
+      )
+      (pending-triggers )
+      (plan-name  "UAV 1")
+      (Block 
+         (Task 
+            (task-type "wait-duration")
+            (subtask False)
+            (seconds-to-wait  2.000000)
+         )
+         (When 
+            (Trigger-name  "")
+            (Condition 
+               (ReceiveText 
+                  (MatchingText  "Start Survey Mission")
+                  (AllowContaining True)
+               )
+            )
+            (Option  "ReTask")
+            (Block 
+               (Task 
+                  (task-type "move-along")
+                  (subtask False)
+                  (route  "Route 1")
+                  (traversal-direction  0)
+                  (start-at-closest-point False)
+               )
+               (When 
+                  (Trigger-name  "")
+                  (Condition 
+                     (CheckEntityDetectionLevel 
+                        (Entity  "GndV 1")
+                        (Level  3)
+                     )
+                  )
+                  (Option  "ReTask")
+                  (Block 
+                     (Task 
+                        (task-type "send-text-task")
+                        (subtask False)
+                        (destination-name  "DtBroadcast")
+                        (text  "Hostiles Detected")
+                     )
+                  )
+               )
+            )
+         )
+      )
+   )
+
+)

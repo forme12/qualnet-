@@ -1,0 +1,87 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+PURPOSE:-
+--------
+To compare RED and FIFO performance (average queue length, throughput
+through a bottleneck link) in scenarios that are similar to the ones
+described in Figures 5, and 6 of:
+
+    S. Floyd and V. Jacobson, "Random Early Detection Gateways for
+    Congestion Avoidance," IEEE/ACM Transactions on Networking,
+    1(4), August 1993.
+
+
+NOTES:-
+------
+There are differences in the statistics collected by these scenarios
+in Linux, versus those in Sun SPARC Solaris and Intel Windows NT/2000/XP.
+These differences, are not related to the architecture (Because Sun SPARC
+Solaris results match Intel Windows results), but rather to the method
+that floating point calculations are implemented in Linux.  We have included
+a separate set of expected statistic files for Linux, described in the list
+of files below.
+
+
+SCENARIO:-
+---------
+There are two FTP sources (nodes 3 and 4) that produce 1000-byte
+(960 bytes of data + 40 bytes of TCP header) packets as quickly
+as TCP can send them, destined for node 1, which is connected
+only to node 2 by a 45 Mbps bottleneck link.  Nodes 3 and 4 are
+connected to node 2 by separate 100 Mbps links.
+
+            |-------- 3
+1 ------- 2 | 100Mbps
+  45Mbps    |
+            |-------- 4
+              100Mbps
+
+We use the TCP-NO-DELAY-ACKS option to instruct the destination
+node 1 to send ACKs immediately upon receiving the data packets.
+
+We have changed the TCP maximum segment size to 1000 bytes with
+the TCP-MSS option.
+
+We use the TCP-USE-RFC1323 option to enable window scaling (the
+maximum window size without this option is 65536 bytes)
+
+We specify TCP send and receive buffers of size 240,000 bytes with
+the TCP-SEND-BUFFER and TCP-RECEIVE-BUFFER options.
+
+
+APPLICATIONS:-
+-------------
+FTP/GENERIC 3 1 6000000 960 0.001S 60S
+FTP/GENERIC 4 1 6000000 960 0.005S 60S
+
+
+RUN:-
+----
+Run:
+'<QUALNET_HOME>/bin/qualnet 50pkt-queue.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1.  50pkt-queue.app - QualNet application traffic input file
+2.  50pkt-queue.routes-static - QualNet Input file for the static routes
+                               between traffic sources and destinations
+3.  50pkt-queue.config - QualNet configuration input file
+4.  50pkt-queue.expected.stat - QualNet statistics collection.
+5.  README - This file.

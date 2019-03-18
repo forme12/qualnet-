@@ -1,0 +1,71 @@
+# Copyright (c) 2012-2013, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+PURPOSE:-
+--------
+To test the StatsDB Status tables for Node, Interface, Multicast and Queue.
+
+
+SCENARIO:-
+---------
+Node 1 to 6 are in the same 802.11 wireless subnet.
+Node 7 to 12 are in the same 802.3 wired subnet.
+
+The mobility paths of node 1 to 6 are defined via the node position file.
+Node 7 to 12 are stationary as they are wired nodes.
+
+
+APPLICATIONS:-
+-------------
+CBR 1 6 200 64 1S 1S 28S PRECEDENCE 0
+FTP/GENERIC 2 4 10 512 18S 25S PRECEDENCE 0
+MCBR 1 225.0.0.0 200 64 1S 1S 28S PRECEDENCE 0
+
+Following StatsDB Aggregate tables are configure in the config file:
+
+1. As mobility is used in the scenario and fault is introduce for small time period on node 4 inteface, 
+node status table is configured to check the status of nodes in different time periods.
+STATS-DB-NODE-STATUS-TABLE YES
+
+2. Configured Interface status in the config file to check the state/status of a node's interface having fault in introduce in the configuration.
+STATS-DB-INTERFACE-STATUS-TABLE YES
+
+3. Multicast status table is configured to check the joining and leaving the nodes in multicat group.
+STATS-DB-MULTICAST-STATUS-TABLE YES
+
+4. Queue Status table is configure to check the stat of the queue.
+STATS-DB-QUEUE-STATUS-TABLE  YES
+
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app - QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.db - QualNet DB collection.
+4. default.nodes - QualNet configuration file for node position.
+5. la.jpg - Background image file.
+6. *.png - Node icon files.
+7. default.member - QualNet multicast group member file.
+8. README - This file.
+

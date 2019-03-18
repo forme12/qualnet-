@@ -1,0 +1,100 @@
+#Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+PURPOSE:-
+-------
+To show the behavior of the Tahoe in the presence of 1 packet drop.
+
+The network protocol is IPv6.
+
+
+SCENARIO:-
+---------
+In the scenario, there is one TCP session, with node 1 being the source
+and node 4 being the destination.
+
+
+        s1 (Node 1)
+         \
+ 10Mb,5ms \          0.8Mb,100ms
+           r1 (Node 3)--------- k1 (Node 4)
+ 10Mb,5ms /
+         /
+        s2 (Node 2)
+
+
+APPLICATIONS:-
+-------------
+FTP/GENERIC is used to transfer data segments of 1000B starting from 1
+second to the end of simulation(i.e 6 seconds) between Node 1 and 4
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet tahoe-1drop.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+
+
+Input files:
+
+1. tahoe-1drop.app
+   - QualNet configuration file for application input.
+2a. tahoe-1drop-asciidump.config
+   - QualNet configuration input file for ascii trace.
+2b. tahoe-1drop-binarydump.config
+   - QualNet configuration input file for binary trace.
+3. tahoe-1drop.routes-static
+   - specifies static route table used to route packets.
+
+Output files:
+
+4. tahoe-1drop-asciidump.stat/tahoe-1drop-binarydump.stat
+   - QualNet statistics collection for FTP/GENERIC and TCP.
+5. tcptrace.asc
+   - tcpdump ascii trace of the simulation.
+6. tcptrace.dmp
+   - tcpdump binary trace of the simulation.
+
+Processed plot files from tcptrace:
+
+7. a2b_owin.xpl
+   - outstanding data from node 1 to node 4
+8. a2b_rtt.xpl
+   - rtt samples from node 1 to node 4
+9. a2b_ssize.xpl
+   - segment size from node 1 to node 4
+10.a2b_tput.xpl
+   - throughput from node 1 to node 4
+11.a2b_tsg.xpl
+   - time-sequence graph from node 1 to node 4
+12 b2a_owin.xpl
+  .- outstanding data from node 4 to node 1
+13 b2a_rrt.xpl
+  .- rtt samples from node 4 to node 1
+14 b2a_ssize.xpl
+  .- segment size from node 4 to node 1
+15 b2a_tput.xpl
+  .- throughput from node 4 to node 1
+16 b2a_tsg.xpl
+  .- time-sequence graph from node 4 to node 1
+17.a_b_tline.xpl
+   - time line plot.
+18 README - This file

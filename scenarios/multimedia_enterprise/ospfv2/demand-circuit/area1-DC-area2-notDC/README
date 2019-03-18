@@ -1,0 +1,53 @@
+PURPOSE:-
+--------
+To show the working of demand circuit if one area
+contains all DC capable routers and another area contains a router
+which is not demand circuit capable i.e to generate indication LSA
+
+
+SCENARIO:-
+---------
+In this scenario, we have two areas.One contains a LINK as demand circuit 
+and in that area all routers support demand circuit and second area contains 
+a router not supporting demand circuit.
+
+
+``````````````````        ```````````
+`         DC     `        `         `
+` 5-----1-----2  `        `7        `
+`       |        `        `|        `
+`       |        `        `|        `
+` 4-----3------------------6-----8  `
+`                `        `         `
+``````````````````        ```````````
+    Area 1                  Area 0
+  
+
+
+CBR is used to transfer 600 data segments of 512B each at 5 second intervals
+starting at 20 minutes to 30 minutes.
+
+DEMAND CIRCUIT CONFIGURATIONS:-
+-------------------------------
+Area 1: all routers support DC.
+Area 0: all routers support DC except node 8.
+LINK (1, 2) is a DC.
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet area1-DC-area2-notDC.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. area1-DC-area2-notDC.app -  QualNet application configuration input file.
+2. area1-DC-area2-notDC.config - QualNet configuration input file.
+3. area1-DC-area2-notDC.ospf - Ospf configuration input file.
+4. area1-DC-area2-notDC.expected.stat - QualNet statistics collection
+                                        for CBR and OSPFv2.
+5. README - This file.
+
+

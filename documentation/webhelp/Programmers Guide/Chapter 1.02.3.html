@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>QualNet Protocol Stack</title>
+    <link rel="StyleSheet" href="css/Chapter%201.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%201.02.1.html#931458">1	Introduction</a> &gt; 1.2  QualNet Protocol Stack</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">1.2  <span class="Variable"><a name="931458">QualNet</a></span> Protocol Stack</div>
+      <div class="BodyAfterHead"><span class="Variable"><a name="927465">QualNet</a></span> uses a layered architecture similar to that of the TCP/IP network protocol stack. Within that architecture, data moves between adjacent layers. <span class="Variable">QualNet</span>'s protocol stack consists of, from top to bottom, the Application, Transport, Network, Link (MAC) and Physical Layers.</div>
+      <div class="Body"><a name="930078">Adjacent layers in the protocol stack communicate via well-defined APIs, and generally, layer communication occurs only between adjacent layers. For example, Transport Layer protocols can get and pass data to and from the Application and Network Layer protocols, but cannot do so with the Link (MAC) Layer protocols or the Physical Layer protocols. This rule concerning communication only between adjacent layers may be circumvented by the programmer, as explained in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#948679', '');" title="Communication Between Layers">Section&nbsp;4.11</a></span>. </div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%201.02.3.html#930060', '');" title="QualNet Protocol Stack" name="933371">Figure&nbsp;1-1</a></span> depicts the <span class="Variable">QualNet</span> protocol stack and the general functionality of each layer.</div>
+      <div class="Anchor"><a name="930087"><img class="Default" src="images/Chapter%201.02.3.1.jpg" width="450" height="378" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 1-1.&nbsp;&nbsp;<span class="Variable"><a name="930060">QualNet</a></span> Protocol Stack</div>
+      <div class="Heading2Numbered">1.2.1  <a name="920574">Application Layer</a></div>
+      <div class="BodyAfterHead"><a name="920584">The Application Layer is responsible for traffic generation and application level routing. Protocols written at the Application Layer rely on the Transport Layer to deliver application-level data from the source to the destination. Thus, Application Layer protocols pass data down to the Transport Layer at the source node, and receive data from the Transport Layer at the destination node. Examples of traffic- generating Application Layer protocols implemented in </a><span class="Variable">QualNet</span> are Constant Bit Rate (CBR), FTP, and Telnet. Examples of Application Layer routing protocols implemented in <span class="Variable">QualNet</span> are RIP, Bellman-Ford, and BGP.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#964883', '');" title="Application Layer" name="933374">Section&nbsp;4.2</a></span> provides implementation details of Application Layer protocols in <span class="Variable">QualNet</span> and describes how to develop a custom Application Layer protocol.</div>
+      <div class="Heading2Numbered">1.2.2  <a name="920575">Transport Layer</a></div>
+      <div class="BodyAfterHead"><a name="920589">The Transport Layer provides end-to-end data transmission services to the Application Layer. Protocols written at the Transport Layer receive data from the Application Layer and rely on the Network Layer for data forwarding at the source node, and receive data from the Network Layer and pass data to the Application Layer at the destination node. Examples of Transport Layer protocols include UDP, TCP and RSVP-TE.</a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-3.html#1045364', '');" title="Transport Layer" name="933381">Section&nbsp;4.3</a></span> provides implementation details of Transport Layer protocols in <span class="Variable">QualNet</span> and describes how to develop a custom Transport Layer protocol.</div>
+      <div class="Heading2Numbered">1.2.3  <a name="920576">Network Layer</a></div>
+      <div class="BodyAfterHead"><a name="920594">The Network Layer is responsible for data forwarding and queuing/scheduling. The Internet Protocol (IP) resides at this layer and is responsible for packet forwarding. At the source node, the Network Layer receives data from the Transport Layer and relies on the Link (MAC) Layer for link-by-link data delivery. At the destination node, the Network Layer receives data from the Link (MAC) Layer and passes the data up to the Transport Layer.</a></div>
+      <div class="Body"><a name="942996">The Network Layer also implements certain types of routing protocols. Examples of Network Layer routing protocols implemented in </a><span class="Variable">QualNet</span> are AODV, DSR, OSPF, and DVMRP. Examples of queuing/scheduling protocols implemented in <span class="Variable">QualNet</span> are FIFO, RED, RIO, WFQ, and WRR.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-4.html#986087', '');" title="Network Layer" name="933427">Section&nbsp;4.4</a></span> provides implementation details of Network Layer protocols in <span class="Variable">QualNet</span> and describes how to develop a custom Network Layer protocol. The following types of protocols are covered in this section: Network Layer unicast routing protocols, Network Layer multicast routing protocols, queuing protocols, and schedulers.</div>
+      <div class="Heading2Numbered">1.2.4  <a name="920577">Link (MAC) Layer</a></div>
+      <div class="BodyAfterHead"><a name="920599">The Link (MAC) Layer provides link-by-link transmission. At the sending side, the Link (MAC) Layer receives data from the Network Layer and passes the data to the Physical Layer for transmission over the wired or wireless channel. At the receiving side, the Link (MAC) Layer receives data from the Physical Layer and forwards the data up to the Network Layer. Examples of protocols at the Link (MAC) Layer implemented in </a><span class="Variable">QualNet</span> are point-to-point, IEEE 802.3, IEEE 802.11, and CSMA. </div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-5.html#1003564', '');" title="MAC Layer" name="933398">Section&nbsp;4.5</a></span> provides implementation details of MAC Layer protocols in <span class="Variable">QualNet</span> and describes how to develop a custom MAC Layer protocol. Procedures for both wired and wireless MAC protocols are covered in this section.</div>
+      <div class="Heading2Numbered">1.2.5  <a name="919571">Physical Layer</a></div>
+      <div class="BodyAfterHead"><a name="920604">The Physical Layer is responsible for transmitting and receiving raw bits from the wired and wireless channel. At the source node, the Physical Layer receives data from the Link (MAC) Layer and sends the data to the Physical Layer of the destination node. At the destination node, the Physical Layer receives data from the Physical Layer of the source node and passes the data to the Link (MAC) Layer. </a></div>
+      <div class="Anchor"><a name="960403">&nbsp;</a></div>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Note_003a">
+              <span class="Bold">Note:</span><a name="960410">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="NoteText"><a name="960412">For wired networks, the Physical Layer code is incorporated into the Link (MAC) Layer.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="933517">Examples of Physical Layer protocols implemented in </a><span class="Variable">QualNet</span> are wired point-to-point links, IEEE 802.3, and IEEE 802.11.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-6.html#970593', '');" title="Physical Layer" name="933403">Section&nbsp;4.6</a></span> provides implementation details of Physical Layer protocols in <span class="Variable">QualNet</span> and describes how to develop a custom Physical Layer protocol.</div>
+      <div class="Heading2Numbered">1.2.6  <a name="935064">Communication Medium</a></div>
+      <div class="BodyAfterHead"><a name="935086">The communication medium transmits signals between nodes. It interfaces with the Physical Layer entities at the nodes. A wireless communication medium model in </a><span class="Variable">QualNet</span> simulates the propagation of signals between nodes, taking into account both propagation delays and signal attenuation due to path loss, fading, and shadowing. </div>
+      <div class="Body"><a name="935107">In </a><span class="Variable">QualNet</span>, a communication medium model has three components: a path loss model, a fading model, and a shadowing model. Path loss models in <span class="Variable">QualNet</span> include free space, two ray, and Irregular Terrain Model (ITM). <span class="Variable">QualNet</span> implements the Ricean fading model. Rayleigh fading is a special case of Ricean fading. <span class="Variable">QualNet</span> provides models for two shadowing models: constant and lognormal.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1024331', '');" title="Communication Medium" name="935096">Section&nbsp;4.7</a></span> provides implementation details of communication medium models in <span class="Variable">QualNet</span> and describes how to develop a custom communication medium model.</div>
+      <div class="Heading2Numbered">1.2.7  <a name="935077">Node Mobility</a></div>
+      <div class="BodyAfterHead"><a name="935138">In </a><span class="Variable">QualNet</span>, mobility models work together with node placement models and terrain models to simulate the mobility behavior of nodes. Node mobility models in <span class="Variable">QualNet</span> include random waypoint, group mobility, pedestrian mobility, and file-base mobility.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#970593', '');" title="Node Mobility" name="935145">Section&nbsp;4.8</a></span> gives a detailed description of how to add a mobility model to <span class="Variable">QualNet</span>.</div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

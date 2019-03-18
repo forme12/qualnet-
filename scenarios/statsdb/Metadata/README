@@ -1,0 +1,121 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+--------
+To test Metadata feature of StatsDB for Node, Interface, Queue, Scheduler, Session, Connection, and PHY.
+
+
+
+SCENARIO:-
+---------
+
+             
+       6    1
+          
+    2          5      
+   
+     3       4
+
+
+
+Node 1 2, 3, 4, 5,& 6 are in wireless subnet.
+
+1. Following applicatios are configured in the scenario:
+    i.  CBR application from node 4 to node 3 based on UDP connection
+        CBR 4 3 100 512 1S 5S 0S PRECEDENCE 0
+    ii. FTP/GENERIC application from node 1 to node 3 based on TCP connection.
+        FTP/GENERIC 1 3 10 512 10 0S 
+    iii.Multicast application from node 1 to multicast group 225.0.0.0
+        MCBR 1 225.0.0.0 100 512 1S 5S 0S PRECEDENCE 0
+    
+2.Mac protocol is configured as MACDOT11
+    MAC-PROTOCOL MACDOT11
+    
+3. Phy Model is used in the scenario is PHY-ABSTRACT
+    PHY-MODEL PHY-ABSTRACT
+    
+    
+Following metadata colounm are configure in the config file:
+
+1. Node:
+STATS-DB-NODE-DESCRIPTION-TABLE YES
+NODE-META-DATA-COLUMN-NAME[0] Echelon
+NODE-META-DATA-COLUMN-NAME[1] PlatformType
+[1] NODE-META-DATA[0] UAV-A
+[1] NODE-META-DATA[1] GATEWAY
+
+2. Queue:
+STATS-DB-QUEUE-DESCRIPTION-TABLE YES
+QUEUE-META-DATA-COLUMN-NAME[0] Queue1
+QUEUE-META-DATA-COLUMN-NAME[1] Queue2
+[1] QUEUE-META-DATA[0] fifo1
+[1] QUEUE-META-DATA[1] fifo2
+
+3. Scheduler:
+STATS-DB-SCHEDULER-DESCRIPTION-TABLE YES
+SCHEDULER-META-DATA-COLUMN-NAME[0] scheduler1
+SCHEDULER-META-DATA-COLUMN-NAME[1] scheduler2
+[1] SCHEDULER-META-DATA[0] strict1
+[1] SCHEDULER-META-DATA[1] strict2
+
+4. Session:
+STATS-DB-SESSION-DESCRIPTION-TABLE YES
+SESSION-META-DATA-COLUMN-NAME[0] sesson1
+SESSION-META-DATA-COLUMN-NAME[1] sesson2
+[1] SESSION-META-DATA[0] cbr1
+[1] SESSION-META-DATA[1] cbr2
+
+5. Connection:
+
+STATS-DB-CONNECTION-DESCRIPTION-TABLE YES
+CONNECTION-META-DATA-COLUMN-NAME[0] connection1
+CONNECTION-META-DATA-COLUMN-NAME[1] connection2
+[1] CONNECTION-META-DATA[0] con1
+[1] CONNECTION-META-DATA[1] con2
+
+6. Interface:
+STATS-DB-INTERFACE-DESCRIPTION-TABLE YES
+INTERFACE-META-DATA-COLUMN-NAME[0] Interface1
+INTERFACE-META-DATA-COLUMN-NAME[1] Interface2
+[1] INTERFACE-META-DATA[0] Intt1
+[1] INTERFACE-META-DATA[1] Intt2
+
+7. PHY:
+
+STATS-DB-PHY-DESCRIPTION-TABLE YES
+PHY-META-DATA-COLUMN-NAME[0] phy1
+PHY-META-DATA-COLUMN-NAME[1] phy2
+[1] PHY-META-DATA[0] physical1
+[1] PHY-META-DATA[1] physical2
+
+
+RUN:-
+----
+Run "<QUALNET_HOME>/bin/default.config".
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.db - QualNet DB collection.
+4. default.nodes - QualNet node position file.
+5. default.member - QualNet multicast group member file.
+6. README - This file.
+
+

@@ -1,0 +1,98 @@
+#Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+PURPOSE:
+--------
+
+To verify the operation of ARP with ARP static-cache.
+
+
+
+TOPOLOGY CONVENTIONS:
+--------------------
+
+--------- means a wireless link.
+
+-----------
+|        |
+|        |    means a wireless subnet.
+|        |
+----------
+
+_________ means a static route.
+
+
+
+TOPOLOGY:
+---------
+  
+------------
+ |   -----|------
+ |  1 |   | 3  |
+ |2   | 7 |   4|
+ |  5 |   | 8  |
+ |   -----|------ 
+------------
+
+
+
+KEY CONFIGURATION:
+------------------
+
+MAC-PROTOCOL    CSMA
+ARP-ENABLED YES
+MAC-ADDRESS-CONFIG-FILE     ./wireless_staticCache.mac-address
+STATIC-CACHE-FILE           ./wireless_staticCache.arp-static
+
+
+
+Application:
+------------
+
+CBR application is configured between node 1 and node 3.
+
+
+
+DESCRIPTION:
+-------------
+
+The scenario is used to verify ARP functionality with ARP static cache.
+Static cache having Ip and MAC address mappings is used and it enables address resolution without ARP request and responses. Since, no ARP 
+requests/responses takes place, MAC addresses are configured via custom MAC address file. 
+
+
+
+RUN:
+-----
+
+Type '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+
+1. wireless_staticCache.app -  specifies the application being used.
+2. wireless_staticCache.config - the QualNet configuration input file.
+3. wireless_staticCache.expected.stat - QualNet statistics collection
+4. wireless_staticCache.mac-address - Mac Address configuration file.
+5. wireless_staticCache.arp-static - Static Cache configuration file.
+6. wireless_staticCache.nodes - QualNet node position file.
+7. wireless_staticCache.routes-default - Qualnet default route file.
+8. wireless_staticCache.routes-static - Qualnet static route file.
+9. README - this file.

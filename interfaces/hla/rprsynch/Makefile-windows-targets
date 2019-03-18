@@ -1,0 +1,15 @@
+$(TARGET): $(OBJS)
+	$(CXX) /Fe$@ $(LDFLAGS) $(OBJS) /link $(LIBS)
+
+clean:
+	-del /q $(OBJS) $(TARGET) makRti.log 2> NUL
+
+cleandata:
+	-del /q *.hla-entities *.hla-radios *.hla-networks *.nodes *.app \
+*.config *.stat voice.trc .*.0 2> NUL
+
+.c.obj:
+	$(CC) $(CFLAGS) /Fo$@ /c $<
+
+.cpp.obj:
+	$(CXX) $(CXXFLAGS) /Fo$@ /c $<

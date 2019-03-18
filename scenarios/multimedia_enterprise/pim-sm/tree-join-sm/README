@@ -1,0 +1,65 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6071 Bristol Parkaway
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+#
+#
+PURPOSE:-
+--------
+To show the operation of PIM-SM protocol in a tree topology network where some receivers 
+join in middle of the simulation.
+
+
+
+SCENARIO:-
+---------
+In this scenario, there is one MCBR session, with node 1 being the multicast
+source, 4 RP, and nodes 6 and 7 being multicast receiver.  Nodes 3 and 5 are the IGMP routers.
+The link capacity is 10Mbps for all links.
+
+
+         2 R          6 R
+         |           /
+    |    |          /
+    |----3----4----5
+1 --|         RP    \
+                     \
+                      7 R
+
+
+MCBR is used to transfer 240 data segments of 512B each at 5 second intervals
+starting at 6 minutes into the simulation.
+
+Receivers 6 join at 16 minute, and 7 join at 21 minute of the simulation.
+Receiver 2 joins at 5 minute and remains joined for rest of the simulation duration.
+
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet tree-join-sm.config'.
+
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. tree-join-sm.app -  QualNet application configuration input file
+2. tree-join-sm.config - QualNet configuration input file.
+3. tree-join-sm.member - Multicast group specification file
+4. tree-join-sm.expected.stat - QualNet statistics collection for MCBR and PIM-SM.
+5. README - This file.
+

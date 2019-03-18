@@ -1,0 +1,58 @@
+PURPOSE:-
+--------
+BGP operation under a faulty scenario.  Node 9 goes down and then
+up again.  The only interface through which node 9 is connected to node 5
+is brought down and then brought up to make it detached from the network
+to simulate a node fault at node 9.
+
+
+SCENARIO:-
+---------
+   N8-2.0                 N8-3.0
++-----------+          +-----------+
+|           |          |           |
+|  1    2   |          |  6     7  |
+|     +---+ |  N2-1.0  | +---+     |
+|     |   |-+----------+-|   |     |
+|  3  | 4 | |          | | 5 |  8  |
+|     |   |-+----------+-|   |     |
+|     +---+ | BGPLink  | +---+     |
++-----------+          +--|-|------+
+  AS-ID 1                 | | AS-ID 2
+                          | |
+                   BGPLink| |
+                          | |
+                          | | N2-5.0
+                          | |
+                       +--|-|------+
+                       | +---+     |
+                       | |   |     |
+                       | | 9 |  10 |
+                       | |   |     |N8-4.0
+                       | +---+     |
+                       |  11    12 |
+                       |           |
+                       +-----------+
+                          AS-ID 3
+
+
+CBR is used to send 20 data segments of 1000B from node 1 to node 12
+spanning the time when node 9 is down until node 9 is back up.  Not
+all data segments will be received by node 12 due to the node fault at node 9.
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.bgp - QualNet BGP router configuration file.
+4. default.fault - QualNet fault configuration file.
+5. default.expected.stat - QualNet statistics file for BGP and application.
+6. default.routes-default - QualNet default routes specification file.
+7. README - This file.
+

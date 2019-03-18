@@ -1,0 +1,1249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Node Mobility</title>
+    <link rel="StyleSheet" href="css/Chapter%204-8.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%204-1.05.1.html#970593">4	Developing Protocol Models in QualNet</a> &gt; 4.8  Node Mobility</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">4.8  <a name="970593">Node Mobility</a></div>
+      <div class="BodyAfterHead"><a name="990238">In </a><span class="Variable">QualNet</span>, mobility models work together with node placement models and terrain models to simulate the mobility behavior of nodes. This section gives a detailed description of how to add a mobility model to <span class="Variable">QualNet</span>.</div>
+      <div class="Heading2Numbered">4.8.1  <a name="1005720">Mobility and Related Models in </a><span class="Variable">QualNet</span></div>
+      <div class="BodyAfterHead"><span class="Variable"><a name="1005803">QualNet</a></span> provides several models for mobility, node placement, and terrain.</div>
+      <div class="Heading4"><a name="1005848">Mobility Models</a></div>
+      <div class="BodyAfterHead"><a name="1005846">A mobility model simulates the movement of a node or a group of nodes. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1020230', '');" title="Node Mobility">Table&nbsp;4-22</a></span> lists the different mobility models in <span class="Variable">QualNet</span>. See the corresponding model library for the description of each model and its parameters.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-22.&nbsp;&nbsp;<a name="1020230">Mobility Models in </a><span class="Variable">QualNet</span>&nbsp;</div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 97.2pt">
+            <div class="CellHeading"><a name="1020236">Mobility Model</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 280.8pt">
+            <div class="CellHeading"><a name="1020238">Description</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1020240">Model Library</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020242">FILE</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020244">File-based mobility model</a></div>
+            <div class="CellBody"><a name="1020245">The node positions at different simulation times are read from a file. The node moves from one position to the next in a straight line at a constant speed.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020247">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020249">GROUP</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020251">Group-based mobility model.</a></div>
+            <div class="CellBody"><a name="1020252">In this model, groups of nodes move together. The entire group moves following the Random Waypoint model, and each node moves within the group area, also following the Random Waypoint model.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020254">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1020263">RANDOM-WAYPOINT</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020265">Random Waypoint mobility model.</a></div>
+            <div class="CellBody"><a name="1020266">The node selects a random position, moves towards it in a straight line at a constant speed that is randomly selected from a range, and pauses at that destination. The node repeats this process. throughout the simulation.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020268">Wireless</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1005875">Node Placement Models</a></div>
+      <div class="BodyAfterHead"><a name="1020298">A node placement model determines the initial positions of nodes in a simulation. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1020305', '');" title="Node Mobility">Table&nbsp;4-23</a></span> describes the different node-placement models in <span class="Variable">QualNet</span>. See the corresponding model library for the description of each model and its parameters.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-23.&nbsp;&nbsp;<a name="1020305">Node Placement Models in </a><span class="Variable">QualNet</span>&nbsp;</div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 97.2pt">
+            <div class="CellHeading"><a name="1020311">Node Placement Model</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 280.8pt">
+            <div class="CellHeading"><a name="1020313">Description</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1020315">Model Library</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020317">FILE</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020319">File-based node placement policy.</a></div>
+            <div class="CellBody"><a name="1020320">The initial node positions are read from a file. </a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020322">Developer</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020324">GRID</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020326">Grid node placement policy.</a></div>
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1020327">The terrain is divided into a number of squares. One node is placed at each grid point.</a></div>
+            <div class="CellBody" style="margin-bottom: 3.0pt; margin-left: 28.8pt"><span style="font-weight: bold"><a name="1020328">Note</a></span>: This model can be used only if the number of nodes in the scenario is a square of an integer (4, 9, 16, ...). </div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1055501">Developer</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020332">GROUP</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020334">Group-based node placement policy.</a></div>
+            <div class="CellBody"><a name="1020335">This node placement model is used with the group mobility model. </a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020340">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1020352">RANDOM</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020354">Random node placement policy.</a></div>
+            <div class="CellBody"><a name="1020355">Nodes are placed on the terrain randomly.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1055519">Developer</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020359">UNIFORM</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020361">Uniform node placement policy.</a></div>
+            <div class="CellBody"><a name="1020362">The terrain is divided into a number of equal-sized square cells. One node is placed in each cell randomly.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1055533">Developer</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="1020131">In </a><span class="Variable">QualNet</span> mobility models, the Cartesian coordinate system is used for small areas where the curvature of the earth can be ignored, and the spherical coordinate system (latitude-longitude-altitude) is used for larger areas terrain where the curvature of the earth cannot be ignored.</div>
+      <div class="Body"><a name="1005956"> The mobility behavior is defined by the following rules: </a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="990255">The mobility model (except for the pedestrian mobility model) specifies an array of destinations and arrival times for each node.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="990256">Each node moves from its current position towards the next destination along a straight line. </a><span class="Variable">QualNet</span> determines the intermediate positions at user specified distances.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="990257">Elevation of each node with ground mobility models is determined by the terrain data, if available and if requested by the user.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="990258">Mobility includes node orientation (both horizontal and vertical).</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">4.8.2  <a name="1005961">Mobility Models Organization: Files and Folders</a></div>
+      <div class="BodyAfterHead"><a name="1005962">In this section, we briefly examine the files and folders that are relevant to mobility models. These files contain detailed comments on functions and other code components.</a></div>
+      <div class="BodyAfterHead"><a name="1005963">Definitions of macros, functions, and structures relevant to mobility models are contained in the following header files:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1005964">QUALNET_HOME</a></span>/include/api.h</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005965">This file defines the events and data structures needed to communicate between different layers of the protocol stack.</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1005966">QUALNET_HOME</a></span>/include/mobility.h</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005967">This file contains definitions common to mobility models and prototypes of functions defined in </a><span class="Variable">QUALNET_HOME</span>/main/mobility.cpp.</div>
+      <div class="Body"><a name="1005970">Additionally, the following header file is also relevant to mobility models:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1005971">QUALNET_HOME</a></span>/include/fileio.h</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005972">This file contains prototypes of functions to read input files and create output files. </a></div>
+      <div class="Body"><a name="1005973">The following are the folders and source files associated with mobility models:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1005974">QUALNET_HOME</a></span>/libraries/wireless/src and <span class="Variable">QUALNET_HOME</span>/libraries/developer/src</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005975">These folders contain the source and header files for the various mobility models implemented in </a><span class="Variable">QualNet</span>. The file names are based on the name of the model that they implement, e.g., to see the implementation for the random waypoint mobility model, look at files mobility_waypoint.cpp and mobility_waypoint.h in the folder <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1005976">QUALNET_HOME</a></span>/main/mobility.cpp</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005959">This file contains the implementation of the generic mobility functions.</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1006041">QUALNET_HOME</a></span>/libraries/developer/src/mobility_placement.cpp</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1006042">This file contains the implementation of the generic node placement functions.</a></div>
+      <div class="Heading2Numbered">4.8.3  <a name="1037819">Mobility-related Data Structures</a></div>
+      <div class="BodyAfterHead"><a name="1037820">The mobility-related data structures are defined in </a><span class="Variable">QUALNET_HOME</span>/include/mobility.h. This section describes the main data structures. (Note that only a partial description of the data structures is provided here. Refer to file mobility.h for a complete description.)</div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006060">MobilityType</a></span>: This is an enumeration type that lists all the mobility models.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006061">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006093">typedef enum {</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006094">    NO_MOBILITY = 0,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006095">    RANDOM_WAYPOINT_MOBILITY,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006096">    FILE_BASED_MOBILITY,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006097">    GROUP_MOBILITY,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1018952">    PEDESTRIAN_MOBILITY</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006072">} MobilityType;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006136">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1007894">MobilityElement</a></span>: This data structure stores the coordinates and time of arrival at a point in a node’s path.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007895">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007917">struct MobilityElement {</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007918">    int               sequenceNum;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007919">    clocktype         time;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007920">    Coordinates       position;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007921">    Orientation       orientation;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007922">    double            speed;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007896">};</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007902">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1007938">MobilityRemainder</a></span>: This data structure stores information needed to compute the coordinates and times of arrival at intermediate points in a node’s path.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007939">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007978">struct MobilityRemainder {</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1054238">    clocktype   nextMoveTime;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007979">    Coordinates nextPosition;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007980">    Orientation nextOrientation;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007981">    double      speed;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007982">    int         numMovesToNextDest;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007983">    int         destCounter;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007984">    clocktype   moveInterval;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007985">    Coordinates delta;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007947">};</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007993">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020390">MobilityData</a></span>: This is the main data structure that stores mobility information for a node. Some important fields of this structure are explained below.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="1006150">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1018979">struct MobilityData {</a></div>
+      <div class="Code_Segment_Large"><a name="1054261">    MobilityType      mobilityType;</a></div>
+      <div class="Code_Segment_Large"><a name="1019904">    D_Float32         distanceGranularity;</a></div>
+      <div class="Code_Segment_Large"><a name="1018982">    D_BOOL            groundNode;</a></div>
+      <div class="Code_Segment_Large"><a name="1019912">    BOOL              mobilityStats;</a></div>
+      <div class="Code_Segment_Large"><a name="1018985">    RandomSeed        seed;</a></div>
+      <div class="Code_Segment_Large"><a name="1018987">    int               sequenceNum;</a></div>
+      <div class="Code_Segment_Large"><a name="1018988">    MobilityElement*  next;</a></div>
+      <div class="Code_Segment_Large"><a name="1018989">    MobilityElement*  current;</a></div>
+      <div class="Code_Segment_Large"><a name="1018990">    MobilityElement*  past[NUM_PAST_MOBILITY_EVENTS];</a></div>
+      <div class="Code_Segment_Large"><a name="1018992">    int               numDests;</a></div>
+      <div class="Code_Segment_Large"><a name="1018993">    MobilityElement*  destArray;</a></div>
+      <div class="Code_Segment_Large"><a name="1018995">    MobilityRemainder remainder;</a></div>
+      <div class="Code_Segment_Large"><a name="1019862">    clocktype         lastExternalTrueMobilityTime;</a></div>
+      <div class="Code_Segment_Large"><a name="1019863">    clocktype         lastExternalMobilityTime;</a></div>
+      <div class="Code_Segment_Large"><a name="1019864">    Velocity          lastExternalVelocity;</a></div>
+      <div class="Code_Segment_Large"><a name="1019865">    double            lastExternalSpeed;</a></div>
+      <div class="Code_Segment_Large"><a name="1018997">    bool              indoors;</a></div>
+      <div class="Code_Segment_Large"><a name="1054280">    PedestrianData*   pedestrianData;</a></div>
+      <div class="Code_Segment_Large"><a name="1018999">    void              *mobilityVar;</a></div>
+      <div class="Code_Segment_Large"><a name="1019944">};</a></div>
+      <div class="Code_Segment_Large"><a name="1019950">&nbsp;</a></div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1019947">mobilityType</a></span>: This indicates the mobility model used by the node.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006223">distanceGranularity</a></span>: This variable determines how frequently a node’s position is updated by the simulator.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006224">groundNode</a></span>: This variable indicates whether the node is on the ground.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006225">mobilityStats</a></span>: This flag indicates whether mobility statistics collection is enabled.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020058">seed</a></span>: The variable stores the seed to be used by the mobility model.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020065">sequenceNum</a></span>: This variable stores the sequence number of mobility events.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006226">next</a></span>, <span style="font-family: &quot;Courier New&quot;">current</span>: These variables store the next and current positions of the node, respectively.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1008020">past</a></span>: This an array of the most recent <span style="font-family: &quot;Courier New&quot;">NUM_PAST_MOBILITY_EVENTS</span> positions of the node.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020069">numDests</a></span>: This variable stores the number of destinations.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006227">destArray</a></span>: This array stores the coordinates and time of arrival for the node positions as calculated by the mobility model.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006228">remainder</a></span>: This structure stores information to determine the coordinates and time of arrival at intermediate points along the current segment of the node’s trajectory. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020076">lastExternalTrueMobilityTime</a></span>: This variable stores the last external true mobility time.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020077">lastExternalMobilityTime</a></span>: This variable stores the last external mobility time.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020078">last External Velocity</a></span>: This variable stores the last external moving velocity.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020079">lastExternalSpeed</a></span>: This variable stores the last external moving speed.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020080">pedestrianData</a></span>: The is a pointer to the data structure for the pedestrian mobility model.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1020073">mobilityVar</a></span>: The is a pointer to the data structure for the mobility variable.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">4.8.4  <a name="1006263">Mobility APIs</a></div>
+      <div class="BodyAfterHead"><a name="1007504">Several API functions are available for different mobility models to perform common mobility-related tasks. The prototypes for these functions are contained in the file mobility.h. The file </a><span class="Variable">QUALNET_HOME</span>/main/mobility.cpp contains the implementation of these functions.</div>
+      <div class="Body"><a name="1007505">The complete list of APIs, with their parameters and description, can also be found in </a><span style="font-style: italic">API Reference Guide</span>. Some of the mobility-related APIs are listed below.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006628">MOBILITY_AddANewDestination: This function adds a new destination for a node.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1007529">MOBILITY_NextMoveTime: This function returns the time of the next move by a node.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1007534">MOBILITY_ReturnCoordinates: This function returns the coordinates of a node.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">4.8.5  <a name="1006279">Adding a Mobility Model </a></div>
+      <div class="BodyAfterHead"><a name="1019064">Although the working of each mobility model is different, there are certain functions that are performed by most mobility models. This section provides an outline for developing and adding a mobility model to </a><span class="Variable">QualNet</span>. We illustrate the process of adding a mobility model by using as an example the implementation code for the random waypoint mobility model. The implementation files for the random waypoint are mobility_waypoint.h and mobility_waypoint.cpp in the folder <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src. We use code snippets from these two files throughout this section to illustrate different steps in developing a mobility model. After understanding the discussed snippets, look at the complete code for the random waypoint mobility model to understand how a mobility model is implemented in <span class="Variable">QualNet</span>.</div>
+      <div class="Body"><a name="1006281">The following list summarizes the actions that need to be performed for adding a mobility model, MYMOBILITY, to </a><span class="Variable">QualNet</span>. Each of these steps is described in detail in subsequent sections.</div>
+      <div class="Numbered1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered1_inner" style="width: 13.7448pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered1_inner"><a name="1006284">Create header and source files (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1006323', '');" title="Node Mobility">Section&nbsp;4.8.5.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006288">Modify the files mobility.cpp and mobility_placement.cpp to include the model’s header file (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1006323', '');" title="Node Mobility">Section&nbsp;4.8.5.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006292">Include the mobility model in the list of mobility models (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1006352', '');" title="Node Mobility">Section&nbsp;4.8.5.3</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006297">Decide on the format for the mobility model-specific configuration parameters (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1019542', '');" title="Node Mobility">Section&nbsp;4.8.5.4</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006306">Modify the mobility initialization function MOBILITY_PreInitialize to read the mobility model’s name from the input file (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1006717', '');" title="Node Mobility">Section&nbsp;4.8.5.5</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">6.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1007863">Modify the generic mobility function SetRandomMobility to call MYMOBILITY’s position calculation function (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1006717', '');" title="Node Mobility">Section&nbsp;4.8.5.5</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">7.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006313">Implement the mobility model function (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1007095', '');" title="Node Mobility">Section&nbsp;4.8.5.6</a></span>). In general, the mobility model function should perform the following tasks: </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_Sub1__0028first_0029_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_Sub1__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">a.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_Sub1__0028first_0029_inner"><a name="1007812">Read and store the user-specified configuration parameters for the mobility model.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">b.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_Sub1_inner"><a name="1038061">Calculate and store the node positions using the mobility model’s algorithm.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">8.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1038062">Include the mobility model header and source files in the </a><span class="Variable">QualNet</span> tree and compile (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1038015', '');" title="Node Mobility">Section&nbsp;4.8.5.7</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">4.8.5.1  <a name="1006319">Naming Guidelines</a></div>
+      <div class="BodyAfterHead"><a name="1006320">In </a><span class="Variable">QualNet</span>, each component (file, data structure, function, etc.) is given a name that indicates the name of the protocol or model, the layer in which the protocol resides, and the functionality of the component, as appropriate. We recommend that when adding a mobility model, the programmer name the different components of the new model in a similar manner. It will be helpful to examine the implementation of the random waypoint model in <span class="Variable">QualNet</span> for hints for naming and coding different components of the new mobility model.</div>
+      <div class="BodyAfterHead"><a name="1006321">In this section, we describe the steps for developing a mobility model called “MYMOBILITY”. We will use the string “Mymobility” in the names of the different components of this model, just as the string “Waypoint” appears in the names of the components of the random waypoint implementation.</a></div>
+      <div class="Heading3Numbered">4.8.5.2  <a name="1006323">Creating Files</a></div>
+      <div class="BodyAfterHead"><a name="1006324">The first step towards adding a mobility model is creating files. Most models comprise two files: the header file and the source file. These files can be placed in any library, e.g., in the folder </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/src. However, it is recommended that all user-developed models be made part of a library. In our example, we will place the mobility model in a library called user_models. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#954568', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10</a></span> for instructions for creating and activating a library.</div>
+      <div class="BodyAfterHead"><a name="1019258">If it doesn’t already exist, create a directory in </a><span class="Variable">QUALNET_HOME</span>/libraries called user_models and a subdirectory in <span class="Variable">QUALNET_HOME</span>/libraries/user_models called src. Create the files for the mobility model and place them in the folder <span class="Variable">QUALNET_HOME</span>/libraries/user_models/src. Name these files in a way that clearly indicates the model that they implement. Prefix the file names with <span style="font-style: italic">mobility_</span> to designate the files as mobility model files.</div>
+      <div class="Body" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="font-style: normal"><a name="1006325">Examples</a></span>:</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006326">mobility_waypoint.h, mobility_waypoint.cpp: Implement the random waypoint mobility model </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006327">mobility_group.h, mobility_group.cpp: Implement the group mobility model</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="1006330">In keeping with the naming guidelines of </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1006319', '');" title="Node Mobility">Section&nbsp;4.8.5.1</a></span>, the header file for the example mobility model is called mobility_mymobility.h, and the source file is called mobility_mymobility.cpp.</div>
+      <div class="Note_Indented"><a name="1006332"><img class="Default" src="images/Chapter%204-8.12.1.1.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />It is strongly recommended to have separate header and source files. Not having a header file may lead to unexpected problems even if the compilation process does not indicate any error. </a></div>
+      <div class="Body"><a name="1006333">While adding code to the files, it is important to organize the code well between the files. Generally, the header file, mobility_mymobility.h, should contain the following:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006334">Prototypes for interface functions in the source file, mobility_mymobility.cpp</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006335">Constant definitions</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="1006336">The source file, mobility_mymobility.cpp, should contain the following:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006337">Statement to include the mobility model’s header file:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006338">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1055565">#include “mobility_mymobility.h”</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1055576">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006339">Statements to include standard library functions and other header files needed by the mobility model’s source file. A typical mobility model source file includes the following statements:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006340">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006341">#include &lt;stdio.h&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006342">#include &lt;stdlib.h&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006343">#include &lt;string.h&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006344">#include &lt;math.h&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006345">#include "api.h"</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006522">#include "partition.h"</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006346">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1019836">Function to calculate node positions over time, MOBILITY_MymobilityInit</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="1019837">The files </a><span class="Variable">QUALNET_HOME</span>/main/mobility.cpp and <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/mobility_placement.cpp contain the generic functions that in turn call the specific mobility models’ functions. Therefore, to make the mobility model functions available to the generic functions, insert the following include statement in the files mobility.cpp and mobility_placement.cpp:</div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006350">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1055551">#include “mobility_mymobility.h”</a></span></div>
+      <div class="Heading3Numbered">4.8.5.3  <a name="1006352">Including MYMOBILITY in List of Mobility Models</a></div>
+      <div class="BodyAfterHead"><a name="1006353">When a mobility model is added to </a><span class="Variable">QualNet</span>, it needs to be included in the list of mobility models. To do this, add the mobility model’s name to the enumeration <span style="font-family: &quot;Courier New&quot;">MobilityType</span> defined in mobility.h<span style="font-weight: bold"> </span>(see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1037819', '');" title="Node Mobility">Section&nbsp;4.8.3</a></span>). </div>
+      <div class="Body"><a name="1006357">For our example mobility model, add the entry </a><span style="font-family: &quot;Courier New&quot;">MYMOBILITY</span><span style="font-weight: bold"> </span>to <span style="font-family: &quot;Courier New&quot;">MobilityType</span>, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1006374', '');" title="Node Mobility">Figure&nbsp;4-197</a></span>.</div>
+      <div class="Code_Segment"><a name="1006361">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1006584">typedef enum {</a></div>
+      <div class="Code_Segment"><a name="1006585">    NO_MOBILITY = 0,</a></div>
+      <div class="Code_Segment"><a name="1006586">    RANDOM_WAYPOINT_MOBILITY,</a></div>
+      <div class="Code_Segment"><a name="1006587">    FILE_BASED_MOBILITY,</a></div>
+      <div class="Code_Segment"><a name="1006588">    GROUP_MOBILITY,</a></div>
+      <div class="Code_Segment"><a name="1019142">    PEDESTRIAN_MOBILITY,</a></div>
+      <div class="Code_New"><a name="1006618">    MYMOBILITY</a></div>
+      <div class="Code_Segment"><a name="1006372">} MobilityType;</a></div>
+      <div class="Figure">FIGURE 4-197.&nbsp;&nbsp;<a name="1006374">Adding MYMOBILITY to List of Mobility Models</a></div>
+      <div class="Note_Indented"><a name="1019550"><img class="Default" src="images/Chapter%204-8.12.1.2.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />Always add to the end of lists in header files.</a></div>
+      <div class="Heading3Numbered">4.8.5.4  <a name="1019542">Determining the Mobility Model Configuration Format</a></div>
+      <div class="BodyAfterHead"><a name="1012716">A mobility model may use model-specific configuration parameters. The configuration parameters are specified in the </a><span class="Variable">QualNet</span> configuration file. The format for specifying a mobility model’s configuration parameters is:</div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1012717">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1055620">[&lt;Identifier&gt;] &lt;Parameter-name&gt; [&lt;Index&gt;] &lt;Parameter-value&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1012718">&nbsp;</a></div>
+      <div class="BodyAfterHead" style="text-indent: 9pt"><a name="1012719">where</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><a name="1012720"> </a><span style="font-family: &quot;Courier New&quot;">&lt;Identifier&gt;	</span>: Node identifier, subnet identifier, or IP address to which this parameter declaration is applicable, enclosed in square brackets. This specification is optional, and if it is not included, the parameter declaration applies to all nodes.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.6pt; margin-top: 3.0pt; text-indent: -111.6pt"><span style="font-family: &quot;Courier New&quot;"><a name="1012721">&lt;Parameter-name&gt;	</a></span>: Name of the parameter.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><a name="1012722"> </a><span style="font-family: &quot;Courier New&quot;">&lt;Index&gt;	</span>: Instance to which this parameter declaration is applicable, enclosed in square brackets. This is used when there are multiple instances of the parameter. This specification is optional, and if it is not included, the parameter declaration applies to all instances.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><span style="font-family: &quot;Courier New&quot;"><a name="1012723">&lt;Parameter-value&gt;</a></span>	: Value to be used for the parameter.</div>
+      <div class="Body"><a name="1006642">As an example, the following parameters specify the pause time, minimum speed and maximum speed for the random waypoint mobility model:</a></div>
+      <div class="Declaration"><a name="1006679">&nbsp;</a></div>
+      <div class="Declaration"><a name="1055631">MOBILITY                RANDOM_WAYPOINT</a></div>
+      <div class="Declaration"><a name="1006913">MOBILITY-WP-PAUSE       30S</a></div>
+      <div class="Declaration"><a name="1006680">MOBILITY-WP-MIN-SPEED   0</a></div>
+      <div class="Declaration"><a name="1006681">MOBILITY-WP-MAX-SPEED   10</a></div>
+      <div class="Body"><a name="1006645">Decide on the format for specifying the new mobility model’s configuration parameters. For our example mobility model, specify the configuration parameters in the </a><span class="Variable">QualNet</span> configuration file using the following format (<span style="font-family: &quot;Courier New&quot;">&lt;Identifier&gt;</span> and <span style="font-family: &quot;Courier New&quot;">&lt;Index&gt;</span> can also be used to qualify the parameter declarations, as described above):</div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1012651">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1055641">MOBILITY     MYMOBILITY</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1012657">&lt;param1&gt;     &lt;value1&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1012658">...</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1012659">&lt;paramN&gt;     &lt;valueN&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1012660">&nbsp;</a></div>
+      <div class="BodyAfterHead" style="text-indent: 18pt"><a name="1012661">where</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 169.2pt; margin-top: 3.0pt; text-indent: -133.2pt"><span style="font-family: &quot;Courier New&quot;"><a name="1012662">&lt;param1&gt;</a></span>, ..., <span style="font-family: &quot;Courier New&quot;">&lt;paramN&gt;</span>	: Names of parameters for <span style="font-family: &quot;Courier New&quot;">MYMOBILITY</span>.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 184.19976pt; margin-top: 3.0pt; text-indent: -148.19976pt"><span style="font-family: &quot;Courier New&quot;"><a name="1012663">&lt;value1&gt;</a></span>, ..., <span style="font-family: &quot;Courier New&quot;">&lt;valueN</span>	: Values of the mobility parameters.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1007095', '');" title="Node Mobility" name="1006631">Section&nbsp;4.8.5.6</a></span> explains how to read user input specified in this format to initialize the model.</div>
+      <div class="Heading3Numbered">4.8.5.5  <a name="1006717">Modifying Generic Mobility Functions</a></div>
+      <div class="BodyAfterHead"><a name="1006714">To add a new mobility model to </a><span class="Variable">QualNet</span>, two generic mobility functions need to be modified: MOBILITY_PreInitialize and SetRandomMobility.</div>
+      <div class="Body"><a name="1006729">Function MOBILITY_PreInitialize, implemented in mobility.cpp, is called for each node at the start of simulation. MOBILITY_PreInitialize reads the name of the mobility model specified for a node in the configuration file, and stores it in the </a><span style="font-family: &quot;Courier New&quot;">mobilityType</span> field of the <span style="font-family: &quot;Courier New&quot;">mobilityData</span> data structure associated with the node (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1037819', '');" title="Node Mobility">Section&nbsp;4.8.3</a></span>). To add MYMOBILITY to <span class="Variable">QualNet</span>, modify MOBILITY_PreInitialize as shown in <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1006750', '');" title="Node Mobility">Figure&nbsp;4-198</a>.</div>
+      <div class="Code_Segment"><a name="1006752">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1006823">void MOBILITY_PreInitialize(</a></div>
+      <div class="Code_Segment"><a name="1006824">    NodeAddress nodeId,</a></div>
+      <div class="Code_Segment"><a name="1006825">    MobilityData* mobilityData,</a></div>
+      <div class="Code_Segment"><a name="1006826">    NodeInput* nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1006827">    int seedVal)</a></div>
+      <div class="Code_Segment"><a name="1006828">{</a></div>
+      <div class="Code_Segment"><a name="1006829">    int i;</a></div>
+      <div class="Code_Segment"><a name="1006830">    BOOL wasFound;</a></div>
+      <div class="Code_Segment"><a name="1006831">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1006834">    // Set mobilityType.</a></div>
+      <div class="Code_Segment"><a name="1006835">    IO_ReadString(</a></div>
+      <div class="Code_Segment"><a name="1006836">        nodeId,</a></div>
+      <div class="Code_Segment"><a name="1006837">        ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="1006838">        nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1006839">        "MOBILITY",</a></div>
+      <div class="Code_Segment"><a name="1006840">        &amp;wasFound,</a></div>
+      <div class="Code_Segment"><a name="1006841">        buf);</a></div>
+      <div class="Code_Segment"><a name="1006843">    if (wasFound) {</a></div>
+      <div class="Code_Segment"><a name="1006844">        if (strcmp(buf, "NONE") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1006845">            mobilityData-&gt;mobilityType = NO_MOBILITY;</a></div>
+      <div class="Code_Segment"><a name="1006846">        }</a></div>
+      <div class="Code_Segment"><a name="1006847">        else if (strcmp(buf, "RANDOM-WAYPOINT") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1006848">            mobilityData-&gt;mobilityType = RANDOM_WAYPOINT_MOBILITY;</a></div>
+      <div class="Code_Segment"><a name="1006849">        }</a></div>
+      <div class="Code_Segment"><a name="1006850">        else if (strcmp(buf, "GROUP-MOBILITY") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1006851">            mobilityData-&gt;mobilityType = GROUP_MOBILITY;</a></div>
+      <div class="Code_Segment"><a name="1006852">        }</a></div>
+      <div class="Code_New"><a name="1006881">        else if (strcmp(buf, "MYMOBILITY") == 0) {</a></div>
+      <div class="Code_New"><a name="1006882">            mobilityData-&gt;mobilityType = MYMOBILITY;</a></div>
+      <div class="Code_New"><a name="1006883">        }</a></div>
+      <div class="Code_Segment"><a name="1006853">        ...</a></div>
+      <div class="Code_Segment"><a name="1006859">        else if (strcmp(buf, "FILE") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1006860">            mobilityData-&gt;mobilityType = FILE_BASED_MOBILITY;</a></div>
+      <div class="Code_Segment"><a name="1006861">        }</a></div>
+      <div class="Code_Segment"><a name="1006862">        else {</a></div>
+      <div class="Code_Segment"><a name="1006863">            char errorMessage[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1006865">            sprintf(errorMessage, "Unknown MOBILITY type: %s.\n", buf);</a></div>
+      <div class="Code_Segment"><a name="1006866">            ERROR_ReportError(errorMessage);</a></div>
+      <div class="Code_Segment"><a name="1006867">        }</a></div>
+      <div class="Code_Segment"><a name="1006868">    }</a></div>
+      <div class="Code_Segment"><a name="1006869">    else {</a></div>
+      <div class="Code_Segment"><a name="1006870">        mobilityData-&gt;mobilityType = NO_MOBILITY;</a></div>
+      <div class="Code_Segment"><a name="1006871">    }</a></div>
+      <div class="Code_Segment"><a name="1006911">    ...</a></div>
+      <div class="Code_Segment"><a name="1006912">}</a></div>
+      <div class="Figure">FIGURE 4-198.&nbsp;&nbsp;<a name="1006750">Reading Mobility Model’s Name from Input File</a></div>
+      <div class="Body"><a name="1006942">Function SetRandomMobility, implemented in mobility_placement.cpp, is called for each node at the start of simulation to calculate the node positions over time. These positions, or destinations, are stored in the array, </a><span style="font-family: &quot;Courier New&quot;">destArray</span> in the node’s mobility data structure, <span style="font-family: &quot;Courier New&quot;">MobilityData</span>. Between any two consecutive destinations, the node moves along a straight line. SetRandomMobility, in turn calls the position calculation function for the mobility model specified for the node. For example, if random waypoint mobility model is specified for a node, SetRandomMobility calls function MOBILITY_WaypointInit. Mobility_WaypointInit is implemented in mobility_waypoint.cpp. To add MYMOBILITY to <span class="Variable">QualNet</span>, call MYMOBILITY’s node position calculation function, MOBILITY_MymobilityInit, from SetRandomMobility, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1007007', '');" title="Node Mobility">Figure&nbsp;4-199</a></span>.</div>
+      <div class="Code_Segment"><a name="1006955">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1007029">static</a></div>
+      <div class="Code_Segment"><a name="1007030">void SetRandomMobility(</a></div>
+      <div class="Code_Segment"><a name="1007031">    NodeAddress nodeId,</a></div>
+      <div class="Code_Segment"><a name="1007032">    MobilityData* mobilityData,</a></div>
+      <div class="Code_Segment"><a name="1007033">    TerrainData* terrainData,</a></div>
+      <div class="Code_Segment"><a name="1007034">    NodeInput* nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1007035">    clocktype maxSimTime)</a></div>
+      <div class="Code_Segment"><a name="1007036">{</a></div>
+      <div class="Code_Segment"><a name="1007037">    assert(mobilityData-&gt;mobilityType != FILE_BASED_MOBILITY);</a></div>
+      <div class="Code_Segment"><a name="1007038">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1007039">    if (mobilityData-&gt;mobilityType == NO_MOBILITY) {</a></div>
+      <div class="Code_Segment"><a name="1007040">        if (mobilityData-&gt;numDests &gt; 1) {</a></div>
+      <div class="Code_Segment"><a name="1007041">            mobilityData-&gt;numDests = 1;</a></div>
+      <div class="Code_Segment"><a name="1007042">        }</a></div>
+      <div class="Code_Segment"><a name="1007043">    }</a></div>
+      <div class="Code_Segment"><a name="1007044">    else if (mobilityData-&gt;mobilityType == RANDOM_WAYPOINT_MOBILITY) {</a></div>
+      <div class="Code_Segment"><a name="1007045">        MOBILITY_WaypointInit(</a></div>
+      <div class="Code_Segment"><a name="1007046">            nodeId, mobilityData, terrainData, nodeInput, maxSimTime);</a></div>
+      <div class="Code_Segment"><a name="1007047">    }</a></div>
+      <div class="Code_New"><a name="1007059">    else if (mobilityData-&gt;mobilityType == MYMOBILITY) {</a></div>
+      <div class="Code_New"><a name="1007060">        MOBILITY_MymobilityInit(</a></div>
+      <div class="Code_New"><a name="1007061">            nodeId, mobilityData, terrainData, nodeInput, maxSimTime);</a></div>
+      <div class="Code_New"><a name="1007062">    }</a></div>
+      <div class="Code_Segment"><a name="1007005">}</a></div>
+      <div class="Figure">FIGURE 4-199.&nbsp;&nbsp;<a name="1007007">Calling Mobility Model Position Calculation Function</a></div>
+      <div class="Heading3Numbered">4.8.5.6  <a name="1007095">Implementing Mobility Model Functions</a></div>
+      <div class="BodyAfterHead"><a name="1006930">A mobility model reads the mobility-related configuration parameters from the input file. It then calculates the position of the node at different times, and stores the positions and associated times of arrival in an array. </a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1007285', '');" title="Node Mobility" name="1007366">Figure&nbsp;4-200</a></span> and <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1007355', '');" title="Node Mobility">Figure&nbsp;4-201</a></span> show the implementation of the random waypoint mobility function, MOBILITY_WaypointInit, which is implemented in <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/mobility_waypoint.cpp. MOBILITY_WaypointInit first reads the mobility parameters, <span style="font-family: &quot;Courier New&quot;">MOBILITY-WP-PAUSE</span>, <span style="font-family: &quot;Courier New&quot;">MOBILITY-WP-MIN</span>, and <span style="font-family: &quot;Courier New&quot;">MOBILITY-WP-MAX</span>, and then calculates the future positions of the node according to the specified algorithm. The configurable parameters are read using IO functions such as IO_ReadString and IO_ReadDouble to read parameter values from the input file. IO_ReadString, IO_ReadDouble and other IO functions are defined in <span class="Variable">QUALNET_HOME</span>/include/fileio.h.</div>
+      <div class="Code_Segment"><a name="1007109">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1007157">void MOBILITY_WaypointInit(</a></div>
+      <div class="Code_Segment"><a name="1007158">    NodeAddress nodeId,</a></div>
+      <div class="Code_Segment"><a name="1007159">    MobilityData* mobilityData,</a></div>
+      <div class="Code_Segment"><a name="1007160">    TerrainData* terrainData,</a></div>
+      <div class="Code_Segment"><a name="1007161">    NodeInput *nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1007162">    clocktype maxSimClock)</a></div>
+      <div class="Code_Segment"><a name="1007163">{</a></div>
+      <div class="Code_Segment"><a name="1007164">    clocktype        simClock;</a></div>
+      <div class="Code_Segment"><a name="1007165">    Coordinates dest1;</a></div>
+      <div class="Code_Segment"><a name="1007166">    Coordinates dest2;</a></div>
+      <div class="Code_Segment"><a name="1007167">    Orientation orientation;</a></div>
+      <div class="Code_Segment"><a name="1007169">    clocktype mobilityPause;</a></div>
+      <div class="Code_Segment"><a name="1007170">    double    minSpeed;</a></div>
+      <div class="Code_Segment"><a name="1007171">    double    maxSpeed;</a></div>
+      <div class="Code_Segment"><a name="1007172">    char      buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1007173">    BOOL      wasFound;</a></div>
+      <div class="Code_Segment"><a name="1007175">    // no orientation for this model right now.</a></div>
+      <div class="Code_Segment"><a name="1007176">    orientation.azimuth = 0;</a></div>
+      <div class="Code_Segment"><a name="1007177">    orientation.elevation = 0;</a></div>
+      <div class="Code_Segment"><a name="1007179">    /* Read the pause time after reaching destination */</a></div>
+      <div class="Code_Segment"><a name="1007181">    IO_ReadString(</a></div>
+      <div class="Code_Segment"><a name="1007182">        nodeId,</a></div>
+      <div class="Code_Segment"><a name="1007183">        ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="1007184">        nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1007185">        "MOBILITY-WP-PAUSE",</a></div>
+      <div class="Code_Segment"><a name="1007186">        &amp;wasFound,</a></div>
+      <div class="Code_Segment"><a name="1007187">        buf);</a></div>
+      <div class="Code_Segment"><a name="1007189">    assert(wasFound == TRUE);</a></div>
+      <div class="Code_Segment"><a name="1007191">    mobilityPause = TIME_ConvertToClock(buf);</a></div>
+      <div class="Code_Segment"><a name="1007194">    /* Read the speed arrange(Min,Max) */</a></div>
+      <div class="Code_Segment"><a name="1007196">    IO_ReadDouble(</a></div>
+      <div class="Code_Segment"><a name="1007197">        nodeId,</a></div>
+      <div class="Code_Segment"><a name="1007198">        ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="1007199">        nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1007200">        "MOBILITY-WP-MIN-SPEED",</a></div>
+      <div class="Code_Segment"><a name="1007201">        &amp;wasFound,</a></div>
+      <div class="Code_Segment"><a name="1007202">        &amp;minSpeed);</a></div>
+      <div class="Code_Segment"><a name="1007204">    assert(wasFound == TRUE);</a></div>
+      <div class="Code_Segment"><a name="1007206">    IO_ReadDouble(</a></div>
+      <div class="Code_Segment"><a name="1007207">        nodeId,</a></div>
+      <div class="Code_Segment"><a name="1007208">        ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="1007209">        nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1007210">        "MOBILITY-WP-MAX-SPEED",</a></div>
+      <div class="Code_Segment"><a name="1007211">        &amp;wasFound,</a></div>
+      <div class="Code_Segment"><a name="1007212">        &amp;maxSpeed);</a></div>
+      <div class="Code_Segment"><a name="1007214">    assert(wasFound == TRUE);</a></div>
+      <div class="Code_Segment"><a name="1007215">    ...</a></div>
+      <div class="Code_Segment"><a name="1007284">}</a></div>
+      <div class="Figure">FIGURE 4-200.&nbsp;&nbsp;<a name="1007285">Random Waypoint Mobility Function: Reading Mobility Parameters</a></div>
+      <div class="Code_Segment"><a name="1007298">    </a></div>
+      <div class="Code_Segment"><a name="1007299">void MOBILITY_WaypointInit(</a></div>
+      <div class="Code_Segment"><a name="1007300">    NodeAddress nodeId,</a></div>
+      <div class="Code_Segment"><a name="1007301">    MobilityData* mobilityData,</a></div>
+      <div class="Code_Segment"><a name="1007302">    TerrainData* terrainData,</a></div>
+      <div class="Code_Segment"><a name="1007303">    NodeInput *nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1007304">    clocktype maxSimClock)</a></div>
+      <div class="Code_Segment"><a name="1007305">{</a></div>
+      <div class="Code_Segment"><a name="1007216">    ...</a></div>
+      <div class="Code_Segment"><a name="1007348">    simClock = 0;</a></div>
+      <div class="Code_Segment"><a name="1007349">    dest1 = mobilityData-&gt;current-&gt;position;</a></div>
+      <div class="Code_Segment"><a name="1007350">    </a></div>
+      <div class="Code_Segment"><a name="1007353">    while (simClock &lt; maxSimClock) {</a></div>
+      <div class="Code_Segment"><a name="1007220">        double           distance;</a></div>
+      <div class="Code_Segment"><a name="1007221">        double           speed;</a></div>
+      <div class="Code_Segment"><a name="1007222">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1007223">        dest2.common.c1 =</a></div>
+      <div class="Code_Segment"><a name="1007224">            terrainData-&gt;origin.common.c1 +</a></div>
+      <div class="Code_Segment"><a name="1007225">            (terrainData-&gt;dimensions.common.c1 * </a></div>
+      <div class="Code_Segment"><a name="1054321">                                     RANDOM_erand(mobilityData-&gt;seed));</a></div>
+      <div class="Code_Segment"><a name="1007227">        dest2.common.c2 =</a></div>
+      <div class="Code_Segment"><a name="1007228">            terrainData-&gt;origin.common.c2 +</a></div>
+      <div class="Code_Segment"><a name="1007229">            (terrainData-&gt;dimensions.common.c2 * </a></div>
+      <div class="Code_Segment"><a name="1054328">                                    RANDOM_erand(mobilityData-&gt;seed));</a></div>
+      <div class="Code_Segment"><a name="1007231">        dest2.common.c3 = 0.0;</a></div>
+      <div class="Code_Segment"><a name="1007233">        // This model assumes that the third coordinate is always 0.0</a></div>
+      <div class="Code_Segment"><a name="1007234">        COORD_CalcDistance(</a></div>
+      <div class="Code_Segment"><a name="1007235">            terrainData-&gt;coordinateSystemType,</a></div>
+      <div class="Code_Segment"><a name="1007236">            &amp;dest1, &amp;dest2, &amp;distance);</a></div>
+      <div class="Code_Segment"><a name="1007239">        speed = minSpeed</a></div>
+      <div class="Code_Segment"><a name="1007240">                + (RANDOM_erand(mobilityData-&gt;seed) * (maxSpeed - minSpeed));</a></div>
+      <div class="Code_Segment"><a name="1007242">        simClock += (clocktype)(distance / speed * SECOND);</a></div>
+      <div class="Code_Segment"><a name="1007244">        if (mobilityData-&gt;groundNode == TRUE) {</a></div>
+      <div class="Code_Segment"><a name="1007245">            MOBILITY_GetGroundElevation(terrainData, &amp;dest2);</a></div>
+      <div class="Code_Segment"><a name="1007246">        }</a></div>
+      <div class="Code_Segment"><a name="1007247">        MOBILITY_AddANewDestination(</a></div>
+      <div class="Code_Segment"><a name="1007319">                               mobilityData, simClock, dest2, orientation);</a></div>
+      <div class="Code_Segment"><a name="1007249">        simClock += mobilityPause;</a></div>
+      <div class="Code_Segment"><a name="1007251">        if (mobilityPause &gt; 0) {</a></div>
+      <div class="Code_Segment"><a name="1007252">            MOBILITY_AddANewDestination(</a></div>
+      <div class="Code_Segment"><a name="1007253">                mobilityData, simClock, dest2, orientation);</a></div>
+      <div class="Code_Segment"><a name="1007254">        }</a></div>
+      <div class="Code_Segment"><a name="1007256">        dest1 = dest2;</a></div>
+      <div class="Code_Segment"><a name="1007257">    }</a></div>
+      <div class="Code_Segment"><a name="1007259">    return;</a></div>
+      <div class="Code_Segment"><a name="1007260">}</a></div>
+      <div class="Figure">FIGURE 4-201.&nbsp;&nbsp;<a name="1007355">Random Waypoint Mobility Function: Calculating Node Positions</a></div>
+      <div class="Heading3Numbered">4.8.5.7  <a name="1038015">Including and Compiling Files</a></div>
+      <div class="BodyAfterHead"><a name="1038016">The final step in integrating your mobility model into </a><span class="Variable">QualNet</span> is to add the source file to the <span class="Variable">QualNet</span> source tree and compile.</div>
+      <div class="BodyAfterHead"><a name="1019579">If you have created the files for the mobility model in an existing library or addon, then add the source file to the Makefile-common for that library or addon. For example, if you have created your model files in the Wireless library, then modify </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/Makefile-common as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-8.html#1019600', '');" title="Node Mobility">Figure&nbsp;4-202</a></span>. Recompile <span class="Variable">QualNet</span> after making the changes.</div>
+      <div class="Code_Segment"><a name="1019583">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019584">...</a></div>
+      <div class="Code_Segment"><a name="1019585"># common sources</a></div>
+      <div class="Code_Segment"><a name="1019586">#</a></div>
+      <div class="Code_Segment"><a name="1019587">WIRELESS_SRCS = \</a></div>
+      <div class="Code_Segment"><a name="1019588">$(WIRELESS_DIR)/antenna.cpp \</a></div>
+      <div class="Code_Segment"><a name="1019589">$(WIRELESS_DIR)/antenna_global.cpp \</a></div>
+      <div class="Code_Segment"><a name="1019590">...</a></div>
+      <div class="Code_Segment"><a name="1019628">$(WIRELESS_DIR)/mac_maca.cpp \</a></div>
+      <div class="Code_Segment"><a name="1019629">$(WIRELESS_DIR)/mac_tdma.cpp \</a></div>
+      <div class="Code_Segment"><a name="1019593">$(WIRELESS_DIR)/mobility_group.cpp \</a></div>
+      <div class="Code_New"><a name="1019594">$(</a><span style="font-weight: normal">WIRELESS_DIR</span>)/mobility_mymobility.cpp \</div>
+      <div class="Code_Segment"><a name="1019638">$(WIRELESS_DIR)/mobility_pedestrian.cpp \</a></div>
+      <div class="Code_Segment"><a name="1019639">$(WIRELESS_DIR)/mobility_waypoint.cpp \</a></div>
+      <div class="Code_Segment"><a name="1019597">$(WIRELESS_DIR)/multicast_odmrp.cpp \</a></div>
+      <div class="Code_Segment"><a name="1019598">...</a></div>
+      <div class="Figure">FIGURE 4-202.&nbsp;&nbsp;<a name="1019600">Adding Model to Makefile-common</a></div>
+      <div class="Body"><a name="1054395">If you have created a new library called user_models, then follow the instructions given in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929473', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.5</a></span> to integrate the user_models library into <span class="Variable">QualNet</span>.</div>
+      <div class="Body"><a name="1018596">&nbsp;</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

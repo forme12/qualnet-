@@ -1,0 +1,76 @@
+PURPOSE:-
+--------
+Testing of two indirectly connected BGP speakers.
+Two BGP speakers are connected via node 4.
+
+
+SCENARIO:-
+---------
+
++------------------------------------------------------+
+|                                           AS-ID 1    |
+|                       N8-5.0                         |
+|                    +-----------+                     |
+|                    |           |                     |
+|                    |  1  2  3  |                     |
+|                    |           |                     |
+|                    |           |                     |
+|                    |           |                     |
+|                  +-+---- 4 ----+--+                  |
+|                  | |           |  |                  |
+|                  | +-----------+  |                  |
+|                  |                |                  |
+|                  |                |                  |
+|                  |N2-2.0    N2-1.0|                  |
+|                  |                |                  |
+|                  |                |                  |
+|         N8-7.0   |                |  N8-6.0          |
+|         +--------|--+          +--|--------+         |
+|         |        |  |          |  |        |         |
+|         |  10    |  |          |  |     6  |         |
+|         |     +---+ |          | +---+     |         |
+|         |  11 |   | |          | |   |  7  |         |
+|         |     | 9 | |          | | 5 |     |         |
+|         |  12 |   |-+----------+-|   |  8  |         |
+|         |     +---+ | BGPLink  | +---+     |         |
+|         +------|-|--+          +--|-|------+         |
+|                | |                | |                |
+|                | |                | |                |
+|         BGPLink| |                | |BGPLink         |
++----------------|-|----------------|-|----------------+
+                 | |                | |
+                 | |                | |
+                 | |N2-11.0   N2-4.0| |
+                 | |                | |
+                 | |                | |
+           N8-9.0| |                | | N8-8.0
+          +------|-|--+          +--|-|------+
+          |      | |  |          |  | |      |
+          |  19  | |  |          |  | |  14  |
+          |     +---+ |          | +---+     |
+          |  18 |   | |          | |   | 15  |
+          |     |17 | |          | |13 |     |
+          |  20 |   | |          | |   | 16  |
+          |     +---+ |          | +---+     |
+          +-----------+          +-----------+
+             AS-ID 5                 AS-ID 4
+
+
+
+CBR is used to send 10 data segments of 1000B from node 14 to node 19.
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.bgp - QualNet BGP router configuration file.
+4. default.expected.stat - QualNet statistics file for BGP and application.
+5. default.routes-default - QualNet default routes specification file.
+6. README - This file.
+

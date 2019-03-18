@@ -1,0 +1,48 @@
+PURPOSE:-
+--------
+To test the functionality of IEEE 802.16
+when ruining with Dual IP.
+
+
+SCENARIO:-
+---------
+There are two 802.16 networks
+SLA0 contains 3 nodes, node 1 is BS and rests are SS
+SLA1 contains 3 nodes, node 7 is BS and rests are SS
+node 1 connects node 4 via wired point-to-point link.
+node 4 connects node 5 via wired point-to-point link.
+node 5 connects node 6 via wired point-to-point link.
+node 6 connects node 7 via wired point-to-point link.
+All the nodes except node 5 support IPv6
+nodes 4 5 6 support Ipv4 as well. 
+Thus, node 4 and node 6 are dual IP nodes.
+
+RIPng and AODV is used in the IPv6 and IPv4 domains respectively.
+
+     (BS)  (dual Ip)      (dual Ip)   (BS)
+       1-------4-------5-------6------7
+       
+    2   3                           8   9
+    
+
+Two CBR flows are running:One from node 2 to node 8
+one from node 9 to node 3.
+- CBR 2 8 100 512 1S 1S 0S PRECEDENCE 0
+- CBR 9 3 100 512 1S 1S 0S PRECEDENCE 0
+
+Packets of both flows arrive to destinations successfully. 
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet dualIP.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. dualIP.app -  QualNet configuration file for application input.
+2. dualIP.config - QualNet configuration input file.
+3. dualIP.nodes - QualNet node placement file for the simulation run.
+4. dualIP.tunnel - QualNet Dual IP tunnel file
+5. dualIP.expected.stat - QualNet statistics collection.
+6. README - This file.

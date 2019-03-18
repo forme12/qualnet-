@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="NETWORK LAYER" class="interface,device,atmdevice">
+        <variable name="Network Protocol" key="NETWORK-PROTOCOL" type="Selection" default="IP" interfaceindex="true" invisible="ATM">
+            <option value="IP" name="IPv4">
+                <variable name="IPv4 Network Address" key="SUBNET-IP-ADDRESS" type="Dotted decimal" help="" unique="true" keyvisible="false" invisible="Device, Interface"/>
+                <variable name="IPv4 Address" key="IP-ADDRESS" type="Dotted decimal" interfaceindex="true" help="" unique="true" keyvisible="false" invisible="Device, WirelessSubnet"/>
+                <variable name="IPv4 Subnet Mask" key="IP-SUBNET-MASK" type="Dotted decimal" help="" unique="true" keyvisible="true" interfaceindex="true" invisible="Device" dontWriteToConfig="true"/>
+                <variable name="Enable IP Loopback" key="IP-ENABLE-LOOPBACK" type="Selection" default="YES" invisible="interface, WiredSubnet, WirelessSubnet">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="IP Loopback Address" key="IP-LOOPBACK-ADDRESS" type="Dotted decimal" default="127.0.0.1" min="127.0.0.1" max="127.255.255.254" />
+                    </option>
+                </variable>
+                <variable name="IP Fragment Hold Time" key="IP-FRAGMENT-HOLD-TIME" type="Time" default="60S" invisible="interface" />
+            </option>
+            <option value="IPv6" name="IPv6">
+                <variable name="IPv6 Address" key="IPV6-ADDRESS" type="Text" interfaceindex="true" help="" unique="true" keyvisible="false" invisible="Device, WirelessSubnet"/>
+                <variable name="IPv6 Network Address" key="SUBNET-IP-V6-ADDRESS" type="Text" help="" unique="true" keyvisible="false" invisible="Device, Interface"/>
+                <variable name="IPv6 Prefix Length" key="SUBNET-IP-V6-PREFIX-LENGTH" type="Integer" help="" keyvisible="false" default="64" min="0" max="128" invisible="Device, Interface"/>
+                <variable name="IP Fragment Hold Time" key="IP-FRAGMENT-HOLD-TIME" type="Time" default="60S" invisible="interface" />
+            </option>
+            <option value="DUAL-IP" name="Dual-IP">
+                <variable name="IPv4 Network Address" key="SUBNET-IP-ADDRESS" type="Dotted decimal" help="" unique="true" keyvisible="false" invisible="Device, Interface"/>
+                <variable name="IPv4 Address" key="IP-ADDRESS" type="Dotted decimal" interfaceindex="true" help="" unique="true" keyvisible="false" invisible="Device, WirelessSubnet"/>
+                <variable name="IPv4 Subnet Mask" key="IP-SUBNET-MASK" type="Dotted decimal" help="" unique="true" keyvisible="true" interfaceindex="true" invisible="Device" dontWriteToConfig="true"/>
+                <variable name="IPv6 Address" key="IPV6-ADDRESS" type="Text" interfaceindex="true" help="" unique="true" keyvisible="false" invisible="Device, WirelessSubnet"/>
+                <variable name="IPv6 Network Address" key="SUBNET-IP-V6-ADDRESS" type="Text" help="" unique="true" keyvisible="false" invisible="Device, Interface"/>
+                <variable name="IPv6 Prefix Length" key="SUBNET-IP-V6-PREFIX-LENGTH" type="Integer" help="" keyvisible="false" default="64" min="0" max="128" invisible="Device, Interface"/>
+                <variable name="Enable IP Loopback" key="IP-ENABLE-LOOPBACK" type="Selection" default="YES" invisible="interface,  WiredSubnet, WirelessSubnet">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="IP Loopback Address" key="IP-LOOPBACK-ADDRESS" type="Dotted decimal" default="127.0.0.1" min="127.0.0.1" max="127.255.255.254" />
+                    </option>
+                </variable>
+                <variable name="IP Fragment Hold Time" key="IP-FRAGMENT-HOLD-TIME" type="Time" default="60S" invisible="interface" />
+                <variable name="Dual-IP Tunnel Configuration File" key="TUNNEL-CONFIG-FILE" default="[Required]" type="File" filetype="tunnel" invisible="WirelessSubnet, WiredSubnet, Interface"/>
+            </option>
+            <option value="GSM-LAYER3" name="GSM Layer 3" addon="cellular">
+                <variable name="GSM Node Configuration File" key="DUMMY-HELP-MSG-L3-GSM-FILE" type="text" default="Specify GSM Configuration File in Supplemental Files Tab in Scenario Properties Window." keyvisible="false" disable="true"/>
+                <variable name="GSM Node Type" key="GSM-NODE-TYPE" type="Selection" default="GSM-MS" invisible="scenariolevel" optional="true" refreshtable="true">
+                    <option value="GSM-MS" name="Mobile Station"/>
+                    <option value="GSM-BS" name="Base Station">
+                        <variable name="Handover Margin (dB)" key="GSM-HANDOVER-MARGIN" type="Fixed" default="0.0" min="0.0" max="24.0" invisible="Interface, WirelessSubnet"/>
+                            </option>
+                    <option value="GSM-MSC" name="Mobile Switching Center" />
+                        </variable>
+                    </option>
+            <option value="CELLULAR-LAYER3" name="Cellular Layer 3"  addon="cellular, umts">
+                <variable name="Cellular Layer 3 Protocol" key="CELLULAR-LAYER3-PROTOCOL" invisible="WiredSubnet" type="Selection" default="ABSTRACT-LAYER3">
+                    <option value="UMTS-LAYER3" name="UMTS Layer 3" addon="umts">
+                        <variable name="UMTS Node Type" key="UMTS-NODE-TYPE" type="Selection" default="UE" help="Indicate the type of UMTS node">
+                            <option value="UE" name="UE" help="User Equipment" >
+                                <variable name="Minimum Cell Selection RX Level (dBm)" key="UMTS-CELL-SELECTION-MIN-RX-LEVEL" type="Fixed" default="-95.0" help="Minimum required RX level for initial cell selection and reselection" />
+                                <variable name="Cell Search Threshold (dBm)" key="UMTS-CELL-SEARCH-THRESHOLD" type="Fixed" default="-80.0" help="Threshold for triggering cell search" />
+                                <variable name="Cell Reselection Hysteresis (dB)" key="UMTS-CELL-RESELECTION-HYSTERESIS" type="Fixed" default="4.0" help="Hysteresis value to be used during cell reselection" />
+                                <variable name="UE Power ON Time" key="UMTS-UE-POWER-ON-TIME" type="Time" default="0S" help="Time to switch ON the UE" />
+                            </option>
+                            <option value="NodeB" name="NodeB" help="UMTS base station" >
+                                <variable name="Downlink Channel" key="UMTS-NodeB-DOWNLINK-CHANNEL" help="Downlink channel that this NodeB will operate on after start" type="Integer" default="0" />
+                                <variable name="Uplink Channel" key="UMTS-NodeB-UPLINK-CHANNEL" help="Uplink channel that this NodeB will operate on after start" type="Integer" default="1" />
+                                <variable name="Minimum Cell Selection RX Level (dBm)" key="UMTS-CELL-SELECTION-MIN-RX-LEVEL" type="Fixed" default="-95.0" help="Minimum required RX level for initial cell selection and reselection" />
+                                <variable name="Cell Search Threshold (dBm)" key="UMTS-CELL-SEARCH-THRESHOLD" type="Fixed" default="-80.0" help="Threshold for triggering cell search" />
+                                <variable name="Cell Reselection Hysteresis (dB)" key="UMTS-CELL-RESELECTION-HYSTERESIS" type="Fixed" default="4.0" help="Hysteresis value to be used during cell reselection" />
+                            </option>
+                            <option value="RNC"   name="RNC"   help="Radio Network Controller" >
+                                <variable name="Soft HO AS Threshold (dBm)" key="UMTS-RNC-SHO-AS-THRESHOLD" type="Fixed" default="3.0" help="Threshold to add a new cell into the active set of a UE for soft handover" />
+                                <variable name="Soft HO AS Threshold Hysteresis (dB)" key="UMTS-RNC-SHO-AS-THRESHOLD-HYSTERESIS" type="Fixed" default="1.0" help="Hysteresis for the SHO AS threshold" />
+                                <variable name="Soft HO AS Replace Hysteresis (dB)" key="UMTS-RNC-SHO-AS-REPLACE-HYSTERESIS" type="Fixed" default="1.0" help="Hysteresis for replacing an existing cell in the active set" />
+                            </option>
+                            <option value="SGSN"  name="SGSN"  help="Serving GPRS Support Node" >
+                                <variable name="My Home Location Register Server" key="UMTS-HLR-SERVER" help="Node ID of the HLR node of this PLMN" type="Integer" default="1" />
+                                <variable name="My Primary GGSN Node" key="UMTS-PRIMARY-GGSN" help="Node ID of my primary GGSN node" type="Integer" default="1" />
+                            </option>
+                            <option value="GGSN"  name="GGSN"  help="Gateway GPRS Support Node" >
+                                <variable name="My Home Location Register Server" key="UMTS-HLR-SERVER" help="Node ID of the HLR node of this PLMN" type="Integer" default="1" />
+                            </option>
+                            <option value="HLR"   name="HLR"   help="Home Location Register server" />
+                        </variable>
+                        <variable name="Print Detailed UMTS Statistics" key="UMTS-PRINT-DETAILED-STATISTICS" type="Checkbox" default="NO" />
+                    </option>
+                    <option value="ABSTRACT-LAYER3" name="Abstract Cellular Layer 3"  addon="cellular">
+                        <variable name ="Optimization Level" key="CELLULAR-ABSTRACT-OPTIMIZATION-LEVEL" type="Selection" default="Low">
+                            <option value="MEDIUM" name="Medium">
+                                <variable name="Movement Threshold (meters)" key="CELLULAR-ABSTRACT-MOVEMENT-THRESHOLD" type="Fixed" default="0.0" unit="m/s"/>
+                            </option>
+                            <option value="LOW" name="Low" />
+                        </variable>
+                        <variable name="Cellular Node Type" key="CELLULAR-NODE-TYPE" type ="Selection" default="CELLULAR-MS">
+                            <option value="CELLULAR-BS" name="Base Station" help="Base Station" >
+                                <variable name="Cell ID" key="CELLULAR-BS-CELL-ID" help="Cell ID of the base station covered" type="Integer" default="1" />
+                                <variable name="Location Area Code" key="CELLULAR-BS-LAC" help="location area code of the cell resides in" type="Integer" default="1" />
+                                <variable name="Uplink Control Channel ID" key="CELLULAR-ABSTRACT-BS-CONTROL-CHANNEL-UPLINK" help="channel id of the uplink control channel" type="Integer" default="0" />
+                                <variable name="Downlink Control Channel ID" key="CELLULAR-ABSTRACT-BS-CONTROL-CHANNEL-DOWNLINK" help="channel id of the downlink control channel" type="Integer" default="1" />
+                                <variable name="Number of Sectors" key="CELLULAR-ABSTRACT-BS-NUMBER-SECTOR" help="Number of sectors in the cell" type="Array" default="6" min="1">
+                                    <variable name="Bandwidth Allocated to Sector (kpbs)" key="ABSTRACT-CELLULAR-BS-SECTOR-BANDWIDTH" type="Integer" default="1000" help="Bandwidth alloated to the sector"/>
+                                </variable>
+                                <variable name="Services Supported by the BS" key="CELLULAR-ABSTRACT-BS-SERVICE" help=" BS support services:data/voice" type="Selection" default="{VOICE,DATA}" >
+                                    <option value="{VOICE}" name="Voice"/>
+                                    <option value="{DATA}" name="Data"/>
+                            <option value="{VOICE,DATA}" name="Voice and Data"/>
+                                </variable>
+                        <variable name="MSC Associated with the BS" key="CELLULAR-BS-ASSOCIATE-SC" help="BS and SC association realationship" type="Integer" default="1"/>
+                                <variable name="System Control Information Broadcast Interval" key="CELLULAR-ABSTRACT-BS-CONTROL-INFORMATION-INTERVAL" type="Time" default="20MS"/>
+                                <!--
+                                <variable name="Call Admission Control Policy" key="CELLULAR-ABSTRACT-BS-ADMISSION-CONTROL-POLICY" type="Selection" default="NONE">
+                                    <option value="NONE" name="NONE"/>
+                                    <option value="THRESHOLD-BASED" name="THRESHOLD-BASED">
+                                        <variable name="Threshold-Based-CAC-Param-N" key="THRESHOLD-BASED-CAC-PARAM-N" type="Integer" displayname="M out of N resource requests will be rejected" default="4"/>
+                                        <variable name="Threshold-Based-CAC-Param-M" key="THRESHOLD-BASED-CAC-PARAM-M" type="Integer" displayname="M out of N resource requests will be rejected" default="1"/>
+                                    </option>
+                                </variable>
+                                <variable name="Congestion Control Policy" key="CELLULAR-ABSTRACT-BS-CONGESTION-CONTROL-POLICY" type="Selection" default="NONE">
+                                    <option value="NONE" name="NONE"/>
+                                    <option value="ROUND-ROBIN" name="ROUND-ROBIN">
+                                        <variable name="Round-Robin Congestion Control Duration" key="ROUND-ROBIN-CONGESTION-CONTROL-DURATION" type="Time" displayname="The length of the each control spoch" default="200MS"/>
+                                        <variable name="Round-Robin Congestion Control Access Class" key="ROUND-ROBIN-CONGESTION-CONTROL-ACCESS-CLASS" type="Integer" displayname="Number of access classes" default="10"/>
+                                        <variable name="Round-Robin Congestion Control Probability" key="ROUND-ROBIN-CONGESTION-CONTROL-PROBABILITY" type="Integer" displayname="The prob. of request is refrained from transmission only support 0.75, 0.5, and 0.25" default="0.25"/>
+                                    </option>
+                                </variable>
+                                -->
+                            </option>
+                            <option value="CELLULAR-MS" name="Mobile Station" help="Mobile Station" />
+                            <option value="CELLULAR-SC" name="Mobile Switch Center" help="Mobile Switch Center">
+                                <variable name="Location Areas Controlled by the MSC" key="CELLULAR-SC-LAC-LIST" help="SC controls a set of location area" type="Text" default="{}"/>
+                                <variable name="BSs Controlled by the MSC" key="CELLULAR-SC-CONTROL-BS" help="SC controls a set of BS" type="Text"  default="{}"/>
+                        <variable name="Gateway Connected to the MSC" key="CELLULAR-SC-CONNECT-GATEWAY" help="SC and Gateway association relatioship" type="Integer" default="1"/>
+                            </option>
+                            <option value="CELLULAR-GATEWAY" name="Gateway" help="Gateway connecting the cellular system and public data/voice network (PSTN,Internet...)">
+                        <variable name="MSCs Connected to the Gateway" key="CELLULAR-GATEWAY-CONNECT-SC" help="The Gateway connects swtich centers" type="Text" default="{}" />
+                        <variable name="Aggregated Node Connected to the Gateway" key="CELLULAR-GATEWAY-CONNECT-AGGREGATED-NODE" help="The Gateway connects to an aggeraged node" type="Integer" default="1"/>
+                            </option>
+                            <option value="CELLULAR-AGGREGATED-NODE" name="Aggregated Node" help="a super node in public data/voice network">
+                        <variable name="Gateway Connected to the Aggregated Node"  key="CELLULAR-AGGREGATED-NODE-CONNECT-GATEWAY" help="The Aggregated node connects to gateway" type="Integer" default="1"/>
+                            </option>
+                        </variable>
+                    </option>
+                </variable>
+            </option>
+        </variable>
+        <variable name="IP Fragmentation Unit (bytes)" key="IP-FRAGMENTATION-UNIT" type="Integer" default="2048" min="64" max="65535" />
+        <variable name="Enable Explicit Congestion Notification" key="ECN" type="Checkbox" default="NO" help="ECN as presented in RFC 2481. Requires one of the IP-QUEUE-TYPE (RED, RIO, or WRED). Furthermore, the source and destination nodes must be ECN enabled."/>
+
+        <subcategory name="Schedulers and Queues">
+            <variable name="IP Input Queue Size (bytes)" key="IP-QUEUE-PRIORITY-INPUT-QUEUE-SIZE" type="Integer" default="150000" />
+        
+
+            <variable name="IP Output Queue Scheduler" key="IP-QUEUE-SCHEDULER" type="Selection" default="STRICT-PRIORITY">
+                <option value="STRICT-PRIORITY" name="Strict Priority" />
+                <option value="WEIGHTED-FAIR" name="Weighted Fair">
+                    <variable name="Specify IP Output Queue Weights" key="DUMMY-PRIORITY-QUEUE-WEIGHT" type="Selection" default="No">
+                        <option value="NO" name="No"/>
+                        <option value="YES" name="Yes"/>
+                    </variable>
+                </option>
+                <option value="ROUND-ROBIN" name="Round Robin"/>
+                <option value="SELF-CLOCKED-FAIR" name="Self Clocked Fair">
+                    <variable name="Specify IP Output Queue Weights" key="DUMMY-PRIORITY-QUEUE-WEIGHT" type="Selection" default="No">
+                        <option value="NO" name="No"/>
+                        <option value="YES" name="Yes"/>
+                    </variable>
+                </option>
+                <option value="WEIGHTED-ROUND-ROBIN" name="Weighted Round Robin">
+                    <variable name="Specify IP Output Queue Weights" key="DUMMY-PRIORITY-QUEUE-WEIGHT" type="Selection" default="No">
+                        <option value="NO" name="No"/>
+                        <option value="YES" name="Yes"/>
+                    </variable>
+                </option>
+                <option value="CBQ" name="Class Based Queuing">
+                    <variable name="Link Sharing Structure File" key="LINK-SHARING-STRUCTURE-FILE" type="File" default="[Required]" help="The Link Sharing Structure File contains configuration information about weights, priorities, and link sharing between agencies." />
+                    <variable name="General Scheduler" key="CBQ-GENERAL-SCHEDULER" type="Selection" default="PRR" help="The packet scheduler that CBQ uses to manage the queues.">
+                        <option value="PRR" name="Prioritized Round Robin" />
+                        <option value="WRR" name="Weighted Round Robin">
+                    <variable name="Specify Priority Output Queue Weight" key="DUMMY-PRIORITY-QUEUE-WEIGHT" type="Selection" default="No">
+                                <option value="NO" name="No"/>
+                                <option value="YES" name="Yes"/>
+                            </variable>
+                        </option>
+                    </variable>
+                    <variable name="Link Sharing Guideline" key="CBQ-LINK-SHARING-GUIDELINE" type="Selection" default="ANCESTOR-ONLY" help="The link-sharing guideline determines whether or not bandwidth is regulated by the link sharing scheduler.  Bandwidth remains unregulated in the 'Ancestor-Only' case when the class of traffic is under-limit, or its immediate ancestor is under-limit.  Bandwidth remains unregulated in the 'Top-Level' case when the class of traffic is under-limit, or at least one of its ancestors up to CBQ-TOP-LEVEL generations above, are under-limit.">
+                        <option value="ANCESTOR-ONLY" name="Ancestor Only" />
+                        <option value="TOP-LEVEL" name="Top Level">
+                            <variable name="CBQ Top Level" key="CBQ-TOP-LEVEL" type="Integer" default="1" />
+                        </option>
+                    </variable>
+                </option>
+                <option value="DIFFSERV-ENABLED" name="DiffServ" addon="multimedia_enterprise">
+                    <variable name="DS Second Scheduler" key="DS-SECOND-SCHEDULER" type="Selection" default="WEIGHTED-FAIR">
+                        <option value="WEIGHTED-FAIR" name="Weighted Fair">
+                            <variable name="Specify IP Output Queue Weights" key="DUMMY-PRIORITY-QUEUE-WEIGHT" type="Selection" default="No">
+                                <option value="NO" name="No"/>
+                                <option value="YES" name="Yes"/>
+                            </variable>
+                        </option>
+                        <option value="WEIGHTED-ROUND-ROBIN" name="Weighted Round Robin">
+                    <variable name="Specify Priority Output Queue Weight" key="DUMMY-PRIORITY-QUEUE-WEIGHT" type="Selection" default="No">
+                                <option value="NO" name="No"/>
+                                <option value="YES" name="Yes"/>
+                            </variable>
+                        </option>
+                    </variable>
+            <variable name="Configure as a DiffServ-enabled Edge Router" key="DIFFSERV-ENABLE-EDGE-ROUTER" type="Selection" default="NO" invisible="Interface,WirelessSubnet,WiredSubnet">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                            <variable name="DiffServ Traffic Conditioner File" key="TRAFFIC-CONDITIONER-FILE" type="File" default="[Required]" help="The files contains entries in it that characterize classes of traffic, desired data rate and burstiness characteristics, and action to take with Out-Profile packets." filetype="traffic-conditioner" />
+                        </option>
+                    </variable>
+                </option>
+            </variable>
+            <variable name="Number of IP Output Queues" key="IP-QUEUE-NUM-PRIORITIES" type="Array" default="3" min="1">
+                <variable name="IP Queue Size (bytes)" key="IP-QUEUE-PRIORITY-QUEUE-SIZE" type="Integer" default="150000" />
+                <variable name="IP Queue Weight" key="QUEUE-WEIGHT" type="Fixed" default = "0" optional="true" min="0"  max="1" visibilityrequires="([IP-QUEUE-SCHEDULER] == 'WEIGHTED-FAIR' || [IP-QUEUE-SCHEDULER] == 'SELF-CLOCKED-FAIR' || [IP-QUEUE-SCHEDULER] == 'WEIGHTED-ROUND-ROBIN' || ([IP-QUEUE-SCHEDULER] == 'CBQ' &amp;&amp; [CBQ-GENERAL-SCHEDULER] == 'WRR') || [IP-QUEUE-SCHEDULER] == 'DIFFSERV-ENABLED')"/>
+                <variable name="IP Queue Type" key="IP-QUEUE-TYPE" type="Selection" default="FIFO">
+                    <option value="FIFO" name="FIFO"/>
+                    <option value="RED" name="RED">
+                        <variable name="Minimum Threshold" key="RED-MIN-THRESHOLD" type="Integer" default="5" help="The number of packets in the queue that represents the lower bound at which packets can be randomly dropped." />
+                        <variable name="Maximum Threshold" key="RED-MAX-THRESHOLD" type="Integer" default="15" help="The number of packets in the queue that represents the upper bound at which packets can be randomly dropped." />
+                        <variable name="Maximum Probability" key="RED-MAX-PROBABILITY" type="Fixed" default="0.02" help="The maximum probability at which a packet can be dropped." />
+                        <variable name="RED Queue Weight" key="RED-QUEUE-WEIGHT" type="Fixed" default="0.002" help="The queue weight determines bias towards recent or historical queue lengths in calculating the average." />
+                        <variable name="Small Packet Transmission Time" key="RED-SMALL-PACKET-TRANSMISSION-TIME" type="Time" default="10MS" help="A sample amount of time that it would take to transmit a small packet - used to estimate the queue average during idle periods" />
+                    </option>
+                    <option value="RIO" name="RIO" help="Generalized RIO is a variant of RED that uses three RED algorithms for green, yellow, and red profile packets.">
+                        <variable key="RIO-COUNTING-MODE" type="Selection" name="Counting Mode" default="COUPLED">
+                            <option value="COUPLED" name="Coupled" />
+                            <option value="DECOUPLED" name="Decoupled" />
+                        </variable>
+                        <variable key="RIO-COLOR-MODE" type="Selection" name="Color Mode" default="TWO-COLOR">
+                            <option value="TWO-COLOR" name="Two Color">
+                                <variable key="GREEN-PROFILE-MIN-THRESHOLD" type="Integer" name="Green Profile Minimum Threshold" default="10" />
+                                <variable key="GREEN-PROFILE-MAX-THRESHOLD" type="Integer" name="Green Profile Maximum Threshold" default="20" />
+                                <variable key="GREEN-PROFILE-MAX-PROBABILITY" type="Fixed" name="Green Profile Maximum Probability" default="0.02" />
+                                <variable key="YELLOW-PROFILE-MIN-THRESHOLD" type="Integer" name="Yellow Profile Minimum Threshold" default="5" />
+                                <variable key="YELLOW-PROFILE-MAX-THRESHOLD" type="Integer" name="Yellow Profile Maximum Threshold" default="10" />
+                                <variable key="YELLOW-PROFILE-MAX-PROBABILITY" type="Fixed" name="Yellow Profile Maximum Probability" default="0.02" />
+                            </option>
+                            <option value="THREE-COLOR" name="Three Color">
+                                <variable key="GREEN-PROFILE-MIN-THRESHOLD" type="Integer" name="Green Profile Minimum Threshold" default="10" />
+                                <variable key="GREEN-PROFILE-MAX-THRESHOLD" type="Integer" name="Green Profile Maximum Threshold" default="20" />
+                                <variable key="GREEN-PROFILE-MAX-PROBABILITY" type="Fixed" name="Green Profile Maximum Probability" default="0.02" />
+                                <variable key="YELLOW-PROFILE-MIN-THRESHOLD" type="Integer" name="Yellow Profile Minimum Threshold" default="5" />
+                                <variable key="YELLOW-PROFILE-MAX-THRESHOLD" type="Integer" name="Yellow Profile Maximum Threshold" default="10" />
+                                <variable key="YELLOW-PROFILE-MAX-PROBABILITY" type="Fixed" name="Yellow Profile Maximum Probability" default="0.02" />
+                                <variable key="RED-PROFILE-MIN-THRESHOLD" type="Integer" name="Red Profile Minimum Threshold" default="2" />
+                                <variable key="RED-PROFILE-MAX-THRESHOLD" type="Integer" name="Red Profile Maximum Threshold" default="5" />
+                                <variable key="RED-PROFILE-MAX-PROBABILITY" type="Fixed" name="Red Profile Maximum Probability" default="0.02" />
+                            </option>
+                        </variable>
+                        <variable key="RED-QUEUE-WEIGHT" type="Fixed" name="RED Queue Weight" default="0.002" help="The queue weight determines bias towards recent or historical queue lengths in calculating the average." />
+                        <variable key="RED-SMALL-PACKET-TRANSMISSION-TIME" type="Time" name="Small Packet Transmission Time" default="10MS" help="A sample amount of time that it would take to transmit a small packet - used to estimate the queue average during idle periods" />
+                    </option>
+                    <option value="WRED" name="WRED" help="WRED is a variant of RED that uses RED on green, yellow, and red profile packets.">
+                        <variable key="GREEN-PROFILE-MIN-THRESHOLD" type="Integer" name="Green Profile Minimum Threshold" default="10" />
+                        <variable key="GREEN-PROFILE-MAX-THRESHOLD" type="Integer" name="Green Profile Maximum Threshold" default="20" />
+                        <variable key="GREEN-PROFILE-MAX-PROBABILITY" type="Fixed" name="Green Profile Maximum Probability" default="0.02" />
+                        <variable name="Yellow Profile Minimum Threshold" key="YELLOW-PROFILE-MIN-THRESHOLD" type="Integer" default="5" />
+                        <variable name="Yellow Profile Maximum Threshold" key="YELLOW-PROFILE-MAX-THRESHOLD" type="Integer" default="10" />
+                        <variable name="Yellow Profile Maximum Probability" key="YELLOW-PROFILE-MAX-PROBABILITY" type="Fixed" default="0.02" />
+                        <variable key="RED-PROFILE-MIN-THRESHOLD" type="Integer" name="Red Profile Minimum Threshold" default="2" />
+                        <variable key="RED-PROFILE-MAX-THRESHOLD" type="Integer" name="Red Profile Maximum Threshold" default="5" />
+                        <variable key="RED-PROFILE-MAX-PROBABILITY" type="Fixed" name="Red Profile Maximum Probability" default="0.02" />
+                        <variable key="RED-QUEUE-WEIGHT" type="Fixed" name="RED Queue Weight" default="0.002" help="The queue weight determines bias towards recent or historical queue lengths in calculating the average." />
+                        <variable key="RED-SMALL-PACKET-TRANSMISSION-TIME" type="Time" name="Small Packet Transmission Time" default="10MS" help="A sample amount of time that it would take to transmit a small packet - used to estimate the queue average during idle periods" />
+                    </option>
+                </variable>
+            </variable>
+        </subcategory>
+
+        <subcategory name="QoS Configuration">
+            <variable name="Specify Per Hop Behavior File" key="DUMMY-PER-HOP-BEHAVIOR-FILE" type="Selection" default="NO" keyvisible="false">
+                <option value="NO" name="No" />
+                <option value="YES" name="Yes">
+                    <variable name="Per Hop Behavior File" key="PER-HOP-BEHAVIOR-FILE" type="File" default="[Required]" addon="multimedia_enterprise" optional="true"/>
+                </option>
+            </variable>
+            <variable name="Traffic Conditioner" key="TRAFFIC-CONDITIONER-FILE" type="File" default="demo.traffic_conditioner" filetype="in" addon="multimedia_enterprise" optional="true"/>
+        </subcategory>
+
+        <subcategory name="Cyber" addon="cyber,ces">
+            <variable name="Enable IPSec" key="IPSEC-ENABLED" type="Selection" default="NO" invisible="Interface,WirelessSubnet,WiredSubnet" addon="cyber, jne">
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+                <variable name="IPSec Configuration File" key="IPSEC-CONFIG-FILE" type="File" default="[Required]" filetype="ipsec" />
+                <variable name="Enable Real Cryptography" key="IPSEC-REAL-CRYPTO-ENABLED" type="Selection" default="NO" invisible="Interface,WirelessSubnet,WiredSubnet">
+                    <option value="NO" name="No"/>
+                    <option value="YES" name="Yes"/>
+                </variable>
+                <variable name="Specify Rates for IPSec Processing" key="DUMMY-IPSEC-RATE-SPEC" type="Selection" default="NO" help="Specify processing rate for different authentication and encryption algorithm in bps" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="DES-CBC Rate (bps)" key="IPSEC-DES-CBC-PROCESSING-RATE" type="Fixed" default="800000000" />
+                        <variable name="HMAC-MD5 Rate (bps)" key="IPSEC-HMAC-MD5-PROCESSING-RATE" type="Fixed" default="800000000" />
+                        <variable name="HMAC-MD5-96 Rate (bps)" key="IPSEC-HMAC-MD5-96-PROCESSING-RATE" type="Fixed" default="800000000" />
+                        <variable name="HMAC-SHA-1 Rate (bps)" key="IPSEC-HMAC-SHA-1-PROCESSING-RATE" type="Fixed" default="800000000" />
+                        <variable name="HMAC-SHA-1-96 Rate (bps)" key="IPSEC-HMAC-SHA-1-96-PROCESSING-RATE" type="Fixed" default="800000000" />
+                    </option>
+                </variable>
+            </option>
+            </variable>
+            <variable name="Enable ISAKMP" key="ISAKMP-SERVER" type="Selection" default="NO" addon="cyber,ces">
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+                <variable name="ISAKMP Configuration File" key="ISAKMP-CONFIG-FILE" type="File" default="[Required]" filetype="isakmp" />
+                <variable name="ISAKMP Phase 1 Start Time" key="ISAKMP-PHASE-1-START-TIME" type="Time" default="30S" optional="true" />
+                <variable name="ISAKMP Enable IPSec" key="ISAKMP-ENABLE-IPSEC" type="Checkbox" default="NO" />
+            </option>
+        </variable>
+            <variable name="Enable IAHEP" key="DUMMY-IAHEP-ENABLE" type="Selection" default="NO" addon="cyber,ces" invisible="Interface, WirelessSubnet">
+                <option value="NO" name="No" />
+                <option value="YES" name="Yes">
+            <variable name="IAHEP Node Type" key="IAHEP-NODE-TYPE" type="Selection" default="N/A" addon="cyber,ces" invisible="Interface, WirelessSubnet">
+                <option value="IAHEP" name="IAHEP">
+                    <variable name="IAHEP AMD File" key="IAHEP-AMD-FILE" type="File" default="[Required]" filetype="amd" invisible="Interface, WirelessSubnet"/>
+                    <variable name="IAHEP IGMP Mode" key="IAHEP-IGMP-MODE" type="Selection" default="NONE" invisible="Interface, WirelessSubnet">
+                    	<option value="BYPASS" name="Bypass" />
+                	<option value="NONE" name="None"/>
+                    </variable>
+                </option>
+                <option value="RED" name="RED" />
+                <option value="BLACK" name="BLACK"/>
+                    </variable>
+                <variable name="Encapsulation Overhead Size (bytes)" key="IAHEP-ENCAPSULATION-OVERHEAD-SIZE" type="Integer" default="0" invisible="Interface, WirelessSubnet"/>
+                <variable name="Encryption Rate (bps)" key="IAHEP-ENCRYPTION-RATE" type="bps" default="0" invisible="Interface, WirelessSubnet"/>
+                <variable name="Authentication Rate (bps)" key="IAHEP-AUTHENTICATION-RATE" type="bps" default="0" invisible="Interface, WirelessSubnet"/>
+                <variable name="MLS Star Property" key="MLS-STAR-PROPERTY" type="Selection" default="STRONG" invisible="Interface, WirelessSubnet">
+		    <option value="STRONG" name="Strong" />
+		    <option value="LIBERAL" name="Liberal"/>
+                </variable>
+                </option>
+            </variable>
+            <variable name="IAHEP Interface Type" key="IAHEP-INTERFACE-TYPE" type="Selection" default="N/A" addon="cyber,ces" visibilityrequires="[IAHEP-NODE-TYPE] != 'N/A' &amp;&amp; [DUMMY-INTERFACE-TYPE] == 'LINK-WIRED'" invisible="Device">
+	        <option value="BLACK" name="Black" visibilityrequires="[IAHEP-NODE-TYPE] == 'BLACK' || [IAHEP-NODE-TYPE] == 'IAHEP'" >
+                    <variable name="IAHEP Device Address" key="IAHEP-DEVICE-ADDRESS" type="Dotted decimal" default="0.0.0.0" addon="ces" visibilityrequires="[IAHEP-NODE-TYPE] == 'BLACK'" invisible="Device, ScenarioLevel"/>
+                </option>
+                <option value="RED" name="Red" visibilityrequires="[IAHEP-NODE-TYPE] == 'RED' || [IAHEP-NODE-TYPE] == 'IAHEP' " />
+            </variable>
+            <variable name="Enable PKI" key="PKI-ENABLED" type="Selection" default="NO" optional="true" invisible="interface, WiredSubnet, WirelessSubnet">
+            <option value="YES" name="Yes">
+                <variable name="PKI Configuration File" key="PKI-CONFIGURATION-FILE" type="File" default="[Required]" filetype="pki"  />
+            </option>
+            <option value="NO" name="No"/>
+        </variable>
+        </subcategory>
+        <subcategory name="ARP" refpath="NODE CONFIGURATION+ARP" icon="protocol.gif"/>
+        <variable name="Enable ICMP" key="ICMP" type="Selection" default="YES" invisible="interface, WiredSubnet, WirelessSubnet">
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+                <variable key="DUMMY-SPECIFY-ICMP-ROUTERS" type="Selection" name="Specify ICMP Routers" default="NO">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable key="ICMP-ROUTER-LIST" type="Text" name="Router List" default="{}" help="List the nodes which are ICMP routers between the '{}' separated by commas.  You can use 'thru' to specify a range of nodes."/>
+                    </option>
+                </variable>
+                <variable key="ICMP-REDIRECT-ENABLE" type="Selection" name="Enable Redirect" default="YES" optional="true">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable key="ICMP-REDIRECT-RETRY-TIME" type="Time" name="Redirect Retry Time" default="1S"/>
+                        <variable key="ICMP-REDIRECT-OVERRIDE-ROUTING" type="Selection" name="Allow Override of Non-Static Routes" default="YES">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes" />
+                        </variable>
+                    </option>
+                </variable>
+                <variable key="ICMP-ROUTER-ADVERTISEMENT-LIFE-TIME" type="Time" name="Router Advertisement Life Time" default="1800S"/>
+                <variable key="ICMP-ROUTER-ADVERTISEMENT-MIN-INTERVAL" type="Time" name="Minimum Router Advertisement Interval" default="450S"/>
+                <variable key="ICMP-ROUTER-ADVERTISEMENT-MAX-INTERVAL" type="Time" name="Maximum Router Advertisement Interval" default="600S"/>
+                <variable key="ICMP-MAX-NUM-SOLICITATION" type="Integer" name="Maximum Number of Solicitation" default="3"/>
+                <variable name="Enable ICMP Error Messages" key="DUMMY-ICMP-ERROR-ENABLED" type="Selection" default="NO">
+                    <option value="NO" name="No"/>
+                    <option value="YES" name="Yes">                
+                     <variable key="ICMP-HOST-UNREACHABLE-ENABLED" type="Selection" name="Enable Host Unreachable Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                     <variable key="ICMP-NETWORK-UNREACHABLE-ENABLED" type="Selection" name="Enable Network Unreachable Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                     <variable key="ICMP-PROTOCOL-UNREACHABLE-ENABLED" type="Selection" name="Enable Protocol Unreachable Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                    <variable key="ICMP-PORT-UNREACHABLE-ENABLED" type="Selection" name="Enable Port Unreachable Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                    <variable key="ICMP-FRAGMENTATION-NEEDED-ENABLED" type="Selection" name="Enable Fragmentation Needed Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                    <variable key="ICMP-SOURCE-QUENCE-ENABLED" type="Selection" name="Enable Source Quench Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                    <variable key="ICMP-TTL-EXCEEDED-ENABLED" type="Selection" name="Enable TTL Exceeded Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                    <variable key="ICMP-SOURCE-ROUTE-FAILED-ENABLED" type="Selection" name="Enable Source Route Failed Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                    <variable key="ICMP-FRAGMENTS-REASSEMBLY-TIMEOUT-ENABLED" type="Selection" name="Enable Fragments Reassembly Messages" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>
+                    <variable key="ICMP-PARAMETER-PROBLEM-ENABLED" type="Selection" name="Enable Parameter Problem Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable>	
+                     <variable key="ICMP-SECURITY-FAILURE-ENABLED" type="Selection" name="Enable Security Failure Message" default="YES">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                        </option>
+                    </variable> 
+                    </option>
+                </variable> 		    
+            </option>
+        </variable>
+        <variable name="Enable IPv6 6to4 Tunneling" key="IPv6-ENABLE-6to4-TUNNELING" type="Selection" default="NO" invisible="atm, Device, WirelessSubnet, WiredSubnet">
+            <option value="NO" name="No"/>
+            <option value="YES" name="Yes" requires="[NETWORK-PROTOCOL] == 'DUAL-IP'"/>
+        </variable>
+        <variable name="Configure as a Link 16/IP Gateway" addon="military"  key="LINK-16-GATEWAY-ENABLED" type="Selection" default="NO" optional="true" invisible="ScenarioLevel, WiredSubnet, WirelessSubnet, interface" >
+            <option value="NO" name="No"/>
+            <option value="YES" name="Yes" >
+                <variable name="Link16/IP Gateway Configuration File" key="LINK-16-GATEWAY-FORWARD-CONFIG-FILE" type="Link16GatewayFile" default="[Optional]" filetype="link16-gateway" invisible="ScenarioLevel, WiredSubnet, WirelessSubnet, interface" />
+            </option>
+        </variable>
+        <variable name="Enable Mobile IP" key="MOBILE-IP" type="Selection" default="NO" addon="wireless" >
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+                <variable name="Home Agents" key="HOME-AGENT" type="Text" default="{ }" optional="true" help="Insert node IDs separated by comma between { and }, e.g., {1,2}." />
+                <variable name="Foreign Agents" key="FOREIGN-AGENT" type="Text" default="{ }" optional="true" help="Insert node IDs separated by comma between { and }, e.g., {1,2}." />
+                <variable name="Mobile Nodes" key="MOBILE-NODE" type="Text" default="{ }" optional="true" help="Insert node IDs separated by comma between { and }, e.g., {1,2}." />
+            </option>
+        </variable>
+        <subcategory name = "Fixed Communications">
+            <variable name="Packet Drop Probability" key="FIXED-COMMS-DROP-PROBABILITY" type="Fixed" default="0.0" />
+           	<variable name="Specify Packet Delay" key="DUMMY-FIXED-COMMS-DELAY" type="Selection" default="NO">
+                <option value="NO" name="No" />
+                <option value="YES" name="Yes">
+                    <variable name="Packet Delay" key="FIXED-COMMS-DELAY" type="Time" default="0S" />
+                </option>
+            </variable>
+        </subcategory>
+    </subcategory>
+</category>

@@ -1,0 +1,90 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+# Topology:
+#
+#               192.168.1.0
+#
+#                (1)   (2)
+#                 |     |
+#              |  |     |  |
+#              |--+--+--+--|
+#              |     |     |      EIGRP
+#                   (3)
+#                    |
+#                    |  192.168.2.0
+#                    |
+# ..................(4)..............................
+#                    |
+#                    |
+#                    |
+#        192.168.3.0 |
+#                    |
+#                    |
+#    BELLMANFORD    (5)
+#                    | 
+#              |--+--+--+--|
+#                 |     |  
+#                (6)   (7)
+#                        
+#              192.168.4.0      
+#
+
+# CONFIGURATION FOR ROUTE REDISTRIBUTION
+# --------------------------------------
+#
+# Inputs in this file are case insensitive.
+
+# NODE-IDENTIFIER <node-id>
+#  node-id: The node where redistribution is defined.
+#
+# ROUTER <protocol>
+#  protocol: The protocol to which routes should to be redistributed.
+#
+# REDISTRIBUTE protocol [metric metric-value] [route-map map-tag]
+# {<Start Time> <End Time>}
+#
+# NO REDISTRIBUTE protocol [metric metric-value] [route-map map-tag]
+# {<Start Time> <End Time>}
+
+#   protocol: Routes found by this protocol will be redistributed into
+#   other protocols specified by the 'ROUTER' command.
+#
+#
+#   metric-value: This is the value associated with each route represents
+#   the cost to reach the destination. In case of IGRP this is represented
+#   by 5 quantities. Viz. bandwidth, reliability, delay, load, MTU
+#
+#
+#   map-tag: Route map that should be interrogated to filter the
+#   importation of routes from this source routing protocol to the current
+#   routing protocol. If not specified, all routes are redistributed. If
+#   this keyword is specified, but no route map tags are listed,
+#   no routes will be imported.
+#
+#   Start Time: Route redistribution will start at the said start time.
+#
+#   End Time: Route redistribution will end at the said end time.
+
+#   N.B.:- 'NO REDISTRIBUTE' command has the higher priority than the
+#   'REDISTRIBUTE' command. If both the commands were specified for a same
+#   router then routes would not be redistributed provided the start time
+#   and end time are same for both.
+
+node-identifier 4
+router eigrp
+redistribute BELLMANFORD  metric 10000 100 255 1 1500

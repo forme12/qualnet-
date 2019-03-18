@@ -1,0 +1,63 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+--------
+Test RSVP-TE operation with Record route NORMAL and
+reservation style FF. In addition to that an explicit route is set
+such that a loop will be detected at node 3.
+
+SCENARIO:-
+---------
+
+                   (5)
+                    | \
+                    |   \
+       (1)---(2)---(3)---(4)
+                    |
+                    |
+                   (6)
+                    |
+                    |
+                   (7)
+
+Explicit path from node 1 to node 7 is set as 1->2->3->4->5->3->6->7.
+A loop will be detected at node 3.
+
+OTHER INPUTS:-
+-------------
+CBR applications sending packets from
+    node 1 to node 7,
+
+BELLMANFORD routing protocol is used.
+
+
+RUN:-
+---
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. rsvpte.routes-exiplicit - The file containing explicit route.
+5. README - This file.
+
+
+

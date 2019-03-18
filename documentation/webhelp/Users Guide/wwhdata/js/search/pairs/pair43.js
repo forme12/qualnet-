@@ -1,0 +1,22 @@
+function FileData_Pairs(x)
+{
+x.t("2008","2012");
+x.t("scalable","network");
+x.t("http://support.scalable-networks.com/categories/20014366-license-support","2008");
+x.t("license","libraries");
+x.t("license","issues");
+x.t("network","technologies");
+x.t("a.5","helpful");
+x.t("libraries","information");
+x.t("visit","faq");
+x.t("helpful","links");
+x.t("issues","visit");
+x.t("2012","scalable");
+x.t("faq","page");
+x.t("help","license");
+x.t("page","http://support.scalable-networks.com/categories/20014366-license-support");
+x.t("information","a.5");
+x.t("links","license");
+x.t("links","a.5");
+x.t("links","help");
+}

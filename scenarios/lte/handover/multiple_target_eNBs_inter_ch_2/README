@@ -1,0 +1,81 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+-------
+To test the case of multiple target eNBs.
+To confirm if UEs choose appropreate eNB.
+
+SCENARIO:-
+---------
+One LTE subnet is present in the scenario, having three base stations (eNodeBs) 
+and seven user equipments (UEs). Nodes 100 - 106 are UEs. Node 2, 3 and 4 are eNodeBs.
+eNB1 is using ch0,1. eNB2 is using ch4,5. eNB3 is using ch2,3.
+
+TOPOLOGY:
+---------
+
+                         CN
+                         |   eNB2[3]
+                         SW  /
+                         |  /
+                         HUB
+                       /    \
+                      /      \
+                 eNB1[2]      \
+      [Group of UEs]  -------> \
+                                \
+                                 \
+                              eNB3[4]
+
+CBR flows ares:
+CBR 100 6 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 6 100 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 101 6 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 6 101 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 102 6 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 6 102 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 103 6 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 6 103 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 104 6 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 6 104 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 105 6 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 6 105 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 106 6 0 512 100MS 2S 49S PRECEDENCE 0
+CBR 6 106 0 512 100MS 2S 49S PRECEDENCE 0
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet multiple_target_eNBs_inter_ch_2.config'.
+
+
+DESCRIPTION OF THE FILES:-
+------------------------
+1.multiple_target_eNBs_inter_ch_2.config - QualNet configuration input file.
+2.multiple_target_eNBs_inter_ch_2.app    - QualNet configuration file for application input.
+3.multiple_target_eNBs_inter_ch_2.nodes  - QualNet node placement file for the simulation run.
+  UE's mobility pattern is described in this file.
+4.multiple_target_eNBs_inter_ch_2.expected.stat - QualNet statistics collection.
+6.UL_BER_MCS*.ber - Bit error rate table for various MCS(modulation, coding systems) for Uplink.
+7.DL_BER_MCS*.ber - Bit error rate table for various MCS(modulation, coding systems) for Downlink.
+8.README - This file
+
+EXPECTED RESULTS:
+----------------
+All the UEs must select nearer eNB and success to HO.
+All the application packets will be transfered between UEs and CN.
+

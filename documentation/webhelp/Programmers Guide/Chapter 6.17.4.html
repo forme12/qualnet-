@@ -1,0 +1,1301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Utility Functions</title>
+    <link rel="StyleSheet" href="css/Chapter%206.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%206.17.1.html#922469">6	Interfacing with QualNet: External Interface API</a> &gt; 6.3  Utility Functions</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">6.3  <a name="922469">Utility Functions</a></div>
+      <div class="BodyAfterHead"><a name="922463">The External Interface API provides several utility functions that simplify the job of the interface developer. The utility functions are divided into three categories:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="927765">External interface API utility functions</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="929401">Functions for injecting traffic from external interfaces</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="929406">Operating system-specific utility functions for sockets</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">6.3.1  <a name="951221">External Interface API Utility Functions</a></div>
+      <div class="BodyAfterHead"><a name="951308">The file </a><span class="Variable">QUALNET_HOME</span>/include/WallClock.h defines a C++ class, <span style="font-family: &quot;Courier New&quot;">WallClock</span>, which is used to keep track of elapsed real time during a simulation. The class implements methods for pausing and resuming the wall clock and for reading the wall clock’s value. See file <span class="Variable">QUALNET_HOME</span>/include/WallClock.h or <span style="font-style: italic">API Reference Guide</span> for a description of the <span style="font-family: &quot;Courier New&quot;">WallClock</span> class and its methods.</div>
+      <div class="Body"><a name="951315">Additional external interface API utility functions are defined in the files external.h, external_util.h, and partition.h in the folder </a><span class="Variable">QUALNET_HOME</span>/include.</div>
+      <div class="Anchor"><a name="940758">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922488">EXTERNAL_SetTimeManagementRealTime</a></span>: This function automates synchronizing <span class="Variable">QualNet</span> with real time. This function turns time management on and specifies the <span style="font-style: italic">lookahead</span> value.<span style="font-weight: bold"> </span>Internally, this function registers a horizon function that uses real time for the horizon value. The lookahead value is the amount of time that <span class="Variable">QualNet</span> is allowed to run ahead of real time. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="930081">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922491">void EXTERNAL_SetTimeManagementRealTime(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922492">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922493">    clocktype lookahead);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922495">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="922496">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="922497">lookahead</a></span>	: How far into the future the simulation is allowed to run</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922499">EXTERNAL_ChangeRealTimeLookahead</a></span>: This function modifies the lookahead value. This function can be called only after<span style="font-weight: bold"> </span>EXTERNAL_SetTimeManagementRealTime. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922536">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922537">void EXTERNAL_ChangeRealTimeLookahead(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922538">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922539">    clocktype lookahead);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922541">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="922542">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="922543">lookahead</a></span>	: The new lookahead value</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="941331">EXTERNAL_QueryExternalTime</a></span>: This function returns the time of an external interface using the interface’s time callback function (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.3.html#929053', '');" title="Interface Registration">Section&nbsp;6.2.2</a></span>). This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922547">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large"><a name="922548">clocktype EXTERNAL_QueryExternalTime(EXTERNAL_Interface *iface);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922550">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922551">iface</a></span>	: The external interface</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922553">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="922554">The time of the external interface. The function returns </a></span><span style="font-family: &quot;Courier New&quot;">EXTERNAL_MAX_TIME</span> if the time callback function is not defined for the interface.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922556">EXTERNAL_QuerySimulationTime</a></span>: This function returns the current simulation time. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922558">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922559">clocktype EXTERNAL_QuerySimulationTime(EXTERNAL_Interface *iface);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922561">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922562">iface</a></span>	: The external interface</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922564">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="951366">The current simulation time</a></span></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="951367">EXTERNAL_QueryRealTime</a></span>: This function returns the wall clock time in the <span class="Variable">QualNet</span><span style="font-weight: bold"> </span>time format (in nanoseconds). This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922569">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922570">clocktype EXTERNAL_QueryRealTime();</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922572">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="922597">The real (wall clock) time</a></span></div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="922603">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922604">EXTERNAL_QueryCPUTime</a></span>: This function returns the amount of CPU time used by <span class="Variable">QualNet</span>. The first call to this function by an interface returns 0; subsequent calls to this function by the same interface returns the amount of CPU time used since the first call to the function. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924920">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922607">clocktype EXTERNAL_QueryCPUTime(EXTERNAL_Interface *iface);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925090">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922610">iface</a></span>	: The external interface</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="929610">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="929611">0, for the first call to the function; CPU time used since the first call, for subsequent calls</a></span></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922612">EXTERNAL_Sleep</a></span>: This function puts <span class="Variable">QualNet</span> to sleep for a specified length of time. Depending on the<span style="font-weight: bold"> </span>platform that is being used, the length of time spent sleeping<span style="font-weight: bold"> </span>could be greater. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924928">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922615">void EXTERNAL_Sleep(clocktype amount);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922617">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922618">amoun</a></span>t	: The amount of time to sleep</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922620">EXTERNAL_SetReceiveDelay</a></span>: This function sets the minimum delay between two<span style="font-weight: bold"> </span>consecutive calls to the receive function (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.3.html#929053', '');" title="Interface Registration">Section&nbsp;6.2.2</a></span>). This prevents the receive function from being called too frequently, which may adversely affect performance. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924932">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922623">void EXTERNAL_SetReceiveDelay(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922624">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922625">    clocktype delay);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925094">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922628">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922629">delay</a></span>	: The minimum delay</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922631">EXTERNAL_ForwardData</a></span>: This function sends data back to the external source with no time stamp.<span style="font-weight: bold"> </span>The forward function (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.3.html#929053', '');" title="Interface Registration">Section&nbsp;6.2.2</a></span>) receives this data<span style="font-weight: bold"> </span>and processes it. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924936">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922635">void EXTERNAL_ForwardData(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922636">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922637">    Node *node,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="922638">    void *forwardData,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="941724">    int forwardSize,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="941725">    EXTERNAL_ForwardData_ReceiverOpt FwdReceiverOpt =</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="941726">      EXTERNAL_ForwardDataAssignNodeID_On);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925098">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 134.73pt; margin-top: 3.0pt; text-indent: -98.72999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="922660">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 134.73pt; margin-top: 3.0pt; text-indent: -98.72999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="922667">node</a></span>	: The node that is forwarding the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 134.73pt; margin-top: 3.0pt; text-indent: -98.72999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="922668">forwardData</a></span>	: The data to forward</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 134.73pt; margin-top: 3.0pt; text-indent: -98.72999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="922669">forwardSize</a></span>	: The size of the data to forward</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 134.73pt; margin-top: 3.0pt; text-indent: -98.72999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941733">FwdReceiverOpt</a></span>	: Option whether to store the receiving node for forwarded data</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="941274">EXTERNAL_RemoteForwardData</a></span>: This function is similar to EXTERNAL_ForwardData except that it sends data back to the external interface that is on a different partition. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941275">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941276">void EXTERNAL_RemotForwardData(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="941277">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="941278">    Node* node,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="961275">    void *forwardData,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="941279">    int forwardSize</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="941280">    int partitionId</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 54pt; text-indent: 0pt"><a name="941281">    clocktype delay);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941282">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="941283">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="961283">node</a></span>	: The node that is forwarding the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="941284">forwardData</a></span>	: The data to forward</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="941285">forwardSize</a></span>	: The size of the data to forward</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="941286">partitionId</a></span>	: The identifier of the partition that the external interface is on</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="941287">delay</a></span>	: The delay for forwarding the data</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922671">EXTERNAL_GetInterfaceByName</a></span>: This function searches an interface list for an interface with the specified name. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924940">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922674">EXTERNAL_Interface* EXTERNAL_GetInterfaceByName(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922675">    EXTERNAL_InterfaceList *list,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922676">    char *name);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925102">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922679">list</a></span>	: The external interface list</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922680">name</a></span>	: The interface's name</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924944">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="922661">The interface, if found; </a></span><span style="font-family: &quot;Courier New&quot;">NULL</span>, if not found</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="940737">EXTERNAL_Bootstrap</a></span>: This function is called by the kernel early in the simulation initialization process (before threads are created) and provides a place for the external interface code to examine the simulation command line arguments. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="940799">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="940805">void EXTERNAL_Bootstrap(</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941026">       int argc, </a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="961297">       char * argv [],</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="940806">       SimulationProperties * simProps,</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="940800">       PartitionData * partitionData);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="940742">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 118.56024pt; margin-top: 3.0pt; text-indent: -82.56024pt"><span style="font-family: &quot;Courier New&quot;"><a name="940743">argc</a></span>	: The number of arguments in the command line</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 118.56024pt; margin-top: 3.0pt; text-indent: -82.56024pt"><span style="font-family: &quot;Courier New&quot;"><a name="940744">argv</a></span>	: The arguments in the command line</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 118.56024pt; margin-top: 3.0pt; text-indent: -82.56024pt"><span style="font-family: &quot;Courier New&quot;"><a name="940828">simProps	</a></span>: Global properties of the simulation for all partitions</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 118.56024pt; margin-top: 3.0pt; text-indent: -82.56024pt"><span style="font-family: &quot;Courier New&quot;"><a name="962365">partitionData	</a></span>: Pointer to the data for this partition</div>
+      <div class="Anchor"><a name="962366">&nbsp;</a></div>
+      <div class="Note_Indented"><a name="962367">If you wish to add new command line options for use by your external interface, you must update the function PARTITION_ParseArgv in the file </a><span class="Variable">QUALNET_HOME</span>/main/partition.cpp to include checks for the new options; otherwise, that function will output an unknown option error and the simulator will exit.<span style="font-style: italic; font-weight: normal"> </span><img class="Default" src="images/Chapter%206.17.4.1.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="940921">EXTERNAL_SetSimulationEndTime</a></span>: This function sets the end time for the simulation. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/external_util.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="940922">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="940950">void EXTERNAL_SetSimulationEndTime(</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="961325">     EXTERNAL_Interface* iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="961326">     clocktype endTime = 0);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="961327">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 129.81024pt; margin-top: 3.0pt; text-indent: -93.81024pt"><span style="font-family: &quot;Courier New&quot;"><a name="941053">iface	</a></span>: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 129.81024pt; margin-top: 3.0pt; text-indent: -93.81024pt"><span style="font-family: &quot;Courier New&quot;"><a name="941054">endTime</a></span>	: The time at which the simulation should end. If this parameter is omitted, the simulation ends at the current time.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="940996">PARTITION_ClientStateSet</a></span>: This function sets or replaces a pointer to the specified client’s state in the indicated partition. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/partition.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="940997">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941010">void PARTITION_ClientStateSet(</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941021">        PartitionData* partitionData,</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941011">        const char*    stateName,</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941012">        void*          clientState);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941000">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 123.81048pt; margin-top: 3.0pt; text-indent: -87.81048pt"><span style="font-family: &quot;Courier New&quot;"><a name="941001">partitionData	</a></span>: Pointer to the data for this partition</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 123.81048pt; margin-top: 3.0pt; text-indent: -87.81048pt"><span style="font-family: &quot;Courier New&quot;"><a name="941002">stateName</a></span>	: The name used to locate the client’s state information</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 123.81048pt; margin-top: 3.0pt; text-indent: -87.81048pt"><span style="font-family: &quot;Courier New&quot;"><a name="941057">clientState</a></span>	: Pointer to the data structure the client wishes to store</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="941068">PARTITION_ClientStateFind</a></span>: This function searches for the specified client’s state in the indicated partition and returns a pointer to it. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/partition.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941069">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941070">void* PARTITION_ClientStateFind(</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941071">        PartitionData* partitionData,</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941072">        const char*    stateName)</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941074">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 123.81048pt; margin-top: 3.0pt; text-indent: -87.81048pt"><span style="font-family: &quot;Courier New&quot;"><a name="941075">partitionData	</a></span>: Pointer to the data for this partition</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 123.81048pt; margin-top: 3.0pt; text-indent: -87.81048pt"><span style="font-family: &quot;Courier New&quot;"><a name="941076">stateName</a></span>	: The name used to locate the client’s state information</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941105">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="941106">A pointer to the client’s state. If the state is not found, the function returns </a></span><span style="font-family: &quot;Courier New&quot;">NULL</span>.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="941347">PARTITION_GetRealTimeMode</a></span>: This function checks whether the simulation is executing in real time mode. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/partition.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941348">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941366">bool</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941349">PARTITION_GetRealTimeMode (PartitionData * partitionData);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941352">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 123.81048pt; margin-top: 3.0pt; text-indent: -87.81048pt"><span style="font-family: &quot;Courier New&quot;"><a name="941353">partitionData	</a></span>: Pointer to the data for this partition</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941355">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="941431">TRUE</a></span>, if the simulation is running in real time mode; <span style="font-family: &quot;Courier New&quot;">FALSE</span>, otherwise.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="941381">PARTITION_SetRealTimeMode</a></span>: This function sets the simulation execution mode. This function is defined in <span class="Variable">QUALNET_HOME</span>/include/partition.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941382">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941394">void</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941395">PARTITION_SetRealTimeMode(</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941402">             PartitionData * partition, </a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941401">             bool runAsRealtime);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941385">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 123.81048pt; margin-top: 3.0pt; text-indent: -87.81048pt"><span style="font-family: &quot;Courier New&quot;"><a name="941386">partition	</a></span>: Pointer to the data for this partition</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 123.81048pt; margin-top: 3.0pt; text-indent: -87.81048pt"><span style="font-family: &quot;Courier New&quot;"><a name="941405">runAsRealtime	</a></span>: Indication to run execute in real time</div>
+      <div class="Heading2Numbered">6.3.2  <a name="922702">Functions for Injecting Traffic from External Interfaces</a></div>
+      <div class="BodyAfterHead"><a name="922704">The file </a><span class="Variable">QUALNET_HOME</span>/include/external_util.h defines some general <span class="Variable">QualNet</span> utility functions for external interfaces, including functions for sending packets at the Application Layer using UDP and TCP, creating mappings, enabling/disabling nodes, moving nodes, and changing node orientations.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922706">EXTERNAL_SendDataAppLayerUDP</a></span>: This function sends a packet between two nodes using UDP. By default, the function sends the data immediately. The default destination application is APP_FORWARD. APP_FORWARD simply forwards the received data back to the external interface.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924948">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922709">void EXTERNAL_SendDataAppLayerUDP(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922710">     EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922711">     NodeAddress from,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922712">     NodeAddress to,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922713">     char *data,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922714">     int dataSize,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922715">     clocktype timestamp = 0,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922716">     AppType app = APP_FORWARD,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922717">     TraceProtocolType trace = TRACE_FORWARD,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="940354">     TosType priority = IPTOS_PREC_ROUTINE,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="941757">     UInt8 ttl = TTL_NOT_SET);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925106">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922720">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922721">from</a></span>	: The address of the sending node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922737">to</a></span>	: The address of the receiving node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="927380">data</a></span>	: The data that is to be sent. If contents of the packet are not important, no actual data is sent, and this parameter is set to <span style="font-family: &quot;Courier New&quot;">NULL</span> and the <span style="font-family: &quot;Courier New&quot;">dataSize</span> parameter is used to indicate the size of the packet.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="927381">dataSize</a></span>	: The size of the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="926462">timestamp</a></span>	: The time to send the packet. Pass 0 to send immediately. Defaults to 0.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="926465">app</a></span>	: The application to send to. Defaults to APP_FORWARD.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="926468">trace</a></span>	: The trace protocol. Defaults to TRACE_FORWARD.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="941254">priority</a></span>	: The priority of the message</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="941758">ttl</a></span>	: The time to live</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922771">EXTERNAL_SendDataAppLayerTCP</a></span>: This function sends data between two nodes using TCP. The TCP connection is established the first time this function is called between a pair of nodes.By default, the function sends the data immediately. Unlike EXTERNAL_SendDataAppLayerUDP, which can deliver data to any application using UDP, EXTERNAL_SendDataAppLayerTCP delivers data only to the application APP_FORWARD. APP_FORWARD simply forwards the received data back to the external interface.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924952">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922774">void EXTERNAL_SendDataAppLayerTCP(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922775">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922776">    NodeAddress from,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922777">    NodeAddress to,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922778">    char *data,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922779">    int dataSize,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922780">    clocktype timestamp = 0,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="941761">    UInt8 ttl = TTL_NOT_SET);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925110">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922783">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922784">from</a></span>	: The address of the sending node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922785">to</a></span>	: The address of the receiving node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="926497">data</a></span>	: The data that is to be sent. If contents of the packet are not important, no actual data is sent, and this parameter is set to <span style="font-family: &quot;Courier New&quot;">NULL</span> and the <span style="font-family: &quot;Courier New&quot;">dataSize</span> parameter is used to indicate the size of the packet.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="926494">dataSize</a></span>	: The size of the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="939948">timestamp</a></span>	: The time to send the packet. Pass 0 to send immediately. Defaults to 0.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="941764">ttl</a></span>	: The time to live</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="939949">EXTERNAL_SendDataNetworkLayer</a></span><span style="font-weight: normal">: This function sends data between two nodes at the Network Layer. This function differs from the UDP and TCP SendData functions because it sends IP packets. The contents of the IP packet (such as a transport header or application data) must be created by the user. The packet is not passed to the interface’s forward function. By default, the function sends the data immediately.</span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="939961">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="939985">&nbsp;</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939986">void EXTERNAL_SendDataNetworkLayer(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939987">    EXTERNAL_Interface* iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939988">    NodeAddress from,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939989">    NodeAddress srcAddr,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939990">    NodeAddress destAddr,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939991">    unsigned short identification,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939992">    BOOL dontFragment,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939993">    BOOL moreFragments,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939994">    unsigned short fragmentOffset,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939995">    TosType tos,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939996">    unsigned char protocol,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939997">    unsigned int ttl,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939998">    char* payload,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939999">    int payloadSize,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="939962">    clocktype timestamp = 0);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="939969">Parameters</a></span>:</div>
+      <div class="Normal" style="color: #000000; font-family: Verdana; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="940043">&nbsp;</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940044">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940045">from	</a></span>: The address of the sending node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940046">srcAddr</a></span>	: The IP address of the node originally creating the packet (may be different than the <span style="font-family: &quot;Courier New&quot;">from</span> address)</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940047">destAddr</a></span>	: The address of the receiving node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940048">identification</a></span>	: The identification field in the IP header</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940049">dontFragment</a></span>	: Indication whether to set the <span style="font-style: italic">Don’t Fragment</span> bit in the IP header</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940050">moreFragments</a></span>	: Indication whether to set the <span style="font-style: italic">More Fragments</span> bit in the IP header</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940051">fragmentOffset	</a></span>: The <span style="font-style: italic">Fragment Offset</span> field in the IP header</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940052">tos</a></span>	: The <span style="font-style: italic">Type of Service</span> field in the IP header</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940053">protocol</a></span>	: The <span style="font-style: italic">Protocol</span> field in the IP header</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940054">ttl</a></span>	: The <span style="font-style: italic">Time to Live</span> field in the IP header</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940055">payload</a></span>	: The data to be sent. This should include appropriate transport headers. If NULL, the payload will consist of 0’s.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940041">payloadSize</a></span>	: The size of the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 132.48pt; margin-top: 3.0pt; text-indent: -96.47999999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="940197">timestamp</a></span>	: The time to send the packet. Pass 0 to send at the interface’s current time according to the interface’s time function (if the interface does not have a time function, the packet is sent immediately). Defaults to 0.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="939930">EXTERNAL_CreateMapping</a></span>: This function creates a mapping between a key and a value. The key may be of any type and of any length, such as an IP address, a MAC address, or a generic string. The value may be anything (it is just a generic pointer). Correctly using the mapped value is the responsibility of the external interface.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924956">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922794">void EXTERNAL_CreateMapping(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922795">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922796">    char *key,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922797">    int keySize,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922821">    char *value,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922828">    int valueSize);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925114">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922831">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922832">key</a></span>	: Pointer to the key</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922833">keySize</a></span>	: The size of the key in bytes</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922834">value</a></span>	: The value that the key maps to</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="922835">valueSize</a></span>	: The size of the value</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922837">EXTERNAL_ResolveMapping</a></span>: This function resolves a mapping created by the function EXTERNAL_CreateMapping. If a mapping for the specified key exists, the function returns 0; in this case the value associated with the key is placed in the <span style="font-family: &quot;Courier New&quot;">value</span> parameter and the size of the value is placed in the <span style="font-family: &quot;Courier New&quot;">valueSize</span> parameter. If a mapping for the specified key does not exist, the function returns non-zero and the <span style="font-family: &quot;Courier New&quot;">value</span> and <span style="font-family: &quot;Courier New&quot;">valueSize</span> parameters are invalid.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="941765">This is an overloaded function. One of the versions of the function is described here.</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924960">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922840">int EXTERNAL_ResolveMapping(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922841">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922842">    char *key,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922843">    int keySize,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922844">    char **value,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922845">    int *valueSize);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925118">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="928484">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="928485">key</a></span>	: Pointer to the key</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="928486">keySize</a></span>	: The size of the key in bytes</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="928487">value</a></span>	: Pointer to the value (output)</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 103.68pt; margin-top: 3.0pt; text-indent: -67.68pt"><span style="font-family: &quot;Courier New&quot;"><a name="928488">valueSize</a></span>	: The size of the key in bytes (output)</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925086">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="922855">0, if the mapping resolved; non-zero, if it did not resolve</a></span></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922857">EXTERNAL_ActivateNode</a></span>: This function activates a node so that it can begin processing events.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924964">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922860">void EXTERNAL_ActivateNode(EXTERNAL_Interface *iface, Node *node,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="941771">                           ExternalScheduleType scheduling</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="941772">                                = EXTERNAL_SCHEDULE_STRICT, </a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="941773">                             clocktype deactivationEventTime = -1);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925126">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922863">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922864">node</a></span>	: The node to activate</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="941779">scheduling</a></span>	: The scheduling algorithm</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="941780">deactivationEventTime</a></span>	: The time for deactivation</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922866">EXTERNAL_DectivateNode</a></span>: This function deactivates a node so that it stops processing events.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924968">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922822">void EXTERNAL_DeactivateNode(EXTERNAL_Interface *iface, </a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="942818">                           Node *node,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="941807">                           ExternalScheduleType scheduling</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="941808">                                = EXTERNAL_SCHEDULE_STRICT, </a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="941809">                             clocktype deactivationEventTime = -1);</a></div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="922874">&nbsp;</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925130">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="941813">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="941814">node</a></span>	: The node to activate</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="941815">scheduling</a></span>	: The scheduling algorithm</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="941816">deactivationEventTime</a></span>	: The time for deactivation</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922879">EXTERNAL_ChangeNodePosition</a></span>: This function changes the position of a node. This function works with any coordinate system. The node orientation is not changed. The valid range of coordinate values depends on the terrain data. Coordinate values are checked to be in the proper range; if they are not in the proper range, the coordinate values are converted to values within the proper range.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924972">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922882">void EXTERNAL_ChangeNodePosition(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922883">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922884">    Node *node,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922885">    double c1,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922886">    double c2,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922887">    double c3,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941260">    clocktype delay);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925134">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922890">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922891">node</a></span>	: The node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922892">c1</a></span>	: The first coordinate: latitude or x</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922893">c2</a></span>	: The second coordinate: longitude or y</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922894">c3</a></span>	: The third coordinate: altitude or z</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="941261">delay</a></span>	: The delay for changing the position</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="931674">EXTERNAL_ChangeNodeOrientation</a></span>: This function changes the orientation of a node. The node position is not changed. Azimuth/elevation values are checked to be in the proper range; if they are not in the proper range, the azimuth/elevation values are converted to values within the proper range.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924976">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922899">void EXTERNAL_ChangeNodeOrientation(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922900">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922901">    Node *node,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922902">    short azimuth,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922903">    short elevation);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925142">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922906">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922907">node</a></span>	: The node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922908">azimuth</a></span>	: The azimuth, 0 &lt;= azimuth &lt;= 359</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922909">elevation</a></span>	: The elevation, -180 &lt;= elevation &lt;= 180</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922823">EXTERNAL_ChangeNodePositionAndOrientation</a></span>: This function changes both the position and orientation of a node. This function works using both coordinate systems. The valid range of coordinate values depends on the terrain data. Coordinate values and azimuth/elevation values are checked to be in the proper range; if they are not in the proper range, the coordinate values and azimuth/elevation values are converted to values within the proper range.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="922920">&nbsp;</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924980">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922922">void EXTERNAL_ChangeNodePositionAndOrientation(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922923">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922924">    Node *node,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922925">    double c1,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922926">    double c2,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922927">    double c3,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922928">    short azimuth,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922929">    short elevation);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925146">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922932">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922933">node</a></span>	: The node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922934">c1</a></span>	: The first coordinate: latitude or x</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922935">c2</a></span>	: The second coordinate: longitude or y</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922936">c3</a></span>	: The third coordinate: altitude or z</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922937">azimuth</a></span>	: The azimuth, 0 &lt;= azimuth &lt;= 359</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922938">elevation</a></span>	: The elevation, -180 &lt;= elevation &lt;= 180</div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="941484">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="941485">EXTERNAL_ChangeNodePositionOrientationAndVelocityAtTime:</a></span> This function updates the position, orientation, and velocity vector of a node at a user-specified time. The velocity vector is expected to be in the same distance units used for the node’s position, per one second. The speed parameter must also be provided, accurate for the provided velocity vector, and always in meters per second. Coordinate values, azimuth, elevation, and speed values are checked to be in the proper range, and are converted to the proper range if not.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941530">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941488">void EXTERNAL_ChangeNodePositionOrientationAndVelocityAtTime(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941489">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941490">    Node *node,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941491">    clocktype mobilityEventTime,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941492">    double c1,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941493">    double c2,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941494">    double c3,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941495">    short azimuth,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941496">    short elevation,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941497">    double speed,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941498">    double c1Speed,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941499">    double c2Speed,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941500">    double c3Speed);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941540">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941503">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941504">node</a></span>	: The node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941505">mobilityEventTime</a></span>	: The absolute simulation time (not delay) at which the mobility event should execute</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941506">c1</a></span>	: The first coordinate: latitude or x-coordinate</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941507">c2</a></span>	: The second coordinate: longitude or y-coordinate</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941508">c3</a></span>	: The third coordinate: altitude or z-coordinate</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941509">azimuth</a></span>	: The azimuth, 0 &lt;= azimuth &lt;= 359</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941510">elevation</a></span>	: The elevation, -180 &lt;= elevation &lt;= 180</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941511">speed</a></span>	: The speed in meters/sec</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941512">c1Speed</a></span>	: The rate of change of the first coordinate in the units of the position, per second</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941513">c2Speed</a></span>	: The rate of change of the second coordinate in the units of the position, per second</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941477">c3Speed</a></span>	: The rate of change of the third coordinate in the units of the position, per second</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="941587">EXTERNAL_ChangeNodePositionOrientationAndVelocityAtTime:</a></span> This function updates the position, orientation, and velocity vector of a node at a user-specified time. The velocity vector is expected to be in the same distance units used for the node’s position, per one second. Coordinate values, azimuth, elevation, and speed values are checked to be in the proper range, and are converted to the proper range if not.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941588">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941589">void EXTERNAL_ChangeNodePositionOrientationAndVelocityAtTime(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941590">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941591">    Node *node,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941592">    clocktype mobilityEventTime,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941593">    double c1,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941594">    double c2,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941595">    double c3,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941596">    short azimuth,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941597">    short elevation,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941599">    double c1Speed,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941600">    double c2Speed,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941601">    double c3Speed);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941603">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941604">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941605">node</a></span>	: The node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941606">mobilityEventTime</a></span>	: The absolute simulation time (not delay) at which the mobility event should execute</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941607">c1</a></span>	: The first coordinate: latitude or x-coordinate</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941608">c2</a></span>	: The second coordinate: longitude or y-coordinate</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941609">c3</a></span>	: The third coordinate: altitude or z-coordinate</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941610">azimuth</a></span>	: The azimuth, 0 &lt;= azimuth &lt;= 359</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941611">elevation</a></span>	: The elevation, -180 &lt;= elevation &lt;= 180</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941613">c1Speed</a></span>	: The rate of change of the first coordinate in the units of the position, per second</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941614">c2Speed</a></span>	: The rate of change of the second coordinate in the units of the position, per second</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941615">c3Speed</a></span>	: The rate of change of the third coordinate in the units of the position, per second</div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="941643">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="941644">EXTERNAL_ChangeNodeVelocityAtTime:</a></span> This function updates the velocity vector of a node at a user-specified time. The velocity vector is expected to be in the same distance units used for the terrain coordinate system, per one second. The speed parameter must also be provided, accurate for the provided velocity vector, and always in meters per second.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941674">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941647">void EXTERNAL_ChangeNodeVelocityAtTime(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941648">    EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941649">    Node *node,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941650">    clocktype mobilityEventTime,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941651">    double speed,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941652">    double c1Speed,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941653">    double c2Speed,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="941654">    double c3Speed);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="941686">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941657">iface</a></span>	: The external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941658">node</a></span>	: The node</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941659">mobilityEventTime</a></span>	: The absolute simulation time (not delay) at which the mobility event should execute</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941660">speed</a></span>	: The speed in m/s</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941661">c1Speed</a></span>	: The rate of change of the first coordinate in the distance units of the terrain coordinate system, per second</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941662">c2Speed</a></span>	: The rate of change of the second coordinate in the distance units of the terrain coordinate system, per second</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 150.25104pt; margin-top: 3.0pt; text-indent: -114.25103999999999pt"><span style="font-family: &quot;Courier New&quot;"><a name="941478">c3Speed</a></span>	: The rate of change of the third coordinate in the distance units of the terrain coordinate system, per second</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922940">EXTERNAL_ConfigStringPresent</a></span>: This function checks the configuration file for a string. Typically, this is used during interface registration to see if an interface name is included in the configuration file. This function only checks for the presence of a string and not the value associated with that string.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924984">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922943">BOOL EXTERNAL_ConfigStringPresent(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922944">    NodeInput *nodeInput,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="922945">    char *string);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925150">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922948">nodeInput</a></span>	: The configuration file</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922949">string</a></span>	: The string to check for</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925082">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="922952">TRUE</a></span>, if the string is present; <span style="font-family: &quot;Courier New&quot;">FALSE</span>, otherwise</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="940626">EXTERNAL_ConfigStringIsYes</a></span>: This function checks the configuration file for a string and returns <span style="font-family: &quot;Courier New&quot;">TRUE</span> if that string is equal to “<span style="font-family: &quot;Courier New&quot;">YES”</span>. Typically, this is used during interface registration to see if an interface name is included in the configuration file.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="940627">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="940628">BOOL EXTERNAL_ConfigStringIsYes(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="940629">    NodeInput *nodeInput,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="940630">    char *string);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="940631">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="940632">nodeInput</a></span>	: The configuration file</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="940633">string</a></span>	: The string to check for</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="940634">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="940635">TRUE</a></span>, if the string is present and set to “<span style="font-family: &quot;Courier New&quot;">YES</span>”; <span style="font-family: &quot;Courier New&quot;">FALSE</span>, otherwise</div>
+      <div class="Heading2Numbered">6.3.3  <a name="922994">Operating System-specific Utility Functions for Sockets</a></div>
+      <div class="BodyAfterHead"><a name="923015">The file </a><span class="Variable">QUALNET_HOME</span>/include/external_socket.h contains functions that are useful for a socket programmer. The first set of functions are for operations on an array of variable size. The next set of functions implements host-to-network byte ordering. The final set of functions implements the socket code.</div>
+      <div class="Heading3Numbered">6.3.3.1  <a name="931746">Functions for Variable-sized Array Operations</a></div>
+      <div class="BodyAfterHead"><a name="931747">The file </a><span class="Variable">QUALNET_HOME</span>/include/external_socket.h defines a structure called <span style="font-family: &quot;Courier New&quot;">EXTERNAL_VarArray</span>, which is an array of variable size. The file external_socket.h also defines the following functions for operations on <span style="font-family: &quot;Courier New&quot;">EXTERNAL_VarArray</span>:</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923026">EXTERNAL_VarArrayInit</a></span>: This function initializes an array of type <span style="font-family: &quot;Courier New&quot;">EXTERNAL_VarArray</span> and allocates memory for the array.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924988">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923029">void EXTERNAL_VarArrayInit(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923030">    EXTERNAL_VarArray *array,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923031">    Unsigned int size = EXTERNAL_DEFAULT_VAR_ARRAY_SIZE);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925154">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 77.76pt; margin-top: 3.0pt; text-indent: -41.760000000000005pt"><span style="font-family: &quot;Courier New&quot;"><a name="923034">array</a></span>	: Pointer to the uninitialized array</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 77.76pt; margin-top: 3.0pt; text-indent: -41.760000000000005pt"><span style="font-family: &quot;Courier New&quot;"><a name="923035">size</a></span>	: The initial size of the array in bytes. Defaults to EXTERNAL_DEFAULT_VAR_ARRAY_SIZE</div>
+      <div class="Bulleted_outer" style="margin-left: 61.35048pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923037">EXTERNAL_VarArrayAccomodateSize</a></span>: This function increases the maximum size of an array of type <span style="font-family: &quot;Courier New&quot;">EXTERNAL_VarArray</span> to at least the specified size.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924992">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923040">void EXTERNAL_VarArrayAccomodateSize(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923041">    EXTERNAL_VarArray *array,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923042">    unsigned int size);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925158">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 77.76pt; margin-top: 3.0pt; text-indent: -41.760000000000005pt"><span style="font-family: &quot;Courier New&quot;"><a name="923045">array</a></span>	: Pointer to the array</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 77.76pt; margin-top: 3.0pt; text-indent: -41.760000000000005pt"><span style="font-family: &quot;Courier New&quot;"><a name="923046">size</a></span>	: The new minimum size of the array</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923049">EXTERNAL_VarArrayAppendData</a></span>: This function adds data to the end of an array of type <span style="font-family: &quot;Courier New&quot;">EXTERNAL_VarArray</span>. The size of the array is increased if necessary.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="924996">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large"><a name="923052">void EXTERNAL_VarArrayAppendData(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923053">    EXTERNAL_VarArray *array,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923054">    char *data,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923055">    unsigned int size);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925162">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 77.76pt; margin-top: 3.0pt; text-indent: -41.760000000000005pt"><span style="font-family: &quot;Courier New&quot;"><a name="923016">array</a></span>	: Pointer to the array</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 77.76pt; margin-top: 3.0pt; text-indent: -41.760000000000005pt"><span style="font-family: &quot;Courier New&quot;"><a name="923063">data</a></span>	: Pointer to the data to add</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 77.76pt; margin-top: 3.0pt; text-indent: -41.760000000000005pt"><span style="font-family: &quot;Courier New&quot;"><a name="923064">size</a></span>	: The size of the data to add</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923067">EXTERNAL_VarArrayConcatString</a></span>: This function adds a string to the end of an array of type <span style="font-family: &quot;Courier New&quot;">EXTERNAL_VarArray</span>,<span style="font-weight: bold"> </span>including the terminating <span style="font-family: &quot;Courier New&quot;">NULL</span> character. This function<span style="font-weight: bold"> </span>assumes that the previous data in the array is also a<span style="font-weight: bold"> </span>string, i.e., several bytes of data terminated with a <span style="font-family: &quot;Courier New&quot;">NULL</span><span style="font-weight: bold"> </span>character. If this is not the case, then the function<span style="font-weight: bold"> </span>EXTERNAL_VarArrayAppendData should be used instead.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925000">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923070">void EXTERNAL_VarArrayConcatString(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923071">    EXTERNAL_VarArray *array,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923072">    char *string);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925166">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="939547">array</a></span>	: Pointer to the array</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="939548">string</a></span>	: The string</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="939549">EXTERNAL_VarArrayFree</a></span>: This function frees all memory allocated to an array of type <span style="font-family: &quot;Courier New&quot;">EXTERNAL_VarArray</span>. This function must be called once the use of the array is over.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925004">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923081">void EXTERNAL_VarArrayFree(EXTERNAL_VarArray *array);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="923083">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923084">array</a></span>	: Pointer to the array</div>
+      <div class="Heading3Numbered">6.3.3.2  <a name="923086">Host-to-Network Byte Order Functions</a></div>
+      <div class="BodyAfterHead"><a name="923088">These functions, implemented in the file </a><span class="Variable">QUALNET_HOME</span>/include/external_socket.h, reverse the byte order of variables from host to network order and vice versa.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923090">EXTERNAL_hton</a></span>: This function converts data from host byte order to network byte order.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925008">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923093">void EXTERNAL_hton(void* ptr, unsigned int size);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925170">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923096">ptr</a></span>	: Pointer to the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923097">size</a></span>	: Size of the data</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923099">EXTERNAL_ntoh</a></span>: This function converts data from network byte order to host byte order</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925012">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923017">void EXTERNAL_ntoh(void* ptr, unsigned int size);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925621">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="928825">ptr</a></span>	: Pointer to the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="928826">size</a></span>	: Size of the data</div>
+      <div class="Heading3Numbered">6.3.3.3  <a name="923112">External Socket Functions</a></div>
+      <div class="BodyAfterHead"><a name="923114">The external socket functions implement a socket. These functions are implemented in the file </a><span class="Variable">QUALNET_HOME</span>/include/external_socket.h.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923116">EXTERNAL_SocketInit</a></span>: This function initializes a socket. This function must be called before any other socket API calls on the individual socket.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925016">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="925664">void EXTERNAL_SocketInit(EXTERNAL_Socket *s,</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941819">                         BOOL blocking = TRUE,</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="941820">                         BOOL threaded = FALSE);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925682">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923122">s</a></span>	: Pointer to the socket</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="941821">blocking</a></span>	: Flag that indicates whether blocking is enabled</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 108.66024pt; margin-top: 3.0pt; text-indent: -72.66024pt"><span style="font-family: &quot;Courier New&quot;"><a name="941822">threaded</a></span>	: Flag that indicates whether multithreading is enabled</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923124">EXTERNAL_SocketValid</a></span>: This function checks if a socket connection is valid, i.e., the socket is open<span style="font-weight: bold"> </span>and no errors have occurred.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925711">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="925712">BOOL EXTERNAL_SocketValid(EXTERNAL_Socket *socket);</a></span></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925713">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="925695">s</a></span>	: Pointer to the socket</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925078">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="923133">TRUE</a></span>, if the socket is valid; <span style="font-family: &quot;Courier New&quot;">FALSE</span>, if invalid</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923135">EXTERNAL_SocketListen</a></span>: This function listens for connections on a socket. It accepts a socket structure, <span style="font-family: &quot;Courier New&quot;">listenSocket</span>, and a port number, <span style="font-family: &quot;Courier New&quot;">port</span>, as parameters. <span style="font-family: &quot;Courier New&quot;">listenSocket</span> is used to listen for an incoming connection. If a successful socket connection is created, the socket parameter <span style="font-family: &quot;Courier New&quot;">connectSocket</span> is assigned the newly created socket connection, which is set to non-blocking mode. If <span style="font-family: &quot;Courier New&quot;">listenSocket</span> has already been initialized by an earlier call to EXTERNAL_SocketListen, the <span style="font-family: &quot;Courier New&quot;">port</span> parameter is ignored.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925024">Syntax</a></span>:</div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="923145">&nbsp;</a></div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923146">EXTERNAL_SocketErrorType EXTERNAL_SocketListen(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923147">    EXTERNAL_Socket *listenSocket,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923148">    int port,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923149">    EXTERNAL_Socket *connectSocket);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925186">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923152">listenSocket</a></span>	: Pointer to the socket to listen on</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923153">port</a></span>	: The port to listen on</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923154">connectSocket</a></span>	: Pointer to the socket that receives the established connection</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925074">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="923157">EXTERNAL_NoError</a></span>, if successful; an error indication, if not successful</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923159">EXTERNAL_SocketConnect</a></span>: This function connects to a listening socket. The socket is set to<span style="font-weight: bold"> </span>non-blocking mode.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925028">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923162">EXTERNAL_SocketErrorType EXTERNAL_SocketConnect(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923163">    EXTERNAL_Socket *socket,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923164">    char *address,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923165">    int port,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923166">    int maxAttempts);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925850">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923169">socket</a></span>	: Pointer to the socket</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923170">address</a></span>	: String representation of the address to connect to</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923171">port</a></span>	: The port to connect to</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923172">maxAttempts</a></span>	: Number of times to attempt connecting before an error is returned</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925070">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="923175">EXTERNAL_NoError</a></span>, if successful; an error indication, if not successful</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923177">EXTERNAL_SocketSend</a></span>: This function sends data on a connected socket. It is possible that the send would result in a block: If the <span style="font-family: &quot;Courier New&quot;">block</span> parameter is <span style="font-family: &quot;Courier New&quot;">FALSE</span>, then <span style="font-family: &quot;Courier New&quot;">EXTERNAL_DataNotSent</span> is returned, and no data is sent. If the <span style="font-family: &quot;Courier New&quot;">block</span> parameter is <span style="font-family: &quot;Courier New&quot;">TRUE</span>, then the function blocks until the data can be sent.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925032">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923180">EXTERNAL_SocketErrorType EXTERNAL_SocketSend(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923181">    EXTERNAL_Socket *s,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923182">    char *data,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923183">    unsigned int size,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923184">    BOOL block = TRUE);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925190">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="922977">socket</a></span>	: Pointer to the socket</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923208">data</a></span>	: Pointer to the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923209">size</a></span>	: Size of the data</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923210">block</a></span>	: Indication whether this call may block. Defaults to <span style="font-family: &quot;Courier New&quot;">TRUE</span>.</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925066">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="931976">EXTERNAL_NoError</a></span>, if successful; an error indication, if not successful</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="931977">EXTERNAL_SocketSend</a></span>: This is a wrapper for the above overloaded function.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="931978">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large"><a name="923218">EXTERNAL_SocketErrorType EXTERNAL_SocketSend(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923219">    EXTERNAL_Socket *s,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923220">    EXTERNAL_VarArray *data,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923221">    BOOL block = TRUE);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925194">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923224">socket</a></span>	: Pointer to the socket</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923225">data</a></span>	: Pointer to the array to send</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 74.16pt; margin-top: 3.0pt; text-indent: -38.16pt"><span style="font-family: &quot;Courier New&quot;"><a name="923226">block</a></span>	: Indication whether this call may block. Defaults to <span style="font-family: &quot;Courier New&quot;">TRUE</span>.</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925062">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="923229">EXTERNAL_NoError</a></span>, if successful; an error indication, if not successful</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923231">EXTERNAL_SocketRecv</a></span>: This function receives data on a connected socket. It is possible that the send would result in a<span style="font-weight: bold"> </span>block: If the <span style="font-family: &quot;Courier New&quot;">block</span> parameter is <span style="font-family: &quot;Courier New&quot;">FALSE</span>, the <span style="font-family: &quot;Courier New&quot;">receiveSize</span><span style="font-weight: bold"> </span>parameter is set to the amount of data received before<span style="font-weight: bold"> </span>the block. This amount could be any value<span style="font-weight: bold"> </span>between 0 and <span style="font-family: &quot;Courier New&quot;">size</span> - 1.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925040">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large"><a name="923234">EXTERNAL_SocketErrorType EXTERNAL_SocketRecv(</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923235">    EXTERNAL_Socket *s,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923236">    char *data,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923237">    unsigned int size,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923238">    unsigned int *receiveSize,</a></div>
+      <div class="Code_Segment_Large" style="text-indent: 18pt"><a name="923239">    BOOL block = TRUE);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925212">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 115.2pt; margin-top: 3.0pt; text-indent: -79.2pt"><span style="font-family: &quot;Courier New&quot;"><a name="923242">socket</a></span>	: Pointer to the socket</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 115.2pt; margin-top: 3.0pt; text-indent: -79.2pt"><span style="font-family: &quot;Courier New&quot;"><a name="923243">data</a></span>	: Pointer to the destination</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 115.2pt; margin-top: 3.0pt; text-indent: -79.2pt"><span style="font-family: &quot;Courier New&quot;"><a name="923244">size</a></span>	: The amount of data to receive in bytes</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 115.2pt; margin-top: 3.0pt; text-indent: -79.2pt"><span style="font-family: &quot;Courier New&quot;"><a name="923245">receiveSize</a></span>	: The number of bytes received. This could be less than the specified size if an error occurred or if the <span style="font-family: &quot;Courier New&quot;">block</span> parameter is <span style="font-family: &quot;Courier New&quot;">FALSE</span>.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 115.2pt; margin-top: 3.0pt; text-indent: -79.2pt"><span style="font-family: &quot;Courier New&quot;"><a name="923246">block</a></span>	: <span style="font-family: &quot;Courier New&quot;">TRUE</span> if the call can block, <span style="font-family: &quot;Courier New&quot;">FALSE</span> if non-blocking. Defaults to <span style="font-family: &quot;Courier New&quot;">TRUE</span>.</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925054">Return Value</a></span>:</div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="923278">&nbsp;</a></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="923279">EXTERNAL_NoError</a></span>, if successful; an error indication, if not successful</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="923281">EXTERNAL_SocketClose</a></span>: This function closes a socket. This function must be called for each socket that is<span style="font-weight: bold"> </span>listening or connected.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925044">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="923284">EXTERNAL_SocketErrorType EXTERNAL_SocketClose(EXTERNAL_Socket *s);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="925220">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 115.2pt; margin-top: 3.0pt; text-indent: -79.2pt"><span style="font-family: &quot;Courier New&quot;"><a name="923287">s	</a></span>: Pointer to the socket</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="923289">Return Value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="923273">EXTERNAL_NoError</a></span>, if successful; an error indication, if not successful</div>
+      <div class="Body"><a name="916678">&nbsp;</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

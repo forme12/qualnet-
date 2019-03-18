@@ -1,0 +1,50 @@
+PURPOSE:-
+
+To illustrate multicast in a VLAN aware switched configuration.
+
+
+SCENARIO:-
+
+This configuration where multicasts groups span more than
+one VLAN in a switched scenario.
+
+
+              121  122  123              22
+              ------------               |
+                   |                     |
+                   | 2 access            | 2 access
+      2 access +-------+             +-------+
+           +---|       |             |       |
+           |   |       |    2 and 4  |       |
+  101 --- 11   |  sw1  |-------------|  sw2  |
+           |   |       |     trunk   |       |
+           +---|       |             |       |
+      4 access +-------+             +-------+
+                   | 4 access            | 4 access
+                   |                     |
+              ------------               |
+              141  142  143              24
+
+
+Group 225.0.0.2 has members 24, 121, 141.
+Group 225.0.0.4 has members 22, 121, 141.
+
+Multicast packets are sent by
+ Node 22  for group 225.0.0.2 from 100S.
+ Node 142 for group 225.0.0.4 from 120S.
+
+
+
+RUN:-
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.member - QualNet input file for joining/leaving of any
+                    node in a multicast group.
+4. default.expected.stat - QualNet statistics collection.
+5. README - This file.

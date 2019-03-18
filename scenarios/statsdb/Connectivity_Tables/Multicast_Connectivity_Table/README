@@ -1,0 +1,53 @@
+PURPOSE:
+-------
+To show the Multicast connectivity table having root node also have upstream interface.
+
+
+
+SCENARIO:
+---------
+In this scenario, there is one MCBR session, with node 2 being the multicast
+source and nodes 5, 7, 8 and 9 being the multicast receivers.  
+The multicast receivers join the group before the source sends data.
+However, nodes 5 and 7 later temporarily leave the group and rejoin
+at a later time.  Nodes 2, 3 and 4 are the IGMP routers.
+
+
+
+                1
+               / \
+              /   \
+             /     \
+            /       \
+           2         3
+          / \       / \
+         /   \     /   \
+        4     5   6     7
+       / \
+      /   \
+     8     9
+
+
+MCBR is used to transfer 240 data segments of 1000B each at 5 second intervals
+starting at 10 minutes into the simulation.
+
+Following StatsDB connectivity tables are configure in the config file:
+
+1. Multicast connectivity table is configured to check the connectivity information about multicast protocols.
+STATS-DB-MULTICAST-CONNECTIVITY-TABLE YES
+
+
+RUN:
+-------
+
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+1. default.app -  specifies the application being used.
+2. default.config - the QualNet configuration input file.
+3. default.member - specifies the multicast group.
+4. default.stat - QualNet statistics collection for MCBR and MOSPF.
+5. README - this file.
+

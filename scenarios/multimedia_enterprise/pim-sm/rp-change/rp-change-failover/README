@@ -1,0 +1,80 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6071 Bristol Parkaway
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+#
+#
+#
+PURPOSE:-
+--------
+To show the RP change mechanism during RP failover between 2 Candidate RPs in PIM-SM protocol in 
+a point-to-point wired topology.
+
+
+
+SCENARIO:-
+---------
+In this scenario, there is one MCBR session, with node 1 being the multicast source and node 10 
+being the multicast receiver.  Node 9 is the IGMP router connecting to receiver 10. The link 
+capacity is 10Mbps for all links. Multicast protocol PIM  with sparse mode is enabled on nodes 
+2 to 9. Nodes 4 and 6 are candidate- RPs. 
+Interface fault is introduced in nodes 4 and nodes 6 interfaces to cause repeated RP failure. 
+
+
+
+                                6 ----- 3 ----2 ---- 1 S
+                                |       | \
+                                |       |  \
+                                |       |   \
+                                |       |    \
+                                |       |     \
+                                |       |      \
+                                7       |       4
+                                 \      |      / 
+                                  \     |     /
+                                   \    |    /
+                                    \   |   /
+                                     \  |  /
+                                      \ | /                           
+                                        5 ----- 8 ---- 9 ---- 10 R
+
+
+  
+
+
+MCBR is used to transfer 512B each at 5 second intervals starting at 10 minutes into the 
+simulation.
+
+
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet rp-change-failover.config'.
+
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. rp-change-failover.app -  QualNet application configuration input file
+2. rp-change-failover.config - QualNet configuration input file.
+3. rp-change-failover.member - Multicast group specification file
+4. rp-change-failover.expected.stat - QualNet statistics collection for MCBR and PIM-SM.
+5. rp-change-failover.fault - Fault configuration file
+6. rp-change-failover.nodes - Nodes configuration file
+7. README - This file.
+

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root version="1.0">
+    <category name="Satellite Properties" icon="" propertytype="DeviceModelEditorSatellite">
+        <variable name="Satellite Name" key="HOSTNAME" type="Text" default="Host" help="" unique="true" />
+        <variable name="2D Icon" key="GUI-NODE-2D-ICON" type="Icon" default="default.png" help="" filetype="xpm,bmp,jpg,jpeg,png"/>
+        <variable name="3D Icon" key="GUI-NODE-3D-ICON" type="Icon" default="mobile.3ds" help="" filetype="3ds,mao" />
+        <variable name="Partition" key="PARTITION" type="Integer" default="0" help="Parallel partition to which to assign node." />
+        <subcategory name="Satellite Configuration">
+        <variable name="Network Protocol" key="NETWORK-PROTOCOL" type="Selection" default="IP" interfaceindex="true">
+            <option value="IP" name="IPv4" />
+            <option value="IPv6" name="IPv6" addon="developer,IPv6" />
+            <option value="DUAL-IP" name="Dual-IP"/>
+            <option value="GSM-LAYER3" name="GSM Layer3" addon="cellular">
+                <variable name="GSM Node Configuration File" key="GSM-NODE-CONFIG-FILE" type="File" default="[Required]" />
+            </option>
+        </variable>
+        <variable name="MAC Protocol" key="MAC-PROTOCOL" type="Selection" default="SATCOM">
+            <option value="SATCOM" name="Abstract Satellite (SATCOM) MAC" addon="developer">
+                <variable name="Satellite Node" key="SATCOM-SATELLITE-NODE" type="Integer" default="0" issatellitekey="yes" visibilityrequires="false" />
+                <variable name="SATCOM Type" key="SATCOM-TYPE" type="Selection" default="BENT-PIPE" visibilityrequires="false">
+                    <option value="BENT-PIPE" name="Bent Pipe" />
+                </variable>
+                <variable name="Bandwidth" key="SATCOM-BANDWIDTH" type="Fixed multiplier" default="1 Mbps" unit="bps" maxunit="Ebps" minunit="hbps" />
+                <variable name="Propagation Delay" key="SATCOM-PROPAGATION-DELAY" type="Time" default="270MS" />
+            </option>
+            <option value="SATELLITE-BENTPIPE" name="Satellite-RSV MAC" addon="satellite">
+                <variable name="Protocol Role" key="MAC-SATELLITE-BENTPIPE-ROLE" type="Selection" default="SATELLITE" prepend="id" issatellitekey="yes" >
+                    <option value="SATELLITE" name="Satellite" />
+                </variable>
+                <variable name="Forward to Payload Processor" key="MAC-SATELLITE-BENTPIPE-FORWARD-TO-PAYLOAD-PROCESSOR" type="Selection" default="TRUE" prepend="id">
+                    <option value="TRUE" name="Forward To Payload Processing" />
+                    <option value="FALSE" name="Bent-Pipe Processing" />
+                </variable>
+                <variable name="Frame Transmit Power" help="mW" key="MAC-SATELLITE-BENTPIPE-TRANSMIT-POWER-MW" type="Fixed" default="5000.0" prepend="id" />
+            </option>
+            <option value="ANE" name="Abstract Network Equation Satellite MAC" addon="satellite">
+                <variable name="Satellite Architecture" key="ANESAT-SATELLITE-ARCHITECTURE" type="Selection" default="ProcessPayload">
+                    <option value="BentPipe" name="Bent Pipe"/>
+                    <option value="ProcessPayload" name="Processor Payload"/>
+                </variable>
+                <variable type="Integer" default="1" key="ANESAT-UPLINK-CHANNEL" name="Uplink Channel"></variable>
+                <variable type="Text" default="DefaultUpstreamGroup" key="ANESAT-UPSTREAM-GROUP" name="Upstream Channel Group"></variable>
+                <variable key="ANESAT-UPSTREAM-COUNT" name="Channel Count" type="Array" default="1" >
+                    <variable type="Integer" default="128000" key="ANESAT-UPSTREAM-BANDWIDTH" name="Upstream Bandwidth" />
+                    <variable type="Time" default="0MS" key="ANESAT-UPSTREAM-MAC-LATENCY" name="Upstream MAC Latency" />
+                </variable>
+                <variable type="Integer" default="24000000" key="ANESAT-DOWNSTREAM-BANDWIDTH" name="Downstream Bandwidth"></variable>
+                <variable type="Time" default="5MS" key="ANESAT-DOWNSTREAM-MAC-LATENCY" name="Downstream MAC Latency"></variable>
+                <variable type="Integer" default="256000" key="ANESAT-UPSTREAM-BANDWIDTH-LIMIT" name="Upstream Bandwidth Limit"></variable>
+                <variable type="Integer" default="64000" key="ANESAT-UPSTREAM-BANDWIDTH-MINIMUM" name="Upstream Bandwidth Minimum"></variable>
+                <variable type="Selection" default="NONE" key="ANESAT-UPSTREAM-TRAFFIC-CONDITIONER" name="Upstream Traffic Conditioner Type">
+                    <option value="NONE" name="None"/>
+                    <option value="RESIDUAL" name="Residual"/>
+                    <option value="STRICT" name="Strict"/>
+                </variable>
+                <variable type="Text" default="Downstream0" key="ANESAT-CHANNEL-ID" name="Anesat Subnet Channel Identifier"></variable>
+                <variable type="Integer" default="0" key="ANE-HEADEND-NODE" issatellitekey="yes" name="Headend Node (if asymmetric)"></variable>
+                <variable type="String" default="addons/satellite/modules" key="ANE-EQUATION-PATH" name="Dynamic Equation Path"></variable>
+                <variable type="Selection" default="anesat_mac" key="ANE-EQUATION-DEFINITION" name="Equation Definition File/class">
+                    <option value="anesat_mac" name="Abstract Multichannel Satellite"></option>
+                    <option value="ane_default_mac" name="Abstract Base Satellite"></option>
+                </variable>
+                <variable type="Selection" default="Asymmetric" key="ANE-SUBNET-ARCHITECTURE" name="Subnet Topology">
+                    <option value="Asymmetric" name="Host to Gateway"/>
+                    <option value="Symmetric" name="Host to Host"/>
+                </variable>
+                <variable type="Integer" default="1" key="ANE-PROCESSOR-NODE" name="ANE Simulation Processing Node" help="Centralized processing node"/>
+                <variable type="Integer" default="1" key="ANE-PROCESSOR-NODE-INDEX" name="ANE Simulation Node Index" help="Centralized processing node index" />
+            </option>
+        </variable>
+        </subcategory>
+        <subcategory name="Router Properties" refpath="NODE CONFIGURATION+ROUTER MODEL" icon="protocol.gif" />
+    </category>
+</root>
+

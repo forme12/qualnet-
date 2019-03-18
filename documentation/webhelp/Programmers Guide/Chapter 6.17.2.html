@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Tutorial</title>
+    <link rel="StyleSheet" href="css/Chapter%206.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%206.17.1.html#918864">6	Interfacing with QualNet: External Interface API</a> &gt; 6.1  Tutorial</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">6.1  <a name="918864">Tutorial</a></div>
+      <div class="heading_2" style="color: #000000; font-family: Arial; font-size: 2.0pt; font-style: italic; font-variant: normal; font-weight: bold; margin-bottom: 3.0pt; margin-right: 0pt; margin-top: 12.0pt; text-transform: none; vertical-align: baseline"><a name="951502">&nbsp;</a></div>
+      <div class="BodyAfterHead"><a name="951503">We illustrate the process of developing an external interface for </a><span class="Variable">QualNet</span> by means of a tutorial. This tutorial describes the steps in writing an external interface that communicates with an external program through a socket and interacts with an Application Layer protocol in <span class="Variable">QualNet</span>.</div>
+      <div class="Body"><a name="927986">This tutorial has three components: </a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="927987">TUTORIALTESTER: This program corresponds to the external entity of </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.1.html#951524', '');" title="Interfacing with QualNet: External Interface API">Figure&nbsp;6-1</a></span>, and is described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.2.html#922102', '');" title="Tutorial">Section&nbsp;6.1.1</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="928015">INTERFACETUTORIAL: This is an Application Layer program in </a><span class="Variable">QualNet</span> that interacts with TUTORIALTESTER through an external interface, and is described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.2.html#922192', '');" title="Tutorial">Section&nbsp;6.1.2</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="928025">External Interface: This is the external interface used by INTERFACETUTORIAL to interact with TUTORIALTESTER, and is described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.2.html#940600', '');" title="Tutorial">Section&nbsp;6.1.3</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">6.1.1  <a name="922102">The TUTORIALTESTER Program</a></div>
+      <div class="BodyAfterHead"><a name="922104">The first step in writing an external interface is to consider the external entity that the interface is meant to interact with. The external entity may be a program running on the same computer, a program running on a different computer, a hardware device, or something entirely different. Each type of external entity interacts with </a><span class="Variable">QualNet</span> in a different manner. The interface developer should tailor the interface to the external entity.</div>
+      <div class="Body"><a name="928255">In this tutorial, the external entity is a simple interactive program called TUTORIALTESTER. The source code for the TUTORIALTESTER program can be found in the file </a><span class="Variable">QUALNET_HOME</span>/scenarios/interfacetutorial/tutorialtester.cpp. </div>
+      <div class="Body"><a name="940474">The TUTORIALTESTER program may be built on UNIX by executing the following command:</a></div>
+      <div class="Command_Input"><a name="928256">&nbsp;</a></div>
+      <div class="Command_Input"><a name="961945">g++ -o tutorialtester tutorialtester.cpp</a></div>
+      <div class="Body"><a name="928257">The TUTORIALTESTER program may be built on Windows using the following command:</a></div>
+      <div class="Command_Input"><a name="928258">&nbsp;</a></div>
+      <div class="Command_Input"><a name="961956">cl tutorialtester.cpp /link ws2_32.lib</a></div>
+      <div class="Body"><a name="928251">The TUTORIALTESTER program is an interactive console application that accepts user input in the following format:</a></div>
+      <div class="Command_Input"><a name="928130">&nbsp;</a></div>
+      <div class="Command_Input"><a name="961963">&lt;source node id&gt; &lt;destination node id&gt; &lt;command&gt;</a></div>
+      <div class="Body" style="text-indent: 18.12528pt"><a name="928128">where</a></div>
+      <div class="BodyAfterHead" style="text-indent: 36.24984pt"><span style="font-family: &quot;Courier New&quot;; font-weight: bold"><a name="928141">&lt;source node id&gt;</a></span><span style="font-family: &quot;Courier New&quot;">	</span>: Source node identifier</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-top: 3.0pt; text-indent: 36pt"><span style="font-family: &quot;Courier New&quot;; font-weight: bold"><a name="928151">&lt;destination node id&gt;</a></span><span style="font-family: &quot;Courier New&quot;">	</span>: Destination node identifier</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-top: 3.0pt; text-indent: 36pt"><span style="font-family: &quot;Courier New&quot;; font-weight: bold"><a name="928155">&lt;command&gt;</a></span><span style="font-family: &quot;Courier New&quot;">	</span>: Command, which can be either a <span style="font-style: italic">set</span> command or a <span style="font-style: italic">get</span> command</div>
+      <div class="Body"><a name="928149">A set command has the following format:</a></div>
+      <div class="Command_Input"><a name="933704">&nbsp;</a></div>
+      <div class="Command_Input"><a name="961988">s &lt;value&gt;</a></div>
+      <div class="Body" style="text-indent: 18.12528pt"><a name="933647">where</a></div>
+      <div class="BodyAfterHead" style="text-indent: 36.24984pt"><span style="font-family: &quot;Courier New&quot;; font-weight: bold"><a name="933656">&lt;value&gt;</a></span><span style="font-weight: bold">	</span>:<span style="font-weight: bold"> </span>Any string</div>
+      <div class="Body"><a name="928176">A get command has the following format:</a></div>
+      <div class="Command_Input"><a name="928198">&nbsp;</a></div>
+      <div class="Command_Input"><a name="962046">g</a></div>
+      <div class="Body"><a name="928127">TUTORIALTESTER interacts with the Application Layer program INTERFACETUTORIAL in the </a><span class="Variable">QualNet</span> simulation. Each node in the <span class="Variable">QualNet</span> simulation that has an INTERFACETUTORIAL application running on it maintains a variable. The set command acts on this variable by assigning it a new value, and the get command retrieves the variable’s current value and sends it back to the TUTORIALTESTER program. TUTORIALTESTER accepts input from a user and sends the input to <span class="Variable">QualNet</span> through a socket. This results in the INTERFACETUTORIAL program running at the source node sending the command contained in the user input to the destination node.</div>
+      <div class="Heading2Numbered">6.1.2  <a name="922192">The INTERFACETUTORIAL Application Layer Protocol</a></div>
+      <div class="BodyAfterHead"><a name="922194">The INTERFACETUTORIAL application is implemented by the files interfacetutorial_app.h and interfacetutorial_app.cpp in the directory </a><span class="Variable">QUALNET_HOME</span>/interfaces/interfacetutorial/src. The commented source code can be read from those files. This section provides a summary of the INTERFACETUTORIAL functions.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922196">AppInterfaceTutorialGet</a></span>: This function searches the list of applications running at a node for the INTERFACETUTORIAL application. This is typically called from the message processing function to retrieve the application data structure.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922198">AppInterfaceTutorialNew</a></span>: This function allocates a new INTERFACETUTORIAL application data structure. This function is called from AppInterfaceTutorialInit.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922200">AppLayerInterfaceTutorial</a></span>: This function processes Application Layer messages, such as incoming UDP packets. This is the heart of the application. Each received command is analyzed here. For set commands, the application’s variable is updated to the value specified in the command. For get commands, the value of the application’s variable is forwarded back to the external interface where it is sent to the external entity.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922202">AppInterfaceTutorialInit</a></span>: This function initializes a new INTERFACETUTORIAL application.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922118">AppInterfaceTutorialFinalize</a></span>: This function finalizes the application. There are no tasks to perform as this is a simple application. Typically a protocol would print statistics in the finalization function.</div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="922221">&nbsp;</a></div>
+      <div class="Body"><a name="922222">The INTERFACETUTORIAL application must be integrated into </a><span class="Variable">QualNet</span>. The procedure is similar to adding an Application Layer protocol to <span class="Variable">QualNet</span> (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#986903', '');" title="Application Layer">Section&nbsp;4.2.5</a></span>) and is summarized below:</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="928411">Add the APP_INTERFACETUTORIAL enumeration value to the </a><span style="font-family: &quot;Courier New&quot;">AppType</span> enumeration in <span class="Variable">QUALNET_HOME</span>/include/application.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="928412">Add the TRACE_INTERFACETUTORIAL enumeration value to the </a><span style="font-family: &quot;Courier New&quot;">TraceProtocolType</span> enumeration in <span class="Variable">QUALNET_HOME</span>/include/trace.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="922223">Call the AppInterfaceTutorialInit function from the APP_InitializeApplications function, which is defined in </a><span class="Variable">QUALNET_HOME</span>/main/application.cpp.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="922224">Call the AppLayerInterfaceTutorial function from the APP_ProcessEvent function, which is defined in </a><span class="Variable">QUALNET_HOME</span>/main/application.cpp.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="951451">Call the AppInterfaceTutorialFinalize function from the APP_Finalize function, which is defined in </a><span class="Variable">QUALNET_HOME</span>/main/application.cpp.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="951455">Compile the application into </a><span class="Variable">QualNet</span>. In this case the application is packaged as an addon. Edit the addons makefile for your platform. If you are running <span class="Variable">QualNet</span> on Windows, uncomment the following line in the file <span class="Variable">QUALNET_HOME</span>/main/Makefile-addons-windows:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Declaration"><a name="925926">&nbsp;</a></div>
+      <div class="Declaration"><a name="962056">include ../interfaces/interfacetutorial/Makefile-windows</a></div>
+      <div class="Declaration"><a name="962063">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="940540"> If you are running </a><span class="Variable">QualNet</span> on UNIX, uncomment the following line in the file <span class="Variable">QUALNET_HOME</span>/main/Makefile-addons-unix:</div>
+      <div class="Declaration"><a name="940541">&nbsp;</a></div>
+      <div class="Declaration"><a name="962073">include ../interfaces/interfacetutorial/Makefile-unix</a></div>
+      <div class="Declaration"><a name="962080">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="933687">See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#954568', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10</a></span> for instructions to activate an addon module.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="922252">In the configuration file, specify INTERFACETUTORIAL as the application running at each node that is capable of sending and receiving commands from the external interface.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="933665">Sample configuration files are included in the directory </a><span class="Variable">QUALNET_HOME</span>/scenarios/interfacetutorial. To run <span class="Variable">QualNet</span> using the sample configuration files, copy the files tutorial.config, tutorial.nodes and tutorial.app from <span class="Variable">QUALNET_HOME</span>/scenarios/interfacetutorial into the directory <span class="Variable">QUALNET_HOME</span>/bin, and run <span class="Variable">QualNet</span> using tutorial.config as the configuration file.</div>
+      <div class="Heading2Numbered">6.1.3  <a name="940600">The Interface Tutorial External Interface</a></div>
+      <div class="BodyAfterHead"><a name="940601">The external interface for this tutorial is implemented by the files interfacetutorial.h and interfacetutorial.cpp in the directory </a><span class="Variable">QUALNET_HOME</span>/interfaces/interfacetutorial/src. This section provides a summary of the tutorial’s external interface functions.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922263">InterfaceTutorialInitializeNodes</a></span>: This function initializes the external interface. It is called after all nodes and protocols have been created. It creates an interface-specific data structure and opens TCP port 5132 for listening. The TUTORIALTESTER program connects to this TCP port and sends in commands.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922265">InterfaceTutorialReceive</a></span>: This function receives user input from a socket. It parses the input, determines the source node, destination node, and the command. It sends the command from source node to destination node by calling EXTERNAL_SendDataAppLayerUDP.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922267">InterfaceTutorialForward</a></span>: This function sends information back to the TUTORIALTESTER program through the TCP socket. This function is called when a destination node receives the “get” command.</div>
+      <div class="Body"><span style="font-weight: bold"><a name="922269">InterfaceTutorialFinalize</a></span>: This function is called at the end of the simulation and closes the open socket connections.</div>
+      <div class="Body"><a name="922271">Like the INTERFACETUTORIAL application, the external interface must be integrated into </a><span class="Variable">QualNet</span>. The following list summarizes the steps required to integrate the external interface:</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="922272">Register the interface by calling the function EXTERNAL_RegisterExternalInterface from the EXTERNAL_UserFunctionRegistration function, which is defined in </a><span class="Variable">QUALNET_HOME</span>/main/external.cpp (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.3.html#922295', '');" title="Interface Registration">Section&nbsp;6.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="922273">Register the interface’s functions by calling the function EXTERNAL_RegisterFunction from the EXTERNAL_UserFunctionRegistration function, which is defined in </a><span class="Variable">QUALNET_HOME</span>/main/external.cpp (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.3.html#922295', '');" title="Interface Registration">Section&nbsp;6.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="922253">Compile the source file, </a><span class="Variable">QUALNET_HOME</span>/interfaces/interfacetutorial/src/interfacetutorial.cpp, into <span class="Variable">QualNet</span>. To do this, edit the addons makefile for your platform, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.2.html#922192', '');" title="Tutorial">Section&nbsp;6.1.2</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+function FileData_Pairs(x)
+{
+x.t("example","describe");
+x.t("2008","2012");
+x.t("scalable","network");
+x.t("create","new");
+x.t("create","scenario");
+x.t("new","scenario");
+x.t("network","technologies");
+x.t("creating","simulation");
+x.t("demo","scenario");
+x.t("2012","scalable");
+x.t("chapter","2008");
+x.t("chapter","describe");
+x.t("wifi","demo");
+x.t("scenario","example");
+x.t("scenario","wifi");
+x.t("scenario","chapter");
+x.t("scenarios","creating");
+x.t("scenarios","chapter");
+x.t("steps","create");
+x.t("simulation","scenarios");
+x.t("describe","create");
+x.t("describe","steps");
+}

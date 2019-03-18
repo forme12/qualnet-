@@ -1,0 +1,122 @@
+# ***** QualNet Configuration File *****
+#
+# Copyright (c) 2001-2010, Scalable Network Technologies, Inc.
+#                     6701 Center Drive West
+#                     Suite 520
+#                     Los Angeles, CA 90045
+#                     sales@scalable-solutions.com
+# All Rights Reserved.
+#
+#
+#
+# Anything following a "#" is treated as a comment.
+
+# The version number identifies this configuration file as
+# compatible with the corresponding version of the QualNet Simulator.
+# A utility will be provided to convert from one version to another.
+
+
+PURPOSE:-
+--------
+To Test the operation of route-reflector.
+
+
+SCENARIO:
+----------
+Three AS are Present in Scenario.
+Node 4, 5, 9, 13, 17 and 21 are configured as BGP SPEAKERS.
+BGP SPEAKER 5 is configured as ROUTE-REFLECTOR-CLIENT for BGP SPEAKER 13.
+
+
+TOPOLOGY:-
+---------
+                          N8-7.0
+                       +-----------+
+                       |           |
+                       |  19  20   |
+                       | +---+     |
+                       | |   |     |AS-ID 1
+                       | |17 | 18  |
+                       | |   |     |
+                       | +---+     |
+                       +--|-|------+
+                          | |
+                    N2-1.0| |BGPLink
+                          | |
+  +-----------------------|-|---------------------------+
+  |                       | |                 AS-ID 2   |
+  |                    +--|-|------+                    |
+  |                    | +---+     |                    |
+  |           +--------+-|   |     |                    |      
+  |           |        | | 4 |  3  |                    |
+  |           | +------+-|   |     |                    |
+  |           | |      | +---+     |                    |
+  |           | |      |   2    1  |                    |
+  |           | |      |           |                    |
+  |           | |      +-----------+                    |
+  |           | |          N8-8.0                       |
+  |           | |                             N2-3.0    |       
+  |     N2-2.0| |BGPLink                                |
+  |           | |                                       |          N2-12.0
+  |   +-------|-|-+                     +-----------+   |               +-----------+
+  |   |      +---+|       N2-4.0        | +---+     |   |  N2-6.0   | +---+     |
+  |   |      |   |+---------------------+-|   +-----+---+---------------+-+   |     |
+  |   |14    |13 ||                     | | 5 |  6  |   |       | |21 |  22 |
+  |   |      |   |+---------------------+-|   +-----+---+---------------+-+   |     |
+  |   |      +---+|       BGPLink       | +---+     |   |       | +---+     |
+  |   |15  16  | ||                     |   7    8  |   |       |  23    24 |
+  |   |        | ||                     |           |   |       |           |
+  |   +--------+--+                     +-----------+   |       +-----------+
+  |     N2-9.0 | |                                      |          AS-ID 4
+  |            | |                                      |
+  +------------+-+--------------------------------------+
+               | | BGPLink                       
+               | |      +-----------+         
+               | |      | +---+     |         
+               |  ------+-|   |     |         
+               |        | | 9 |  10 |         
+         N2-5.0+--------+-|   |     |
+                        | +---+     |
+                        |  11    12 |N8-11.0
+                        |           |
+                        +-----------+
+                            AS-ID 3
+           
+           
+           
+
+
+Application:-
+------------
+CBR is used to send 100 data segments of 1000B from node 24 to node 18.
+CBR is used to send 100 data segments of 1000B from node 11 to node 20.
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.bgp - QualNet BGP router configuration file.
+4. default.expected.stat - QualNet statistics file for BGP and application.
+5. default.routes-default - QualNet default routes specification file.
+6. README - This file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,146 @@
+PURPOSE:-
+--------
+To compare RED and FIFO performance (average queue length, throughput
+through a bottleneck link) in scenarios that are similar to the ones
+described in Figures 5, and 6 of:
+
+    S. Floyd and V. Jacobson, "Random Early Detection Gateways for
+    Congestion Avoidance," IEEE/ACM Transactions on Networking,
+    1(4), August 1993.
+
+
+NOTES:-
+------
+There are differences in the statistics collected by these scenarios
+in Linux, versus those in Sun SPARC Solaris and Intel Windows NT/2000/XP.
+These differences, are not related to the architecture (Because Sun SPARC
+Solaris results match Intel Windows results), but rather to the method
+that floating point calculations are implemented in Linux.  We have included
+a separate set of expected statistic files for Linux, described in the list
+of files below.
+
+
+SCENARIO:-
+---------
+There are two FTP sources (nodes 3 and 4) that produce 1000-byte
+(960 bytes of data + 40 bytes of TCP header) packets as quickly
+as TCP can send them, destined for node 1, which is connected
+only to node 2 by a 45 Mbps bottleneck link.  Nodes 3 and 4 are
+connected to node 2 by separate 100 Mbps links.
+
+            |-------- 3
+1 ------- 2 | 100Mbps
+            |
+  45Mbps    |-------- 4
+              100Mbps
+
+We use the TCP-NO-DELAY-ACKS option to instruct the destination
+node 1 to send ACKs immediately upon receiving the data packets.
+
+We have changed the TCP maximum segment size to 1000 bytes with
+the TCP-MSS option.
+
+We use the TCP-USE-RFC1323 option to enable window scaling (the
+maximum window size without this option is 65536 bytes)
+
+We specify TCP send and receive buffers of size 240,000 bytes with
+the TCP-SEND-BUFFER and TCP-RECEIVE-BUFFER options.
+
+
+
+RUN:-
+----
+
+Type:
+'<QUALNET_HOME>/bin/qualnet redcomparison.{experiment name}.config'
+
+where {experiment name} corresponds to one of the experiments listed
+below.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+red-comparison.graph.pdf - An Adobe Acrobat(TM) .PDF file graphing the
+                             results of these scenarios.
+
+120pkt-queue.app - QualNet application traffic input file
+120pkt-queue.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+120pkt-queue.config - FIFO queues (120 packet capacity)
+120pkt-queue.expected.stat - expected results
+120pkt-queue.expected.linux.stat - expected results (Linux)
+
+
+140pkt-queue.app - QualNet application traffic input file
+140pkt-queue.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+140pkt-queue.config - FIFO queues (140 packet capacity)
+140pkt-queue.expected.stat - expected results
+140pkt-queue.expected.linux.stat - expected results (Linux)
+
+
+15pkt-queue.app - QualNet application traffic input file
+15pkt-queue.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+15pkt-queue.config - FIFO queues (15 packet capacity)
+15pkt-queue.expected.stat - expected results
+15pkt-queue.expected.linux.stat - expected results (Linux)
+
+
+50pkt-queue.app - QualNet application traffic input file
+50pkt-queue.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+50pkt-queue.config - FIFO queues (50 packet capacity)
+50pkt-queue.expected.stat - expected results
+50pkt-queue.expected.linux.stat - expected results (Linux)
+
+
+90pkt-queue.app - QualNet application traffic input file
+90pkt-queue.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+90pkt-queue.config - FIFO queues (90 packet capacity)
+90pkt-queue.expected.stat - expected results
+90pkt-queue.expected.linux.stat - expected results (Linux)
+
+
+minth-15.app - QualNet application traffic input file
+minth-15.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+minth-15.config - RED queues (MinTH 15, MaxTH 45)
+minth-15.expected.stat - expected results
+minth-15.expected.linux.stat - expected results (Linux)
+
+
+minth-25.app - QualNet application traffic input file
+minth-25.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+minth-25.config - RED queues (MinTH 25, MaxTH 75)
+minth-25.expected.stat - expected results
+minth-25.expected.linux.stat - expected results (Linux)
+
+
+minth-40.app - QualNet application traffic input file
+minth-40.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+minth-40.config - RED queues (MinTH 40, MaxTH 120)
+minth-40.expected.stat - expected results
+minth-40.expected.linux.stat - expected results (Linux)
+
+
+minth-5.app - QualNet application traffic input file
+minth-5.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+minth-5.config - RED queues (MinTH 5, MaxTH 15)
+minth-5.expected.stat - expected results
+minth-5.expected.linux.stat - expected results (Linux)
+
+
+minth-50.app - QualNet application traffic input file
+minth-50.routes-static - QualNet Input file for the static routes
+                                between traffic sources and destinations
+minth-50.config - RED queues (MinTH 50, MaxTH 150)
+minth-50.expected.stat - expected results
+minth-50.expected.linux.stat - expected results (Linux)
+
+README - This file.

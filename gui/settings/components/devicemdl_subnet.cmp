@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root version="1.0">
+    <category name="Wired Subnet Properties" icon="subnet.gif" propertytype="DeviceModelEditorWiredSubnet">
+		<variable name="2D Icon" key="GUI-NODE-2D-ICON" type="Icon" default="hub.png" help="" filetype="xpm,bmp,jpg,jpeg,png"/>
+        <variable name="MAC Protocol" key="MAC-PROTOCOL" type="Selection" default="MAC802.3">
+            <option value="MAC802.3" name="802.3" addon="developer">
+                <variable name="802.3 Bandwidth" key="SUBNET-DATA-RATE" type="Selection" default="100000000">
+                    <option value="10000000000" name="10 Gbps" />
+                    <option value="1000000000" name="1 Gbps" />
+                    <option value="100000000" name="100 Mbps" />
+                    <option value="10000000" name="10 Mbps" />
+                </variable>
+                <variable name="802.3 Mode" key="MAC802.3-MODE" type="Selection" default="HALF-DUPLEX">
+                    <option value="HALF-DUPLEX" name="Half-Duplex" />
+                    <option value="FULL-DUPLEX" name="Full-Duplex" />
+                </variable>
+                <variable name="802.3 Propagation Delay" key="SUBNET-PROPAGATION-DELAY" type="Time" default="2.5US" />
+                <variable name="Enable Promiscuous Mode" key="PROMISCUOUS-MODE" type="Checkbox" default="NO" optional="true" help="must be set to YES if nodes want to overhear packets destined to the neighboring node." />
+                <variable name="Enable LLC" key="LLC-ENABLED" type="Checkbox" default="NO"/>
+            </option>
+            <option value="SWITCHED-ETHERNET" name="Switched Ethernet" addon="developer">
+                <variable name="Data Rate" key="SUBNET-DATA-RATE" type="Fixed multiplier" default="100 Mbps" unit="bps" />
+                <variable name="Subnet Propagation Delay" key="SUBNET-PROPAGATION-DELAY" type="Time" default="5US" />
+                <variable name="Enable Promiscuous Mode" key="PROMISCUOUS-MODE" type="Checkbox" default="NO" optional="true" help="must be set to YES if nodes want to overhear packets destined to the neighboring node." />
+                <variable name="Enable LLC" key="LLC-ENABLED" type="Checkbox" default="NO"/>
+            </option>
+        </variable>
+        <variable name="Network Protocol" key="NETWORK-PROTOCOL" type="Selection" default="IP" interfaceindex="true">
+            <option value="IP" name="IPv4">
+                <variable name="IPv4 Network Address" key="SUBNET-IP-ADDRESS" type="Dotted decimal" help="" unique="true" keyvisible="false" />
+                <variable name="IPv4 Subnet Mask" key="IP-SUBNET-MASK" type="Dotted decimal" help="" unique="true" keyvisible="false"/>
+                <variable name="IP Fragmentation Unit (bytes)" key="IP-FRAGMENTATION-UNIT" type="Integer" default="2048" min="0" max="65535"/>
+                <variable name="Enable Explicit Congestion Notification" key="ECN" type="Checkbox" default="NO" help="ECN as presented in RFC 2481. Requires one of the IP-QUEUE-TYPE (RED, RIO, or WRED). Furthermore, the source and destination nodes must be ECN enabled."/>
+            </option>
+            <option value="IPv6" name="IPv6" addon="developer,IPv6" >
+                <variable name="IPv6 Network Address" key="SUBNET-IP-V6-ADDRESS" type="Text" help="" unique="true" keyvisible="false"/>
+                <variable name="IP Fragmentation Unit (bytes)" key="IP-FRAGMENTATION-UNIT" type="Integer" default="2048" min="0" max="65535"/>
+                <variable name="Enable Explicit Congestion Notification" key="ECN" type="Checkbox" default="NO" help="ECN as presented in RFC 2481. Requires one of the IP-QUEUE-TYPE (RED, RIO, or WRED). Furthermore, the source and destination nodes must be ECN enabled."/>
+            </option>
+            <option value="DUAL-IP" name="Dual-IP">
+                <variable name="IPv4 Network Address" key="SUBNET-IP-ADDRESS" type="Dotted decimal" help="" unique="true" keyvisible="false" />
+                <variable name="IPv4 Subnet Mask" key="IP-SUBNET-MASK" type="Dotted decimal" help="" unique="true" keyvisible="false"/>
+                <variable name="IPv6 Network Address" key="SUBNET-IP-V6-ADDRESS" type="Text" help="" unique="true" keyvisible="false"/>
+                <variable name="IP Fragmentation Unit (bytes)" key="IP-FRAGMENTATION-UNIT" type="Integer" default="2048" min="0" max="65535"/>
+                <variable name="Enable Explicit Congestion Notification" key="ECN" type="Checkbox" default="NO" help="ECN as presented in RFC 2481. Requires one of the IP-QUEUE-TYPE (RED, RIO, or WRED). Furthermore, the source and destination nodes must be ECN enabled."/>
+            </option>
+            <option value="GSM-LAYER3" name="GSM Layer3" addon="cellular">
+                <variable name="GSM Node Configuration File" key="GSM-NODE-CONFIG-FILE" type="File" default="[Required]" />
+            </option>
+        </variable>
+        <!--<variable key="SWITCH-STATION-VLAN-ID" type="Integer" name="Station VLAN ID" default="0" min="0" max="4090"/>
+        <variable key="SWITCH-STATION-VLAN-TAGGING" type="Checkbox" name="Use Station VLAN Tagging" default="NO"/>-->
+        <subcategory name="Routing Protocol" refpath="NODE CONFIGURATION+ROUTING PROTOCOL" icon="protocol.gif" />
+        <subcategory name="Router Properties" refpath="NODE CONFIGURATION+ROUTER MODEL" icon="protocol.gif" />
+        <subcategory name="ARP" refpath="NODE CONFIGURATION+ARP" icon="protocol.gif"/>
+        <subcategory name="MPLS" refpath="NODE CONFIGURATION+MPLS Specs" icon="protocol.gif" />
+    </category>
+</root>
+

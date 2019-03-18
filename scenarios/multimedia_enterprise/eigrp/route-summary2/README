@@ -1,0 +1,61 @@
+PURPOSE
+-------
+To test EIGRP's least-cost path selection property.
+
+                                     (3)
+                                    /
+                         10.1.1.0 /
+                                /
+                              /
+                           (2)
+                           /  \
+                         /      \ 10.1.2.0
+             10.2.1.0  /          \
+                     /              \
+                   /                 (4)
+                 /
+   12.11.1.0   /  10.3.1.0
+(7)----------(1)------------(5)
+               \
+                 \                    +--(61)
+                   \  10.4.1.0        |
+                     \             +--+--(62)
+                       \         /    |
+                         \     /      +--(63)
+                           \ /  10.6.5.0
+                           (6)
+                             \
+                               \      +--(601)
+                        10.6.4.0 \    |
+                                   +--+--(602)
+                                      |
+                                      +--(603)
+
+
+Node 2 will summarize its routes as 10.1.0.0, node 6 will summarize its
+route as 10.6.0.0 and they will advertise it. Now consider node 1 it is
+connected to the networks 10.2.1.0, 10.3.1.0, and 10.4.1.0. These routes
+along with the summarized routes advertised by node 2 and 6 could be
+summarized as 10.0.0.0 and could be advertised to the adjacent node. But
+node 1 will not do it until and unless network 10.x.y.z appears in the
+network statement of the EIGRP configuration. Notice that routes are
+summarized at node 2 and 6 by ACL specification.
+
+
+APPLICATIONS
+------------
+CBR 7 3 1 1460 1S 4M 0M
+
+RUN:
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.eigrp - EIGRP configuration file.
+4. default.router-config - router configuration file.
+5. default.expected.stat - QualNet statistics collection.
+6. README - This file.

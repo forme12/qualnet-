@@ -1,0 +1,1576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Communication Medium</title>
+    <link rel="StyleSheet" href="css/Chapter%204-7.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%204-1.05.1.html#1024331">4	Developing Protocol Models in QualNet</a> &gt; 4.7  Communication Medium</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">4.7  <a name="1024331">Communication Medium</a></div>
+      <div class="BodyAfterHead"><a name="1024332">The communication medium transmits signals between nodes. It interfaces with the Physical Layer entities at the nodes. A wireless communication medium model in </a><span class="Variable">QualNet</span> simulates the propagation of signals between nodes, taking into account both propagation delays and signal attenuation due to path loss, fading, and shadowing.</div>
+      <div class="Body"><a name="1006098">In </a><span class="Variable">QualNet</span>, a communication medium model has three components: a path loss model, a fading model, and a shadowing model. This section gives a detailed description of how to add each of these components to <span class="Variable">QualNet</span>. </div>
+      <div class="Heading2Numbered">4.7.1  <a name="1005712">Communication Medium Models in </a><span class="Variable">QualNet</span></div>
+      <div class="BodyAfterHead"><span class="Variable"><a name="1005970">QualNet</a></span> provides several models for path loss, fading, shadowing, and channel interference.</div>
+      <div class="Anchor"><a name="1048738">&nbsp;</a></div>
+      <div class="Heading4"><a name="1005977">Path Loss Models</a></div>
+      <div class="BodyAfterHead"><a name="1005993">Path loss refers to the attenuation of a signal in transit between a transmitter and receiver. Path loss may be due to many effects, such as free-space loss, refraction, reflection, aperture-medium coupling loss, and absorption. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1023999', '');" title="Communication Medium">Table&nbsp;4-19</a></span> lists the different pathloss models in <span class="Variable">QualNet</span>. See the corresponding model library for the description of each model and its parameters.</div>
+      <div class="Anchor"><a name="1048772">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-19.&nbsp;&nbsp;<a name="1023999">Pathloss Models in </a><span class="Variable">QualNet</span>&nbsp;</div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 97.2pt">
+            <div class="CellHeading"><a name="1024005">Pathloss Model</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 280.8pt">
+            <div class="CellHeading"><a name="1024007">Description</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1024009">Model Library</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024018">COST231-HATA</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024020">COST 231-Hata pathloss model.</a></div>
+            <div class="CellBody"><a name="1024021">This model can be used for urban, suburban, or open areas. It is a refinement of the Okumura-Hata pathloss model.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024023">Urban Propagation</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024025">COST231-WALFISH-IKEGAMI</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024027">COST 231-Walfish-Ikegami pathloss model.</a></div>
+            <div class="CellBody"><a name="1024028">This model can be used for urban or metropolitan areas.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024030">Urban Propagation</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024032">FREE-SPACE</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024034">Friis free-space pathloss model.</a></div>
+            <div class="CellBody"><a name="1024035">The model assumes an omni-directional line-of-sight propagation path. The signal strength decays with the square of the distance between the transmitter and receiver.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024037">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024039">ITM</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024041">Irregular Terrain Model, also known as the Longley-Rice model.</a></div>
+            <div class="CellBody"><a name="1024042">This model uses the information from a terrain data file to calculate line-of-sight between nodes, ground reflection characteristics, and pathloss.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024044">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024046">OKUMURA-HATA</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024048">Okumura-Hata pathloss model for macro-cellular systems.</a></div>
+            <div class="CellBody"><a name="1024049">This model can be used for urban, suburban, or open areas.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024051">Urban Propagation</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024053">PATHLOSS-MATRIX</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024055">Matrix-based pathloss model.</a></div>
+            <div class="CellBody"><a name="1024056">This model uses a four-dimensional matrix of pathloss values indexed by source node, destination node, simulation time, and channel number.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024058">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024060">STREET-M-TO-M</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024062">Street mobile-to-mobile pathloss model.</a></div>
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024063">This model calculates pathloss between a source and a destination in an urban canyon communicating across several building obstacles.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024065">Urban Propagation</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024067">STREET-MICROCELL</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024069">Street micro-cell pathloss model.</a></div>
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024070">This model calculates the path-loss between transmitter-receiver pairs that are located in adjacent streets in an urban canyon.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024072">Urban Propagation</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024074">SUBURBAN</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024076">Suburban pathloss model.</a></div>
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024077">This model characterizes propagation in a suburban environment and takes into account the effects of terrain and foliage on signals.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024079">Urban Propagation</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024081">TIREM</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024083">Terrain Integrated Rough Earth Model.</a></div>
+            <div class="CellBody"><a name="1024084">This model considers terrain effects, transmitter and receiver attributes such as antenna height and frequency, and atmospheric and ground constants. This model is distributed by the Joint Spectrum Center of the Department of Defense and is interfaced with </a><span class="Variable">QualNet</span>. This model requires a terrain data file.</div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024086">TIREM Advanced Propagation</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024088">TWO-RAY</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024090">Two-ray pathloss model.</a></div>
+            <div class="CellBody"><a name="1024091">The two-ray pathloss model considers a line-of-sight path and a reflection from flat earth in pathloss calculation.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024093">Wireless</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1006204">Fading Models</a></div>
+      <div class="BodyAfterHead"><a name="1006205">A fading model calculates the effect of changes in characteristics of the propagation path on the signal strength. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1024132', '');" title="Communication Medium">Table&nbsp;4-20</a></span> lists the different fading models in <span class="Variable">QualNet</span>. See the corresponding model library for the description of each model and its parameters.</div>
+      <div class="Anchor"><a name="1048762">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-20.&nbsp;&nbsp;<a name="1024132">Fading Models in </a><span class="Variable">QualNet</span>&nbsp;</div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 97.2pt">
+            <div class="CellHeading"><a name="1024138">Fading Model</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 280.8pt">
+            <div class="CellHeading"><a name="1024140">Description</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1024142">Model Library</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024144">FAST-RAYLEIGH</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024146">Fast Rayleigh fading model.</a></div>
+            <div class="CellBody"><a name="1024147">The fast Rayleigh fading model is a statistical model to represent the fast variation of signal amplitude at the receiver due to the motion of the transmitter/receiver pair.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024149">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024151">RAYLEIGH</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024153">Rayleigh fading model.</a></div>
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024154">Rayleigh fading model is a statistical model to represent the fast variation of signal amplitude at the receiver. In wireless propagation, Rayleigh fading occurs when there is no line of sight between the transmitter and receiver.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024156">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024158">RICEAN</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024160">Ricean fading model.</a></div>
+            <div class="CellBody"><a name="1024161">This model can be used for scenarios where there is line of sight communication and the line of sight signal is the dominant signal seen at the receiver.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024163">Wireless</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1006228">Shadowing Models</a></div>
+      <div class="BodyAfterHead"><a name="1006061">A shadowing model calculates the attenuation caused to a signal by obstruction in the propagation path. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1024205', '');" title="Communication Medium">Table&nbsp;4-21</a></span> lists the different shadowing models in <span class="Variable">QualNet</span>. See the corresponding model library for the description of each model and its parameters.</div>
+      <div class="Anchor"><a name="1048752">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-21.&nbsp;&nbsp;<a name="1024205">Shadowing Models in </a><span class="Variable">QualNet</span>&nbsp;</div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 97.2pt">
+            <div class="CellHeading"><a name="1024211">Shading Model</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 280.8pt">
+            <div class="CellHeading"><a name="1024213">Description</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1024215">Model Library</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1024217">CONSTANT</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024219">Constant shadowing model.</a></div>
+            <div class="CellBody"><a name="1024220">This model uses a constant shadowing offset.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024222">Wireless</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024224">LOGNORMAL</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024226">Lognormal shadowing model.</a></div>
+            <div class="CellBody"><a name="1024227">This model uses a lognormal distribution for the shadowing value.</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1024229">Wireless</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1048782">Inter-channel Interference Model</a></div>
+      <div class="BodyAfterHead"><a name="1048800">The Inter-channel Interference model accounts for both co-channel and inter-channel interference. (If the Inter-channel Interference model is not enabled only co-channel interference is taken into account.)</a></div>
+      <div class="Body"><a name="1048801">Co-channel interference occurs when the transmitting node and receiving nodes work on the same channel, the same channel index, the same frequency, and the same bandwidth. Inter-channel interference occurs when the transmitting node and receiving nodes work on different channels, different channel indexes, different frequencies, or different bandwidths, and there is frequency overlap between the channels. The Inter-channel Interference model estimates the effect of wide band jamming, narrow band jamming, frequency hopping jamming, frequency hopping spectrum spreading, frequency planning, spectrum analysis and spectrum management, etc. </a></div>
+      <div class="Body"><a name="1048813">See </a><span style="font-style: italic">Wireless Model Library</span> for details of the Inter-channel Interference model.</div>
+      <div class="Heading2Numbered">4.7.2  <a name="1005818">Communication Medium Organization: Files and Folders</a></div>
+      <div class="BodyAfterHead"><a name="1005819">In this section, we briefly examine the files and folders that are relevant to communication medium models. These files contain detailed comments on functions and other code components.</a></div>
+      <div class="BodyAfterHead"><a name="1005820">Definitions of macros, functions, and structures relevant to communication medium models are contained in the following header files:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1005821">QUALNET_HOME</a></span>/include/api.h</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005822">This file defines the events and data structures needed to communicate between different layers of the protocol stack.</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1005825">QUALNET_HOME</a></span>/include/propagation.h</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005826">This file contains definitions common to communication medium models and prototypes of functions defined in </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/propagation.cpp.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1006274">QUALNET_HOME</a></span>/include/phy.h</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1006275">This file contains definitions of API functions needed to communicate with the Physical Layer.</a></div>
+      <div class="Body"><a name="1005829">Additionally, the following header file is also relevant to the communication medium:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1005830">QUALNET_HOME</a></span>/include/fileio.h</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005831">This file contains prototypes of functions to read input files and create output files. </a></div>
+      <div class="Body"><a name="1035931">The following are the folders and source files associated with the communication medium:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1035932">QUALNET_HOME</a></span>/libraries/wireless/src</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1035933">This folder contains the source and header files for the various communication medium models implemented in </a><span class="Variable">QualNet</span>. The file names are based on the name of the model that they implement, e.g., to see the implementation for ITM path loss model, look at files prop_itm.cpp and prop_itm.h in this folder.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable"><a name="1006310">QUALNET_HOME</a></span>/libraries/wireless/src/propagation.cpp</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1005836">This file contains the implementation of different communication medium models as well as generic communication medium functions.</a></div>
+      <div class="Heading2Numbered">4.7.3  <a name="1005855">Communication Medium Data Structures</a></div>
+      <div class="BodyAfterHead"><a name="1005856">The communication medium data structures are defined in </a><span class="Variable">QUALNET_HOME</span>/include/propagation.h. This section describes the main data structures. (Note that only a partial description of the data structures is provided here. Refer to file propagation.h for a complete description.)</div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1005857">PathlossModel</a></span>: This is an enumeration type that lists all the path loss models.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1005858">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022869">enum PathlossModel {</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022870">    FREE_SPACE = 0,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022871">    TWO_RAY,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022872">    PL_MATRIX,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022873">    ...</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022882">    FLAT_BINNING</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022883">};</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006357">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006365">FadingModel</a></span><span style="font-family: Arial">: This is an enumeration type that lists all the fading models.</span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006366">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006415">enum FadingModel {</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006416">    NONE = 0,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006417">    RICEAN</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006372">};</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006373">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006374">ShadowingModel</a></span>: This is an enumeration type that lists all the shadowing models.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006375">&nbsp;</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006430">enum ShadowingModel {</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006431">    CONSTANT = 0,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006432">    LOGNORMAL</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006380">};</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1006491">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006451">PropData</a></span>: This is the main data structure used by the communication medium and stores information about the propagation model used for each channel. Each node maintains an instance of this data structure for each channel. Some important fields of this structure are explained below.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="1006456">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1022894">struct PropData {</a></div>
+      <div class="Code_Segment_Large"><a name="1022895">    int   numPhysListenable;</a></div>
+      <div class="Code_Segment_Large"><a name="1022896">    int   numPhysListening;</a></div>
+      <div class="Code_Segment_Large"><a name="1022897">    BOOL* phyListening;</a></div>
+      <div class="Code_Segment_Large"><a name="1022898">    BOOL  limitedInterference;</a></div>
+      <div class="Code_Segment_Large"><a name="1022900">    RandomDistribution&lt;double&gt; shadowingDistribution;</a></div>
+      <div class="Code_Segment_Large"><a name="1022901">    int  nodeListId;</a></div>
+      <div class="Code_Segment_Large"><a name="1022903">    int  numSignals;</a></div>
+      <div class="Code_Segment_Large"><a name="1022905">    PropRxInfo* rxSignalList;</a></div>
+      <div class="Code_Segment_Large"><a name="1022907">    double fadingStretchingFactor;</a></div>
+      <div class="Code_Segment_Large"><a name="1022909">    PropPathProfile* pathProfile;</a></div>
+      <div class="Code_Segment_Large"><a name="1022911">    void *propVar;</a></div>
+      <div class="Code_Segment_Large"><a name="1023751">    int numPathLossCalculation;</a></div>
+      <div class="Code_Segment_Large"><a name="1006479">};</a></div>
+      <div class="Code_Segment_Large"><a name="1023760">&nbsp;</a></div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006560">numPhysListenable</a></span>: This is the number of wireless interfaces of the node that can potentially listen to this channel.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006561">numPhysListening</a></span>: This is the number of wireless interfaces of the node that are currently listening to this channel. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006562">phyListening</a></span>: This Boolean array indicates which of the node’s wireless interfaces are currently listening to the channel.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1023549">shadowingDistribution</a></span>: This variable implements a random number distribution for use by the shadowing model.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006563">nodeListId</a></span>: This is the list of nodes that can potentially listen to this channel. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006564">numSignals</a></span>: This is the number of signals on this channel that the node is currently receiving, i.e., the number of other nodes that are currently transmitting on this channel and within whose propagation limit this node is located. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006565">rxSignalList</a></span>: This list contains information on transmissions the node is currently receiving on this channel.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1023561">fadingStretchinFactor</a></span>: This variable determines the sampling interval used to read the fading trace.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><span style="font-family: &quot;Courier New&quot;"><a name="1006567">pathProfile</a></span>: This data structure stores the characteristics of the path of the signal that the node is currently locked on to.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">4.7.4  <a name="1005874">Communication Medium APIs and Communication with Physical Layer</a></div>
+      <div class="BodyAfterHead"><a name="1010566">This section describes the APIs used by the Physical Layer to communicate with the communication medium (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1010602', '');" title="Communication Medium">Section&nbsp;4.7.4.1</a></span>), the APIs used by the communication medium to communicate with the Physical Layer (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1010611', '');" title="Communication Medium">Section&nbsp;4.7.4.2</a></span>). This section also lists some of communication medium utility APIs (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1010621', '');" title="Communication Medium">Section&nbsp;4.7.4.3</a></span>).</div>
+      <div class="Body"><a name="1010719">The complete list of APIs, with their parameters and description, can be found in </a><span style="font-style: italic">API Reference Guide</span>.</div>
+      <div class="Heading3Numbered">4.7.4.1  <a name="1010602">Physical Layer to Communication Medium Communication</a></div>
+      <div class="BodyAfterHead"><a name="1010600">The communication medium provides the API PROP_ReleaseSignal to enable PHY entities to communicate with the communication medium. To transmit a signal, a PHY model calls the API PROP_ReleaseSignal.</a></div>
+      <div class="Body"><a name="1006668">The prototype for PROP_ReleaseSignal is contained in the file propagation.h.</a></div>
+      <div class="Heading3Numbered">4.7.4.2  <a name="1010611">Communication Medium to Physical Layer Communication</a></div>
+      <div class="BodyAfterHead"><a name="1010731">The communication medium uses the APIs listed below to communicate with PHY models. The prototypes for these functions are contained in </a><span class="Variable">QUALNET_HOME</span>/include/phy.h. The file <span class="Variable">QUALNET_HOME</span>/main/phy.cpp contains the implementation of these functions.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1010732">PHY_SignalArrivalFromChannel: This function indicates the start of a signal.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1010733">PHY_SignalEndFromChannel: This function indicates the end of a signal.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">4.7.4.3  <a name="1010621">Communication Medium Utility APIs</a></div>
+      <div class="BodyAfterHead"><a name="1010748">Several APIs are available at the communication medium that perform tasks internal to the communication medium. Some of these functions can be used by other layers as well. The prototypes for these API functions are contained in the file propagation.h. </a></div>
+      <div class="Body"><a name="1010749">Some of the communication medium utility APIs are listed below.</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1010750">PROP_NumberChannels: This function return the number of channels. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1010751">PROP_ChannelWavelength: This function returns the wavelength of the specified channel.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">4.7.5  <a name="971034">Adding a Path Loss Model </a></div>
+      <div class="BodyAfterHead"><a name="1036254">Although the working of each path loss model is different, there are certain functions that are performed by most path loss models. This section provides an outline for developing and adding a path loss model to </a><span class="Variable">QualNet</span>. We illustrate the process of adding a path loss model by using as an example the implementation code for the ITM path loss model. The header file for the ITM implementation is prop_itm.h and the source file is prop_itm.cpp in the folder <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src. We use code snippets from these two files throughout this section to illustrate different steps in developing a path loss model. After understanding the discussed snippets, look at the complete code for ITM to understand how a path loss model is implemented in <span class="Variable">QualNet</span>.</div>
+      <div class="Body"><a name="1006685">The following list summarizes the actions that need to be performed for adding a path loss model, MYPATHLOSS, to </a><span class="Variable">QualNet</span>. Each of these steps is described in detail in subsequent sections.</div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="1006689">Create header and source files (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1006799', '');" title="Communication Medium">Section&nbsp;4.7.5.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006693">Modify the file propagation.cpp to include the model’s header file (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1006799', '');" title="Communication Medium">Section&nbsp;4.7.5.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006694">Include the path loss model in the list of path loss models (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1006999', '');" title="Communication Medium">Section&nbsp;4.7.5.3</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006705">Decide on the format for the path loss model-specific configuration parameters (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007113', '');" title="Communication Medium">Section&nbsp;4.7.5.4.1</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006706">Call the path loss model’s initialization function from the propagation initialization function, PROP_GlobalInit (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007192', '');" title="Communication Medium">Section&nbsp;4.7.5.4.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">6.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006713">Write the initialization function for the path loss model (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007567', '');" title="Communication Medium">Section&nbsp;4.7.5.4.3</a></span>). The initialization function should read and store the configuration parameters for the path loss model.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">7.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006787">Modify the propagation function PROP_CalculatePathloss to call the MYPATHLOSS’s function to return the path loss value (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007816', '');" title="Communication Medium">Section&nbsp;4.7.5.5</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">8.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1006790">Implement the path loss calculation function for MYPATHLOSS (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007816', '');" title="Communication Medium">Section&nbsp;4.7.5.5</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">9.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1008407">Include the path loss model header and source files in the </a><span class="Variable">QualNet</span> tree and compile (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1036190', '');" title="Communication Medium">Section&nbsp;4.7.5.6</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">10.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1046486">To make the model available in the </a><span class="Variable">QualNet</span> GUI, modify the GUI settings files (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1046554', '');" title="Communication Medium">Section&nbsp;4.7.5.7</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">4.7.5.1  <a name="1006796">Naming Guidelines</a></div>
+      <div class="BodyAfterHead"><a name="1006797">In </a><span class="Variable">QualNet</span>, each component (file, data structure, function, etc.) is given a name that indicates the name of the protocol or model, the layer in which the protocol resides, and the functionality of the component, as appropriate. We recommend that when adding a new path loss model, the programmer name the different components of the new model in a similar manner. It will be helpful to examine the implementation of the ITM model in <span class="Variable">QualNet</span> for hints for naming and coding different components of the new path loss model.</div>
+      <div class="BodyAfterHead"><a name="1006798">In this section, we describe the steps for developing a path loss model called “MYPATHLOSS”. We will use the string “Mypathloss” in the names of the different components of this model, just as the string “Itm” appears in the names of the components of the ITM implementation.</a></div>
+      <div class="Heading3Numbered">4.7.5.2  <a name="1006799">Creating Files</a></div>
+      <div class="BodyAfterHead"><a name="1022955">The first step towards adding a path loss model is creating files. Most models comprise two files: the header file and the source file. These files can be placed in any library, e.g., in the folder </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/src. However, it is recommended that all user-developed models be made part of an a library. In our example, we will place the path loss model in a library called user_models. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#954568', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10</a></span> for instructions for creating and activating a library.</div>
+      <div class="BodyAfterHead"><a name="1035890">(If the model being developed is simple, then it may not be necessary to create separate files for it. In that case, code can be added directly to the files </a><span class="Variable">QUALNET_HOME</span>/include/propagation.h and <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/propagation.cpp. The rest of this section assumes that separate files for the path loss model will be created.)</div>
+      <div class="BodyAfterHead"><a name="1035869">If it doesn’t already exist, create a directory in </a><span class="Variable">QUALNET_HOME</span>/libraries called user_models and a subdirectory in <span class="Variable">QUALNET_HOME</span>/libraries/user_models called src. Create the files for the path loss model and place them in the folder <span class="Variable">QUALNET_HOME</span>/libraries/user_models/src. Name these files in a way that clearly indicates the model that they implement. Prefix the file names with <span style="font-style: italic">prop_</span> to designate the files as propagation model files.</div>
+      <div class="Body" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="font-style: normal"><a name="1006801">Examples</a></span>:</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1035854">prop_itm.h, prop_itm.cpp: These files, in the folder </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/src, implement the ITM path loss model.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1035855">prop_plmatrix.h, prop_plmatrix.cpp: These files, in the folder </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/src, implement the path loss matrix model.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="1006806">In keeping with the naming guidelines of </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1006796', '');" title="Communication Medium">Section&nbsp;4.7.5.1</a></span>, the header file for the example path loss model is called prop_mypathloss.h, and the source file is called prop_mypathloss.cpp.</div>
+      <div class="Note_Indented"><a name="1006808">It is strongly recommended to have separate header and source files. Not having a header file <img class="Default" src="images/Chapter%204-7.11.1.1.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />may lead to unexpected problems even if the compilation process does not indicate any error. </a></div>
+      <div class="Body"><a name="1006809">While adding code to the files, it is important to organize the code well between the files. Generally, the header file, prop_mypathloss.h, should contain the following:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006810">Prototypes for interface functions in the source file, prop_mypathloss.cpp</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006811">Constant definitions</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="1006813">The source file, prop_mypathloss.cpp, should contain the following:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006947">Statement to include the path loss model’s header file:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Declaration"><a name="1006948">	</a></div>
+      <div class="Declaration"><a name="1048523">#include “prop_mypathloss.h”</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006949">Statements to include standard library functions and other header files needed by the path loss model’s source file. A typical path loss model source file includes the following statements:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Declaration"><a name="1006817">&nbsp;</a></div>
+      <div class="Declaration"><a name="1006818">#include &lt;stdio.h&gt;</a></div>
+      <div class="Declaration"><a name="1006819">#include &lt;stdlib.h&gt;</a></div>
+      <div class="Declaration"><a name="1006820">#include &lt;string.h&gt;</a></div>
+      <div class="Declaration"><a name="1006821">#include &lt;math.h&gt;</a></div>
+      <div class="Declaration"><a name="1006822">#include "api.h" </a></div>
+      <div class="Declaration"><a name="1006826">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006827">Initialization function for the path loss model, MypathlossInitialize</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1006828">Path loss calculation function for the path loss model, PathlossMypathloss</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="1006830">The file </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/propagation.cpp contains the generic initialization function and function to calculate the path loss value. These generic functions in turn call the path loss model’s initialization and path loss calculation functions. Therefore, to make these path loss model functions available to the generic functions, insert the following include statement in the file propagation.cpp, if separate files are created for the model:</div>
+      <div class="Declaration"><a name="1006723">&nbsp;</a></div>
+      <div class="Declaration"><a name="1048540">	#include “prop_mypathloss.h”</a></div>
+      <div class="Heading3Numbered">4.7.5.3  <a name="1006999">Including MYPATHLOSS in List of Path Loss Models</a></div>
+      <div class="BodyAfterHead"><a name="1007000">When a new path loss model is added to </a><span class="Variable">QualNet</span>, it needs to be included in the list of path loss models. To do this, add the path loss model’s name to the enumeration <span style="font-family: &quot;Courier New&quot;">PathlossModel</span> defined in propagation.h<span style="font-weight: bold"> </span>(see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1005855', '');" title="Communication Medium">Section&nbsp;4.7.3</a></span>). </div>
+      <div class="Body"><a name="1007006">For our example path loss model, add the entry </a><span style="font-family: &quot;Courier New&quot;">MYPATHLOSS</span><span style="font-weight: bold"> </span>to <span style="font-family: &quot;Courier New&quot;">PathlossModel</span>, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007022', '');" title="Communication Medium">Figure&nbsp;4-186</a></span>.</div>
+      <div class="Code_Segment"><a name="1007008">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1007080">typedef enum {</a></div>
+      <div class="Code_Segment"><a name="1007081">    FREE_SPACE = 0,</a></div>
+      <div class="Code_Segment"><a name="1007082">    TWO_RAY,</a></div>
+      <div class="Code_Segment"><a name="1007083">    PL_MATRIX,</a></div>
+      <div class="Code_Segment"><a name="1007084">    OPAR,</a></div>
+      <div class="Code_Segment"><a name="1007085">    ...</a></div>
+      <div class="Code_Segment"><a name="1007088">    FLAT_BINNING,</a></div>
+      <div class="Code_New"><a name="1007096">    MYPATHLOSS</a></div>
+      <div class="Code_Segment"><a name="1007020">} PathlossModel;</a></div>
+      <div class="Figure">FIGURE 4-186.&nbsp;&nbsp;<a name="1007022">Adding MYPATHLOSS to List of Path Loss Models</a></div>
+      <div class="Note_Indented"><a name="971044">Always add to the end of lists in header files.<img class="Default" src="images/Chapter%204-7.11.1.2.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Heading3Numbered">4.7.5.4  <a name="1007111">Initialization</a></div>
+      <div class="BodyAfterHead"><a name="1007112">In this section, we describe the tasks that need to be performed as part of the initialization process of a path loss model.</a></div>
+      <div class="Heading4Numbered">4.7.5.4.1  <a name="1007113">Determining the Path Loss Model Configuration Format</a></div>
+      <div class="BodyAfterHead"><a name="1015786">A path loss model may use model-specific configuration parameters. The configuration parameters are specified in the </a><span class="Variable">QualNet</span> configuration file. The format for specifying a path loss model’s configuration parameters is:</div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1015787">[&lt;Identifier&gt;] &lt;Parameter-name&gt; [&lt;Index&gt;] &lt;Parameter-value&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1015788">&nbsp;</a></div>
+      <div class="BodyAfterHead" style="text-indent: 9pt"><a name="1015789">where</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><a name="1015790"> </a><span style="font-family: &quot;Courier New&quot;">&lt;Identifier&gt;	</span>: Node identifier, subnet identifier, or IP address to which this parameter declaration is applicable, enclosed in square brackets. This specification is optional, and if it is not included, the parameter declaration applies to all nodes.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.6pt; margin-top: 3.0pt; text-indent: -111.6pt"><span style="font-family: &quot;Courier New&quot;"><a name="1015791">&lt;Parameter-name&gt;	</a></span>: Name of the parameter.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><a name="1015792"> </a><span style="font-family: &quot;Courier New&quot;">&lt;Index&gt;	</span>: Instance to which this parameter declaration is applicable, enclosed in square brackets. This is used when there are multiple instances of the parameter. This specification is optional, and if it is not included, the parameter declaration applies to all instances.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><span style="font-family: &quot;Courier New&quot;"><a name="1015793">&lt;Parameter-value&gt;</a></span>	: Value to be used for the parameter.</div>
+      <div class="Body"><a name="1007119">As an example, the following parameters are used to specify the sampling distance and humidity for the ITM path loss model:</a></div>
+      <div class="Declaration"><a name="1007120">&nbsp;</a></div>
+      <div class="Declaration"><a name="1048563">PROPAGATION-PATHLOSS-MODEL  ITM</a></div>
+      <div class="Declaration"><a name="1010159">PROPAGATION-SAMPLING-DISTANCE  100.0</a></div>
+      <div class="Declaration"><a name="1007121">PROPAGATION-HUMIDITY  10</a></div>
+      <div class="Body"><a name="1007122">Decide on the format for specifying the new path loss model’s configuration parameters. For our example path loss model, specify the configuration parameters in the </a><span class="Variable">QualNet</span> configuration file using the following format (<span style="font-family: &quot;Courier New&quot;">&lt;Identifier&gt;</span> and <span style="font-family: &quot;Courier New&quot;">&lt;Index&gt;</span> can also be used to qualify the parameter declarations, as described above):</div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1007123"> PROPAGATION-PATHLOSS-MODEL  MYPATHLOSS</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1015742"> &lt;param1&gt;                    &lt;value1&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1015743"> ...</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1015744"> &lt;paramN&gt;                    &lt;valueN&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1015745">&nbsp;</a></div>
+      <div class="BodyAfterHead" style="text-indent: 18pt"><a name="1015746">where</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 169.2pt; margin-top: 3.0pt; text-indent: -133.2pt"><span style="font-family: &quot;Courier New&quot;"><a name="1015747">&lt;param1&gt;</a></span>, ..., <span style="font-family: &quot;Courier New&quot;">&lt;paramN&gt;</span>	: Names of parameters for <span style="font-family: &quot;Courier New&quot;">MYPATHLOSS</span>.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 184.19976pt; margin-top: 3.0pt; text-indent: -148.19976pt"><span style="font-family: &quot;Courier New&quot;"><a name="1015748">&lt;value1&gt;</a></span>, ..., <span style="font-family: &quot;Courier New&quot;">&lt;valueN</span>	: Values of the path loss parameters.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007567', '');" title="Communication Medium" name="1007037">Section&nbsp;4.7.5.4.3</a></span> explains how to read user input specified in this format to initialize the model.</div>
+      <div class="Heading4Numbered">4.7.5.4.2  <a name="1007192">Calling the Path Loss Model Initialization Function</a></div>
+      <div class="BodyAfterHead"><a name="1036224">The communication medium models are initialized before the protocol stack of each node is initialized. At the start of simulation, the initialization function PROP_GlobalInit is called, which calls the initialization function for the path loss models that are used in the simulation. PROP_GlobalInit is implemented in propagation.cpp. </a></div>
+      <div class="Body"><a name="1036227">To add your path loss model to </a><span class="Variable">QualNet</span>, make modifications to PROP_GlobalInit, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007232', '');" title="Communication Medium">Figure&nbsp;4-187</a></span>. MypathlossInitialize is the initialization function for MYPATHLOSS. Include the prototype of MypathlossInitialize in the header file, prop_mypathloss.h.</div>
+      <div class="Code_Segment"><a name="1007234">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1007310">void PROP_GlobalInit(PartitionData *partitionData, NodeInput *nodeInput) {</a></div>
+      <div class="Code_Segment"><a name="1007311">    BOOL wasFound;</a></div>
+      <div class="Code_Segment"><a name="1007312">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1007313">    PropChannel* propChannel;</a></div>
+      <div class="Code_Segment"><a name="1007235">    PropProfile* propProfile;</a></div>
+      <div class="Code_Segment"><a name="1007321">    ...</a></div>
+      <div class="Code_Segment"><a name="1007329">    for (i = 0; i &lt; numChannels; i++) {</a></div>
+      <div class="Code_Segment"><a name="1007327">        ...</a></div>
+      <div class="Code_Segment"><a name="1007442">        //</a></div>
+      <div class="Code_Segment"><a name="1007336">        // Set pathlossModel</a></div>
+      <div class="Code_Segment"><a name="1007337">        //</a></div>
+      <div class="Code_Segment"><a name="1007338">        IO_ReadStringInstance(</a></div>
+      <div class="Code_Segment"><a name="1007339">            ANY_NODEID,</a></div>
+      <div class="Code_Segment"><a name="1007340">            ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="1007341">            nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1007342">            "PROPAGATION-PATHLOSS-MODEL",</a></div>
+      <div class="Code_Segment"><a name="1007343">            channelIndex,</a></div>
+      <div class="Code_Segment"><a name="1007344">            TRUE,</a></div>
+      <div class="Code_Segment"><a name="1007345">            &amp;wasFound,</a></div>
+      <div class="Code_Segment"><a name="1007346">            buf);</a></div>
+      <div class="Code_Segment"><a name="1007347">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1007348">        if (wasFound) {</a></div>
+      <div class="Code_Segment"><a name="1007349">            if (strcmp(buf, "FREE-SPACE") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1007350">                propProfile-&gt;pathlossModel = FREE_SPACE;</a></div>
+      <div class="Code_Segment"><a name="1007351">            }</a></div>
+      <div class="Code_Segment"><a name="1007352">            ...</a></div>
+      <div class="Code_Segment"><a name="1007375">            else if (strcmp(buf, "ITM") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1007376">                propProfile-&gt;pathlossModel = ITM;</a></div>
+      <div class="Code_Segment"><a name="1007377">                if (partitionData-&gt;terrainData.dataType == NO_TERRAIN_DATA) {</a></div>
+      <div class="Code_Segment"><a name="1007378">                    ERROR_ReportError("ITM requires terrain data\n");</a></div>
+      <div class="Code_Segment"><a name="1007379">                }</a></div>
+      <div class="Code_Segment"><a name="1007380">                ItmInitialize(</a></div>
+      <div class="Code_Segment"><a name="1007381">                    &amp;(propChannel[channelIndex]), channelIndex, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="1007382">            }</a></div>
+      <div class="Code_New"><a name="1007492">            else if (strcmp(buf, "MYPATHLOSS") == 0) {</a></div>
+      <div class="Code_New"><a name="1007493">                propProfile-&gt;pathlossModel = MYPATHLOSS;</a></div>
+      <div class="Code_New"><a name="1007497">                MypathlossInitialize(</a></div>
+      <div class="Code_New"><a name="1007498">                    &amp;(propChannel[channelIndex]), channelIndex, nodeInput);</a></div>
+      <div class="Code_New"><a name="1007499">            }</a></div>
+      <div class="Code_Segment"><a name="1007449">            ...</a></div>
+      <div class="Code_Segment"><a name="1007415">        }</a></div>
+      <div class="Code_Segment"><a name="1007416">        else {</a></div>
+      <div class="Code_Segment"><a name="1007417">            ...</a></div>
+      <div class="Code_Segment"><a name="1007422">        }</a></div>
+      <div class="Code_Segment"><a name="1007333">        ...</a></div>
+      <div class="Code_Segment"><a name="1007476">    } //for//</a></div>
+      <div class="Code_Segment"><a name="1007484">    ...</a></div>
+      <div class="Code_Segment"><a name="1007485">}</a></div>
+      <div class="Figure">FIGURE 4-187.&nbsp;&nbsp;<a name="1007232">Calling the Path Loss Model Initialization Function</a></div>
+      <div class="Heading4Numbered">4.7.5.4.3  <span style="font-weight: normal"><a name="1007567"> </a></span>Implementing the Path Loss Model Initialization Function</div>
+      <div class="BodyAfterHead"><a name="1007568">The initialization of a path loss model takes place in the initialization function of the model that is called by the function PROP_GlobalInit. The initialization function of a path loss model reads the user-specified parameters, if any, and sets the model parameters accordingly. </a></div>
+      <div class="Body"><a name="1007669">If your path loss model uses user-specified parameters, write an initialization function to read the values of these parameters. As an example, </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1008266', '');" title="Communication Medium">Figure&nbsp;4-188</a></span> shows the initialization function for the ITM path loss model, ItmInitialize. ItmInitialize reads the values of user-specified parameters from the input file. If a parameter is not specified in the input file, ItmInitialize stores the default value for that parameter. ItmInitialize is implemented in <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/prop_itm.cpp.</div>
+      <div class="Body"><a name="1007673">The configurable parameters are read using IO functions such as IO_ReadDoubleInstance, IO_ReadIntInstance and IO_ReadStringInstance to read parameter values from the input file. IO_ReadDoubleInstance, IO_ReadIntInstance, IO_ReadStringInstance and other IO functions are defined in </a><span class="Variable">QUALNET_HOME</span>/include/fileio.h.</div>
+      <div class="Code_Segment"><a name="1008214">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1008215">void ItmInitialize(</a></div>
+      <div class="Code_Segment"><a name="1008216">    PropChannel *propChannel,</a></div>
+      <div class="Code_Segment"><a name="1008217">    int channelIndex,</a></div>
+      <div class="Code_Segment"><a name="1008218">    const NodeInput *nodeInput)</a></div>
+      <div class="Code_Segment"><a name="1008219">{</a></div>
+      <div class="Code_Segment"><a name="1008220">    PropProfile* propProfile = propChannel-&gt;profile;</a></div>
+      <div class="Code_Segment"><a name="1008221">    BOOL wasFound;</a></div>
+      <div class="Code_Segment"><a name="1008222">    double elevationSamplingDistance;</a></div>
+      <div class="Code_Segment"><a name="1008223">    int climate;</a></div>
+      <div class="Code_Segment"><a name="1008224">    double refractivity;</a></div>
+      <div class="Code_Segment"><a name="1008225">    ...</a></div>
+      <div class="Code_Segment"><a name="1008226">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1008227">    IO_ReadDoubleInstance(</a></div>
+      <div class="Code_Segment"><a name="1008228">        ANY_NODEID,</a></div>
+      <div class="Code_Segment"><a name="1008229">        ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="1008230">        nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1008231">        "PROPAGATION-SAMPLING-DISTANCE",</a></div>
+      <div class="Code_Segment"><a name="1008232">        channelIndex,</a></div>
+      <div class="Code_Segment"><a name="1008233">        (channelIndex == 0),</a></div>
+      <div class="Code_Segment"><a name="1008234">        &amp;wasFound,</a></div>
+      <div class="Code_Segment"><a name="1008235">        &amp;elevationSamplingDistance);</a></div>
+      <div class="Code_Segment"><a name="1008236">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1008237">    if (wasFound) {</a></div>
+      <div class="Code_Segment"><a name="1008238">        propProfile-&gt;elevationSamplingDistance =</a></div>
+      <div class="Code_Segment"><a name="1008239">            (float)elevationSamplingDistance;</a></div>
+      <div class="Code_Segment"><a name="1008240">    }</a></div>
+      <div class="Code_Segment"><a name="1008241">    else {</a></div>
+      <div class="Code_Segment"><a name="1008242">        propProfile-&gt;elevationSamplingDistance =</a></div>
+      <div class="Code_Segment"><a name="1008243">            DEFAULT_SAMPLING_DISTANCE;</a></div>
+      <div class="Code_Segment"><a name="1008244">    }</a></div>
+      <div class="Code_Segment"><a name="1008245">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1008246">    IO_ReadDoubleInstance(</a></div>
+      <div class="Code_Segment"><a name="1008247">        ANY_NODEID,</a></div>
+      <div class="Code_Segment"><a name="1008248">        ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="1008249">        nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1008250">        "PROPAGATION-REFRACTIVITY",</a></div>
+      <div class="Code_Segment"><a name="1008251">        channelIndex,</a></div>
+      <div class="Code_Segment"><a name="1008252">        (channelIndex == 0),</a></div>
+      <div class="Code_Segment"><a name="1008253">        &amp;wasFound,</a></div>
+      <div class="Code_Segment"><a name="1008254">        &amp;refractivity);</a></div>
+      <div class="Code_Segment"><a name="1008255">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1008256">    if (wasFound) {</a></div>
+      <div class="Code_Segment"><a name="1008257">        propProfile-&gt;refractivity = refractivity;</a></div>
+      <div class="Code_Segment"><a name="1008258">    }</a></div>
+      <div class="Code_Segment"><a name="1008259">    else {</a></div>
+      <div class="Code_Segment"><a name="1008260">        propProfile-&gt;refractivity = DEFAULT_REFRACTIVITY;</a></div>
+      <div class="Code_Segment"><a name="1008261">    }</a></div>
+      <div class="Code_Segment"><a name="1008262">    ...</a></div>
+      <div class="Code_Segment"><a name="1008263">    return;</a></div>
+      <div class="Code_Segment"><a name="1008264">}</a></div>
+      <div class="Figure">FIGURE 4-188.&nbsp;&nbsp;<a name="1008266">ITM Initialization Function</a></div>
+      <div class="Heading3Numbered">4.7.5.5  <a name="1007816">Path Loss Calculation</a></div>
+      <div class="BodyAfterHead"><a name="1036208">Function PROP_CalculatePathloss, implemented in propagation.cpp, is called by the communication medium to calculate the signal attenuation due to path loss between a pair of nodes.</a></div>
+      <div class="Body"><a name="1036209">To add a path loss model to </a><span class="Variable">QualNet</span>, modify function PROP_CalculatePathloss to call the model’s path loss calculation function. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1008205', '');" title="Communication Medium">Figure&nbsp;4-189</a></span> shows the changes that need to be made to PROP_CalculatePathloss to add MYPATHLOSSMOEL to <span class="Variable">QualNet</span>. PathlossMypathloss is the MYPATHLOSS function that calculates the path loss. Include the prototype of PathlossMypathloss in the header file, prop_mypathloss.h.</div>
+      <div class="Body"><a name="1008311">Implement the path loss calculation function PathlossMypathloss and include it in the source file, prop_mypathloss.cpp.</a></div>
+      <div class="Code_Segment"><a name="1008159">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1008307">void PROP_CalculatePathloss(</a></div>
+      <div class="Code_Segment"><a name="1008160">    Node* node,</a></div>
+      <div class="Code_Segment"><a name="1008161">    int channelIndex,</a></div>
+      <div class="Code_Segment"><a name="1008162">    double wavelength,</a></div>
+      <div class="Code_Segment"><a name="1008163">    float txAntennaHeight,</a></div>
+      <div class="Code_Segment"><a name="1008164">    float rxAntennaHeight,</a></div>
+      <div class="Code_Segment"><a name="1008165">    PropPathProfile *pathProfile,</a></div>
+      <div class="Code_Segment"><a name="1008166">    double* pathloss_dB)</a></div>
+      <div class="Code_Segment"><a name="1008167">{</a></div>
+      <div class="Code_Segment"><a name="1008168">    ...</a></div>
+      <div class="Code_Segment"><a name="1023443">    PropProfile *propProfile = node-&gt;propChannel[channelIndex].profile;</a></div>
+      <div class="Code_Segment"><a name="1008169">    ...</a></div>
+      <div class="Code_Segment"><a name="1008170">    switch (propProfile-&gt;pathlossModel) {</a></div>
+      <div class="Code_Segment"><a name="1008171">        case FREE_SPACE:</a></div>
+      <div class="Code_Segment"><a name="1008172">        case TWO_RAY:</a></div>
+      <div class="Code_Segment"><a name="1008173">        {</a></div>
+      <div class="Code_Segment"><a name="1008174">            ...</a></div>
+      <div class="Code_Segment"><a name="1008175">        }</a></div>
+      <div class="Code_Segment"><a name="1008176">        ...</a></div>
+      <div class="Code_Segment"><a name="1008177">        case ITM: {</a></div>
+      <div class="Code_Segment"><a name="1008178">            int numSamples;</a></div>
+      <div class="Code_Segment"><a name="1008179">            ...</a></div>
+      <div class="Code_Segment"><a name="1046271">            *pathloss_dB =</a></div>
+      <div class="Code_Segment"><a name="1046273">                        PathlossItm(</a></div>
+      <div class="Code_Segment"><a name="1023772">                            numSamples + 1,</a></div>
+      <div class="Code_Segment"><a name="1023773">                            pathProfile-&gt;distance / (double)numSamples,</a></div>
+      <div class="Code_Segment"><a name="1023774">                            elevationArray,</a></div>
+      <div class="Code_Segment"><a name="1023775">                            txPlatformHeight,</a></div>
+      <div class="Code_Segment"><a name="1023776">                            rxPlatformHeight,</a></div>
+      <div class="Code_Segment"><a name="1023777">                            propProfile-&gt;polarization,</a></div>
+      <div class="Code_Segment"><a name="1023778">                            propProfile-&gt;climate,</a></div>
+      <div class="Code_Segment"><a name="1023779">                            propProfile-&gt;permittivity,</a></div>
+      <div class="Code_Segment"><a name="1023780">                            propProfile-&gt;conductivity,</a></div>
+      <div class="Code_Segment"><a name="1023781">                            propProfile-&gt;frequency / 1.0e6,</a></div>
+      <div class="Code_Segment"><a name="1008189">                            propProfile-&gt;refractivity);</a></div>
+      <div class="Code_Segment"><a name="1023789">            ...</a></div>
+      <div class="Code_Segment"><a name="1008190">            return;</a></div>
+      <div class="Code_Segment"><a name="1008191">        }</a></div>
+      <div class="Code_New"><a name="1008192">        case MYPATHLOSS: {</a></div>
+      <div class="Code_New"><a name="1008193">            ...</a></div>
+      <div class="Code_New"><a name="1008194">            *pathloss_dB = PathlossMypathloss(...);</a></div>
+      <div class="Code_New"><a name="1008195">            return;</a></div>
+      <div class="Code_New"><a name="1008196">        }</a></div>
+      <div class="Code_Segment"><a name="1008197">        ...</a></div>
+      <div class="Code_Segment"><a name="1008198">        default: {</a></div>
+      <div class="Code_Segment"><a name="1008199">            abort();</a></div>
+      <div class="Code_Segment"><a name="1008200">        }</a></div>
+      <div class="Code_Segment"><a name="1008201">    }</a></div>
+      <div class="Code_Segment"><a name="1008202">    return;</a></div>
+      <div class="Code_Segment"><a name="1008203">}</a></div>
+      <div class="Figure">FIGURE 4-189.&nbsp;&nbsp;<a name="1008205">Calling Path Loss Calculation Function</a></div>
+      <div class="Heading3Numbered">4.7.5.6  <a name="1036190">Including and Compiling Files</a></div>
+      <div class="BodyAfterHead"><a name="1036191">The final step in integrating your path loss model into </a><span class="Variable">QualNet</span> is to add the source file to the <span class="Variable">QualNet</span> source tree and compile.</div>
+      <div class="BodyAfterHead"><a name="1036173">If you have created the files for the path loss model in an existing library or addon, then add the source file to the Makefile-common for that library or addon. For example, if you have created your model files in the Wireless library, then modify </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/Makefile-common as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1046532', '');" title="Communication Medium">Figure&nbsp;4-190</a></span>. Recompile <span class="Variable">QualNet</span> after making the changes.</div>
+      <div class="Code_Segment"><a name="1036180">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1023247">...</a></div>
+      <div class="Code_Segment"><a name="1023248"># common sources</a></div>
+      <div class="Code_Segment"><a name="1023249">#</a></div>
+      <div class="Code_Segment"><a name="1023250">WIRELESS_SRCS = \</a></div>
+      <div class="Code_Segment"><a name="1023251">$(WIRELESS_DIR)/antenna.cpp \</a></div>
+      <div class="Code_Segment"><a name="1023252">$(WIRELESS_DIR)/antenna_global.cpp \</a></div>
+      <div class="Code_Segment"><a name="1023293">...</a></div>
+      <div class="Code_Segment"><a name="1046336">$(WIRELESS_DIR)/phy_802_11.cpp \</a></div>
+      <div class="Code_Segment"><a name="1046337">$(WIRELESS_DIR)/phy_abstract.cpp \</a></div>
+      <div class="Code_Segment"><a name="1046344">$(WIRELESS_DIR)/phy_cellular.cpp \</a></div>
+      <div class="Code_Segment"><a name="1046338">$(WIRELESS_DIR)/propagation.cpp \</a></div>
+      <div class="Code_Segment"><a name="1046356">$(WIRELESS_DIR)/prop_itm.cpp \</a></div>
+      <div class="Code_New"><a name="1046308">$(</a><span style="font-weight: normal">WIRELESS_DIR</span>)/phy_mypathloss.cpp \</div>
+      <div class="Code_Segment"><a name="1023310">$(WIRELESS_DIR)/prop_plmatrix.cpp \</a></div>
+      <div class="Code_Segment"><a name="1023311">$(WIRELESS_DIR)/routing_aodv.cpp \</a></div>
+      <div class="Code_Segment"><a name="1023260">$(WIRELESS_DIR)/manet_packet.cpp \</a></div>
+      <div class="Code_Segment"><a name="1023261">...</a></div>
+      <div class="Figure">FIGURE 4-190.&nbsp;&nbsp;<a name="1046532">Adding Model to Makefile-common</a></div>
+      <div class="Body"><a name="1046549">If you have created a new library called user_models, then follow the instructions given in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929473', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.5</a></span> to integrate the user_models library into <span class="Variable">QualNet</span>.</div>
+      <div class="Heading3Numbered">4.7.5.7  <a name="1046554">Integrating the Model into the GUI</a></div>
+      <div class="BodyAfterHead"><a name="1046558">To make the new model available in </a><span class="Variable">QualNet</span> GUI, modify the GUI settings files, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%205.16.2.html#986045', '');" title="Customizing Design Mode of QualNet Architect">Section&nbsp;5.1.4</a></span>.</div>
+      <div class="Heading2Numbered">4.7.6  <a name="1046540">Adding a Fading Model </a></div>
+      <div class="BodyAfterHead"><a name="1036156">This section describes how to add a fading model to </a><span class="Variable">QualNet</span>.</div>
+      <div class="Body"><a name="1036157">The following list summarizes the actions that need to be performed for adding a fading model, MYFADING, to </a><span class="Variable">QualNet</span>. Each of these steps is described in detail in subsequent sections.</div>
+      <div class="Numbered1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered1_inner" style="width: 13.7448pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered1_inner"><a name="1008492">Include the fading model in the list of fading models (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1008604', '');" title="Communication Medium">Section&nbsp;4.7.6.1</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1008505">Decide on the format for the fading model-specific configuration parameters (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1008685', '');" title="Communication Medium">Section&nbsp;4.7.6.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1008578">Modify function PROP_GlobalInit to include MYFADING and read its associated parameters, if any (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1008706', '');" title="Communication Medium">Section&nbsp;4.7.6.3</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1008513">Modify function PROP_CalculateFading to calculate the fading value according to MYFADING (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1008959', '');" title="Communication Medium">Section&nbsp;4.7.6.4</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1046590">To make the model available in the </a><span class="Variable">QualNet</span> GUI, modify the GUI settings files (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1046606', '');" title="Communication Medium">Section&nbsp;4.7.6.5</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">4.7.6.1  <a name="1008604">Including MYFADING in List of Fading Models</a></div>
+      <div class="BodyAfterHead"><a name="1008605">When a new fading model is added to </a><span class="Variable">QualNet</span>, it needs to be included in the list of fading models. To do this, add the fading model’s name to the enumeration <span style="font-family: &quot;Courier New&quot;">FadingModel</span> defined in <span class="Variable">QUALNET_HOME</span>/include/propagation.h<span style="font-weight: bold"> </span>(see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1005855', '');" title="Communication Medium">Section&nbsp;4.7.3</a></span>). </div>
+      <div class="Body"><a name="1008609">For our example fading model, add the entry </a><span style="font-family: &quot;Courier New&quot;">MYFADING</span><span style="font-weight: bold"> </span>to <span style="font-family: &quot;Courier New&quot;">FadingModel</span>, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1008626', '');" title="Communication Medium">Figure&nbsp;4-191</a></span>.</div>
+      <div class="Code_Segment"><a name="1008613">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1008660">enum FadingModel {</a></div>
+      <div class="Code_Segment"><a name="1008661">    NONE = 0,</a></div>
+      <div class="Code_Segment"><a name="1008662">    RICEAN,</a></div>
+      <div class="Code_New"><a name="1008674">    MYFADING</a></div>
+      <div class="Code_Segment"><a name="1008624">};</a></div>
+      <div class="Figure">FIGURE 4-191.&nbsp;&nbsp;<a name="1008626">Adding MYFADING to List of Fading Models</a></div>
+      <div class="Note_Indented"><a name="1008627">Always add to the end of lists in header files.<img class="Default" src="images/Chapter%204-7.11.1.3.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Heading3Numbered">4.7.6.2  <a name="1008685">Determining the Fading Model Configuration Format</a></div>
+      <div class="BodyAfterHead"><a name="1008686">This step is similar to the one for adding a path loss model. See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1007113', '');" title="Communication Medium">Section&nbsp;4.7.5.4.1</a></span>.</div>
+      <div class="Heading3Numbered">4.7.6.3  <a name="1008706">Initialization</a></div>
+      <div class="BodyAfterHead"><a name="1036128">The communication medium models are initialized before the protocol stack of each node is initialized. At the start of simulation, the initialization function PROP_GlobalInit is called, which reads the names of fading models and any associated parameters from the input file. PROP_GlobalInit is implemented in </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/propagation.cpp. </div>
+      <div class="Body"><a name="1036135">To add your fading model to </a><span class="Variable">QualNet</span>, make modifications to PROP_GlobalInit, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1008762', '');" title="Communication Medium">Figure&nbsp;4-192</a></span>. Read any parameters used by MYFADING in PROP_GlobalInit. For example, if the Ricean fading model is specified, PROP_GlobalInit reads the K factor, which is specified as a configuration parameter, using the IO function IO_ReadDoubleInstance. IO_ReadDoubleInstance and other IO functions are defined in <span class="Variable">QUALNET_HOME</span>/include/fileio.h.</div>
+      <div class="Code_Segment"><a name="1008712">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1008713">void PROP_GlobalInit(PartitionData *partitionData, NodeInput *nodeInput) {</a></div>
+      <div class="Code_Segment"><a name="1008714">    BOOL wasFound;</a></div>
+      <div class="Code_Segment"><a name="1008715">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1008716">    PropChannel* propChannel;</a></div>
+      <div class="Code_Segment"><a name="1008717">    PropProfile* propProfile;</a></div>
+      <div class="Code_Segment"><a name="1008718">    ...</a></div>
+      <div class="Code_Segment"><a name="1008719">    for (i = 0; i &lt; numChannels; i++) {</a></div>
+      <div class="Code_Segment"><a name="1008720">        ...</a></div>
+      <div class="Code_Segment"><a name="1008816">        //</a></div>
+      <div class="Code_Segment"><a name="1008817">        // Set fadingModel</a></div>
+      <div class="Code_Segment"><a name="1008818">        //</a></div>
+      <div class="Code_Segment"><a name="1008819">        IO_ReadStringInstance(</a></div>
+      <div class="Code_Segment"><a name="1008820">            ANY_NODEID, ANY_ADDRESS, nodeInput, "PROPAGATION-FADING-MODEL",</a></div>
+      <div class="Code_Segment"><a name="1008824">            channelIndex, TRUE, &amp;wasFound, buf);</a></div>
+      <div class="Code_Segment"><a name="1008829">        if (wasFound) {</a></div>
+      <div class="Code_Segment"><a name="1008830">            if (strcmp(buf, "NONE") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1008831">                propProfile-&gt;fadingModel = NONE;</a></div>
+      <div class="Code_Segment"><a name="1008832">            }</a></div>
+      <div class="Code_Segment"><a name="1008833">            else if (strcmp(buf, "RAYLEIGH") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1008834">                ...</a></div>
+      <div class="Code_Segment"><a name="1008840">            }</a></div>
+      <div class="Code_Segment"><a name="1008841">            else if (strcmp(buf, "RICEAN") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1008842">                propProfile-&gt;fadingModel = RICEAN;</a></div>
+      <div class="Code_Segment"><a name="1008844">                //</a></div>
+      <div class="Code_Segment"><a name="1008845">                // Set K factor</a></div>
+      <div class="Code_Segment"><a name="1008846">                //</a></div>
+      <div class="Code_Segment"><a name="1008847">                IO_ReadDoubleInstance(</a></div>
+      <div class="Code_Segment"><a name="1008892">                    ANY_NODEID, ANY_ADDRESS, nodeInput,</a></div>
+      <div class="Code_Segment"><a name="1008851">                    "PROPAGATION-RICEAN-K-FACTOR",</a></div>
+      <div class="Code_Segment"><a name="1008852">                    channelIndex, TRUE, &amp;wasFound, &amp;kFactor);</a></div>
+      <div class="Code_Segment"><a name="1008857">                if (wasFound) {</a></div>
+      <div class="Code_Segment"><a name="1008858">                    propProfile-&gt;kFactor = kFactor;</a></div>
+      <div class="Code_Segment"><a name="1008859">                }</a></div>
+      <div class="Code_Segment"><a name="1008860">                else {</a></div>
+      <div class="Code_Segment"><a name="1008861">                    ...</a></div>
+      <div class="Code_Segment"><a name="1008864">                }</a></div>
+      <div class="Code_Segment"><a name="1008865">            }</a></div>
+      <div class="Code_Segment"><a name="1010101">            else if (strcmp(buf, "FAST-RAYLEIGH") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1010102">                ...</a></div>
+      <div class="Code_Segment"><a name="1010099">            }</a></div>
+      <div class="Code_New"><a name="1008866">            else if (strcmp(buf, "MYFADING") == 0) {</a></div>
+      <div class="Code_New"><a name="1008917">                propProfile-&gt;fadingModel = MYFADING;</a></div>
+      <div class="Code_New"><a name="1008918">                //</a></div>
+      <div class="Code_New"><a name="1008919">                // Read any configuration parameters used by MYFADING</a></div>
+      <div class="Code_New"><a name="1008936">            }</a></div>
+      <div class="Code_Segment"><a name="1008937">            ...</a></div>
+      <div class="Code_Segment"><a name="1008945">        }</a></div>
+      <div class="Code_Segment"><a name="1008757">        ...</a></div>
+      <div class="Code_Segment"><a name="1008758">    } //for//</a></div>
+      <div class="Code_Segment"><a name="1008759">    ...</a></div>
+      <div class="Code_Segment"><a name="1008760">}</a></div>
+      <div class="Figure">FIGURE 4-192.&nbsp;&nbsp;<a name="1008762">Initializing Fading Models</a></div>
+      <div class="Heading3Numbered">4.7.6.4  <a name="1008959">Fading Calculation</a></div>
+      <div class="BodyAfterHead"><a name="1008960">Function PROP_CalculateFading, implemented in propagation.cpp, is called by the communication medium to calculate the signal attenuation due to fading between a pair of nodes.</a></div>
+      <div class="Body"><a name="1036112">To add a fading model to </a><span class="Variable">QualNet</span>, modify function PROP_CalculateFading to call the model’s fading loss calculation function. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1009012', '');" title="Communication Medium">Figure&nbsp;4-193</a></span> shows the changes that need to be made to PROP_CalculateFading to add MYFADINGMOEL to <span class="Variable">QualNet</span>. FadingMyfading is the MYFADING function that calculates the fading loss.</div>
+      <div class="Body"><a name="1008965">Implement the fading calculation function FadingMyfading and include it in the source file, propagation.cpp.</a></div>
+      <div class="Code_Segment"><a name="1008966">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1023446">void PROP_CalculateFading(</a></div>
+      <div class="Code_Segment"><a name="1023447">    Message* signalMsg,</a></div>
+      <div class="Code_Segment"><a name="1046376">    PropTxInfo* propTxInfo,</a></div>
+      <div class="Code_Segment"><a name="1023448">    Node* node2,</a></div>
+      <div class="Code_Segment"><a name="1023449">    int channelIndex,</a></div>
+      <div class="Code_Segment"><a name="1023450">    clocktype currentTime,</a></div>
+      <div class="Code_Segment"><a name="1046384">    float* fading_dB,</a></div>
+      <div class="Code_Segment"><a name="1046385">    double* channelReal,</a></div>
+      <div class="Code_Segment"><a name="1009055">    double* channelImag)</a></div>
+      <div class="Code_Segment"><a name="1009056">{</a></div>
+      <div class="Code_Segment"><a name="1009057">    PropChannel* propChannel = node2-&gt;partitionData-&gt;propChannel;</a></div>
+      <div class="Code_Segment"><a name="1009058">    PropProfile* propProfile = propChannel[channelIndex].profile;</a></div>
+      <div class="Code_Segment"><a name="1009059">    PropProfile* propProfile0 = propChannel[0].profile;</a></div>
+      <div class="Code_Segment"><a name="1009060">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1009061">    if (propProfile-&gt;fadingModel == RICEAN) {</a></div>
+      <div class="Code_Segment"><a name="1009062">        int arrayIndex;</a></div>
+      <div class="Code_Segment"><a name="1009063">        double arrayIndexInDouble;</a></div>
+      <div class="Code_Segment"><a name="1009064">        double value1, value2;</a></div>
+      <div class="Code_Segment"><a name="1009065">        ...</a></div>
+      <div class="Code_Segment"><a name="1009098">    }</a></div>
+      <div class="Code_New"><a name="1009114">    else if (propProfile-&gt;fadingModel == MYFADING) {</a></div>
+      <div class="Code_New"><a name="1009115">        //</a></div>
+      <div class="Code_New"><a name="1009116">        // Calculating fading value.</a></div>
+      <div class="Code_New"><a name="1009117">        *fading_dB = FadingMyfading (...);</a></div>
+      <div class="Code_New"><a name="1009119">    }</a></div>
+      <div class="Code_Segment"><a name="1009112">    else {</a></div>
+      <div class="Code_Segment"><a name="1009100">        *fading_dB = 0.0;</a></div>
+      <div class="Code_Segment"><a name="1009101">    }</a></div>
+      <div class="Code_Segment"><a name="1009102">}</a></div>
+      <div class="Figure">FIGURE 4-193.&nbsp;&nbsp;<a name="1009012">Fading Calculation Function</a></div>
+      <div class="Heading3Numbered">4.7.6.5  <a name="1046606">Integrating the Model into the GUI</a></div>
+      <div class="BodyAfterHead"><a name="1046610">To make the new model available in </a><span class="Variable">QualNet</span> GUI, modify the GUI settings files, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%205.16.2.html#986045', '');" title="Customizing Design Mode of QualNet Architect">Section&nbsp;5.1.4</a></span>.</div>
+      <div class="Heading2Numbered">4.7.7  <a name="1009194">Adding a Shadowing Model </a></div>
+      <div class="BodyAfterHead"><a name="1009195">This section describes how to add a shadowing model to </a><span class="Variable">QualNet</span>.</div>
+      <div class="Body"><a name="1036095">In </a><span class="Variable">QualNet</span>, the shadowing loss is computed together with the path loss. The following list summarizes the actions that need to be performed for adding a shadowing model, MYSHADOWING, to <span class="Variable">QualNet</span>. Each of these steps is described in detail in subsequent sections.</div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="1009200">Include the shadowing model in the list of shadowing models (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1009213', '');" title="Communication Medium">Section&nbsp;4.7.7.1</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1009205">Modify function PROP_GlobalInit to include MYSHADOWING (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1009410', '');" title="Communication Medium">Section&nbsp;4.7.7.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1009209">Modify function PROP_CalculatePathloss to calculate the shadowing loss according to MYSHADOWING (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1009696', '');" title="Communication Medium">Section&nbsp;4.7.7.3</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1046643">To make the model available in the </a><span class="Variable">QualNet</span> GUI, modify the GUI settings files (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1046671', '');" title="Communication Medium">Section&nbsp;4.7.7.4</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">4.7.7.1  <a name="1009213">Including MYSHADOWING in List of Shadowing Models</a></div>
+      <div class="BodyAfterHead"><a name="1009214">When a new shadowing model is added to </a><span class="Variable">QualNet</span>, it needs to be included in the list of shadowing models. To do this, add the shadowing model’s name to the enumeration <span style="font-family: &quot;Courier New&quot;">ShadowingModel</span> defined in <span class="Variable">QUALNET_HOME</span>/include/propagation.h<span style="font-weight: bold"> </span>(see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1005855', '');" title="Communication Medium">Section&nbsp;4.7.3</a></span>). </div>
+      <div class="Body"><a name="1009220">For our example shadowing model, add the entry </a><span style="font-family: &quot;Courier New&quot;">MYSHADOWING</span><span style="font-weight: bold"> </span>to <span style="font-family: &quot;Courier New&quot;">ShadowingModel</span>, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1009229', '');" title="Communication Medium">Figure&nbsp;4-194</a></span>.</div>
+      <div class="Code_Segment"><a name="1009222">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1009276">enum ShadowingModel {</a></div>
+      <div class="Code_Segment"><a name="1009277">    CONSTANT = 0,</a></div>
+      <div class="Code_Segment"><a name="1009278">    LOGNORMAL,</a></div>
+      <div class="Code_New"><a name="1009287">    MYSHADOWING</a></div>
+      <div class="Code_Segment"><a name="1009223">};</a></div>
+      <div class="Figure">FIGURE 4-194.&nbsp;&nbsp;<a name="1009229">Adding MYSHADOWING to List of Shadowing Models</a></div>
+      <div class="Note_Indented"><a name="1009230">Always add to the end of lists in header files.<img class="Default" src="images/Chapter%204-7.11.1.4.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Heading3Numbered">4.7.7.2  <a name="1009410">Initialization</a></div>
+      <div class="BodyAfterHead"><a name="1009411">The communication medium models are initialized before the protocol stack of each node is initialized. At the start of simulation, the initialization function PROP_GlobalInit is called, which reads the names of shadowing models from the input file. PROP_GlobalInit is implemented in </a><span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/propagation.cpp.</div>
+      <div class="Body"><a name="1009412">To add your shadowing model to </a><span class="Variable">QualNet</span>, make modifications to PROP_GlobalInit, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1009393', '');" title="Communication Medium">Figure&nbsp;4-195</a></span>.</div>
+      <div class="Code_Segment"><a name="1009342">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1009343">void PROP_GlobalInit(PartitionData *partitionData, NodeInput *nodeInput) {</a></div>
+      <div class="Code_Segment"><a name="1009344">    BOOL wasFound;</a></div>
+      <div class="Code_Segment"><a name="1009345">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1009539">    PropChannel* propChannel;</a></div>
+      <div class="Code_Segment"><a name="1009540">    PropProfile* propProfile;</a></div>
+      <div class="Code_Segment"><a name="1009348">    ...</a></div>
+      <div class="Code_Segment"><a name="1009349">    for (i = 0; i &lt; numChannels; i++) {</a></div>
+      <div class="Code_Segment"><a name="1009350">        ...</a></div>
+      <div class="Code_Segment"><a name="1009426">        //</a></div>
+      <div class="Code_Segment"><a name="1009427">        // Set shadowingModel</a></div>
+      <div class="Code_Segment"><a name="1009428">        //</a></div>
+      <div class="Code_Segment"><a name="1009523">        IO_ReadStringInstance(</a></div>
+      <div class="Code_Segment"><a name="1009524">            ANY_NODEID, ANY_ADDRESS, nodeInput, "PROPAGATION-SHADOWING-MODEL",</a></div>
+      <div class="Code_Segment"><a name="1009525">            channelIndex, TRUE, &amp;wasFound, buf);</a></div>
+      <div class="Code_Segment"><a name="1009438">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1009439">        if (wasFound) {</a></div>
+      <div class="Code_Segment"><a name="1009440">            if (strcmp(buf, "NONE") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1009441">                propProfile-&gt;shadowingModel = CONSTANT;</a></div>
+      <div class="Code_Segment"><a name="1009442">                propProfile-&gt;shadowingMean_dB = 0.0;</a></div>
+      <div class="Code_Segment"><a name="1009443">            }</a></div>
+      <div class="Code_Segment"><a name="1009444">            else {</a></div>
+      <div class="Code_Segment"><a name="1009445">                if (strcmp(buf, "LOGNORMAL") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1009446">                    propProfile-&gt;shadowingModel = LOGNORMAL;</a></div>
+      <div class="Code_Segment"><a name="1009447">                }</a></div>
+      <div class="Code_Segment"><a name="1009448">                else if (strcmp(buf, "CONSTANT") == 0) {</a></div>
+      <div class="Code_Segment"><a name="1009449">                    propProfile-&gt;shadowingModel = CONSTANT;</a></div>
+      <div class="Code_Segment"><a name="1009450">                }</a></div>
+      <div class="Code_New"><a name="1009505">                else if (strcmp(buf, "MYSHADOWING") == 0) {</a></div>
+      <div class="Code_New"><a name="1009506">                    propProfile-&gt;shadowingModel = MYSHADOWING;</a></div>
+      <div class="Code_New"><a name="1009507">                }</a></div>
+      <div class="Code_Segment"><a name="1009451">                else {</a></div>
+      <div class="Code_Segment"><a name="1009452">                    char errorMessage[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1009453">                    sprintf(errorMessage,</a></div>
+      <div class="Code_Segment"><a name="1009454">                            "Error: unknown PROPAGATION-SHADOWING-MODEL '%s'.\n",</a></div>
+      <div class="Code_Segment"><a name="1009455">                            buf);</a></div>
+      <div class="Code_Segment"><a name="1009456">                    ERROR_ReportError(errorMessage);</a></div>
+      <div class="Code_Segment"><a name="1009457">                }</a></div>
+      <div class="Code_Segment"><a name="1009458">                ...</a></div>
+      <div class="Code_Segment"><a name="1009478">            }</a></div>
+      <div class="Code_Segment"><a name="1009479">        }</a></div>
+      <div class="Code_Segment"><a name="1009480">        else {</a></div>
+      <div class="Code_Segment"><a name="1009481">            propProfile-&gt;shadowingModel = CONSTANT;</a></div>
+      <div class="Code_Segment"><a name="1009482">            propProfile-&gt;shadowingMean_dB = PROP_DEFAULT_SHADOWING_MEAN_dB;</a></div>
+      <div class="Code_Segment"><a name="1009483">        }</a></div>
+      <div class="Code_Segment"><a name="1009389">        ...</a></div>
+      <div class="Code_Segment"><a name="1009390">    } //for//</a></div>
+      <div class="Code_Segment"><a name="1009391">    ...</a></div>
+      <div class="Code_Segment"><a name="1009392">}</a></div>
+      <div class="Figure">FIGURE 4-195.&nbsp;&nbsp;<a name="1009393">Initializing Shadowing Models</a></div>
+      <div class="Heading3Numbered">4.7.7.3  <a name="1009696">Shadowing Loss Calculation</a></div>
+      <div class="BodyAfterHead"><a name="1009697">In </a><span class="Variable">QualNet</span>, the signal attenuation due to shadowing is calculated along with the path loss. This is done in function PROP_CalculatePathloss, implemented in propagation.cpp.</div>
+      <div class="Body"><a name="1036067">To add a shadowing model to </a><span class="Variable">QualNet</span>, modify function PROP_CalculatePathloss to call the model’s shadowing loss calculation function. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-7.html#1009668', '');" title="Communication Medium">Figure&nbsp;4-196</a></span> shows the changes that need to be made to PROP_CalculatePathloss to add MYSHADOWING to <span class="Variable">QualNet</span>. ShadowingMyshadowing is the MYSHADOWING function that calculates the shadowing loss.</div>
+      <div class="Body"><a name="1009861">Implement the shadowing loss calculation function ShadowingMyshadowing and include it in the source file, propagation.cpp.</a></div>
+      <div class="Code_Segment"><a name="1009622">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1009623">void PROP_CalculatePathloss(</a></div>
+      <div class="Code_Segment"><a name="1009624">    Node* node,</a></div>
+      <div class="Code_Segment"><a name="1009625">    int channelIndex,</a></div>
+      <div class="Code_Segment"><a name="1009626">    double wavelength,</a></div>
+      <div class="Code_Segment"><a name="1009627">    float txAntennaHeight,</a></div>
+      <div class="Code_Segment"><a name="1009628">    float rxAntennaHeight,</a></div>
+      <div class="Code_Segment"><a name="1009629">    PropPathProfile *pathProfile,</a></div>
+      <div class="Code_Segment"><a name="1009630">    double* pathloss_dB)</a></div>
+      <div class="Code_Segment"><a name="1009631">{</a></div>
+      <div class="Code_Segment"><a name="1009632">    ...</a></div>
+      <div class="Code_Segment"><a name="1023462">    PropProfile *propProfile = node-&gt;propChannel[channelIndex].profile;</a></div>
+      <div class="Code_Segment"><a name="1009633">    ...</a></div>
+      <div class="Code_Segment"><a name="1009634">    switch (propProfile-&gt;pathlossModel) {</a></div>
+      <div class="Code_Segment"><a name="1009635">        case FREE_SPACE:</a></div>
+      <div class="Code_Segment"><a name="1009636">        case TWO_RAY:</a></div>
+      <div class="Code_Segment"><a name="1009637">        {</a></div>
+      <div class="Code_Segment"><a name="1009731">           double shadowing_dB = 0.0;</a></div>
+      <div class="Code_Segment"><a name="1009733">           if (propProfile-&gt;shadowingMean_dB != 0.0) {</a></div>
+      <div class="Code_Segment"><a name="1009734">                if (propProfile-&gt;shadowingModel == CONSTANT) {</a></div>
+      <div class="Code_Segment"><a name="1009735">                    shadowing_dB = propProfile-&gt;shadowingMean_dB;</a></div>
+      <div class="Code_Segment"><a name="1009736">                }</a></div>
+      <div class="Code_New"><a name="1009787">                else if (propProfile-&gt;shadowingModel == MYSHADOWING) {</a></div>
+      <div class="Code_New"><a name="1009788">                    //</a></div>
+      <div class="Code_New"><a name="1009796">                    // Calculate shadowing value</a></div>
+      <div class="Code_New"><a name="1009798">                    shadowing_dB = ShadowingMyshadowing(...);</a></div>
+      <div class="Code_New"><a name="1009789">                }</a></div>
+      <div class="Code_Segment"><a name="1009737">                else {</a></div>
+      <div class="Code_Segment"><a name="1009738">                    shadowing_dB =</a></div>
+      <div class="Code_Segment"><a name="1009739">                        propData-&gt;shadowingDistribution.getRandomNumber();</a></div>
+      <div class="Code_Segment"><a name="1009742">                }</a></div>
+      <div class="Code_Segment"><a name="1009743">            }</a></div>
+      <div class="Code_Segment"><a name="1009745">            if (propProfile-&gt;pathlossModel == FREE_SPACE) {</a></div>
+      <div class="Code_Segment"><a name="1009746">                *pathloss_dB = PROP_PathlossFreeSpace(pathProfile-&gt;distance,</a></div>
+      <div class="Code_Segment"><a name="1009747">                                                      wavelength);</a></div>
+      <div class="Code_Segment"><a name="1009748">            }</a></div>
+      <div class="Code_Segment"><a name="1009749">            else {</a></div>
+      <div class="Code_Segment"><a name="1009750">                assert(propProfile-&gt;pathlossModel == TWO_RAY);</a></div>
+      <div class="Code_Segment"><a name="1046423">                txPlatformHeight = pathProfile-&gt;fromPosition.common.c3 +</a></div>
+      <div class="Code_Segment"><a name="1046424">                                   txAntennaHeight;</a></div>
+      <div class="Code_Segment"><a name="1046425">                rxPlatformHeight = pathProfile-&gt;toPosition.common.c3 +</a></div>
+      <div class="Code_Segment"><a name="1046426">                                   rxAntennaHeight;</a></div>
+      <div class="Code_Segment"><a name="1046428">                *pathloss_dB = PROP_PathlossTwoRay(pathProfile-&gt;distance,</a></div>
+      <div class="Code_Segment"><a name="1046429">                                                   wavelength,</a></div>
+      <div class="Code_Segment"><a name="1046446">                                                   (float)txPlatformHeight,</a></div>
+      <div class="Code_Segment"><a name="1046447">                                                   (float)rxPlatformHeight);</a></div>
+      <div class="Code_Segment"><a name="1046452">            }</a></div>
+      <div class="Code_Segment"><a name="1009758">            *pathloss_dB += shadowing_dB;</a></div>
+      <div class="Code_Segment"><a name="1009638">            return;</a></div>
+      <div class="Code_Segment"><a name="1009639">        }</a></div>
+      <div class="Code_Segment"><a name="1009661">        ...</a></div>
+      <div class="Code_Segment"><a name="1009664">        }</a></div>
+      <div class="Code_Segment"><a name="1009665">    }</a></div>
+      <div class="Code_Segment"><a name="1009666">    return;</a></div>
+      <div class="Code_Segment"><a name="1009667">}</a></div>
+      <div class="Figure">FIGURE 4-196.&nbsp;&nbsp;<a name="1009668">Calling Shadowing Loss Calculation Function</a></div>
+      <div class="Heading3Numbered">4.7.7.4  <a name="1046671">Integrating the Model into the GUI</a></div>
+      <div class="BodyAfterHead"><a name="1046675">To make the new model available in </a><span class="Variable">QualNet</span> GUI, modify the GUI settings files, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%205.16.2.html#986045', '');" title="Customizing Design Mode of QualNet Architect">Section&nbsp;5.1.4</a></span>.</div>
+      <div class="Body"><a name="1022435">&nbsp;</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

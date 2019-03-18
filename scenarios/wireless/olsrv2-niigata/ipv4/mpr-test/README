@@ -1,0 +1,97 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+
+
+PURPOSE:-
+--------
+To verify the selection of MPR  and generation of TC messages
+in an IPv4 scenario.
+
+
+SCENARIO:-
+---------
+
+       
+              [2]                           [5]
+                                
+    
+  
+   
+     
+   [1]          [4]                                  [6] 
+  
+  
+  
+    
+    
+             [3]                             [7]
+  
+                     
+                     Initial Topology
+                  
+  
+   
+  
+                [2]                           [5]
+                                  
+      
+    
+     
+       
+     [1]                                    [4]         [6] 
+    
+    
+      
+      
+      
+             [3]                             [7]
+       
+       
+                     Final Topology
+                     
+                     
+
+Nodes 1 thru 7 are in Ad-hoc network.All the nodes are running
+OLSRv2-NIIGATA as routing protocol. Node 4 is configured with 
+mobility.Initially for some time node 4 is in the range of nodes 
+1, 2 and 3, then after some time node 4 moves out of the range of 
+nodes 1, 2 and 3 and comes in the range of nodes 5, 6 and 7.
+
+Two CBR applications are configured between Nodes 2 and 3 and Nodes
+5 and 7. 
+Initially for the first 60 sec node 4 is in the range of Nodes 2 
+and 3 for this interval application packets from node 2 to 3 will 
+be sent through node 4. Then after 60 sec node 4 will move out of 
+range and will come in the range of nodes 5 and 7, then the 
+application packets from node 5 to 7 will be sent through node 4.
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet mpr-selection.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. mpr-test.config        - QualNet configuration input file.
+2. mpr-test.app           - QualNet configuration file for application input.
+3. mpr-test.expected.stat - QualNet statistics collection.
+4. mpr-test.nodes         - QualNet configuration file for node position input.
+5. README                 - This file.
+

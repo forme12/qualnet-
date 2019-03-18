@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="Traffic Trace Properties" singlehost="false" loopback="enabled" propertytype="TRAFFIC-TRACE" displayname="Traffic Trace">
+   <variable name="Source" key="SOURCE" type="SelectionDynamic" keyvisible="false" optional="false"/>
+   <variable name="Destination" key="DESTINATION" type="SelectionDynamic" keyvisible="false" optional="false"/>
+   <variable name="Start Time Distribution" key="START-TIME" type="Selection" default="DET" keyvisible="false" optional="false">
+        <option value="DET" name="Deterministic">
+           <variable name="Start Time" key="FIXED-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+  
+        <option value="UNI" name="Uniform">
+           <variable name="Earliest Start Time" key="EARLIEST-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+           <variable name="Latest Start Time" key="LATEST-START-TIME" type="Time" default="10S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="TPD" name="Pareto Truncated 3">
+            <variable name="Earliest Start Time" key="MIN-ES-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+            <variable name="Latest Start Time" key="MIN-LS-TIME" type="Time" default="10S" keyvisible="false" optional="false"/>
+            <variable name="Alpha Value" key="ALPHA-VALUE" type="Fixed" default="1.0" keyvisible="false" optional="false"/>
+        </option>
+        <option value="TPD4" name="Pareto Truncated 4">
+           <variable name="Minimum Value of Pareto" key="MIN-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+           <variable name="Lower Limit of Truncation" key="LOWER-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+           <variable name="Upper Limit of Truncation" key="UPPER-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+           <variable name="Alpha Value" key="ALPHA-START-TIME" type="Fixed" default="5" keyvisible="false" optional="false"/>
+        </option>
+  
+        <option value="EXP" name="Exponential">
+           <variable name="Mean Start Time" key="MEAN-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+     </variable>
+
+   <variable name="Duration Distribution" key="DURATION" type="Selection" default="DET" keyvisible="false" optional="false">
+         <option value="DET" name="Deterministic">
+            <variable name="Duration" key="FIXED-DURATION" type="Time" default="1S" keyvisible="false" optional="false"/>
+         </option>
+   
+         <option value="UNI" name="Uniform">
+            <variable name="Shortest Duration" key="SHORTEST-DURATION" type="Time" default="1S" keyvisible="false" optional="false"/>
+            <variable name="Longest Duration" key="LONGEST-DURATION" type="Time" default="10S" keyvisible="false" optional="false"/>
+         </option>
+        <option value="TPD" name="Pareto Truncated 3">
+            <variable name="Shortest Duration" key="MIN-DURATION-TPD" type="Time" default="1S" keyvisible="false" optional="false"/>
+            <variable name="Longest Duration" key="MAX-DURATION-TPD" type="Time" default="10S" keyvisible="false" optional="false"/>
+            <variable name="Alpha Value" key="ALPHA-DURATION-TPD" type="Fixed" default="1.0" keyvisible="false" optional="false"/>
+         </option>  
+         <option value="TPD4" name="Pareto Truncated 4">
+            <variable name="Minimum Value of Pareto" key="MIN-DURATION" type="Time" default="1S" keyvisible="false" optional="false"/>
+                  <variable name="Lower Limit of Truncation" key="LOWER-DURATION" type="Time" default="1S" keyvisible="false" optional="false"/>
+                  <variable name="Upper Limit of Truncation" key="UPPER-DURATION" type="Time" default="1S" keyvisible="false" optional="false"/>
+            <variable name="Alpha Value" key="ALPHA-DURATION" type="Fixed" default="5" keyvisible="false" optional="false"/>
+         </option>
+   
+         <option value="EXP" name="Exponential">
+            <variable name="Mean Duration" key="MEAN-DURATION" type="Time" default="1S" keyvisible="false" optional="false"/>
+         </option>
+      </variable>
+   <variable name="Traffic Type" key="TT" type="Selection" default="TRC" keyvisible="false" optional="false">
+      <option value="TRC" name="Trace">
+         <variable name="Trace File" key="TRACE-FILE" type="File" default="[Required]" filetype="trc" keyvisible="false" optional="false"/>
+      </option>
+   </variable>
+
+   <variable name="Leaky Bucket Type" key="LEAKY-BUCKET" type="Selection" default="NOLB" keyvisible="false" optional="false">
+         <option value="NOLB" name="None" />
+         <option value="LB" name="Leaky Bucket">
+            <variable name="Bucket Size (bytes)" key="BURST-SIZE-LB" type="Integer" default="30000" keyvisible="false" optional="false"/>
+   
+            <variable name="Token Rate (bps)" key="TOKEN-RATE-LB" type="Integer" default="500000" keyvisible="false" optional="false"/>
+   
+            <variable name="Action on Packets Exceeding Thresholds" key="WTD-LB" type="Selection" default="DROP" keyvisible="false" optional="false">
+               <option value="DROP" name="Drop" />
+   
+               <option value="DELAY" name="Delay" />
+            </variable>
+         </option>
+   
+         <option value="DLB" name="Dual Leaky Bucket">
+            <variable name="Bucket Size (bytes)" key="BURST-SIZE-DLB" type="Integer" default="30000" keyvisible="false" optional="false"/>
+   
+            <variable name="Token Rate (bps)" key="TOKEN-RATE-DLB" type="Integer" default="500000" keyvisible="false" optional="false"/>
+   
+            <variable name="Peak Rate (bps)" key="PEAK-RATE-DLB" type="Integer" default="2000000" keyvisible="false" optional="false"/>
+   
+            <variable name="Action on Packets Exceeding Thresholds" key="WTD-DLB" type="Selection" default="Drop" keyvisible="false" optional="false">
+               <option value="DROP" name="Drop" />
+   
+               <option value="DELAY" name="Delay" />
+            </variable>
+         </option>
+   </variable>
+
+   <variable name="Specify QOS Constraints" key="CONSTRAINT" type="Selection" default="N/A" keyvisible="false" optional="true">
+         <option value="N/A" name="No" />
+   
+         <option value="CONSTRAINT" name="Yes">
+            <variable name="Bandwidth" key="BANDWIDTH" type="Fixed multiplier" default="1 Mbps" unit="bps" keyvisible="false" optional="false"/>
+   
+            <variable name="End-to-end Delay" key="PROPAGATION-DELAY" type="Time" default="1MS" keyvisible="false" optional="false"/>
+   
+            <variable name="Priority" key="SPECIFY-PRIORITY" type="Selection" default="PRECEDENCE" keyvisible="false" optional="true">
+   
+               <option value="TOS" name="TOS" help="value (0-255) of the TOS bits in the IP header">
+                  <variable name="TOS Value" key="TOS-BITS" type="Integer" default="0" min="0" max="255" keyvisible="false" optional="false"/>
+               </option>
+   
+               <option value="DSCP" name="DSCP" help="value (0-63) of the DSCP bits in the IP header">
+                  <variable name="DSCP Value" key="DSCP-BITS" type="Integer" default="0" min="0" max="63" keyvisible="false" optional="false"/>
+               </option>
+   
+               <option value="PRECEDENCE" name="Precedence" help="value (0-7) of the Precedence bits in the IP header">
+                  <variable name="Precedence Value" key="PRECEDENCE-BITS" type="Integer" default="0" min="0" max="7" keyvisible="false" optional="false"/>
+               </option>
+            </variable>
+   
+            <variable name="Specify Session Retry Property" key="SESSION-RETRY-INTERVAL" type="Selection" default="N/A" keyvisible="false" optional="true">
+               <option value="N/A" name="No" />
+   
+               <option value="RETRY" name="Yes">
+                  <variable name="Retry Interval" key="RETRY-PERIOD" type="Time" default="1MS" keyvisible="false" optional="false"/>
+               </option>
+            </variable>
+         </option>
+   </variable>
+<variable name="Enable MDP" key="MDP-ENABLED" type="Selection" default="N/A" keyvisible="false" optional="false">
+    <option value="N/A" name="No" />
+    <option value="MDP-ENABLED" name="Yes">
+      <variable name="Specify MDP Profile" key="MDP-PROFILE" type="Selection" default="N/A" keyvisible="false" optional="false" >
+          <option value="N/A" name="No" />
+          <option value="MDP-PROFILE" name="Yes">
+              <variable name="MDP Profile Name" key="MDP-PROFILE-NAME" type="Text" default="[Required]" keyvisible="false" optional="false" />
+          </option>
+      </variable>
+    </option>
+  </variable>   
+
+
+
+</category>
+

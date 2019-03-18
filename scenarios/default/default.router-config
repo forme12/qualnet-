@@ -1,0 +1,167 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+#
+# CONFIGURATION FILE FOR DEFINING ACL CRITERIAS
+# ---------------------------------------------
+#
+# Inputs in this file are case insensitive.
+#
+# Node-id of node where access list is defined.
+# ROUTER <node-id>
+# NOTE: This line is required only if a common ACL configuration file
+# is provided for all the nodes.
+#
+# Interface index of node where ACL is to be configured.
+# INTERFACE <interface-index>
+# NOTE: Access list is applied to that interface which is defined by last
+# INTERFACE keyword in the current configuration file.
+#
+# The rest all the configurations for standard, extended and reflex ACL
+# follow the CISCO format. For detailed configuration proposals, refer
+# to the user's manual.
+#
+# For static and standard access list, use the following reference:
+# http://www.cisco.com/univercd/cc/td/doc/product/software/
+#       ios113ed/113ed_cr/np1_c/1cip.htm#xtocid847415
+# For reflexive access lists, use the following reference:
+# http://www.cisco.com/univercd/cc/td/doc/product/software/
+#       ios120/12cgcr/secur_c/scprt3/screflex.htm#13069
+# 
+# Example:
+# 
+# ROUTER 1
+# INTERFACE 0
+# IP ACCESS-LIST extended noUDP
+# DENY UDP 0.0.1.1 255.255.0.0 ANY log
+# PERMIT UDP ANY ANY
+# IP ACCESS-LIST extended yesTCP PERMIT TCP ANY ANY log
+# IP ACCESS-GROUP noUDP IN
+# IP ACCESS-GROUP yesTCP IN
+
+
+#
+# CONFIGURATION FOR ROUTE REDISTRIBUTION
+# --------------------------------------
+#
+# Inputs in this file are case insensitive.
+#
+# NODE-IDENTIFIER <node-id>
+#
+#   node-id: The node where redistribution is defined.
+#
+# ROUTER <protocol>
+#
+#   protocol: The protocol to which routes should to be redistributed.
+#             Supported protocols are IGRP, OSPFv2, RIPv2/v1, BELLMANFORD 
+#             and EIGRP
+# REDISTRIBUTE protocol [metric metric-value] [route-map map-tag]
+#              [<start time> <end time>]
+#
+# NO REDISTRIBUTE protocol [metric metric-value] [route-map map-tag]
+#                 [<start time> <end time>]
+#
+#   protocol: Routes found by this protocol will be redistributed into
+#             other protocols specified by the 'ROUTER' command.
+#             Supported protocols are BGP, IGRP, OSPFv2 and RIPv2.
+#
+#   metric-value: This is the value associated with each route which represents
+#                 the cost to reach the destination. In case of IGRP this is
+#                 represented by 5 quantities (viz. bandwidth, reliability,
+#
+#   map-tag: Route map that should be interrogated to filter the
+#            importing of routes from this source routing protocol to the
+#            current routing protocol. If not specified, all routes are
+#            redistributed. If this keyword is specified, and no route map tags
+#            are listed, no routes will be imported.
+#
+#   start time: Route redistribution will start at the specified start time. If
+#               not specified, it will start at the beginning of simulation.
+#
+#   end time: Route redistribution will end at the specified end time. If not
+#             specified, it will be in effect until the end of simulation.
+#
+#   NOTE: The 'NO REDISTRIBUTE' command has a higher priority than the
+#         'REDISTRIBUTE' command. If both the commands were specified for a same
+#         router, then routes would not be redistributed provided the start time
+#         and end time are same for both.
+#
+# Example:
+#
+# NODE-IDENTIFIER 4              (The node at which redistribution is applied)
+# ROUTER ospfv2
+# REDISTRIBUTE RIPv2 10S 60S     (RIP routes are redistributed)
+#
+# NODE-IDENTIFIER 10
+# ROUTER ospfv2
+# REDISTRIBUTE RIPv2 METRIC 21   (Routes are redistributed with metric 21)
+# NO REDISTRIBUTE RIPv2 50S 70S  (Routes would not be redistributed in
+#                                 this interval)
+#
+# NODE-IDENTIFIER 7
+# ROUTER ospfv2
+# REDISTRIBUTE RIPv2 ROUTE-MAP ospf-to-rip    (Route map has been tagged)
+#
+# ROUTE-MAP ospf-to-rip permit 1  5           (Route Map definition)
+#
+#
+# Example of multi-protocol redistribution:
+#
+# NODE-IDENTIFIER 4                   (At which node redistribution is applied)
+#
+# router ospfv2
+# redistribute RIPv2                  (RIP routes are redistributed)
+#
+# router igrp
+# redistribute RIPv2 metric 10000 100 255 1 1500 # RIP routes are redistributed 
+#
+# NODE-IDENTIFIER 10                  (At which node redistribution is applied)
+#
+# router ospfv2
+# redistribute RIPv2                  (RIP routes are redistributed)
+# redistribute IGRP                   (IGRP routes are redistributed)
+#
+#
+#
+# CONFIGURATION FOR POLICY BASED ROUTING
+# --------------------------------------
+#
+# Inputs in this file are case insensitive.
+#
+# NODE-IDENTIFIER <node-id>
+#   node-id: The node where redistribution is defined.
+#
+# interface interface-type interface-number
+# route-map map-tag [permit | deny][sequence-number]
+# match length min max and/or match ip address {access-list-number | name}
+#   [...access-list-number | name]
+# set ip precedence [number | name]
+# set ip next-hop ip-address [... ip-address]
+# set interface interface-type interface-number [... type number]
+# set ip default next-hop ip-address [... ip-address]
+# set default interface interface-type interface-number [... type ...number]
+# ip policy route-map map-tag
+# ip local policy route-map map-tag
+#
+# Usage:
+# access-list 106 permit ip host 192.168.1.1 host 192.168.5.3
+# access-list 110 permit ip any any
+# interface 0
+# ip policy route-map load-share
+# route-map load-share permit 1
+# match ip address 106
+# set ip next-hop 192.168.2.3

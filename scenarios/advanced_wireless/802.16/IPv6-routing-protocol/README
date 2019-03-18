@@ -1,0 +1,48 @@
+PURPOSE:-
+--------
+To test the functionality of IEEE 802.16
+when running IPv6 routing protocols.
+
+
+SCENARIO:-
+---------
+There are three 802.16 networks
+SLA0 contains 3 nodes, node 9 is BS and rests are SS
+SLA1 contains 4 nodes, node 1 is BS and rests are SS
+SLA2 contains 4 nodes, node 5 is BS and rests are SS
+node 1 connects node 9 via wired link.
+node 1 connects node 5 via wired link.
+All the nodes support IPv6
+
+RIPng/OSPFv3 is used as routing protocol.
+
+     BS              BS              BS
+     9---------------1----------------5
+  
+   SLA0             SLA1             SLA2
+   
+  10  11           2 3 4            6   7  8
+  
+  
+Three CBR flows are running:One from node 11 to node 3
+one from node 4 to node 6, one from node 8 to node 10.
+- CBR 11 3 100 512 1S 30S 0S PRECEDENCE 3
+- CBR 4 6 100 512 1S 30S 0S PRECEDENCE 5
+- CBR 8 10 100 512 1S 30S 0S PRECEDENCE 7
+
+Packets of all flows should arrive destinations successfully when either 
+RIPng or OSPFv3 is employed as routing protocol. 
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet IPv6-routing-protocol.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. IPv6-routing-protocol.app -  QualNet configuration file for application input.
+2. IPv6-routing-protocol.config - QualNet configuration input file.
+3. IPv6-routing-protocol.nodes - QualNet node placement file for the simulation run.
+4. IPv6-routing-protocol.expected.stat - QualNet statistics collection.
+6. README - This file.

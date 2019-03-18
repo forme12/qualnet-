@@ -1,0 +1,1257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>General Programming Utility Functions</title>
+    <link rel="StyleSheet" href="css/Chapter%204-1.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%204-1.05.1.html#993813">4	Developing Protocol Models in QualNet</a> &gt; 4.1  General Programming Utility Functions</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">4.1  <a name="993813">General Programming Utility Functions</a></div>
+      <div class="Heading2Numbered">4.1.1  <a name="1017366">Reading Input from a Configuration File</a></div>
+      <div class="BodyAfterHead"><a name="993814">The </a><span class="Variable">QualNet</span> configuration file is used to configure the protocol stack at each node and to specify the parameters for each protocol. The default configuration file is <span class="Variable">QUALNET_HOME</span>/scenarios/default/default.config.</div>
+      <div class="Body"><a name="993815">Protocol parameters are specified using the following format:</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1008165">[&lt;Identifier&gt;] &lt;Parameter-name&gt; [&lt;Index&gt;] &lt;Parameter-value&gt;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1008166">&nbsp;</a></div>
+      <div class="BodyAfterHead" style="text-indent: 9pt"><a name="1008167">where:</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><a name="1008168"> </a><span style="font-family: &quot;Courier New&quot;">&lt;Identifier&gt;	</span>: Node identifier, subnet identifier, or IP address to which this parameter declaration is applicable, enclosed in square brackets. This specification is optional, and if it is not included, the parameter declaration applies to all nodes.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><span style="font-family: &quot;Courier New&quot;"><a name="1008169">&lt;Parameter-name&gt;	</a></span>: Name of the parameter.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><a name="1008170"> </a><span style="font-family: &quot;Courier New&quot;">&lt;Index&gt;	</span>: Instance to which this parameter declaration is applicable, enclosed in square brackets. This is used when there are multiple instances of the parameter. This specification is optional, and if it is not included, the parameter declaration applies to all instances.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 145.8pt; margin-top: 3.0pt; text-indent: -109.80000000000001pt"><span style="font-family: &quot;Courier New&quot;"><a name="1008171">&lt;Parameter-value&gt;	</a></span>: Value to be used for the parameter. </div>
+      <div class="Body"><a name="1008195">The types of variables that require instance identifiers are typically arrays of values. As an example, consider the case of priority queues. In the default configuration each node has three priority queues on each interface. The following is an example of specifying weights of the interface queues in the configuration file: </a></div>
+      <div class="Code_Segment_Large"><a name="993823">QUEUE-WEIGHT[0] 0.5</a></div>
+      <div class="Code_Segment_Large"><a name="993824">QUEUE-WEIGHT[1] 0.3</a></div>
+      <div class="Code_Segment_Large"><a name="993825">QUEUE-WEIGHT[2] 0.2</a></div>
+      <div class="Body"><a name="993826">The value specified for a variable in the configuration file can take several forms: string, integer, double, float, and clocktype. </a><span class="Variable">QualNet</span> provides API functions for reading each variable format from the configuration file. Prototypes for I/O API functions are specified in <span class="Variable">QUALNET_HOME</span>/include/fileio.h. Some example I/O API functions are listed below. See the file fileio.h or <span style="font-style: italic">API Reference Guide</span> for a complete list of API functions and their parameters.</div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="993827">IO_ReadString: This function is used to read a string value when a qualifier (identifier) is specified. IO_ReadString is an overloaded function. One of the versions of this function is described here.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="993828">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="993829">void</a></div>
+      <div class="Code_Segment_Large"><a name="993830">IO_ReadString(</a></div>
+      <div class="Code_Segment_Large"><a name="993831">    const NodeAddress nodeId,</a></div>
+      <div class="Code_Segment_Large"><a name="993832">    const NodeAddress interfaceAddress,</a></div>
+      <div class="Code_Segment_Large"><a name="993833">    const NodeInput *nodeInput,</a></div>
+      <div class="Code_Segment_Large"><a name="993834">    const char *index,</a></div>
+      <div class="Code_Segment_Large"><a name="993835">    BOOL *wasFound,</a></div>
+      <div class="Code_Segment_Large"><a name="993836">    char *readVal);</a></div>
+      <div class="Code_Segment_Large"><a name="993837">&nbsp;</a></div>
+      <div class="NumberedCont"><a name="993838">The node identifier (</a><span style="font-family: &quot;Courier New&quot;">nodeId</span>), node address (<span style="font-family: &quot;Courier New&quot;">interfaceAddress</span>), a pointer to the data representation of the input file (<span style="font-family: &quot;Courier New&quot;">nodeInput</span>) and the variable name (<span style="font-family: &quot;Courier New&quot;">index</span>) are passed to the function. If a match is found in the input file for the node identifier, node address and variable name, the function sets the Boolean variable <span style="font-family: &quot;Courier New&quot;">wasFound</span> to TRUE and sets the destination string pointer (<span style="font-family: &quot;Courier New&quot;">readVal</span>) to the string corresponding to the parameter value; if a match is not found, the function sets <span style="font-family: &quot;Courier New&quot;">wasFound</span> to FALSE. </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="993839">IO_ReadStringInstance: This function is used to read a string value when both a qualifier and an instance are specified. IO_ReadStringInstance is an overloaded function. One of the versions of this function is described here.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="993840">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="993841">void</a></div>
+      <div class="Code_Segment_Large"><a name="993842">IO_ReadStringInstance(</a></div>
+      <div class="Code_Segment_Large"><a name="993843">    const NodeAddress nodeId,</a></div>
+      <div class="Code_Segment_Large"><a name="993844">    const NodeAddress interfaceAddress,</a></div>
+      <div class="Code_Segment_Large"><a name="993845">    const NodeInput *nodeInput,</a></div>
+      <div class="Code_Segment_Large"><a name="993846">    const char *parameterName,</a></div>
+      <div class="Code_Segment_Large"><a name="993847">    const int parameterInstanceNumber,</a></div>
+      <div class="Code_Segment_Large"><a name="993848">    const BOOL fallbackIfNoInstanceMatch,</a></div>
+      <div class="Code_Segment_Large"><a name="993849">    BOOL *wasFound,</a></div>
+      <div class="Code_Segment_Large"><a name="993850">    char *parameterValue);</a></div>
+      <div class="Code_Segment_Large"><a name="993851">&nbsp;</a></div>
+      <div class="NumberedCont"><a name="993852">Function IO_ReadStringIntance is similar to function IO_ReadString, but has two extra parameters. The first, </a><span style="font-family: &quot;Courier New&quot;">parameterInstanceNumber</span>, identifies the parameter instance for which the value is to be read. The other, <span style="font-family: &quot;Courier New&quot;">fallbackIfNoInstanceMatch</span>, is a boolean that specifies whether the fallback value for the parameter is assigned to the specified parameter instance if there is no match for <span style="font-family: &quot;Courier New&quot;">parameterInstanceNumber</span>. </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="993853">IO_ReadCachedFile: This function is used to read and store the contents of a file when the name of the file is used as a parameter value. IO_ReadCacheFile is an overloaded function. One of the versions of this function is described here.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="993854">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="993855">void<br />IO_ReadCachedFile(</a></div>
+      <div class="Code_Segment_Large"><a name="993856">    const NodeAddress nodeId,</a></div>
+      <div class="Code_Segment_Large"><a name="993857">    const NodeAddress interfaceAddress,</a></div>
+      <div class="Code_Segment_Large"><a name="993858">    const NodeInput *nodeInput,</a></div>
+      <div class="Code_Segment_Large"><a name="993859">    const char *parameterName,</a></div>
+      <div class="Code_Segment_Large"><a name="993860">    BOOL *wasFound,</a></div>
+      <div class="Code_Segment_Large"><a name="993861">    NodeInput *parameterValue); </a></div>
+      <div class="Code_Segment_Large"><a name="993862">&nbsp;</a></div>
+      <div class="NumberedCont"><a name="993863">Function IO_ReadCachedFile is similar to function IO_ReadString, except that the contents of the file specified as the parameter value are stored in </a><span style="font-family: &quot;Courier New&quot;">parameterValue</span>. <span style="font-family: &quot;Courier New&quot;">parameterValue</span> can then be passed as a parameter to other IO read functions to extract numeric and string values from it.</div>
+      <div class="Heading2Numbered">4.1.2  <a name="993739">Programming with Message Info Fields</a></div>
+      <div class="BodyAfterHead"><a name="1044098">The message data structure contains fields, called </a><span style="font-style: italic">info</span> fields, which are used to store extra information used in the processing of the message as well as information that needs to be transported between layers. This information is typically used only in simulation (i.e., it does not have a counterpart in real networks) and, therefore, is not included in the packet payload. This information can be used for simulation tasks, such as collecting statistics and exchanging information across layers or nodes.</div>
+      <div class="Body"><a name="1044101">The info field is a memory storage associated with a message. Any type of information can be stored in this field. A message can have multiple info fields, each of which is identified by an info field type. Each message contains an info field of the default info field type which can be used by all models. To have exclusive use of an info field, a protocol model can define a new info field type and create, access, and modify info fields of that type. </a></div>
+      <div class="BodyAfterHead"><a name="1044041">All info fields are freed automatically when the message is freed. Once a message is freed, its info fields are not accessible anymore.</a></div>
+      <div class="Body"><a name="1044087">This section describes the APIs for manipulating info fields which should be sufficient for developing most protocol models. The implementation of the info fields and the advanced info field APIs used for special purposes are not discussed.</a></div>
+      <div class="Heading3Numbered">4.1.2.1  <a name="1017387">Info Field Type</a></div>
+      <div class="BodyAfterHead"><a name="1017436">The info field types are defined as items of the enumeration </a><span style="font-family: &quot;Courier New&quot;">MessageInfoType</span> in <span class="Variable">QUALNET_HOME</span>/include/message.h (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1044136', '');" title="General Programming Utility Functions">Figure&nbsp;4-2</a></span>).</div>
+      <div class="Code_Segment"><a name="1044120">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1044121">typedef enum message_info_type_str</a></div>
+      <div class="Code_Segment"><a name="1044122">{</a></div>
+      <div class="Code_Segment"><a name="1044123">    INFO_TYPE_UNDEFINED = 0,  // an empty info field.</a></div>
+      <div class="Code_Segment"><a name="1044124">    INFO_TYPE_DEFAULT = 1,    // default info type used in situations where</a></div>
+      <div class="Code_Segment"><a name="1044125">                              // specific type is given to the info field.</a></div>
+      <div class="Code_Segment"><a name="1044126">    INFO_TYPE_AbstractCFPropagation, // type for abstract contention free</a></div>
+      <div class="Code_Segment"><a name="1044127">                                     // propagation info field.</a></div>
+      <div class="Code_Segment"><a name="1044128">    INFO_TYPE_AppName,      // Pass the App name down to IP layer</a></div>
+      <div class="Code_Segment"><a name="1044129">    INFO_TYPE_StatCategoryName,</a></div>
+      <div class="Code_Segment"><a name="1044130">    INFO_TYPE_DscpName,</a></div>
+      <div class="Code_Segment"><a name="1044131">    ...</a></div>
+      <div class="Code_Segment"><a name="1044132">    INFO_TYPE_ForwardTcpHeader,</a></div>
+      <div class="Code_Segment"><a name="1044134">} MessageInfoType;</a></div>
+      <div class="Figure">FIGURE 4-2.&nbsp;&nbsp;<a name="1044136">Info Field Types</a></div>
+      <div class="Heading3Numbered">4.1.2.2  <a name="1017480">APIs for Info Field Operations</a></div>
+      <div class="BodyAfterHead"><a name="1017481">Several API functions are available in </a><span class="Variable">QualNet</span> for operations on the info field. These APIs can be called from any layer. The prototypes for these functions can be found in the file message.h. The implementation code for these functions can be found in the file <span class="Variable">QUALNET_HOME</span>/main/message.cpp. Refer to <span style="font-style: italic">API Reference Guide</span> or the file message.h for a more detailed description of these APIs and their parameters. </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1017919">MESSAGE_AddInfo: This function creates an info field of the type and size that are passed as parameters. If an info field of the same type already exists in the message, it is replaced with the new info field with the new size. The function returns a pointer to the allocated space, which can be used to access the memory allocated to this info field.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1017920">MESSAGE_InfoAlloc: This function assigns an info field of type </a><span style="font-family: &quot;Courier New&quot;">INFO_TYPE_DEFAULT</span>. The size of the field is passed as a parameter. It is the same as calling MESSAGE_AddInfo with <span style="font-family: &quot;Courier New&quot;">INFO_TYPE_DEFAULT</span> as the type. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1043378">MESSAGE_RemoveInfo: This function removes the info field with the specified type from the message. The memory allocated for the info field is also freed. If an info field with the specified type does not exist, no action is taken.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1043511">MESSAGE_ReturnInfo: This is an overloaded function with the following variants:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Sub1_inner"><a name="1043525">When info field type is passed as a parameter, the function returns a pointer to the info field with the specified type. This pointer can be used to access the space allocated for the info field.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Sub1_inner"><a name="1043526">When the info field type is not specified as a parameter, the function returns a pointer to the info field with type </a><span style="font-family: &quot;Courier New&quot;">INFO_TYPE_DEFAULT</span>. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1043568">MESSAGE_CopyInfo: This function copies all info fields from one message to another.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1043358">MESSAGE_ReturnInfoSize: This is an overloaded function with the following variants:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Sub1_inner"><a name="1043415">When the info field type is passed as a parameter, the function returns the size of the info field with the specified type. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Sub1_inner"><a name="1043580">When the info field type is not passed as a parameter, the function returns the size of the info field with type </a><span style="font-family: &quot;Courier New&quot;">INFO_TYPE_DEFAULT</span>. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">4.1.2.3  <a name="1043815">Using Info Fields</a></div>
+      <div class="BodyAfterHead"><a name="1017379">This section describes how to use the info fields in writing protocols.</a></div>
+      <div class="Heading4Numbered">4.1.2.3.1  <a name="1018134">Declaring User-defined Info Field Type</a></div>
+      <div class="BodyAfterHead"><a name="1018146">The info field type can be one of the items of the enumeration </a><span style="font-family: &quot;Courier New&quot;">MessageInfoType</span>, which is declared in message.h. Users can define their own info field type by including it in the enumeration <span style="font-family: &quot;Courier New&quot;">MessageInfoType</span>, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1018154', '');" title="General Programming Utility Functions">Figure&nbsp;4-3</a></span>.</div>
+      <div class="Body"><a name="1018574">User-defined info field types are particularly useful if the user wants to ensure that other models do not inadvertently modify or delete the data stored in the info field by the user’s own model.</a></div>
+      <div class="Note_Indented"><a name="1018236"><img class="Default" src="images/Chapter%204-1.05.2.1.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />Always add to the end of lists in header files. </a><span class="Variable">QualNet</span>'s pre-built object files use the values which existed when the object files were created. Inserting the constant in the middle of the list will result in the values below being offset in any new object files and may lead to the simulator crashing.</div>
+      <div class="Code_Segment"><a name="1018261">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1018262">typedef enum message_info_type_str</a></div>
+      <div class="Code_Segment"><a name="1018263">{</a></div>
+      <div class="Code_Segment"><a name="1018264">    INFO_TYPE_UNDEFINED = 0,  // an empty info field.</a></div>
+      <div class="Code_Segment"><a name="1018265">    INFO_TYPE_DEFAULT = 1,    // default info type used in situations where</a></div>
+      <div class="Code_Segment"><a name="1018266">                              // specific type is given to the info field.</a></div>
+      <div class="Code_Segment"><a name="1018267">    INFO_TYPE_AbstractCFPropagation, // type for abstract contention free</a></div>
+      <div class="Code_Segment"><a name="1018268">                                     // propagation info field.</a></div>
+      <div class="Code_Segment"><a name="1018269">    INFO_TYPE_AppName,      // Pass the App name down to IP layer</a></div>
+      <div class="Code_Segment"><a name="1018270">    INFO_TYPE_StatCategoryName,</a></div>
+      <div class="Code_Segment"><a name="1018271">    INFO_TYPE_DscpName,</a></div>
+      <div class="Code_Segment"><a name="1018272">    ...</a></div>
+      <div class="Code_Segment"><a name="1022615">    INFO_TYPE_ForwardTcpHeader,</a></div>
+      <div class="Code_New"><a name="1018199">    INFO_TYPE_MYINFOTYPE     // Type for Myinfo field</a></div>
+      <div class="Code_Segment"><a name="1018153">} MessageInfoType;</a></div>
+      <div class="Figure">FIGURE 4-3.&nbsp;&nbsp;<a name="1018154">Declaring User-defined Info Field Type</a></div>
+      <div class="Heading4Numbered">4.1.2.3.2  <a name="1044430">Adding an Info Field</a></div>
+      <div class="BodyAfterHead"><a name="1044431">The API MESSAGE_AddInfo is used to allocate space for an info field and adding the pointer to the allocated space to the message data structure. Following that, data can be stored in the info field by accessing the pointer to the allocated space.</a></div>
+      <div class="Body"><a name="1018404">The following sample code shows how to add an info field of the user-defined type </a><span style="font-family: &quot;Courier New&quot;">INFO_TYPE_MYINFO</span>. It assumes that the structure <span style="font-family: &quot;Courier New&quot;">MyInfoField</span> has been defined in the header file of the user model.</div>
+      <div class="Code_Segment_Large"><a name="1018303">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1018399">...</a></div>
+      <div class="Code_Segment_Large"><a name="1018392">Message* msg;</a></div>
+      <div class="Code_Segment_Large"><a name="1018304">struct MyInfoField* infoPtr;</a></div>
+      <div class="Code_Segment_Large"><a name="1018305">...</a></div>
+      <div class="Code_Segment_Large"><a name="1018306">msg = MESSAGE_Alloc(node, layer, protocol, eventType);</a></div>
+      <div class="Code_Segment_Large"><a name="1018307">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1018308">infoPtr = MESSAGE_AddInfo(node,</a></div>
+      <div class="Code_Segment_Large"><a name="1018309">	msg,</a></div>
+      <div class="Code_Segment_Large"><a name="1018310">	sizeof(MyInfoField),</a></div>
+      <div class="Code_Segment_Large"><a name="1018311">	INFO_TYPE_MYINFO);</a></div>
+      <div class="Code_Segment_Large"><a name="1018312">...</a></div>
+      <div class="Code_Segment_Large"><a name="1018300">// fill data in the info field using infoPtr now.</a></div>
+      <div class="Code_Segment_Large"><a name="1018398">...</a></div>
+      <div class="Heading4Numbered">4.1.2.3.3  <a name="1018430">Accessing an Info Field</a></div>
+      <div class="BodyAfterHead"><a name="1018431">The API MESSAGE_ReturnInfo is used to access an info field of a specific type. It returns a pointer which can be used to access data stored in the info field.</a></div>
+      <div class="Body"><a name="1018447">The following code sample shows how to access an info field of the user-defined type </a><span style="font-family: &quot;Courier New&quot;">INFO_TYPE_MYINFO</span>.</div>
+      <div class="Code_Segment_Large"><a name="1018450">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1018451">...</a></div>
+      <div class="Code_Segment_Large"><a name="1018453">struct MyInfoField* infoPtr;</a></div>
+      <div class="Code_Segment_Large"><a name="1018454">...</a></div>
+      <div class="Code_Segment_Large"><a name="1018457">infoPtr = MESSAGE_ReturnInfo(msg, INFO_TYPE_MYINFO);</a></div>
+      <div class="Code_Segment_Large"><a name="1018461">...</a></div>
+      <div class="Code_Segment_Large"><a name="1018462">// Access fields of MyInfoField using pointer infoPtr.</a></div>
+      <div class="Code_Segment_Large"><a name="1018463">...</a></div>
+      <div class="Heading4Numbered">4.1.2.3.4  <a name="1018525">Removing an Info Field</a></div>
+      <div class="BodyAfterHead"><a name="1018526">The API MESSAGE_RemoveInfo is used to free the space allocated to an info field of a specific type. Note that the space allocated to a specific info field can be over-written, but it is persistent unless explicitly freed by freeing the specific info field or by freeing the entire message using the API MESSAGE_Free.</a></div>
+      <div class="Body"><a name="1043841">The following code sample shows how to remove an info field of the user-defined type </a><span style="font-family: &quot;Courier New&quot;">INFO_TYPE_MYINFO</span>.</div>
+      <div class="Code_Segment_Large"><a name="1043842">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1043843">...</a></div>
+      <div class="Code_Segment_Large"><a name="1018530">struct MyInfoField* infoPtr;</a></div>
+      <div class="Code_Segment_Large"><a name="1018531">...</a></div>
+      <div class="Code_Segment_Large"><a name="1018532">infoPtr = MESSAGE_ReturnInfo(msg, INFO_TYPE_MYINFO);</a></div>
+      <div class="Code_Segment_Large"><a name="1018533">if (infoPtr != NULL)</a></div>
+      <div class="Code_Segment_Large"><a name="1018569">{</a></div>
+      <div class="Code_Segment_Large"><a name="1018570">   ...</a></div>
+      <div class="Code_Segment_Large"><a name="1018534">   // Access fields of MyInfoField using pointer infoPtr.</a></div>
+      <div class="Code_Segment_Large"><a name="1018535">   ...</a></div>
+      <div class="Code_Segment_Large"><a name="1018571">   MESSAGE_RemoveInfo(node, msg, INFO_TYPE_MYINFO);</a></div>
+      <div class="Code_Segment_Large"><a name="1018572">}</a></div>
+      <div class="Heading3Numbered">4.1.2.4  <a name="1018627">Persistence of Info Fields</a></div>
+      <div class="BodyAfterHead"><a name="1018634">Since the message data structure can have multiple info fields of different types, each model can use an info field to store information relevant to that model. In general, a model only manipulates its own info field and does not modify the other info fields. Therefore, a model’s info field is expected to be </a><span style="font-style: italic">persistent</span>, i.e., it will not be modified by other models. To ensure that a user-created model’s info field is persistent, the model should define and use its own info field, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1043815', '');" title="General Programming Utility Functions">Section&nbsp;4.1.2.3</a></span>.</div>
+      <div class="Note_Indented"><a name="1021637"><img class="Default" src="images/Chapter%204-1.05.2.2.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />To ensure that info fields used by other models are persistent, a user-created model should not modify any info field other than the ones defined by the model itself.</a></div>
+      <div class="Note_Indented"><a name="1044284"><img class="Default" src="images/Chapter%204-1.05.2.3.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />The default info field is used by many models and should not be assumed to be persistent.</a></div>
+      <div class="Note_Indented"><a name="1044300">&nbsp;</a></div>
+      <div class="Heading2Numbered">4.1.3  <a name="1017380">Random Number Generation</a></div>
+      <div class="BodyAfterHead"><span class="Variable"><a name="1018618">QualNet</a></span> uses sequences of pseudo-random numbers to model a number of real world systems. Random numbers must be used properly to ensure both the accuracy and repeatability of results.</div>
+      <div class="Body"><a name="1018588">A single sequence of random numbers is referred to as a random stream. A scenario may use many different random streams. In general, an independent random stream is required for each application and some applications may require multiple independent random streams. For example, if a scenario has ten Poisson processes that generate traffic, then it should use ten independent random streams to generate the inter-arrival intervals for each traffic stream. If an application generates traffic where both packet size and inter-packet interval are random, then it should use one random stream for the size and another one for the interval.</a></div>
+      <div class="Body"><a name="1018590">Using the same random number stream for multiple purposes leads the generated values to be correlated, and having correlated input streams may have subtle effects on the simulation results or even render the results invalid.</a></div>
+      <div class="Body"><a name="1018592">Random streams must be repeatable as well as independent. Given the same starting point, i.e., the same simulation parameters, they should generate exactly the same results; otherwise, it becomes impossible to verify the behavior of the system.</a></div>
+      <div class="Body"><a name="1018583">This section explains how </a><span class="Variable">QualNet</span>’s random number generation package is organized and gives examples of its usage. </div>
+      <div class="Heading3Numbered">4.1.3.1  <a name="1033341">Basic Functions for Random Number Generation</a></div>
+      <div class="BodyAfterHead"><span class="Variable"><a name="1033342">QualNet</a></span>’s random number generation system is built around three basic functions: RANDOM_erand, RANDOM_jrand, and RANDOM_nrand. These functions are based on the 48-bit random number generators, erand48, jrand48, and nrand48, found on most UNIX systems. File <span class="Variable">QUALNET_HOME</span>/include/random.h contains the prototypes of these functions and other declarations related to random number generation.</div>
+      <div class="Body"><a name="1018838">The following declaration defines the type for the 48-bit seed used by the random number generators:</a></div>
+      <div class="Code_Segment_Large"><a name="1018821">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1054086">typedef unsigned short RandomSeed[3];</a></div>
+      <div class="Body"><a name="1018819">The random generator functions are:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1018852">extern double RANDOM_erand(RandomSeed);</a></span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1018882">This function returns a real number between 0.0 and 1.0, both inclusive.</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1021681">extern Int32 RANDOM_jrand(RandomSeed);</a></span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1021682">This function returns an integer between -2</a><span style="vertical-align: super">31</span> and 2<span style="vertical-align: super">31</span>, both inclusive.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1021683">extern Int32 RANDOM_nrand(RandomSeed);</a></span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="1018895">This function returns an integer between 0 and 2</a><span style="vertical-align: super">31</span>, both inclusive.</div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="1018920">&nbsp;</a></div>
+      <div class="Body"><a name="1018796">Each call to RANDOM_erand, RANDOM_jrand, or RANDOM_nrand generates a random number based on the seed that is passed as a parameter and updates the seed. The next call to the function uses the updated seed to generate a new random number and updates the seed again. The updates to the seed are deterministic and the entire stream of generated random numbers is determined by the initial seed. In order to create two independent random streams, two seed variables with independently assigned initial values are required. </a></div>
+      <div class="Body"><a name="1018973">The following function is used to set the initial seed:</a></div>
+      <div class="Code_Segment_Large"><a name="1018956">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1054103">void RANDOM_SetSeed(RandomSeed seed,</a></div>
+      <div class="Code_Segment_Large"><a name="1018957">                    UInt32 globalSeed, </a></div>
+      <div class="Code_Segment_Large"><a name="1018958">                    UInt32 nodeId = 0,</a></div>
+      <div class="Code_Segment_Large"><a name="1018959">                    UInt32 protocolId = 0, </a></div>
+      <div class="Code_Segment_Large"><a name="1018954">                    UInt32 instanceId = 0);</a></div>
+      <div class="Body"><a name="1018969">The input parameters of this function are used to generate deterministic, but unique initial seeds:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1018974">globalSeed</a></span><span style="font-family: Arial">: This is the </span>SEED<span style="font-family: Arial"> parameter in the configuration file. Including this parameter allows the user to change the random stream for different experiments.</span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1018975">nodeId</a></span><span style="font-family: Arial">: Including the node identifier ensures that each node will use a different random stream.</span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1018976">protocolId</a></span><span style="font-family: Arial">: Including the protocol identifier ensures that different protocols at the same node use different random streams.</span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1018984">instanceId</a></span><span style="font-family: Arial">: Including the instance identifier ensures that different instances of the same protocol use different random streams.</span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="1033219">We illustrate the use of the basic random number generator functions by taking as an example the </a><span class="Variable">QualNet</span> implementation of the Multiple Access Collision Avoidance (MACA) MAC protocol. MACA implementation code is contained in the files mac_maca.h and mac_maca.cpp in the folder <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src.</div>
+      <div class="Body"><a name="1019046">The MACA protocol uses two random streams: one to generate random backoff times and the other to generate random channel yield times. Both random streams are uniformly distributed. The MACA data structure, </a><span style="font-family: &quot;Courier New&quot;">MacDataMaca</span>, includes two variables, <span style="font-family: &quot;Courier New&quot;">backoffSeed</span> and <span style="font-family: &quot;Courier New&quot;">yieldSeed</span>, of type <span style="font-family: &quot;Courier New&quot;">RandomSeed</span>, to store the seeds for the two distributions. These seed variables are initialized in the function MacMacaInit, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019049', '');" title="General Programming Utility Functions">Figure&nbsp;4-4</a></span>.</div>
+      <div class="Code_Segment"><a name="1019055">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019125">void MacMacaInit(</a></div>
+      <div class="Code_Segment"><a name="1019056">   Node *node, int interfaceIndex, const NodeInput *nodeInput)</a></div>
+      <div class="Code_Segment"><a name="1019057">{</a></div>
+      <div class="Code_Segment"><a name="1019058">    MacDataMaca *maca = (MacDataMaca *) MEM_malloc(sizeof(MacDataMaca));</a></div>
+      <div class="Code_Segment"><a name="1019059">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019060">    assert(maca != NULL);</a></div>
+      <div class="Code_Segment"><a name="1019061">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019062">    memset(maca, 0, sizeof(MacDataMaca));</a></div>
+      <div class="Code_Segment"><a name="1019063">    maca-&gt;myMacData = node-&gt;macData[interfaceIndex];</a></div>
+      <div class="Code_Segment"><a name="1019064">    maca-&gt;myMacData-&gt;macVar = (void *)maca;</a></div>
+      <div class="Code_Segment"><a name="1019093">    ...</a></div>
+      <div class="Code_Segment"><a name="1019128">    maca-&gt;currentNextHopAddress = ANY_DEST;</a></div>
+      <div class="Code_Segment"><a name="1019094">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019095">    RANDOM_SetSeed(maca-&gt;backoffSeed,</a></div>
+      <div class="Code_Segment"><a name="1019096">                   node-&gt;globalSeed,</a></div>
+      <div class="Code_Segment"><a name="1019097">                   node-&gt;nodeId,</a></div>
+      <div class="Code_Segment"><a name="1019098">                   MAC_PROTOCOL_MACA,</a></div>
+      <div class="Code_Segment"><a name="1019099">                   interfaceIndex);</a></div>
+      <div class="Code_Segment"><a name="1019100">    RANDOM_SetSeed(maca-&gt;yieldSeed,</a></div>
+      <div class="Code_Segment"><a name="1019101">                   node-&gt;globalSeed,</a></div>
+      <div class="Code_Segment"><a name="1019102">                   node-&gt;nodeId,</a></div>
+      <div class="Code_Segment"><a name="1019103">                   MAC_PROTOCOL_MACA,</a></div>
+      <div class="Code_Segment"><a name="1019104">                   interfaceIndex + 1);</a></div>
+      <div class="Code_Segment"><a name="1019105">    ...</a></div>
+      <div class="Code_Segment"><a name="1019110">}</a></div>
+      <div class="Figure">FIGURE 4-4.&nbsp;&nbsp;<a name="1019049">Setting Random Number Seeds</a></div>
+      <div class="Body"><a name="1019050">Note that </a><span style="font-family: &quot;Courier New&quot;">backoffSeed</span> is set by calling RANDOM_SetSeed with <span style="font-family: &quot;Courier New&quot;">interfaceIndex</span> as the last parameter, whereas <span style="font-family: &quot;Courier New&quot;">yieldSeed</span> is set by calling RANDOM_SetSeed with <span style="font-family: &quot;Courier New&quot;">interfaceIndex + 1</span> as the last parameter. This ensures that different random streams will be used for backoff and yield times.</div>
+      <div class="Body"><a name="1019145">Once the two independent seeds have been set, RANDOM_erand, RANDOM_jrand, and RANDOM_nrand can be used to get the next random number in the sequence by passing the proper seed as the parameter. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019196', '');" title="General Programming Utility Functions">Figure&nbsp;4-5</a></span> shows function MacMacaYield which calls function RANDOM_nrand with <span style="font-family: &quot;Courier New&quot;">maca-&gt;yieldSeed</span> as the parameter to get a random yield time from a uniform distribution. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019193', '');" title="General Programming Utility Functions">Figure&nbsp;4-6</a></span> shows function MacMacaBackoff which calls function RANDOM_nrand with <span style="font-family: &quot;Courier New&quot;">maca-&gt;backoffSeed</span> as the parameter to get a random backoff time from a uniform distribution.</div>
+      <div class="Code_Segment"><a name="1019163">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019199">static</a></div>
+      <div class="Code_Segment"><a name="1019200">void MacMacaYield(Node *node, MacDataMaca *maca, clocktype vacation)</a></div>
+      <div class="Code_Segment"><a name="1019201">{</a></div>
+      <div class="Code_Segment"><a name="1019202">    assert(maca-&gt;state == MACA_S_YIELD);</a></div>
+      <div class="Code_Segment"><a name="1019204">    MacMacaSetTimer(node, maca, MACA_T_YIELD,</a></div>
+      <div class="Code_Segment"><a name="1019205">                    vacation + RANDOM_nrand(maca-&gt;yieldSeed) % 20);</a></div>
+      <div class="Code_Segment"><a name="1019194">}</a></div>
+      <div class="Figure">FIGURE 4-5.&nbsp;&nbsp;<a name="1019196">Generating a Random Value for Yield Time</a></div>
+      <div class="Code_Segment"><a name="1019197">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019195">static</a></div>
+      <div class="Code_Segment"><a name="1019164">void MacMacaBackoff(Node *node, MacDataMaca *maca)</a></div>
+      <div class="Code_Segment"><a name="1019165">{</a></div>
+      <div class="Code_Segment"><a name="1019166">    clocktype randomTime;</a></div>
+      <div class="Code_Segment"><a name="1019168">    assert(maca-&gt;state == MACA_S_BACKOFF);</a></div>
+      <div class="Code_Segment"><a name="1019170">    randomTime = (RANDOM_nrand(maca-&gt;backoffSeed) % maca-&gt;BOmin) + 1;</a></div>
+      <div class="Code_Segment"><a name="1019171">    ...</a></div>
+      <div class="Code_Segment"><a name="1019181">    MacMacaSetTimer(node, maca, MACA_T_BACKOFF, randomTime);</a></div>
+      <div class="Code_Segment"><a name="1019154">}</a></div>
+      <div class="Figure">FIGURE 4-6.&nbsp;&nbsp;<a name="1019193">Generating a Random Value for Backoff Time</a></div>
+      <div class="Heading3Numbered">4.1.3.2  <a name="1019159">Built-in Random Number Distributions</a></div>
+      <div class="BodyAfterHead"><a name="1033253">The functions described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1033341', '');" title="General Programming Utility Functions">Section&nbsp;4.1.3.1</a></span> can be used to generate random numbers and transform them into the type of distribution required. <span class="Variable">QualNet</span> also provides several built-in distributions that can be used directly. This section describes the interface to the built-in distributions.</div>
+      <div class="Body"><span class="Variable"><a name="1033254">QualNet</a></span> random number distributions are implemented by means of a C++ class, <span style="font-family: &quot;Courier New&quot;">RandomDistribution</span>, which is defined in random.h and is shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019383', '');" title="General Programming Utility Functions">Figure&nbsp;4-7</a></span>.</div>
+      <div class="Code_Segment"><a name="1019387">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019469">template &lt;class T&gt;</a></div>
+      <div class="Code_Segment"><a name="1019388">class RandomDistribution</a></div>
+      <div class="Code_Segment"><a name="1019389">{</a></div>
+      <div class="Code_Segment"><a name="1019390">public:</a></div>
+      <div class="Code_Segment"><a name="1019381">    ...</a></div>
+      <div class="Code_Segment"><a name="1019397">    void setDistributionUniform(T min, T max);</a></div>
+      <div class="Code_Segment"><a name="1019382">    void setDistributionUniformInteger(T min, T max);</a></div>
+      <div class="Code_Segment"><a name="1019409">    void setDistributionExponential(T mean);</a></div>
+      <div class="Code_Segment"><a name="1019416">    void setDistributionGaussian(double sigma);</a></div>
+      <div class="Code_Segment"><a name="1019414">    void setDistributionGaussianInt(double sigma);</a></div>
+      <div class="Code_Segment"><a name="1022248">    void setDistributionPareto(T val1, T val2, double alpha);</a></div>
+      <div class="Code_Segment"><a name="1019426">    void setDistributionPareto4(T val1, T val2, T val3, double alpha);</a></div>
+      <div class="Code_Segment"><a name="1022253">    void setDistributionGeneralPareto(T val1, double alpha);</a></div>
+      <div class="Code_Segment"><a name="1022260">    void setDistributionParetoUntruncated(T val1, double alpha);</a></div>
+      <div class="Code_Segment"><a name="1022264">    void setDistributionDeterministic(T val);</a></div>
+      <div class="Code_Segment"><a name="1019424">    void setDistributionNull();</a></div>
+      <div class="Code_Segment"><a name="1019436">    int setDistribution(char* inputString,</a></div>
+      <div class="Code_Segment"><a name="1019437">                        char* printStr,</a></div>
+      <div class="Code_Segment"><a name="1019438">                        RandomDataType dataType);</a></div>
+      <div class="Code_Segment"><a name="1019443">    T getRandomNumber();</a></div>
+      <div class="Code_Segment"><a name="1019444">    T getRandomNumber(RandomSeed seed);</a></div>
+      <div class="Code_Segment"><a name="1019450">    void setSeed(UInt32 globalSeed,</a></div>
+      <div class="Code_Segment"><a name="1019451">                 UInt32 nodeId = 0,</a></div>
+      <div class="Code_Segment"><a name="1019452">                 UInt32 protocolId = 0,</a></div>
+      <div class="Code_Segment"><a name="1019448">                 UInt32 instanceId = 0);</a></div>
+      <div class="Code_Segment"><a name="1019456"> ...</a></div>
+      <div class="Code_Segment"><a name="1019462">};</a></div>
+      <div class="Figure">FIGURE 4-7.&nbsp;&nbsp;<a name="1019383">Class </a><span style="font-family: &quot;Courier New&quot;">RandomDistribution</span></div>
+      <div class="Body"><a name="1019161">The </a><span style="font-family: &quot;Courier New&quot;">RandomDistribution</span> class has four types of member functions that are of interest to programmers:</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="1019491">Set Distribution Functions</a></span>: These functions set the distribution type.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1019509">setDistributionUniform: This function sets the distribution to return a value </a><span style="font-family: &quot;Courier New&quot;">x</span>, where <span style="font-family: &quot;Courier New&quot;">x</span> is uniformly distributed in the range <span style="font-family: &quot;Courier New&quot;">min</span> &lt;= <span style="font-family: &quot;Courier New&quot;">x</span> &lt; <span style="font-family: &quot;Courier New&quot;">max</span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1019548">setDistributionUniformInteger: This function sets the distribution to return a value </a><span style="font-family: &quot;Courier New&quot;">x</span>, where <span style="font-family: &quot;Courier New&quot;">x</span> is uniformly distributed in the range <span style="font-family: &quot;Courier New&quot;">min</span> &lt;= <span style="font-family: &quot;Courier New&quot;">x</span> &lt;= <span style="font-family: &quot;Courier New&quot;">max</span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-left: 27.216pt; text-indent: 0pt"><span style="font-weight: bold"><a name="1019560">Note</a></span>: This function should only be used for integer variables.</div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1019571">setDistributionExponential: This function sets an exponential distribution with </a><span style="font-family: &quot;Courier New&quot;">mean</span> as the mean.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1019644">setDistributionGaussian: This function sets a Gaussian distribution with </a><span style="font-family: &quot;Courier New&quot;">sigma</span> as the sigma value.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1022269">setDistributionGaussianInteger: This function sets a Gaussian distribution with </a><span style="font-family: &quot;Courier New&quot;">sigma</span> as the sigma value, but returns only integers.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1022281">setDistributionGeneralPareto: This function sets a Generalized Pareto distribution with </a><span style="font-family: &quot;Courier New&quot;">val1</span> as the lower end of the range and <span style="font-family: &quot;Courier New&quot;">alpha</span> as the shape parameter.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1022291">setDistributionParetoUntruncated: This function sets an untruncated Pareto distribution with </a><span style="font-family: &quot;Courier New&quot;">val1</span> as the lower end of the range and <span style="font-family: &quot;Courier New&quot;">alpha</span> as the shape parameter.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1022411">setDistributionPareto4: This function sets a truncated Pareto distribution with </a><span style="font-family: &quot;Courier New&quot;">val1</span> as the lower end of the range, <span style="font-family: &quot;Courier New&quot;">val2</span> as the lower limit of the truncation, <span style="font-family: &quot;Courier New&quot;">val3</span> as the upper limit of the truncation, and <span style="font-family: &quot;Courier New&quot;">alpha</span> as the shape parameter.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1022472">setDistributionPareto: This function sets a truncated Pareto distribution with </a><span style="font-family: &quot;Courier New&quot;">val1</span> as the lower end of the range (= the lower limit of the truncation), <span style="font-family: &quot;Courier New&quot;">val2</span> as the upper limit of the truncation, and <span style="font-family: &quot;Courier New&quot;">alpha</span> as the shape parameter.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bullet_Level_2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bullet_Level_2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="Bullet2">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bullet_Level_2_inner"><a name="1022473">setDistributionDeterministic: This function sets the distribution to always return </a><span style="font-family: &quot;Courier New&quot;">val</span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="1019701">File Parsing Function</a></span>: Function setDistribution parses an input string, determines the type of distribution and the parameters associated with it, and calls the set distribution function for that distribution. This is explained in detail in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019747', '');" title="General Programming Utility Functions">Section&nbsp;4.1.3.2.2</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="1019702">Get Random Number Function</a></span>: Function getRandomNumber returns the next random number in the sequence according to the distribution that was set by calling one of the set distribution functions.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; vertical-align: baseline">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="1019710">Set Seed Function</a></span><span style="font-weight: normal">: Function setSeed sets the initial seed for the random sequence. This function is similar to the function RANDOM_SetSeed described in </span><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1033341', '');" title="General Programming Utility Functions">Section&nbsp;4.1.3.1</a></span><span style="font-weight: normal">.</span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1033261', '');" title="General Programming Utility Functions" name="1019722">Section&nbsp;4.1.3.2.1</a></span> and <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019747', '');" title="General Programming Utility Functions">Section&nbsp;4.1.3.2.2</a></span> give examples of using the <span style="font-family: &quot;Courier New&quot;">RandomDistribution</span> class. The example in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019747', '');" title="General Programming Utility Functions">Section&nbsp;4.1.3.2.2</a></span> also illustrates the use of the file parsing function.</div>
+      <div class="Heading4Numbered">4.1.3.2.1  <a name="1033261">Using the </a><span style="font-family: &quot;Courier New&quot;">RandomDistribution</span> Class</div>
+      <div class="BodyAfterHead"><a name="1033262">We illustrate the use of the built-in random number distributions by taking as an example </a><span class="Variable">QualNet</span> modeling of shadowing effects. </div>
+      <div class="Body"><a name="1019790">The data structure for storing propagation data, </a><span style="font-family: &quot;Courier New&quot;">PropData</span>, shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019851', '');" title="General Programming Utility Functions">Figure&nbsp;4-8</a></span>, contains a variable <span style="font-family: &quot;Courier New&quot;">shadowingDistribution</span> of type <span style="font-family: &quot;Courier New&quot;">RandomDistribution</span>. </div>
+      <div class="Code_Segment"><a name="1019817">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1021505">struct PropData {</a></div>
+      <div class="Code_Segment"><a name="1019818">    int   numPhysListenable;</a></div>
+      <div class="Code_Segment"><a name="1019819">    int   numPhysListening;</a></div>
+      <div class="Code_Segment"><a name="1019820">    ...</a></div>
+      <div class="Code_Segment"><a name="1019850">    RandomDistribution&lt;double&gt; shadowingDistribution;</a></div>
+      <div class="Code_Segment"><a name="1019824">    int  nodeListId;</a></div>
+      <div class="Code_Segment"><a name="1019826">    int  numSignals;</a></div>
+      <div class="Code_Segment"><a name="1019827">    ...</a></div>
+      <div class="Code_Segment"><a name="1019811">};</a></div>
+      <div class="Figure">FIGURE 4-8.&nbsp;&nbsp;<a name="1019851">Declaring a Random Distribution Variable</a></div>
+      <div class="Body"><a name="1019958">Initializing a distribution comprises two steps: setting the initial seed and setting the distribution type. </a><span class="Variable">QualNet</span> implements two types of shadowing models: constant and lognormal. If the constant shadowing model is specified, then the deterministic distribution is used. If the lognormal shadowing model is specified, then the Gaussian distribution is used. Function PROP_Init, shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1019927', '');" title="General Programming Utility Functions">Figure&nbsp;4-9</a></span>, sets the initial seed for <span style="font-family: &quot;Courier New&quot;">shadowingDistribution</span> and sets <span style="font-family: &quot;Courier New&quot;">shadowingDistribution</span> to deterministic or Gaussian depending on the shadowing model specified. PROP_Init is implemented in <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/propagation.cpp.</div>
+      <div class="Code_Segment"><a name="1019877">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1019914">void PROP_Init(Node *node, int channelIndex, NodeInput *nodeInput) {</a></div>
+      <div class="Code_Segment"><a name="1019878">    PropData* propData = &amp;(node-&gt;propData[channelIndex]);</a></div>
+      <div class="Code_Segment"><a name="1019883">    ...</a></div>
+      <div class="Code_Segment"><a name="1019889">    propData-&gt;shadowingDistribution.setSeed(</a></div>
+      <div class="Code_Segment"><a name="1019890">        node-&gt;globalSeed,</a></div>
+      <div class="Code_Segment"><a name="1019891">        node-&gt;nodeId,</a></div>
+      <div class="Code_Segment"><a name="1019892">        channelIndex);</a></div>
+      <div class="Code_Segment"><a name="1019893">    if (propProfile-&gt;shadowingModel == CONSTANT) {</a></div>
+      <div class="Code_Segment"><a name="1019894">        propData-&gt;shadowingDistribution.setDistributionDeterministic(</a></div>
+      <div class="Code_Segment"><a name="1019895">            propProfile-&gt;shadowingMean_dB);</a></div>
+      <div class="Code_Segment"><a name="1019896">    }</a></div>
+      <div class="Code_Segment"><a name="1019897">    else { // propProfile-&gt;shadowingModel == LOGNORMAL</a></div>
+      <div class="Code_Segment"><a name="1019898">        propData-&gt;shadowingDistribution.setDistributionGaussian(</a></div>
+      <div class="Code_Segment"><a name="1019899">            propProfile-&gt;shadowingMean_dB);</a></div>
+      <div class="Code_Segment"><a name="1019872">    }</a></div>
+      <div class="Figure">FIGURE 4-9.&nbsp;&nbsp;<a name="1019927">Initializing a Random Distribution</a></div>
+      <div class="Body"><a name="1019789">Function PROP_CalculatePathloss, shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1020037', '');" title="General Programming Utility Functions">Figure&nbsp;4-10</a></span>, calls shadowingDistribution.getRandomNumber to obtain a number from the random distribution. The random number that is returned is generated according to the distribution that was set in PROP_Init. PROP_CalculatePathloss is implemented in propgataion.cpp.</div>
+      <div class="Code_Segment"><a name="1019993">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1020001">void PROP_CalculatePathloss(</a></div>
+      <div class="Code_Segment"><a name="1020002">    Node* node,</a></div>
+      <div class="Code_Segment"><a name="1020003">    int channelIndex,</a></div>
+      <div class="Code_Segment"><a name="1020004">    double wavelength,</a></div>
+      <div class="Code_Segment"><a name="1020005">    float txAntennaHeight,</a></div>
+      <div class="Code_Segment"><a name="1020006">    float rxAntennaHeight,</a></div>
+      <div class="Code_Segment"><a name="1020007">    PropPathProfile *pathProfile,</a></div>
+      <div class="Code_Segment"><a name="1020008">    double* pathloss_dB)</a></div>
+      <div class="Code_Segment"><a name="1020009">{</a></div>
+      <div class="Code_Segment"><a name="1020017">    ...</a></div>
+      <div class="Code_Segment"><a name="1020020">    switch (propProfile-&gt;pathlossModel) {</a></div>
+      <div class="Code_Segment"><a name="1020021">        case FREE_SPACE:</a></div>
+      <div class="Code_Segment"><a name="1020022">        case TWO_RAY:</a></div>
+      <div class="Code_Segment"><a name="1020023">        {</a></div>
+      <div class="Code_Segment"><a name="1020024">            double shadowing_dB = 0.0;</a></div>
+      <div class="Code_Segment"><a name="1020063">            if (propProfile-&gt;shadowingMean_dB != 0.0) {</a></div>
+      <div class="Code_Segment"><a name="1020027">                shadowing_dB =</a></div>
+      <div class="Code_Segment"><a name="1020029">                  propData-&gt;shadowingDistribution.getRandomNumber();</a></div>
+      <div class="Code_Segment"><a name="1020060">            }</a></div>
+      <div class="Code_Segment"><a name="1020018">            ...</a></div>
+      <div class="Code_Segment"><a name="1020038">            return;</a></div>
+      <div class="Code_Segment"><a name="1020039">          }</a></div>
+      <div class="Code_Segment"><a name="1020040">         ...</a></div>
+      <div class="Code_Segment"><a name="1020043">    }</a></div>
+      <div class="Code_Segment"><a name="1020045">    return;</a></div>
+      <div class="Code_Segment"><a name="1020041">}</a></div>
+      <div class="Figure">FIGURE 4-10.&nbsp;&nbsp;<a name="1020037">Acquiring Numbers from a Random Distribution</a></div>
+      <div class="Heading4Numbered">4.1.3.2.2  <a name="1019747">Using the File Parsing Function</a></div>
+      <div class="BodyAfterHead"><a name="1019748">If the distribution to be used for a random variable is known a-priori, then the built-in distributions can be used by calling the set seed and appropriate set distribution functions, as described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1033261', '');" title="General Programming Utility Functions">Section&nbsp;4.1.3.2.1</a></span>. However, in some cases, the distribution may be specified by the user and the model may need to read it from a file (typically, the .app file). The <span style="font-family: &quot;Courier New&quot;">RandomDistribution</span> class implements a function, setDistrbution, which parses an input line to determine the distribution type and its associated parameters and initializes the appropriate distribution.</div>
+      <div class="Body"><a name="1020078">A line in the input file may have specifications for one or more random distributions. Each random distribution is specified in the following format:</a></div>
+      <div class="Code_Segment_Large"><a name="1020081">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="1054144">&lt;Distribution Identifier&gt; &lt;Parameter List&gt;</a></div>
+      <div class="BulletedCont"><a name="1020099">where</a></div>
+      <div class="BulletedCont" style="margin-left: 195.76728pt; text-indent: -160.27272pt"><a name="1020100"> </a><span style="font-family: &quot;Courier New&quot;">&lt;Distribution Identifier&gt;	</span>: String identifying the distribution. </div>
+      <div class="BulletedCont" style="margin-left: 195.76728pt; text-indent: -160.27272pt"><span style="font-family: &quot;Courier New&quot;"><a name="1020270">&lt;Parameter List&gt;	</a></span>: Parameters for the distribution.</div>
+      <div class="Body"><a name="1020274">The string identifier and parameters for random distributions that can be read from an input file are listed in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1020184', '');" title="General Programming Utility Functions">Table&nbsp;4-1</a></span>.</div>
+      <div class="Anchor"><a name="1054159">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 403.2pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-1.&nbsp;&nbsp;<a name="1020184">Distribution Identifiers and Parameters</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 108pt">
+            <div class="CellHeading"><a name="1020190">Distribution Name</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 79.2pt">
+            <div class="CellHeading"><a name="1020192">Distribution Identifier</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 216pt">
+            <div class="CellHeading"><a name="1020194">Parameters</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020197">Uniform</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1020199">UNI</a></span></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1020314">Lower end of the range</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1020326">Upper end of the range</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1020216">Exponential</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1020218">EXP</a></span></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1020337">Mean value</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1022363">Pareto</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022365">TPD</a></span></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022367">Lower end of the range (= lower limit of the truncation)</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022368">Upper limit of the truncation</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022369">Shape parameter</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1022374">Pareto4</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022376">TPD4</a></span></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022381">Lower end of the range</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022485">Lower limit of the truncation</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022516">Upper limit of the truncation</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022380">Shape parameter</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1022357">Deterministic</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022359">DET</a></span></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Bulleted_outer" style="margin-left: -3.5999999999999996pt; margin-top: 2.0pt; vertical-align: baseline">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none">
+                      <span class="BulletSymbol">•	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Bulleted_inner" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1022361">Value</a></span></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="1020083">Examples:</a></div>
+      <div class="BodyAfterHead"><a name="1020386">      </a><span style="font-family: &quot;Courier New&quot;">UNI 10 30 </span>: Denotes a uniform distribution in the range 10 to 30</div>
+      <div class="BodyAfterHead"><a name="1020398">      </a><span style="font-family: &quot;Courier New&quot;">DET 20MS  </span>: Denotes a deterministic distribution with the value 20 milliseconds.</div>
+      <div class="Body"><a name="1020396">Function setDistribution has three input parameters and returns an integer value. The input parameters are:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1020408">Input string: String that has to be parsed.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1020409">Print string: String used for printing error messages (typically, the protocol name).</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1020416">Data type: Indication of the type of value the distribution is to return. It can be one of the values (</a><span style="font-family: &quot;Courier New&quot;">RANDOM_INT</span>, <span style="font-family: &quot;Courier New&quot;">RANDOM_DOUBLE</span> or <span style="font-family: &quot;Courier New&quot;">RANDOM_CLOCKTYPE</span>) of the enumeration <span style="font-family: &quot;Courier New&quot;">RandomDataType</span> defined in random.h. It is used to convert numeric parameters read from the input string into the correct data type.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="1020424">The integer value returned by the function setDistribution is the number of tokens in the input string required for specifying the distribution, i.e., the number of parameters associated with the distribution (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1020184', '');" title="General Programming Utility Functions">Table&nbsp;4-1</a></span>) plus 1.</div>
+      <div class="Body"><a name="1020381">We illustrate the use of the file parsing utility, setDistribution, by using the implementation of the Traffic Generator application (TRAFFFIC-GEN) as an example. TRAFFIC-GEN is implemented by files app_traffic_gen.h and app_traffic_gen.cpp in the folder </a><span class="Variable">QUALNET_HOME</span>/libraries/developer/src.</div>
+      <div class="Body"><a name="1020459">TRAFFIC-GEN uses random distribution for the packet size, packet interval, and drop probability. The drop probability is modeled by a uniform distribution in the range (0.0, 1.0). The packet size and packet interval distributions can be configured by the user and specified in the .app file.</a></div>
+      <div class="Body"><a name="1020460">The distributions are implemented by three variables of </a><span style="font-family: &quot;Courier New&quot;">RandomDistribution</span> type which are part of the data structure for the TRAFFIC-GEN client, <span style="font-family: &quot;Courier New&quot;">TrafficGenClient</span>, shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1020505', '');" title="General Programming Utility Functions">Figure&nbsp;4-11</a></span> and declared in file app_traffic_gen.h.</div>
+      <div class="Code_Segment"><a name="1020468">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1020478">typedef struct struct_traffic_gen_client</a></div>
+      <div class="Code_Segment"><a name="1020479">{</a></div>
+      <div class="Code_Segment"><a name="1020480">    // Two end nodes</a></div>
+      <div class="Code_Segment"><a name="1020481">    NodeAddress     localAddr;</a></div>
+      <div class="Code_Segment"><a name="1020469">    NodeAddress     remoteAddr;</a></div>
+      <div class="Code_Segment"><a name="1020489">    ...</a></div>
+      <div class="Code_Segment"><a name="1020492">    // Random dist. traffic properties</a></div>
+      <div class="Code_Segment"><a name="1020493">    RandomDistribution&lt;UInt32&gt;    dataSizeDistribution;    </a></div>
+      <div class="Code_Segment"><a name="1020509">                                         // Data length traffic gen dist.</a></div>
+      <div class="Code_Segment"><a name="1020494">    RandomDistribution&lt;clocktype&gt; intervalDistribution;    </a></div>
+      <div class="Code_Segment"><a name="1020510">                                         // Data interval traffic gen dist.</a></div>
+      <div class="Code_Segment"><a name="1020495">    RandomDistribution&lt;double&gt;    probabilityDistribution; </a></div>
+      <div class="Code_Segment"><a name="1020511">                                         // general probability distribution.</a></div>
+      <div class="Code_Segment"><a name="1020496">    double          genProb;             // Data generation probability</a></div>
+      <div class="Code_Segment"><a name="1020490">    ...</a></div>
+      <div class="Code_Segment"><a name="1020500">} TrafficGenClient;</a></div>
+      <div class="Figure">FIGURE 4-11.&nbsp;&nbsp;<a name="1020505">Declaring Distribution Variables</a></div>
+      <div class="Body"><a name="1020470">The distributions are initialized in the functions TrafficGenClientNewClient and TrafficGenClientInit, which are both implemented in the file app_traffic_gen.cpp. Since the packet size and interval distribution types are read from the input file, the </a><span style="font-family: &quot;Courier New&quot;">dataSizeDistribution</span> and <span style="font-family: &quot;Courier New&quot;">intervalDistribution</span> distributions are initialized to null in function TrafficGenClientNewClient, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1020566', '');" title="General Programming Utility Functions">Figure&nbsp;4-12</a></span>.</div>
+      <div class="Code_Segment"><a name="1020523">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1020553">static</a></div>
+      <div class="Code_Segment"><a name="1020524">TrafficGenClient* TrafficGenClientNewClient(Node* node)</a></div>
+      <div class="Code_Segment"><a name="1020525">{</a></div>
+      <div class="Code_Segment"><a name="1020526">    TrafficGenClient* clientPtr = (TrafficGenClient*)</a></div>
+      <div class="Code_Segment"><a name="1020527">            MEM_malloc(sizeof(TrafficGenClient));</a></div>
+      <div class="Code_Segment"><a name="1020529">    // Initialize the client</a></div>
+      <div class="Code_Segment"><a name="1020530">    ...</a></div>
+      <div class="Code_Segment"><a name="1020535">    clientPtr-&gt;dataSizeDistribution.setDistributionNull();</a></div>
+      <div class="Code_Segment"><a name="1020536">    clientPtr-&gt;intervalDistribution.setDistributionNull();</a></div>
+      <div class="Code_Segment"><a name="1020538">    ...</a></div>
+      <div class="Code_Segment"><a name="1020563"> }</a></div>
+      <div class="Figure">FIGURE 4-12.&nbsp;&nbsp;<a name="1020566">Initializing Distribution Variables: Part 1</a></div>
+      <div class="Body"><a name="1020659">In function TrafficGenClientInit (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1020472', '');" title="General Programming Utility Functions">Figure&nbsp;4-13</a></span>), independent, unique seeds for the three distributions (packet size, packet interval, and drop probability) are set by calling the <span style="font-family: &quot;Courier New&quot;">RandomDistribution</span> function setSeed. </div>
+      <div class="Body"><span style="font-family: &quot;Courier New&quot;"><a name="1020751">probabilityDistribution</a></span> is set to be a uniform distribution by calling function probabilityDistribution.setDistributionUniform. </div>
+      <div class="Body"><a name="1020752">Function dataSizeDistribution.setDistribution scans the input string (</a><span style="font-family: &quot;Courier New&quot;">tokenStr</span>). The first token encountered is the distribution identifier, which determines how many parameters follow the distribution identifier. Function dataSizeDistribution.setDistribution reads the appropriate number of tokens from the input string, converts the numeric data to the proper type (<span style="font-family: &quot;Courier New&quot;">int</span>, in this case) and calls the set distribution function corresponding to the distribution identifier. The number of tokens read (3, in this case) is returned and assigned to <span style="font-family: &quot;Courier New&quot;">nToken</span>.</div>
+      <div class="Body"><a name="1020768">Function TrafficGenClientSkipToken skips </a><span style="font-family: &quot;Courier New&quot;">nToken</span> number of tokens in the input string (<span style="font-family: &quot;Courier New&quot;">tokenStr</span>).</div>
+      <div class="Body"><a name="1020782">Function intervalDistribution.setDistribution behaves in the same way as function dataSizeDistribution.setDistribution, except that in this case, the numeric data are converted to type </a><span style="font-family: &quot;Courier New&quot;">clocktype</span>.</div>
+      <div class="Code_Segment"><a name="1020581">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1054169">void TrafficGenClientInit(</a></div>
+      <div class="Code_Segment"><a name="1020582">    Node* node,</a></div>
+      <div class="Code_Segment"><a name="1020583">    char* inputString,</a></div>
+      <div class="Code_Segment"><a name="1020584">    NodeAddress localAddr,</a></div>
+      <div class="Code_Segment"><a name="1020585">    NodeAddress remoteAddr,</a></div>
+      <div class="Code_Segment"><a name="1020586">    DestinationType destType)</a></div>
+      <div class="Code_Segment"><a name="1020587">{</a></div>
+      <div class="Code_Segment"><a name="1020588">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1020589">    TrafficGenClient* clientPtr = NULL;</a></div>
+      <div class="Code_Segment"><a name="1020590">    char* tokenStr = NULL;</a></div>
+      <div class="Code_Segment"><a name="1020471">    int nToken;</a></div>
+      <div class="Code_Segment"><a name="1020598">    ...</a></div>
+      <div class="Code_Segment"><a name="1020601">    // Initialize each distribution with a different seed for independence.</a></div>
+      <div class="Code_Segment"><a name="1020606">    ...</a></div>
+      <div class="Code_Segment"><a name="1020723">    clientPtr-&gt;dataSizeDistribution.setSeed(node-&gt;globalSeed,</a></div>
+      <div class="Code_Segment"><a name="1020607">                                            node-&gt;nodeId,</a></div>
+      <div class="Code_Segment"><a name="1020608">                                            APP_TRAFFIC_GEN_CLIENT,</a></div>
+      <div class="Code_Segment"><a name="1020609">                                            2);</a></div>
+      <div class="Code_Segment"><a name="1020610">    clientPtr-&gt;intervalDistribution.setSeed(node-&gt;globalSeed,</a></div>
+      <div class="Code_Segment"><a name="1020611">                                            node-&gt;nodeId,</a></div>
+      <div class="Code_Segment"><a name="1020612">                                            APP_TRAFFIC_GEN_CLIENT,</a></div>
+      <div class="Code_Segment"><a name="1020613">                                            3);</a></div>
+      <div class="Code_Segment"><a name="1020614">    clientPtr-&gt;probabilityDistribution.setSeed(node-&gt;globalSeed,</a></div>
+      <div class="Code_Segment"><a name="1020615">                                               node-&gt;nodeId,</a></div>
+      <div class="Code_Segment"><a name="1020616">                                               APP_TRAFFIC_GEN_CLIENT,</a></div>
+      <div class="Code_Segment"><a name="1020617">                                               4);</a></div>
+      <div class="Code_Segment"><a name="1020618">    clientPtr-&gt;probabilityDistribution.setDistributionUniform(0.0, 1.0);</a></div>
+      <div class="Code_Segment"><a name="1020649">    ...</a></div>
+      <div class="Code_Segment"><a name="1020676">    if (strcmp(buf, "RND") == 0)</a></div>
+      <div class="Code_Segment"><a name="1020677">    {</a></div>
+      <div class="Code_Segment"><a name="1020678">        // Random distribution traffic</a></div>
+      <div class="Code_Segment"><a name="1020679">        clientPtr-&gt;trfType = TRAFFIC_GEN_TRF_TYPE_RND;</a></div>
+      <div class="Code_Segment"><a name="1020681">        nToken = clientPtr-&gt;dataSizeDistribution.setDistribution(tokenStr,</a></div>
+      <div class="Code_Segment"><a name="1020682">                                                                 "TrafficGen",</a></div>
+      <div class="Code_Segment"><a name="1020683">                                                                 RANDOM_INT);</a></div>
+      <div class="Code_Segment"><a name="1020684">        tokenStr = TrafficGenClientSkipToken(tokenStr, TOKENSEP, nToken);</a></div>
+      <div class="Code_Segment"><a name="1020685">        nToken = clientPtr-&gt;intervalDistribution.setDistribution(tokenStr,</a></div>
+      <div class="Code_Segment"><a name="1020686">                                                                 "TrafficGen",</a></div>
+      <div class="Code_Segment"><a name="1020687">                                                                 RANDOM_CLOCKTYPE);</a></div>
+      <div class="Code_Segment"><a name="1020689">        tokenStr = TrafficGenClientSkipToken(tokenStr, TOKENSEP, nToken);</a></div>
+      <div class="Code_Segment"><a name="1020691">        ...</a></div>
+      <div class="Code_Segment"><a name="1020702">    }</a></div>
+      <div class="Code_Segment"><a name="1020703">    else if (strcmp(buf, "TRC") == 0)</a></div>
+      <div class="Code_Segment"><a name="1020704">    {</a></div>
+      <div class="Code_Segment"><a name="1020705">        ...</a></div>
+      <div class="Code_Segment"><a name="1020707">    }</a></div>
+      <div class="Code_Segment"><a name="1020708">    else</a></div>
+      <div class="Code_Segment"><a name="1020709">    {</a></div>
+      <div class="Code_Segment"><a name="1020710">        ...</a></div>
+      <div class="Code_Segment"><a name="1020748">    }</a></div>
+      <div class="Code_Segment"><a name="1020741">    ...</a></div>
+      <div class="Code_Segment"><a name="1020742">}</a></div>
+      <div class="Figure">FIGURE 4-13.&nbsp;&nbsp;<a name="1020472">Initializing Distribution Variables: Part 2</a></div>
+      <div class="Body"><a name="1020473">Example:</a></div>
+      <div class="Body" style="margin-left: 36pt; text-indent: 0pt"><a name="1020804">Consider the following input string:</a></div>
+      <div class="Body" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-left: 36pt; text-indent: 0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1020805">TRAFFIC-GEN 1 11 DET 180 DET 900 RND UNI 200 250 UNI 20US 20MS 1 NOLB</a></span></div>
+      <div class="Body" style="margin-left: 36pt; text-indent: 0pt"><a name="1020806">The first eight tokens (</a><span style="font-family: &quot;Courier New&quot;">TRAFFIC-GEN</span>, <span style="font-family: &quot;Courier New&quot;">1</span>, <span style="font-family: &quot;Courier New&quot;">11</span>, <span style="font-family: &quot;Courier New&quot;">DET</span>, <span style="font-family: &quot;Courier New&quot;">180</span>, <span style="font-family: &quot;Courier New&quot;">DET</span>, <span style="font-family: &quot;Courier New&quot;">900</span>, and <span style="font-family: &quot;Courier New&quot;">RND</span>) are processed by code not shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1020472', '');" title="General Programming Utility Functions">Figure&nbsp;4-13</a></span>.</div>
+      <div class="Body" style="margin-left: 36pt; text-indent: 0pt"><a name="1020852">Call to function dataSizeDistribution.setDistribution reads the distribution identifier “</a><span style="font-family: &quot;Courier New&quot;">UNI</span>”. Since that indicates a uniform distribution, the next two tokens are read as the parameters of the uniform distribution. These parameters are converted to <span style="font-family: &quot;Courier New&quot;">int</span> type since the last parameter to function dataSizeDistribution.setDistribution is <span style="font-family: &quot;Courier New&quot;">RANDOM_INT</span>. Function dataSizeDistribution.setDistribution also sets the distribution <span style="font-family: &quot;Courier New&quot;">dataSizeDistribution</span> to be a uniform distribution with the range 200 to 250.</div>
+      <div class="Body" style="margin-left: 36pt; text-indent: 0pt"><a name="1020867">Next, function TrafficGenClientSkipToken skips three tokens in </a><span style="font-family: &quot;Courier New&quot;">tokenStr</span>.</div>
+      <div class="Body" style="margin-left: 36pt; text-indent: 0pt"><a name="1020874">Function intervalDistribution.getDistribution is similar to function dataSizeDistribution.setDistribution. It reads the next three tokens and sets </a><span style="font-family: &quot;Courier New&quot;">intervalDistribution</span> to be a uniform distribution that returns a <span style="font-family: &quot;Courier New&quot;">clocktype</span> value in the range 20 microseconds to 20 milliseconds.</div>
+      <div class="Body"><a name="1020793">After initialization, the random distributions can be used by calling the appropriate getRandomNumber function. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#1020951', '');" title="General Programming Utility Functions">Figure&nbsp;4-14</a></span> shows how this is done in function TrafficGenClientInit.</div>
+      <div class="Code_Segment"><a name="1020898">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1021008">void TrafficGenClientInit(</a></div>
+      <div class="Code_Segment"><a name="1020899">    Node* node,</a></div>
+      <div class="Code_Segment"><a name="1020900">    char* inputString,</a></div>
+      <div class="Code_Segment"><a name="1020901">    NodeAddress localAddr,</a></div>
+      <div class="Code_Segment"><a name="1020902">    NodeAddress remoteAddr,</a></div>
+      <div class="Code_Segment"><a name="1020903">    DestinationType destType)</a></div>
+      <div class="Code_Segment"><a name="1020904">{</a></div>
+      <div class="Code_Segment"><a name="1020905">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="1020906">    TrafficGenClient* clientPtr = NULL;</a></div>
+      <div class="Code_Segment"><a name="1020907">    char* tokenStr = NULL;</a></div>
+      <div class="Code_Segment"><a name="1020908">    int nToken;</a></div>
+      <div class="Code_Segment"><a name="1020909">    ...</a></div>
+      <div class="Code_Segment"><a name="1020975">    if (strcmp(buf, "CONSTRAINT") == 0)</a></div>
+      <div class="Code_Segment"><a name="1020976">        {</a></div>
+      <div class="Code_Segment"><a name="1020977">            ...</a></div>
+      <div class="Code_Segment"><a name="1020981">            unsigned int dataLen = (unsigned int)</a></div>
+      <div class="Code_Segment"><a name="1020982">                clientPtr-&gt;dataSizeDistribution.getRandomNumber();</a></div>
+      <div class="Code_Segment"><a name="1020984">            ...</a></div>
+      <div class="Code_Segment"><a name="1043119">            clocktype dataIntv;</a></div>
+      <div class="Code_Segment"><a name="1020985">            unsigned int sessionBwRequirement;</a></div>
+      <div class="Code_Segment"><a name="1020910">            dataIntv = clientPtr-&gt;intervalDistribution.getRandomNumber();</a></div>
+      <div class="Code_Segment"><a name="1020990">            ...</a></div>
+      <div class="Code_Segment"><a name="1020991">         }</a></div>
+      <div class="Code_Segment"><a name="1020992">      ...</a></div>
+      <div class="Code_Segment"><a name="1020949">}</a></div>
+      <div class="Figure">FIGURE 4-14.&nbsp;&nbsp;<a name="1020951">Acquiring Numbers from Random Distributions</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

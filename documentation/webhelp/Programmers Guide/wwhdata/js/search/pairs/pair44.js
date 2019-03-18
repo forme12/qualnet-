@@ -1,0 +1,24 @@
+function FileData_Pairs(x)
+{
+x.t("coding","guidelines");
+x.t("coding","64-bit");
+x.t("provide","further");
+x.t("2008","2012");
+x.t("scalable","network");
+x.t("platforms","a.3");
+x.t("platforms","http://developers.sun.com/prodtech/solaris/reference/techart/index.html");
+x.t("sites","provide");
+x.t("a.3","references");
+x.t("network","technologies");
+x.t("guidelines","coding");
+x.t("guidelines","64-bit");
+x.t("references","coding");
+x.t("references","a.3");
+x.t("references","following");
+x.t("further","guidelines");
+x.t("http://docs.hp.com/en/5966-9844/","2008");
+x.t("2012","scalable");
+x.t("64-bit","platforms");
+x.t("http://developers.sun.com/prodtech/solaris/reference/techart/index.html","http://docs.hp.com/en/5966-9844/");
+x.t("following","sites");
+}

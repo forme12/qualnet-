@@ -1,0 +1,67 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+-------
+To test the ARQ functionality for 802.16 network.
+
+SCENARIO:-
+---------
+One subnet is present in the scenario, having one base station (BS) and two
+subscriber stations (SS). Nodes 2 and 3 are SS. Node 1 is BS.
+
+TOPOLOGY:
+---------
+
+
+             ------1(BS)----                          
+            |               |    
+            |               |
+            2               3
+                                                  
+                         
+CBR flow is:
+
+- CBR 3 2 100 512 10MS 20S 0S PRECEDENCE 0
+
+Rayleigh Fading model is being used in the scenario.
+
+There are two config files one with ARQ Enabled and the other with ARQ disabled.
+
+
+
+A significant change can be noticed in presence of fading when ARQ is Enabled. 
+Less packets could reach the server if ARQ is disabled while in
+case ARQ is enabled more data packets reaches successfully at the server.
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet ARQ-Enabled.config'.
+Run '<QUALNET_HOME>/bin/qualnet ARQ-Disabled.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+------------------------
+1.ARQ-Enabled.config - QualNet configuration input file with ARQ Enabled.
+2.ARQ-Disabled.config - QualNet configuration input file with ARQ Disabled.
+3.ARQ.app    - QualNet configuration file for application input.
+4.ARQ.nodes  - QualNet node placement file for the simulation run.
+5.ARQ-Enabled.expected.stat - QualNet statistics collection.
+6.ARQ-Disabled.expected.stat - QualNet statistics collection.
+7.default.fading - Fading File
+8.README - This file

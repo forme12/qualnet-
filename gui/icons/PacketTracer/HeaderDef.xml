@@ -1,0 +1,1222 @@
+<protocol_header_def>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- Record header format -->
+<!-- Please do not modify this definition -->
+<record_header>
+    <enum name="actiontype" label="Action Type" length="8">
+        <enumitem postlabel="SEND" enumvalue="1" />
+        <enumitem postlabel="RECV" enumvalue="2" />
+        <enumitem postlabel="DROP" enumvalue="3" />
+        <enumitem postlabel="ENQUEUE" enumvalue="4" />
+        <enumitem postlabel="DEQUEUE" enumvalue="5" />
+    </enum>
+    <enum name="reason" label="Comment of Action" length="8">
+        <enumitem postlabel="" enumvalue="0" />
+        <enumitem postlabel="Queue Overflow" enumvalue="1" />
+        <enumitem postlabel="No Route" enumvalue="2" />
+        <enumitem postlabel="Lifetime Timeout" enumvalue="3" />
+        <enumitem postlabel="Time to Live(TTL) is Zero" enumvalue="4" />
+        <enumitem postlabel="No Connection" enumvalue="5" />
+        <enumitem postlabel="Retransmit count Exceeded" enumvalue="6" />
+        <enumitem postlabel="Interface Down" enumvalue="7" />
+        <enumitem postlabel="Invalid State" enumvalue="8" />
+        <enumitem postlabel="Duplicate Packet" enumvalue="9" />
+        <enumitem postlabel="Self Packet" enumvalue="10" />
+        <enumitem postlabel="Out of Order" enumvalue="11" />
+        <enumitem postlabel="Exceeds Metering Limit" enumvalue="12" />
+        <enumitem postlabel="Random Simulation Drop" enumvalue="13" />
+        <enumitem postlabel="Bad packet (due to checksum error or bad values in packet etc.)" enumvalue="14" />
+    </enum>
+
+    <group name="queue" label="QUEUE" length="runtime">
+        <u8 label="Inteface ID" />
+        <u8 label="Queue Priority" /> 
+    </group>
+    
+    <group name="action" label="ACTION" length="runtime">
+        <!-- fields -->
+        <actiontype />
+        <reason />
+        <queue />
+    </group>
+ 
+    <!-- Please do not change the names of the first six elements
+         You can change label, display_index and help if you want,
+         not any thing else -->
+ 
+    <!-- Can use uNN, sNN or double only -->
+    <u32 name="orig_node" label="Originating Node" display_index="3" />
+    <u32 name="msg_no" label="Message Sequence Number" display_index="4" />
+    <double name="sim_time" label="Simulation Time" display_index="2" />
+    <u32 name="orig_protocol" label="Originating Protocol" display_index="5"
+        use_protocol_map="yes" />
+    <u32 name="tracing_node" label="Tracing Node" display_index="0" />
+    <u32 name="tracing_protocol" label="Tracing Protocol" display_index="1"
+        use_protocol_map="yes" />
+    <!-- Add additional fields here if required -->
+    <action display_index="6"/>
+</record_header>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- protocol colors -->
+    <!--
+        Layer       Color Triangle Apex
+        Mac         #7fff00 (127, 255, 0)
+        Network     #ff0000 (255, 0, 0)
+        Transport   #7f00ff (127, 0, 255)
+        Application #ffbf00 (255, 191, 0)
+    -->
+
+    <!-- changed to
+        Layer           Color Triangle Apex
+
+        Mac             #a0c000 (160, 192,   0)
+        Mac Wireless    #40ff00 ( 64, 255,   0)
+        Mac Wired       #e0ff00 (240, 255,   0)
+
+        Network         #ff0000 (255,   0,   0)
+        Network Queues  #ff8000 (255, 128,   0)
+        Network Routing #ffc000 (255,   0, 128)
+
+        Transport       #00ffff (  0, 255, 255)
+
+        Application     #8000ff (128,   0, 255)
+        App Routing     #4040c0 ( 64,  64, 228)
+
+        Default         #ffffff (255, 255, 255)
+    -->
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- cbr -->
+
+<protocolheader name="cbr" label="CBR" type="application" color="#8000ff">
+    <char name="c" />
+    <float name="time" />
+
+    <u16 label="Source Port" />
+    <c label="Type" />
+    <!-- TBD unused byte coz of byte alignment -->
+    <u32 label="Sequence No." />
+    <time label="Tx Time" />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- mcbr -->
+
+<protocolheader name="mcbr" label="MCBR" type="application" color="#8000ff">
+    <char name="c" length="1" />
+    <float name="time" />
+
+    <u16 label="Source Port" />
+    <!-- TBD unused byte coz of byte alignment -->
+    <c label="Type" />
+    <u32 label="Sequence No." />
+    <time label="Tx Time" />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- udp -->
+
+<protocolheader name="udp" label="UDP" length="20" type="" color="#00ffff">
+    <u16 label="Source Port" />
+    <u16 label="Destination Port" />
+    <u16 label="Length" postlabel="bytes" />
+    <u16 label="Checksum" postlabel="not computed" />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- tcp -->
+
+<protocolheader name="tcp" label="TCP" length="runtime" type="" color="#00ffff">
+    <group name="flags" label="Flags" length="12">
+        <u4 label="unused" />
+        <u1 label="ECN CW Reduced" />
+        <u1 label="ECN Echo" />
+        <u1 label="URG" />
+        <u1 label="ACK" />
+        <u1 label="PSH" />
+        <u1 label="RST" />
+        <u1 label="SYN" />
+        <u1 label="FIN" />
+    </group>
+
+    <group name="eop" label="End of options" length="1">
+        <u8 label="Type" />
+    </group>
+    <group name="nop" label="No Op" length="1">
+        <u8 label="Type" />
+    </group>
+    <group name="mss" label="MSS" length="4">
+        <u8 label="Type" />
+        <u8 label="Length" />
+        <u16 label="Value" />
+    </group>
+    <group name="scale" label="Window Scale" length="3">
+        <u8 label="Type" />
+        <u8 label="Length" />
+        <u8 label="Value" />
+    </group>
+    <group name="ts" label="Time Stamp" length="10">
+        <u8 label="Type" />
+        <u8 label="Length" />
+        <u32 label="Value" />
+        <u32 label="Echo Reply" />
+    </group>
+    <group name="sackPermitted" label="Sack Permitted" length="2">
+        <u8 label="Type" />
+        <u8 label="Length" />
+    </group>
+    <group name="lrEdge" label="Left/Right Edges" length="runtime"
+                contents_repeat="true">
+        <u32 label="Left Seq. No. " />
+        <u32 label="Right Seq. No." />
+    </group>
+    <group name="sack" label="Sack" length="runtime">
+        <u8 label="Type" />
+        <u8 label="Length" />
+        <lrEdge />
+    </group>
+    <group name="options" label="Option Fields" length="runtime">
+        <mss />
+        <eop />
+        <nop />
+        <scale />
+        <ts />
+        <sackPermitted />
+        <sack />
+    </group>
+
+<!-- fields -->
+    <u16 label="Source Port" />
+    <u16 label="Destination Port" />
+    <u32 label="Sequence No." />
+    <u32 label="ACK No." />
+    <u4 label="Data Offset" postlabel="32 bit words" />
+    <flags />
+    <u16 label="Window" />
+    <u16 label="Checksum" postlabel="not computed" />
+    <u16 label="Urgent Pointer" />
+    <options />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- ipv4 -->
+    <!-- TBD length assumes no options -->
+    <!-- TBD Options need to be added, if required -->
+
+<protocolheader name="ipv4" label="IPv4" length="20" type="" color="#ff0000">
+    <group name="flags" label="Flags" length="3">
+        <u1 label="Reserved" />
+        <u1 label="Don't fragment" />
+        <u1 label="More fragments" />
+    </group>
+
+    <u4 label="Version" />
+    <u4 label="Header Length" postlabel="32 bit words" />
+    <u6 label="TOS" />
+    <u1 label="ECN ECT" />
+    <u1 label="ECN CE" />
+    <u16 label="Total Length" />
+    <u16 label="Identification" />
+    <flags />
+    <u13 label="Fragment Offset" />
+    <u8 label="TTL" />
+    <u8 label="Protocol" />
+    <u16 label="Checksum" postlabel="not computed" />
+    <ipv4Addr label="Source IP" />
+    <ipv4Addr label="Destination IP" />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- olsr -->
+
+<protocolheader name="olsr" label="OLSR" length="runtime" type="control" color="#4040c0">
+    <enum name="linkType" label="Link Type" length="8">
+        <enumitem postlabel="Not Detected" enumvalue="0" />
+        <enumitem postlabel="ASYM_LINK" enumvalue="1" />
+        <enumitem postlabel="SYM_LINK" enumvalue="2" />
+        <enumitem postlabel="MPR_LINK" enumvalue="3" />
+        <enumitem postlabel="LOST_LINK" enumvalue="4" />
+    </enum>
+
+    <group name="neighbourList" label="Neighbor list"
+            length="runtime"
+            contents_repeat="yes">
+        <ipv4Addr label="" />
+    </group>
+    <group name="helloMsg" label="Hello Message" length="runtime">
+        <linkType />
+        <u8 label="Reserved" />
+        <u16 label="Link Message Size" />
+        <neighbourList />
+    </group>
+    <group name = "helloMsgList" label="Hello Message List" length="runtime">
+        <u8 label="Type" />
+        <u8 label="Broadcast" />
+        <u16 label="Size" />
+        <u16 label="Sequence No." />
+        <u16 label="MPR Sequence No." />
+        <helloMsg />
+    </group>
+    <group name="mprsAddr"
+            label="Multipoint Relay Selector List"
+            length="runtime"
+            contents_repeat="yes">
+        <ipv4Addr label="" />
+    </group>
+    <group name="tcMsg" label="TC Message" length="runtime">
+        <u8 label="Type" />
+        <u8 label="Broadcast" />
+        <u16 label="Size" />
+        <u16 label="Sequence No." />
+        <u16 label="MSSN" />
+        <u8 label="Hop Count" />
+        <u24 label="Reserved" />
+        <ipv4Addr label="Originator IP" />
+        <mprsAddr />
+    </group>
+
+<!-- fields -->
+    <u16 label="Packet Length" />
+    <u16 label="Reserved" />
+    <helloMsgList />
+    <tcMsg />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- ospfv2 -->
+
+<protocolheader name="ospfv2" label="OSPFv2" length="runtime" type="control" color="#ffc000">
+
+    <group name="commonHdr" label="OSPF Header">
+        <u8 label="Version" />
+        <u8 label="Packet Type" />
+        <s16 label="Packet Length" />
+        <ipv4Addr label="Router ID" />
+        <ipv4Addr label="Area ID" />
+        <u32 label="Checksum" />
+        <s32 label="Authentication Type" />
+        <u64 label="Authentication Data" />
+    </group>
+    <group name="options" label="Options" length="8">
+        <u1 label="Reserved" postlabel="unused" />
+        <u1 label="Opaque" postlabel="unused" />
+        <u1 label="DemandCircuit" />
+        <u1 label="External Attribute" postlabel="unused" />
+        <u1 label="NSSA" />
+        <u1 label="Multicast" />
+        <u1 label="External" />
+        <u1 label="QOS" />
+    </group>
+    <group name="neighborList" label="Active Neighbor"
+                length="runtime" contents_repeat="yes">
+        <ipv4Addr label="" />
+    </group>
+    <group name="helloPkt" label="Hello Packet">
+        <commonHdr />
+        <ipv4Addr label="Network Mask" />
+        <s16 label="Hello Interval" postlabel="secs" />
+        <options />
+        <u8 label="Router Priority" />
+        <s32 label="Dead Interval" postlabel="secs" />
+        <ipv4Addr label="Designated Router" />
+        <ipv4Addr label="Backup Router" />
+        <neighborList />
+    </group>
+
+    <enum name="lsType" label="LS type" length="8" >
+        <enumitem postlabel="Router-LSA" enumvalue="1" />
+        <enumitem postlabel="Network-LSA" enumvalue="2" />
+        <enumitem postlabel="Summary-LSA - IP network" enumvalue="3" />
+        <enumitem postlabel="Summary-LSA - ASBR" enumvalue="4" />
+        <enumitem postlabel="AS-external-LSA" enumvalue="5" />
+        <enumitem postlabel="Group Membership LSA" enumvalue="6" />
+        <enumitem postlabel="NSSA Type-7 LSA" enumvalue="7" />
+    </enum>
+    <group name="lsaHdr" label="LSA Header"
+                length="runtime" contents_repeat="yes">
+        <u16 label="LS Age" postlabel="secs" />
+        <options />
+        <lsType />
+        <ipv4Addr label="Link State ID" />
+        <ipv4Addr label="Advertising Router" />
+        <s32 label="LS Sequence No." />
+        <s16 label="LS Checksum" />
+        <s16 label="Length" postlabel="bytes" />
+    </group>
+
+    <group name="ddFlags" label="Flags" length="8">
+        <u1 label="Reserved" />
+        <u1 label="Reserved" />
+        <u1 label="Reserved" />
+        <u1 label="Reserved" />
+        <u1 label="Reserved" />
+        <u1 label="Init" />
+        <u1 label="More" />
+        <u1 label="Master/Slave" />
+    </group>
+    <group name="ddPkt" label="Database Description" length="runtime">
+        <commonHdr />
+        <u16 label="Interface MTU" />
+        <options />
+        <ddFlags />
+        <u32 label="DD Sequence No." />
+        <lsaHdr />
+    </group>
+
+    <enum name="lsType32" label="LS type" length="32" >
+        <enumitem postlabel="Router-LSA" enumvalue="1" />
+        <enumitem postlabel="Network-LSA" enumvalue="2" />
+        <enumitem postlabel="Summary-LSA - IP network" enumvalue="3" />
+        <enumitem postlabel="Summary-LSA - ASBR" enumvalue="4" />
+        <enumitem postlabel="AS-external-LSA" enumvalue="5" />
+        <enumitem postlabel="Group Membership LSA" enumvalue="6" />
+        <enumitem postlabel="NSSA Type-7 LSA" enumvalue="7" />
+    </enum>
+    <group name="reqInfo" label="Link State Request" length="runtime" >
+        <lsType32 />
+        <ipv4Addr label="Link State ID" />
+        <ipv4Addr label="Advertising Router" />
+    </group>
+    <group name="requestPkt" label="LS Request"
+                length="runtime" contents_repeat="yes">
+        <commonHdr />
+        <reqInfo />
+    </group>
+
+    <enum name="linkType" label="LinkType" length="8" >
+        <enumitem postlabel="Point-to-point" enumvalue="1" />
+        <enumitem postlabel="Transit" enumvalue="2" />
+        <enumitem postlabel="Stub" enumvalue="3" />
+        <enumitem postlabel="Virtual" enumvalue="4" />
+    </enum>
+    <group name="linkInfo" label="Link Info" length="runtime" contents_repeat="yes" >
+        <ipv4Addr label="ID" />
+        <ipv4Addr label="Data" />
+        <linkType />
+        <u8 label="No. TOS" />
+        <s16 label="Metric" />
+    </group>
+
+    <group name="routerLsaFlags" label="Flags" length="8">
+        <u1 label="Reserved" />
+        <u1 label="Reserved" />
+        <u1 label="Reserved" />
+        <u1 label="NSSA" />
+        <u1 label="Wild Card Multicast Receiver" />
+        <u1 label="Virtual Link Endpoint" />
+        <u1 label="AS Boundary Router" />
+        <u1 label="Area Boundary Router" />
+    </group>
+    <group name="routerLsaBody" label="Router LSA" length="runtime" >
+        <lsaHdr />
+        <routerLsaFlags />
+        <u8 label="Reserved" />
+        <s16 label="No. Links" />
+        <linkInfo />
+    </group>
+    <group name="routerList" label="Attached Routers" length="runtime"
+                contents_repeat="yes" >
+        <ipv4Addr label="" />
+    </group>
+    <group name="networkLsaBody" label="Network LSA" length="runtime" >
+        <lsaHdr />
+        <ipv4Addr label="Network Mask" />
+        <routerList />
+    </group>
+    <group name="summaryLsaBody" label="Summary LSA" length="runtime" >
+        <lsaHdr />
+        <ipv4Addr label="Network Mask" />
+        <u8 label="unused" />
+        <u24 label="Metric" />
+    </group>
+    <group name="externalLsaBody" label="External LSA" length="runtime" >
+        <lsaHdr />
+        <ipv4Addr label="Network Mask" />
+        <u1 label="E bit" />
+        <u7 label="reserved" />
+        <u24 label="Metric" />
+        <ipv4Addr label="Forwarding Address" />
+        <ipv4Addr label="External Route tag" />
+    </group>
+
+    <enum name="vertexType" label="Vertex Type" length="32" >
+        <enumitem postlabel="Router" enumvalue="0" />
+        <enumitem postlabel="Transit Network" enumvalue="1" />
+        <enumitem postlabel="Invalid" enumvalue="2" />
+    </enum>
+    <group name="mospfLsaBody" label="MOSPF Body" length="runtime" >
+        <lsaHdr />
+        <vertexType />
+        <ipv4Addr label="Vertex ID" />
+    </group>
+    <group name="updatePkt" label="LS Update" length="runtime">
+        <commonHdr />
+        <s32 label="No. of LSAs" />
+        <routerLsaBody />
+        <networkLsaBody />
+        <summaryLsaBody />
+        <externalLsaBody />
+        <mospfLsaBody />
+    </group>
+
+    <group name="ackPkt" label="LS Acknowledgement"
+                length="runtime" contents_repeat="yes">
+        <commonHdr />
+        <lsaHdr />
+    </group>
+
+<!-- fields -->
+    <helloPkt />
+    <ddPkt />
+    <requestPkt />
+    <updatePkt />
+    <ackPkt />
+
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- aodv -->
+
+<protocolheader name="aodv" label="AODV" length="runtime" type="control" color="#ffc000">
+    <enum name="pktType" label="Type" length="8">
+        <enumitem postlabel="RREQ" enumvalue="1" />
+        <enumitem postlabel="RREP" enumvalue="2" />
+        <enumitem postlabel="RERR" enumvalue="3" />
+    </enum>
+    <group name="rreq" label="RREQ" length="runtime">
+        <pktType />
+        <u1 label="Join" />
+        <u1 label="Repair" />
+        <u1 label="Service Location" />
+        <u13 label="Reserved" />
+        <u8 label="Hop Count" />
+        <u32 label="Broadcast ID" />
+        <ipv4Addr label="Destination IP" />
+        <u32 label="Destination Seq No." />
+        <ipv4Addr label="Source IP" />
+        <u32 label="Source Seq No." />
+    </group>
+    <group name="rrep" label="RREP" length="runtime">
+        <pktType />
+        <u1 label="Repair" />
+        <u1 label="Acknowledgement" />
+        <u9 label="Reserved" />
+        <u5 label="Prefix Size" />
+        <u8 label="Hopcount" />
+        <ipv4Addr label="Destination IP" />
+        <u32 label="Destination Seq No." />
+        <ipv4Addr label="Source IP" />
+        <u32 label="Lifetime" postlabel="sec" />
+    </group>
+    <group name="linksLost" label="Links Lost" length="64">
+        <ipv4Addr label="Destination IP" />
+        <u32 label="Destination Seq No." />
+    </group>
+    <group name="rerr" label="RERR" length="runtime">
+        <pktType />
+        <u1 label="No Delete" />
+        <u15 label="Reserved" />
+        <u8 label="Lost Destination Count" />
+        <linksLost />
+    </group>
+
+<!-- fields -->
+    <rreq />
+    <rrep />
+    <rerr />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- dsr -->
+
+<protocolheader name="dsr" label="DSR" length="runtime" type="control" color="#ffc000">
+    <enum name="pktType" label="Type" length="8">
+        <enumitem postlabel="PAD 1" enumvalue="0" />
+        <enumitem postlabel="PAD N" enumvalue="1" />
+        <enumitem postlabel="RREQ" enumvalue="2" />
+        <enumitem postlabel="RREP" enumvalue="3" />
+        <enumitem postlabel="RERR" enumvalue="4" />
+        <enumitem postlabel="ACK REQUEST" enumvalue="5" />
+        <enumitem postlabel="ACK" enumvalue="6" />
+        <enumitem postlabel="SOURCE ROUTE" enumvalue="7" />
+    </enum>
+    <group name="hopList" label="Hop Sequence" length="runtime"
+                contents_repeat="yes">
+        <ipv4Addr label="" />
+    </group>
+    <group name="rreq" label="RREQ" length="runtime">
+        <pktType />
+        <u8 label="Data Length" />
+        <u16 label="RREQ ID" />
+        <ipv4Addr label="Destination IP" />
+        <hopList />
+    </group>
+    <group name="rrep" label="RREP" length="runtime">
+        <pktType />
+        <u8 label="Data Length" />
+        <u1 label="Last Hop External" />
+        <u7 label="Reserved" />
+        <hopList />
+    </group>
+    <group name="rerr" label="RERR" length="runtime">
+        <pktType />
+        <u8 label="Data Length" />
+        <u8 label="Error Type" postlabel="Node Unreachable" />
+        <u4 label="Reserved" />
+        <u4 label="Salvage" />
+        <ipv4Addr label="Source IP" />
+        <ipv4Addr label="Destination IP" />
+        <ipv4Addr label="Unreachable Node" />
+    </group>
+    <group name="srcRt" label="Source Route" length="runtime">
+        <pktType />
+        <u8 label="Data Length" />
+        <u1 label="First Hop External" />
+        <u1 label="Last Hop External" />
+        <u4 label="Reserved" />
+        <u4 label="Salvage" />
+        <u6 label="Segment Left" />
+        <hopList />
+    </group>
+    <group name="ackRq" label="Ack Request" length="runtime">
+        <pktType />
+        <u8 label="Data Length" />
+        <u16 label="ACK ID" />
+    </group>
+    <group name="ack" label="Ack" length="runtime">
+        <pktType />
+        <u8 label="Data Length" />
+        <u16 label="ACK ID" />
+        <ipv4Addr label="Source IP" />
+        <ipv4Addr label="Destination IP" />
+    </group>
+    <group name="pad1" label="PAD 1" length="runtime">
+        <pktType />
+    </group>
+    <group name="padN" label="PAD N" length="runtime">
+        <pktType />
+        <u8 label="Data Length" />
+    </group>
+    <group name="dsrPkt" label="Header Contents" length="runtime">
+        <rreq />
+        <rrep />
+        <rerr />
+        <srcRt />
+        <ackRq />
+        <ack />
+        <pad1 />
+        <padN />
+    </group>
+
+<!-- fields -->
+    <u8 label="Next Header" />
+    <u8 label="Reserved" />
+    <u16 label="Payload Length" />
+    <dsrPkt />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- rip -->
+
+<protocolheader name="rip" label="RIP" length="runtime" type="control" color="#4040c0">
+    <enum name="command" label="Command" length="8">
+        <enumitem postlabel="Request" enumvalue="1" />
+        <enumitem postlabel="Response" enumvalue="2" />
+    </enum>
+    <group name="rteVer1" label="Route Entry" length="runtime">
+        <u16 label="Address Family ID" />
+        <u16 label="unused" />
+        <ipv4Addr label="IP Address" />
+        <u32 label="unused" />
+        <u32 label="unused" />
+        <u32 label="Metric" />
+    </group>
+    <group name="rteVer2" label="Route Entry" length="runtime">
+        <u16 label="Address Family ID" />
+        <u16 label="Route Tag" />
+        <ipv4Addr label="IP Address" />
+        <ipv4Addr label="Subnet Mask" />
+        <ipv4Addr label="Next Hop" />
+        <u32 label="Metric" />
+    </group>
+
+<!-- fields -->
+    <command />
+    <u8 label="Version" />
+    <u16 label="unused" />
+    <rteVer1 />
+    <rteVer2 />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- eigrp -->
+
+<protocolheader name="eigrp" label="EIGRP" length="runtime" type="control" color="#ffc000">
+    <group name="query" label="Route Query" length="runtime">
+        <ipv4Addr label="Destination" />
+        <u8 label="IP Prefix" />
+    </group>
+    <group name="queryTlv" label="Query TLV" length="runtime">
+        <u16 label="Type" />
+        <u16 label="Length" />
+        <query />
+    </group>
+    <group name="holdTlv" label="Hold TLV" length="runtime">
+        <u16 label="Type" />
+        <u16 label="Length" />
+        <!-- TBD unit of holdtime -->
+        <u32 label="Holdtime" />
+    </group>
+    <group name="updateInt" label="Internal Update" length="runtime">
+        <ipv4Addr label="Next Hop" />
+        <!-- TBD unit of delay -->
+        <u32 label="Delay" />
+        <!-- TBD unit of bandwidth -->
+        <u32 label="Bandwidth" />
+        <u24 label="MTU" />
+        <u8 label="Hopcount" />
+        <u16 label="Reliability" />
+        <u8 label="Load" />
+        <u8 label="Reserved" />
+        <u8 label="IP Prefix" />
+        <ipv4Addr label="Destination" />
+    </group>
+    <group name="intRouteTlv" label="Internal Route TLV" length="runtime">
+        <u16 label="Type" />
+        <u16 label="Length" />
+        <updateInt />
+    </group>
+    <enum name="externProtocolID" label="External Protocol ID" length="8">
+        <enumitem postlabel="IGRP" enumvalue="1" />
+        <enumitem postlabel="EIGRP" enumvalue="2" />
+        <enumitem postlabel="RIP" enumvalue="4" />
+        <enumitem postlabel="OSPFv2" enumvalue="6" />
+        <enumitem postlabel="BGP" enumvalue="9" />
+    </enum>
+    <enum name="externFlags" label="Flags" length="8">
+        <enumitem postlabel="External Route" enumvalue="1" />
+        <enumitem postlabel="Default Route" enumvalue="2" />
+    </enum>
+    <group name="updateExt" label="External Update" length="runtime">
+        <ipv4Addr label="Next Hop" />
+        <ipv4Addr label="Originating Router" />
+        <u32 label="Originating AS" />
+        <ipv4Addr label="Arbitrary Tag" />
+        <u32 label="External Protocol Metric" />
+        <!-- TBD Reserved is 32 bit in the code header -->
+        <u16 label="Reserved" />
+        <externProtocolID />
+        <externFlags />
+        <!-- TBD unit of delay -->
+        <u32 label="Delay" />
+        <!-- TBD unit of bandwidth -->
+        <u32 label="Bandwidth" />
+        <u24 label="MTU" />
+        <u8 label="Hopcount" />
+        <u16 label="Reliability" />
+        <u8 label="Load" />
+        <u8 label="Reserved" />
+        <u8 label="IP Prefix" />
+        <ipv4Addr label="Destination" />
+    </group>
+    <group name="extRouteTlv" label="External Route TLV" length="runtime">
+        <u16 label="Type" />
+        <u16 label="Length" />
+        <updateExt />
+    </group>
+    <enum name="opcode" label="Code" length="8">
+        <enumitem postlabel="Update" enumvalue="1" />
+        <enumitem postlabel="Query" enumvalue="3" />
+        <enumitem postlabel="Reply" enumvalue="4" />
+        <enumitem postlabel="Hello" enumvalue="5" />
+    </enum>
+
+    <u8 label="Version" />
+    <opcode />
+    <u16 label="Checksum" />
+    <!-- TBD postlabel -->
+    <u32 label="Flags" postlabel="Initialization Bit"/>
+    <u32 label="Sequence No" />
+    <u32 label="AS No" />
+    <holdTlv />
+    <intRouteTlv />
+    <extRouteTlv />
+    <queryTlv />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- bellmanford -->
+
+<protocolheader name="bellmanford" label="BellmanFord" length="runtime" type="control" color="#4040c0">
+    <group name="advertisedRoute" label="Advertised Route" length="runtime">
+        <ipv4Addr label="Destination IP" />
+        <ipv4Addr label="Subnet Mask" />
+        <ipv4Addr label="Next Hop" />
+        <u32 label="Distance" />
+    </group>
+
+<!-- fields -->
+    <ipv4Addr label="Source IP" />
+    <ipv4Addr label="Destination IP" />
+    <u32 label="Payload Size" />
+    <advertisedRoute />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- dvmrp -->
+
+<protocolheader name="dvmrp" label="DVMRP" length="runtime" type="control" color="#ffc000">
+    <enum name="pktCode" label="Packet Code" length="8">
+        <enumitem postlabel="Probe" enumvalue="1" />
+        <enumitem postlabel="Route Report" enumvalue="2" />
+        <enumitem postlabel="Prune" enumvalue="7" />
+        <enumitem postlabel="Graft" enumvalue="8" />
+        <enumitem postlabel="Graft Ack" enumvalue="9" />
+    </enum>
+    <group name="addrList" label="Source IPs" length="runtime">
+        <ipv4Addr label="" />
+    </group>
+    <group name="probe" label="Probe" length="runtime">
+        <u32 label="Generation ID" />
+        <addrList />
+    </group>
+<!-- TBD an example where name does not reflect the label -->
+    <group name="rtList" label="Route Entry" length="runtime">
+        <ipv4Addr label="Subnet Mask" />
+        <ipv4Addr label="Destination IP" />
+        <u8 label="Metric" />
+    </group>
+    <group name="route" label="Route" length="runtime">
+        <rtList />
+    </group>
+    <group name="prune" label="Prune" length="runtime">
+        <ipv4Addr label="Source IP" />
+        <ipv4Addr label="Group IP" />
+        <!-- TBD unit of lifetime -->
+        <u32 label="Lifetime" />
+    </group>
+    <group name="graft" label="Graft" length="runtime">
+        <ipv4Addr label="Source IP" />
+        <ipv4Addr label="Group IP" />
+    </group>
+    <group name="graftAck" label="Graft Ack" length="runtime">
+        <ipv4Addr label="Source IP" />
+        <ipv4Addr label="Group IP" />
+    </group>
+    <group name="header" label="Header" length="runtime">
+        <u8 label="Type" />
+        <pktCode />
+        <u16 label="Checksum" postlabel="not computed" />
+        <u16 label="Reserved" />
+        <u8 label="Minor Version" />
+        <u8 label="Major Version" />
+    </group>
+
+<!-- fields -->
+    <header />
+    <probe />
+    <route />
+    <prune />
+    <graft />
+    <graftAck />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- odmrp -->
+
+<protocolheader name="odmrp" label="ODMRP" length="runtime" type="control" color="#ffc000">
+    <enum name="pktType" label="Type" length="8">
+        <enumitem postlabel="Join Query" enumvalue="1" />
+        <enumitem postlabel="Join Reply" enumvalue="2" />
+        <enumitem postlabel="ACK" enumvalue="3" />
+    </enum>
+    <group name="ack" label="ACK" length="runtime">
+        <pktType />
+        <ipv4Addr label="Multicast Group IP" />
+        <ipv4Addr label="Source IP" />
+    </group>
+    <group name="joinTuple" label="Join Info" length="runtime">
+        <ipv4Addr label="Source IP" />
+        <ipv4Addr label="Next IP" />
+    </group>
+    <group name="joinReply" label="Join Reply" length="runtime">
+        <pktType />
+        <u8 label="Reply Count" />
+        <u1 label="Ack Request" />
+        <u1 label="Forwarding" />
+        <u14 label="Reserved" />
+        <ipv4Addr label="Multicast Group IP" />
+        <ipv4Addr label="Previous Hop IP" />
+        <u32 label="Sequence No." />
+        <joinTuple />
+    </group>
+
+<!-- TBD no join query -->
+<!-- fields -->
+    <joinReply />
+    <ack />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- igrp -->
+
+<protocolheader name="igrp" label="IGRP" length="runtime" type="control" color="#ffc000">
+    <enum name="opcode" label="Opcode" length="4">
+        <enumitem postlabel="Request" enumvalue="1" />
+        <enumitem postlabel="Update" enumvalue="2" />
+    </enum>
+    <group name="rtEntry" label="Route Entry" length="runtime">
+        <!-- TBD number signifies 3 significant octets of IP address -->
+        <ipv4Addr label="Number" />
+        <!-- TBD unit of delay -->
+        <u24 label="Delay" postlabel="10s of Microseconds" />
+        <u24 label="Bandwidth" postlabel="Kbit/sec" />
+        <u16 label="MTU" />
+        <u8 label="Reliability" />
+        <u8 label="Load" />
+        <u8 label="Hopcount" />
+    </group>
+
+<!-- fields -->
+    <u4 label="Version" />
+    <opcode />
+    <u8 label="Edition" />
+    <u16 label="AS No." />
+    <!-- TBD Labels too long -->
+    <u16 label="Subnets in Local Net" />
+    <u16 label="Networks in AS" />
+    <u16 label="Networks outside AS" />
+    <u16 label="Checksum" />
+    <rtEntry />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- iarp -->
+
+<protocolheader name="iarp" label="IARP" length="runtime" type="control" color="#ffc000">
+    <group name="rtEntry" label="Route Entry" length="runtime">
+        <ipv4Addr label="Link Dest IP" />
+        <ipv4Addr label="Subnet Mask" />
+        <u8 label="Reserved" />
+        <u8 label="Metric Type" postlabel="Hopcount" />
+        <u16 label="Metric Value" />
+    </group>
+
+<!-- fields -->
+    <ipv4Addr label="Link Source IP" />
+    <u16 label="Link State Seq No." />
+    <u8 label="Zone Radius" />
+    <u8 label="TTL" />
+    <u24 label="Reserved" />
+    <u8 label="Link Destination Count" />
+    <rtEntry />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- ierp -->
+
+<protocolheader name="ierp" label="IERP" length="runtime" type="control" color="#ffc000">
+    <enum name="pktType" label="Type" length="8">
+        <enumitem postlabel="Query" enumvalue="0" />
+        <enumitem postlabel="Reply" enumvalue="1" />
+    </enum>
+    <group name="addrEntry" label="Route IPs" length="runtime"
+                contents_repeat="yes">
+        <ipv4Addr label="" />
+    </group>
+
+<!-- fields -->
+    <pktType />
+    <u8 label="Length" postlabel="32 bit words" />
+    <u8 label="Node Pointer" />
+    <u8 label="Reserved" />
+    <u16 label="Query ID" />
+    <u16 label="Reserved" />
+    <addrEntry />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- igmp -->
+
+<protocolheader name="igmp" label="IGMP" length="64" type="control" color="#ffc000">
+    <enum name="verType" label="Type" length="8">
+        <enumitem postlabel="Query" enumvalue="17" />
+        <enumitem postlabel="Membership Report" enumvalue="22" />
+        <enumitem postlabel="Leave Group" enumvalue="23" />
+    </enum>
+
+<!-- fields -->
+    <verType />
+    <!-- TBD unit of max response time -->
+    <u8 label="Max Response Time" postlabel="1/10 seconds" />
+    <u16 label="Checksum" postlabel="not computed" />
+    <ipv4Addr label="Group IP" />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- mac 802.3 -->
+
+<protocolheader name="mac_802_3" label="MAC802.3" length="runtime" type="control" color="#e0ff00">
+    <!-- preamble is 7 bytes in header -->
+    <string name="preamble" />
+    <!-- sfd is 1 byte in header -->
+    <string name="sfd" />
+
+    <group name="vlan" label="VLAN" length="runtime">
+        <u16 label="Length/Type" />
+        <u3 label="User Priority" />
+        <u1 label="Canonical Format Indicator" />
+        <u12 label="VLAN ID" />
+    </group>
+
+    <!-- TBD This would breaks packet length checking -->
+    <preamble label="Preamble" postlabel="Hex" />
+    <sfd label="Start Frame Delimiter" postlabel="Hex" />
+    <macAddr label="Dest Address" />
+    <macAddr label="Source Address" />
+    <vlan />
+    <u16 label="Length" />
+    <u32 label="Checksum" postlabel="not computed" />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- mac 802.11 -->
+
+<protocolheader name="mac802_11" label="MAC802.11" length="runtime" type="control" color="#40ff00">
+    <enum name="frameType" label="Frame Type" length="8">
+        <enumitem postlabel="Beacon" enumvalue="8" />
+        <enumitem postlabel="RTS" enumvalue="27" />
+        <enumitem postlabel="CTS" enumvalue="28" />
+        <enumitem postlabel="Ack" enumvalue="29" />
+        <enumitem postlabel="CF-End" enumvalue="30" />
+        <enumitem postlabel="CF-End-Ack" enumvalue="31" />
+        <enumitem postlabel="Data" enumvalue="32" />
+        <enumitem postlabel="CF-Data-Ack" enumvalue="33" />
+        <enumitem postlabel="CF-Data-Poll" enumvalue="34" />
+        <enumitem postlabel="CF-Data-Poll-Ack" enumvalue="35" />
+        <enumitem postlabel="CF-NullData" enumvalue="36" />
+        <enumitem postlabel="CF-Ack" enumvalue="37" />
+        <enumitem postlabel="CF-Poll" enumvalue="38" />
+        <enumitem postlabel="CF-Poll-Ack" enumvalue="39" />
+        <enumitem postlabel="Reserved" enumvalue="63" />
+    </enum>
+    <group name="frameFlags" label="Frame Flags" length="8">
+        <u1 label="To DS" />
+        <u1 label="From DS" />
+        <u6 label="unused" />
+    </group>
+
+    <group name="shortHdr" label="Short Hdr" length="runtime">
+        <frameType />
+        <frameFlags />
+        <u32 label="Duration" postlabel="microsecs" />
+        <macAddr label="Dest Address" />
+    </group>
+    <group name="longHdr" label="Long Hdr" length="runtime">
+        <frameType />
+        <frameFlags />
+        <u32 label="Duration" postlabel="microsecs" />
+        <macAddr label="Dest Address" />
+        <macAddr label="Source Address" />
+        <u32 label="FCS" postlabel="not computed" />
+    </group>
+    <group name="frameHdr" label="Data Frame Hdr" length="runtime">
+        <frameType />
+        <frameFlags />
+        <u32 label="Duration" postlabel="microsecs" />
+        <macAddr label="Dest Address" />
+        <macAddr label="Source Address" />
+        <macAddr label="Address 3" />
+        <u16 label="Sequence No." />
+        <u16 label="Fragment ID" />
+        <u32 label="FCS" postlabel="not computed" />
+    </group>
+    <group name="cfParameters" label="CF Parameters" length="runtime">
+        <u8 label="Element ID" />
+        <u8 label="Length" />
+        <u16 label="Max Duration" postlabel="TUs" />
+        <u32 label="Bal Duration" postlabel="microsecs" />
+    </group>
+    <group name="beaconFrame" label="Beacon Frame" length="runtime">
+        <frameHdr />
+        <u64 label="TimeStamp" postlabel="nanosecs" />
+        <u16 label="Beacon Interval" postlabel="TUs" />
+        <cfParameters />
+    </group>
+
+    <shortHdr />
+    <longHdr />
+    <frameHdr />
+    <beaconFrame />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- link -->
+
+<protocolheader name="link" label="LINK" length="runtime" type="control" color="#e0ff00">
+    <group name="vlan" label="VLAN" length="runtime">
+        <u16 label="Data Length/Type" />
+        <u3 label="User Priority" />
+        <u1 label="Canonical Format Indicator" />
+        <u12 label="VLAN ID" />
+    </group>
+
+    <macAddr label="Source Address" />
+    <macAddr label="Dest Address" />
+    <vlan />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- switched ethernet -->
+
+<!-- TBD Change label to mixed case -->
+<protocolheader name="switchedEthernet" label="SWITCHED-ETHERNET" length="runtime" type="control" color="#e0ff00">
+    <string name="preamble" />
+    <preamble label="Preamble" postlabel="Hex" />
+    <macAddr label="Source Address" />
+    <macAddr label="Dest Address" />
+    <u16 label="Data Length" postlabel="unused"/>
+    <u32 label="Checksum" postlabel="not computed" />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- switch stp -->
+
+<protocolheader name="switchStp" label="SWITCH-STP" length="runtime" type="control" color="#a0c000">
+    <group name="tcnBpdu" label="TCN BPDU" length="runtime">
+        <u16 label="Protocol ID" />
+        <u8 label="Protocol Version" />
+        <u8 label="Type" />
+    </group>
+    <group name="rstBpdu" label="RST BPDU" length="runtime">
+        <u16 label="Protocol ID" />
+        <u8 label="Protocol Version" />
+        <u8 label="Type" />
+        <u8 label="Flags" />
+        <macAddr label="Root ID" />
+        <u32 label="Root Cost" />
+        <macAddr label="Switch ID" />
+        <macAddr label="Port ID" />
+        <u16 label="Message Age" />
+        <u16 label="Max Age" />
+        <u16 label="Hello Time" />
+        <u16 label="Forward Delay" />
+        <u8 label="Length" />
+    </group>
+    <group name="configBpdu" label="CONFIG BPDU" length="runtime">
+        <u16 label="Protocol ID" />
+        <u8 label="Protocol Version" />
+        <u8 label="Type" />
+        <u8 label="Flags" />
+        <macAddr label="Root ID" />
+        <u32 label="Root Cost" />
+        <macAddr label="Switch ID" />
+        <macAddr label="Port ID" />
+        <u16 label="Message Age" />
+        <u16 label="Max Age" />
+        <u16 label="Hello Time" />
+        <u16 label="Forward Delay" />
+    </group>
+
+    <tcnBpdu />
+    <rstBpdu />
+    <configBpdu />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- mac csma -->
+
+<protocolheader name="macCsma" label="MAC-CSMA" length="runtime" type="control" color="#7fff00">
+    <macAddr label="Source Address" />
+    <macAddr label="Dest Address" />
+    <u32 label="Priority" />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- aloha -->
+
+<protocolheader name="aloha" label="ALOHA" length="runtime" type="control" color="#7fff00">
+    <macAddr label="Source Address" />
+    <macAddr label="Dest Address" />
+    <u32 label="Payload Size" />
+    <u32 label="Priority" />
+    <u1 label="Ack" />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- mac tdma -->
+
+<!-- TBD label could be simply TDMA -->
+<protocolheader name="macTdma" label="MAC-TDMA" length="runtime" type="control" color="#7fff00">
+    <macAddr label="Source Address" />
+    <macAddr label="Dest Address" />
+    <u32 label="Priority" />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- mac satcom -->
+
+<protocolheader name="macSatCom" label="MAC-SATCOM" length="runtime" type="control" color="#7fff00">
+    <string name="preamble" />
+
+    <preamble label="Preamble" postlabel="Hex" />
+    <macAddr label="Source Address" />
+    <macAddr label="Dest Address" />
+    <u16 label="Data Length" />
+    <u32 label="Checksum" postlabel="not computed" />
+</protocolheader>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- mac maca -->
+
+<protocolheader name="macMaca" label="MAC-MACA" length="runtime" type="control" color="#7fff00">
+    <enum name="frameType" label="Frame Type" length="32">
+        <enumitem postlabel="RTS" enumvalue="0" />
+        <enumitem postlabel="CTS" enumvalue="1" />
+        <enumitem postlabel="UNICAST" enumvalue="2" />
+        <enumitem postlabel="BROADCAST" enumvalue="3" />
+    </enum>
+
+    <macAddr label="Source Address" />
+    <macAddr label="Dest Address" />
+    <u32 label="Payload Size" />
+    <frameType />
+    <u32 label="Priority" />
+</protocolheader>
+
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+<!-- sample -->
+
+<protocolheader name="sample" label="Protocol" length="runtime" type="" color="#ffffff">
+    <str name="name" label="Name" />
+    <str name="comment" label="Comment"  />
+</protocolheader>
+
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->
+
+</protocol_header_def>
+
+<!-- ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: -->

@@ -1,0 +1,54 @@
+PURPOSE:-
+--------
+
+This scenario verifies the retry property of QoS applications.
+
+
+SCENARIO:-
+---------
+
+In this scenario, two applications begin at the start of the simulation.
+The second application is set to retry requests to QOSPF for paths.
+
+Since the routing information takes some time to stabilize and establish
+paths, initial requests to QOSPF do not yield paths.
+
+In this scenario, the first session should not get any path but the second
+session should get a path after some retry attempts.
+
+     (200)--+
+            |
+            +--(100)--+    +-----------------+                +--(204)
+            |         |    |                 |                |
+     (201)--+         |    |  _____(2)_____  |                |
+                      |    |/               \|                |
+                      +--(10)---(3)---(4)---(1)---------------+
+     (202)--+         |    |                 |                |
+            |         |    |                 |                |
+            +--(101)--+    +-(5)---(6)---(7)-+                +--(205)
+            |
+     (203)--+
+
+     |<------------------->|<--------------->|<--------------------->|
+             45 Mbps            1.5 Mbps               45 Mbps
+
+APPLICATION:-
+------------
+
+TRAFFIC-GEN 200 204 DET 0 DET 600 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 300000 69MS
+TRAFFIC-GEN 201 205 DET 0 DET 600 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 300000 69MS RETRY-INTERVAL 2S
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet qos-app-retry-property.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. qos-app-retry-property.app -  QualNet application input file.
+2. qos-app-retry-property.config - QualNet configuration input file.
+3. qos-app-retry-property.expected.stat - QualNet statistics collection.
+4. README - This file.
+

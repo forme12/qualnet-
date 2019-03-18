@@ -1,0 +1,51 @@
+PURPOSE:-
+--------
+
+To test the generation of proper group information on an interface of a
+Router (both querier and non querier) when both Router and Hosts join
+to different multicast groups in a mixed scenario.
+
+
+SCENARIO:-
+---------
+
+                          (1R)       (3)                  (4)
+                           |          |                    |
+                   1.0  ___|__________|____________________|____
+                                 |            |
+                                 |            |
+                                (2R)         (5)
+
+
+INPUT:-
+------
+
+default.config file:-
+--------------------
+SUBNET N8-1.0 {1, 2, 3, 4, 5}
+
+IGMP-ROUTER-LIST {1, 2}
+
+IGMP-UNSOLICITED-REPORT-COUNT    2
+
+
+default.member file:-
+--------------------
+1 225.0.0.1 4S 15M
+2 225.0.0.2 5S 15M
+3 225.0.0.3 6S 15M
+4 225.0.0.4 7S 15M
+5 225.0.0.5 8S 15M
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.config - QualNet configuration input file.
+2. default.member - QualNet group join information input file
+3. default.expected.stat - QualNet statistics collection.
+4. README - This file.

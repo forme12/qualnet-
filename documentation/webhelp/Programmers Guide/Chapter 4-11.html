@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Communication Between Layers</title>
+    <link rel="StyleSheet" href="css/Chapter%204-11.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%204-1.05.1.html#948679">4	Developing Protocol Models in QualNet</a> &gt; 4.11  Communication Between Layers</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">4.11  <a name="948679">Communication Between Layers</a></div>
+      <div class="BodyAfterHead"><a name="948680">Although </a><span class="Variable">QualNet</span> protocols follow a strict, adjacent layering approach, protocols can be written to deviate from this and communicate across layers and even across nodes. </div>
+      <div class="Heading2Numbered">4.11.1  <a name="931696">Communication Between Adjacent Layers</a></div>
+      <div class="BodyAfterHead"><a name="931697">This section covers the general approach used to communicate between adjacent layers. </a></div>
+      <div class="Body"><a name="931698">Communication between adjacent layers is accomplished either by using the message API MESSAGE_Send (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#919706', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.2</a></span>) or by using direct function calls. A protocol may use MESSAGE_Send directly (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#928544', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.2.1.2</a></span>) or it can use one of the layer-specific APIs which are implemented using MESSAGE_Send (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#977820', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.2.1.1</a></span>). </div>
+      <div class="Body"><a name="936487">As an example, an application that relies on UDP may use MESSAGE_Send directly, or it may call one of the APIs listed in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#932697', '');" title="Discrete-event Simulation in QualNet">Table&nbsp;</a> to pass data to UDP. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#931707', '');" title="Communication Between Layers">Figure&nbsp;4-220</a></span> shows the implementation of one of these functions, APP_UdpSendNewData, with comments added for explication. APP_UdpSendNewData sends application data to UDP using MESSAGE_Send, and is implemented in app_util.cpp.</div>
+      <div class="Code_Segment"><a name="936344">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936404">void</a></div>
+      <div class="Code_Segment"><a name="936345">APP_UdpSendNewData(</a></div>
+      <div class="Code_Segment"><a name="936346">    Node *node,</a></div>
+      <div class="Code_Segment"><a name="936347">    AppType appType,</a></div>
+      <div class="Code_Segment"><a name="936348">    NodeAddress sourceAddr,</a></div>
+      <div class="Code_Segment"><a name="936349">    short sourcePort,</a></div>
+      <div class="Code_Segment"><a name="936350">    NodeAddress destAddr,</a></div>
+      <div class="Code_Segment"><a name="936351">    char *payload,</a></div>
+      <div class="Code_Segment"><a name="936352">    int payloadSize,</a></div>
+      <div class="Code_Segment"><a name="936353">    clocktype delay,</a></div>
+      <div class="Code_Segment"><a name="936354">    TraceProtocolType traceProtocol)</a></div>
+      <div class="Code_Segment"><a name="936355">{</a></div>
+      <div class="Code_Segment"><a name="936356">    Message *msg;</a></div>
+      <div class="Code_Segment"><a name="936357">    AppToUdpSend *info;</a></div>
+      <div class="Code_Segment"><a name="949264">    ActionData acnData;</a></div>
+      <div class="Code_Segment"><a name="936358">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936390">    // Create a packet event with the Transport Layer as the destination layer</a></div>
+      <div class="Code_Segment"><a name="936393">    // and UDP as the destination protocol. The event type is</a></div>
+      <div class="Code_Segment"><a name="936394">    // MSG_TRANSPORT_FromAppSend. </a></div>
+      <div class="Code_Segment"><a name="936359">    msg = MESSAGE_Alloc(</a></div>
+      <div class="Code_Segment"><a name="936360">              node,</a></div>
+      <div class="Code_Segment"><a name="936361">              TRANSPORT_LAYER,</a></div>
+      <div class="Code_Segment"><a name="936362">              TransportProtocol_UDP,</a></div>
+      <div class="Code_Segment"><a name="936363">              MSG_TRANSPORT_FromAppSend);</a></div>
+      <div class="Code_Segment"><a name="936364">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936395">    // ALlocate memory to store data.</a></div>
+      <div class="Code_Segment"><a name="936365">    MESSAGE_PacketAlloc(node, msg, payloadSize, traceProtocol);</a></div>
+      <div class="Code_Segment"><a name="936396">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936397">    // Copy application data into memory just allocated.</a></div>
+      <div class="Code_Segment"><a name="936366">    memcpy(MESSAGE_ReturnPacket(msg), payload, payloadSize);</a></div>
+      <div class="Code_Segment"><a name="936367">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936398">    // Create and assign info field values for UDP.</a></div>
+      <div class="Code_Segment"><a name="936368">    MESSAGE_InfoAlloc(node, msg, sizeof(AppToUdpSend));</a></div>
+      <div class="Code_Segment"><a name="936369">    info = (AppToUdpSend *) MESSAGE_ReturnInfo(msg);</a></div>
+      <div class="Code_Segment"><a name="936370">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936371">    SetIPv4AddressInfo(&amp;info-&gt;sourceAddr, sourceAddr);</a></div>
+      <div class="Code_Segment"><a name="936372">    info-&gt;sourcePort = sourcePort;</a></div>
+      <div class="Code_Segment"><a name="936373">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936374">    SetIPv4AddressInfo(&amp;info-&gt;destAddr, destAddr);</a></div>
+      <div class="Code_Segment"><a name="936375">    info-&gt;destPort = (short) appType;</a></div>
+      <div class="Code_Segment"><a name="936376">    info-&gt;priority = APP_DEFAULT_TOS;</a></div>
+      <div class="Code_Segment"><a name="936377">    info-&gt;outgoingInterface = ANY_INTERFACE;</a></div>
+      <div class="Code_Segment"><a name="949265">    info-&gt;ttl = IPDEFTTL;</a></div>
+      <div class="Code_Segment"><a name="936378">    ...</a></div>
+      <div class="Code_Segment"><a name="936399">    // Send the message to UDP at the Transport Layer.</a></div>
+      <div class="Code_Segment"><a name="936379">    MESSAGE_Send(node, msg, delay);</a></div>
+      <div class="Code_Segment"><a name="936338">}</a></div>
+      <div class="Figure">FIGURE 4-220.&nbsp;&nbsp;<a name="931707">Communication Between Layers Using MESSAGE_Send</a></div>
+      <div class="Body"><a name="931709">The other method of passing data between adjacent layers is to use direct function calls. An example of this is communication between UDP at the Transport Layer and IP at the Network Layer. UDP function TransportUdpSendToNetwork appends a UDP header to the user data received from an application running at the Application Layer and sends the resulting packet to IP using the function NetworkIpReceivePacketFromTransportLayer. TransportUdpSendToNetwork is shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936564', '');" title="Communication Between Layers">Figure&nbsp;4-221</a></span> and is implemented in <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/transport_udp.cpp. Note that MESSAGE_Send is not used in this case. NetworkIpReceivePacketFromTransportLayer is implemented in <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/network_ip.cpp. </div>
+      <div class="Code_Segment"><a name="936512">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936572">void</a></div>
+      <div class="Code_Segment"><a name="936573">TransportUdpSendToNetwork(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="936513">{</a></div>
+      <div class="Code_Segment"><a name="936514">    TransportDataUdp *udp = (TransportDataUdp *) node-&gt;transportData.udp;</a></div>
+      <div class="Code_Segment"><a name="936515">    TransportUdpHeader *udpHdr;</a></div>
+      <div class="Code_Segment"><a name="936516">    AppToUdpSend *info;</a></div>
+      <div class="Code_Segment"><a name="936517">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936518">    if (udp-&gt;udpStatsEnabled == TRUE)</a></div>
+      <div class="Code_Segment"><a name="936519">    {</a></div>
+      <div class="Code_Segment"><a name="936520">        udp-&gt;statistics-&gt;numPktFromApp++;</a></div>
+      <div class="Code_Segment"><a name="936521">    }</a></div>
+      <div class="Code_Segment"><a name="936522">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936523">    MESSAGE_AddHeader(node, msg, sizeof(TransportUdpHeader), TRACE_UDP);</a></div>
+      <div class="Code_Segment"><a name="936524">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936525">    udpHdr = (TransportUdpHeader *) msg-&gt;packet;</a></div>
+      <div class="Code_Segment"><a name="936526">    info = (AppToUdpSend *) MESSAGE_ReturnInfo(msg);</a></div>
+      <div class="Code_Segment"><a name="936527">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936528">    udpHdr-&gt;sourcePort = info-&gt;sourcePort;</a></div>
+      <div class="Code_Segment"><a name="936529">    udpHdr-&gt;destPort = info-&gt;destPort;</a></div>
+      <div class="Code_Segment"><a name="936530">    udpHdr-&gt;length = (unsigned short) MESSAGE_ReturnPacketSize(msg);</a></div>
+      <div class="Code_Segment"><a name="936531">    udpHdr-&gt;checksum = 0;  /* checksum not calculated */</a></div>
+      <div class="Code_Segment"><a name="975960">   </a></div>
+      <div class="Code_Segment"><a name="975968">    ActionData acnData;</a></div>
+      <div class="Code_Segment"><a name="975969">    acnData.actionType = SEND;</a></div>
+      <div class="Code_Segment"><a name="975961">    acnData.actionComment = NO_COMMENT;</a></div>
+      <div class="Code_Segment"><a name="975991">    TRACE_PrintTrace(node,</a></div>
+      <div class="Code_Segment"><a name="975992">                     msg,</a></div>
+      <div class="Code_Segment"><a name="975993">                     TRACE_TRANSPORT_LAYER,</a></div>
+      <div class="Code_Segment"><a name="975994">                     PACKET_OUT,</a></div>
+      <div class="Code_Segment"><a name="975962">                     &amp;acnData);</a></div>
+      <div class="Code_Segment"><a name="976006">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936535">    NetworkIpReceivePacketFromTransportLayer(</a></div>
+      <div class="Code_Segment"><a name="936536">        node,</a></div>
+      <div class="Code_Segment"><a name="936537">        msg,</a></div>
+      <div class="Code_Segment"><a name="936538">        info-&gt;sourceAddr,</a></div>
+      <div class="Code_Segment"><a name="936539">        info-&gt;destAddr,</a></div>
+      <div class="Code_Segment"><a name="936540">        info-&gt;outgoingInterface,</a></div>
+      <div class="Code_Segment"><a name="936541">        info-&gt;priority,</a></div>
+      <div class="Code_Segment"><a name="936542">        IPPROTO_UDP,</a></div>
+      <div class="Code_Segment"><a name="936553">        FALSE,</a></div>
+      <div class="Code_Segment"><a name="949266">        info-&gt;ttl);</a></div>
+      <div class="Code_Segment"><a name="936554">}</a></div>
+      <div class="Figure">FIGURE 4-221.&nbsp;&nbsp;<a name="936564">Communication Between Layers Using Function Calls</a></div>
+      <div class="Body"><a name="931712">The method of layer communication (whether to use direct function calls or MESSAGE_Send) is dependent on the layer and how it is implemented. It should be noted that the simulator’s performance is better if direct function calls are used, as compared to using MESSAGE_Send. This is because function calls bypass the event scheduling system of </a><span class="Variable">QualNet</span>, and thus some overhead is reduced. However, direct function calls can not model delays, and MESSAGE_Send must be used if delays are required to be modeled between layers. </div>
+      <div class="Heading2Numbered">4.11.2  <a name="931713">Communication Between Non-adjacent Layers</a></div>
+      <div class="BodyAfterHead"><a name="931714">Although the design philosophy of </a><span class="Variable">QualNet</span> is for adjacent layers to communicate with each other, it is possible for protocols at non-adjacent layers to communicate with each other. For instance, protocols written at the Application Layer, if desired, may bypass the Transport Layer and communicate directly with the Network Layer. This procedure would entail the Application Layer protocol to use the Network Layer APIs instead of the Transport Layer APIs.</div>
+      <div class="Body"><a name="934790">As an example, suppose we want the current CBR application to bypass the Transport Layer protocol (UDP in this case) and communicate directly with the Network Layer. Also, suppose that we want to maintain the current Network Layer APIs. In order to achieve this, we must close the gap between the Application and Network Layer as shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#934799', '');" title="Communication Between Layers">Figure&nbsp;4-222</a></span>.</div>
+      <div class="Anchor"><a name="934797"><img class="Default" src="images/Chapter%204-11.15.1.1.jpg" width="218" height="236" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 4-222.&nbsp;&nbsp;<a name="934799">Bypassing the Transport Layer</a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936265', '');" title="Communication Between Layers" name="937326">Section&nbsp;4.11.2.1</a></span> describes the communication from the Application Layer to the Network Layer, and <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936845', '');" title="Communication Between Layers">Section&nbsp;4.11.2.2</a></span> describes the communication from the Network Layer to the Application layer, bypassing the Transport Layer in each case.</div>
+      <div class="Heading3Numbered">4.11.2.1  <a name="936265">Application Layer to Network Layer Communication</a></div>
+      <div class="BodyAfterHead"><a name="936720">Normally, a UDP-based application sends user data to UDP, which appends a UDP header to the packet and sends it to IP at the Network Layer. To enable CBR to directly send user data to IP, we have to first determine what APIs are used by UDP to communicate with the Network Layer, and then use the same interface between the CBR and IP. In this case, CBR calls API function APP_UdpSendNewHeaderVirtualDataWithPriority to send data to UDP, and UDP uses function NetworkIpReceivePacketFromTransportLayer to pass data to the Network Layer. Therefore, the modified CBR application should replace the call to APP_UdpSendNewHeaderVirtualDataWithPriority with a call to NetworkIpReceivePacketFromTransportLayer, with appropriate parameters. Additionally, any actions performed in APP_UdpSendNewHeaderVirtualDataWithPriority should be performed by CBR directly before calling NetworkIpReceivePacketFromTransportLayer.</a></div>
+      <div class="Body"><a name="937156">CBR function AppLayerCbrClient, shown in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#998712', '');" title="Application Layer">Figure&nbsp;4-25</a>, calls the API function APP_UdpSendNewHeaderVirtualDataWithPriority to send data to UDP. To enable CBR to send data to IP directly, replace the call to APP_UdpSendNewHeaderVirtualDataWithPriority with a call to NetworkIpReceivePacketFromTransportLayer, as shown in <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936923', '');" title="Communication Between Layers">Figure&nbsp;4-223</a>. CBR functions are implemented in <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/app_cbr.cpp and function NetworkIpReceivePacketFromTransportLayer is implemented in network_ip.cpp. APP_UdpSendNewHeaderVirtualDataWithPriority is implemented in <span class="Variable">QUALNET_HOME</span>/main/app_util.cpp, and prototypes for message APIs can be found in the file <span class="Variable">QUALNET_HOME</span>/include/message.h.</div>
+      <div class="Body"><a name="937145">The steps needed to enable CBR to directly communicate with IP are listed below.</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="937113">To enable CBR to call the IP function NetworkIpReceivePacketFromTransportLayer, include the file network_ip.h in the file app_cbr.cpp by inserting the following statement:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="937114">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="937292">#include "network_ip.h"</a></div>
+      <div class="Code_Segment_Large"><a name="937293">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="937091">When IP receives a packet from the upper layers, it appends an IP header to the packet. One of the fields of the IP header is the identifier of the protocol to which IP delivers the packet at the destination. To enable IP to deliver a packet to CBR, define an identifier for CBR by including the following statement in </a><span class="Variable">QUALNET_HOME</span>/libraries/developer/src/network_ip.h:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="937098">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="937210">#define IPPROTO_CBR             255</a></div>
+      <div class="Code_Segment_Large"><a name="937141">&nbsp;</a></div>
+      <div class="NumberedCont"><a name="937138">Here, 255 is used as an example. Be sure to use a number that is not used by any other protocol.</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="937109">In CBR function AppLayerCbrClient, declare a new message variable </a><span style="font-family: &quot;Courier New&quot;">newMsg</span> and allocate memory for it using API function MESSAGE_Alloc (see <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936923', '');" title="Communication Between Layers">Figure&nbsp;4-223</a>). This message variable is used only to send data to IP and not to schedule an event. Therefore the layer, protocol and event type of the message are not important and are set to 0.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="937181">Copy the CBR data into the </a><span style="font-family: &quot;Courier New&quot;">packet</span> field of <span style="font-family: &quot;Courier New&quot;">newMsg</span> using the function memcpy (see <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936923', '');" title="Communication Between Layers">Figure&nbsp;4-223</a>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="937184">Update the </a><span style="font-family: &quot;Courier New&quot;">virtualPayLoadSize</span> field of <span style="font-family: &quot;Courier New&quot;">newMsg</span> (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#931856', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.1</a></span>) by using the API function MESSAGE_AddVirtualPayload (see <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936923', '');" title="Communication Between Layers">Figure&nbsp;4-223</a>). This is normally done in the function APP_UdpSendNewHeaderVirtualDataWithPriority, but since that API function is not being used in this modification, <span style="font-family: &quot;Courier New&quot;">virtualPayLoadSize</span> field of the message should be updated in AppLayerCbrClient before data is sent to IP. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#987147', '');" title="Application Layer">Section&nbsp;4.2.5.6.2</a></span> for an explanation of the use of <span style="font-family: &quot;Courier New&quot;">virtualPayLoadSize</span> field,</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">6.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="937213">Send the CBR data to IP by calling function NetworkIpReceivePacketFromTransportLayer (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936923', '');" title="Communication Between Layers">Figure&nbsp;4-223</a></span>). In the function call, constant IPDEFTTL is the default value of the TTl field.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment"><a name="936871">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936872">void AppLayerCbrClient(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="936873">{</a></div>
+      <div class="Code_Segment"><a name="936874">    ...</a></div>
+      <div class="Code_Segment"><a name="936877">    switch(msg-&gt;eventType)</a></div>
+      <div class="Code_Segment"><a name="936878">    {</a></div>
+      <div class="Code_Segment"><a name="936879">        case MSG_APP_TimerExpired:</a></div>
+      <div class="Code_Segment"><a name="936880">        {</a></div>
+      <div class="Code_Segment"><a name="936883">            ...</a></div>
+      <div class="Code_Segment"><a name="936886">            switch (timer-&gt;type)</a></div>
+      <div class="Code_Segment"><a name="936887">            {</a></div>
+      <div class="Code_Segment"><a name="936888">                case APP_TIMER_SEND_PKT:</a></div>
+      <div class="Code_Segment"><a name="936889">                {</a></div>
+      <div class="Code_Segment"><a name="936890">                    CbrData data;</a></div>
+      <div class="Code_New"><a name="936933">                    Message *newMsg;</a></div>
+      <div class="Code_Segment"><a name="936891">                    ...</a></div>
+      <div class="Code_New"><a name="936936">                    // Create a new message to hold the data.</a></div>
+      <div class="Code_New"><a name="937080">                    newMsg = MESSAGE_Alloc(node, 0, 0, 0);</a></div>
+      <div class="Code_New"><a name="936935">                   // Allocate memory for user data.</a></div>
+      <div class="Code_New"><a name="937081">                   MESSAGE_PacketAlloc(node, newMsg, sizeof(data), TRACE_CBR);</a></div>
+      <div class="Code_New"><a name="936937">                   // Copy user data into packet field.</a></div>
+      <div class="Code_New"><a name="937082">                   memcpy(MESSAGE_ReturnPacket(newMsg), &amp;data, sizeof(data));</a></div>
+      <div class="Code_New"><a name="936947">                   // Update virtualPayLoadSize field of message.</a></div>
+      <div class="Code_New"><a name="937083">                   MESSAGE_AddVirtualPayload(node, </a></div>
+      <div class="Code_New"><a name="936957">                                             newMsg, </a></div>
+      <div class="Code_New"><a name="936956">                                             clientPtr-&gt;itemSize - sizeof(data));</a></div>
+      <div class="Code_New"><a name="936895">                   // Send message to IP.</a></div>
+      <div class="Code_New"><a name="937085">                   NetworkIpReceivePacketFromTransportLayer(</a></div>
+      <div class="Code_New"><a name="936981">                                        node,</a></div>
+      <div class="Code_New"><a name="936966">                                        newMsg,</a></div>
+      <div class="Code_New"><a name="936969">                                        clientPtr-&gt;localAddr,</a></div>
+      <div class="Code_New"><a name="936971">                                        clientPtr-&gt;remoteAddr,</a></div>
+      <div class="Code_New"><a name="936967">                                        ANY_INTERFACE,</a></div>
+      <div class="Code_New"><a name="936992">                                        clientPtr-&gt;tos,</a></div>
+      <div class="Code_New"><a name="936984">                                        IPPROTO_CBR,</a></div>
+      <div class="Code_New"><a name="936995">                                        FALSE,</a></div>
+      <div class="Code_New"><a name="949274">                                        IPDEFTTL);</a></div>
+      <div class="Code_Segment"><a name="937056">                    clientPtr-&gt;numBytesSent += clientPtr-&gt;itemSize;</a></div>
+      <div class="Code_Segment"><a name="936908">                    ...</a></div>
+      <div class="Code_Segment"><a name="936909">                  }</a></div>
+      <div class="Code_Segment"><a name="936910">               ...</a></div>
+      <div class="Code_Segment"><a name="936912">            }</a></div>
+      <div class="Code_Segment"><a name="936913">            break;</a></div>
+      <div class="Code_Segment"><a name="936914">        }</a></div>
+      <div class="Code_Segment"><a name="936917">         ...</a></div>
+      <div class="Code_Segment"><a name="936919">    }</a></div>
+      <div class="Code_Segment"><a name="936920">    MESSAGE_Free(node, msg);</a></div>
+      <div class="Code_Segment"><a name="936921">}</a></div>
+      <div class="Figure">FIGURE 4-223.&nbsp;&nbsp;<a name="936923">Application Layer to Network Layer Bypassing Transport Layer</a></div>
+      <div class="Heading3Numbered">4.11.2.2  <a name="936845">Network Layer to Application Layer Communication</a></div>
+      <div class="BodyAfterHead"><a name="937249">For communication from the Network Layer to the Application Layer, first determine what APIs are used between the Transport and Application Layers and then have the Network Layer use the same interface to pass data directly to the Application Layer. </a></div>
+      <div class="Body"><a name="937384">At the Network Layer, IP function DeliverPacket reads the protocol number for the destination protocol of a received packet from the packet’s IP header and passes the packet to the destination protocol. For a UDP-based application, DeliverPacket sends the received packet to UDP using the function SendToUdp. UDP, in turn, passes the packet to the application using the UDP function TransportUdpSendToApp. The IP functions DeliverPacket and SendToUdp are implemented in network_ip.cpp. The UDP function TransportUdpSendToApp is shown in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-3.html#997868', '');" title="Transport Layer">Figure&nbsp;4-57</a> and is implemented in transport_udp.cpp. </div>
+      <div class="Body"><a name="937609">To enable IP to send data to CBR directly, write a function SendToCbr and modify function DeliverPacket to call SendToCbr to deliver packets to CBR. The steps needed to enable IP to directly communicate with CBRT are listed below.</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="937387">Define a data structure </a><span style="font-family: &quot;Courier New&quot;">IpToAppRecv</span>, similar to the data structure <span style="font-family: &quot;Courier New&quot;">UdpToAppRecv</span>, in <span class="Variable">QUALNET_HOME</span>/include/api.h, as shown below:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="937646">&nbsp;</a></div>
+      <div class="Code_New"><a name="937647">struct IpToAppRecv</a></div>
+      <div class="Code_New"><a name="937648">{</a></div>
+      <div class="Code_New"><a name="937649">    Address sourceAddr;</a></div>
+      <div class="Code_New"><a name="937650">    short sourcePort;</a></div>
+      <div class="Code_New"><a name="937651">    Address destAddr;</a></div>
+      <div class="Code_New"><a name="937652">    short destPort;</a></div>
+      <div class="Code_New"><a name="937653">    int incomingInterfaceIndex;</a></div>
+      <div class="Code_New"><a name="937654">};</a></div>
+      <div class="Code_Segment_Large"><a name="937644">&nbsp;</a></div>
+      <div class="NumberedCont"><a name="937681">This data structure is used for the </a><span style="font-family: &quot;Courier New&quot;">info</span> field of a message for communication between IP and the Application Layer. </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="937355">Modify the IP function DeliverPacket by adding a case for CBR in the second switch statement, as shown in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#937546', '');" title="Communication Between Layers">Figure&nbsp;4-224</a>. The constant IPPROTO_CBR is explained in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#936265', '');" title="Communication Between Layers">Section&nbsp;4.11.2.1</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment"><a name="937498">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="937499">static void </a></div>
+      <div class="Code_Segment"><a name="937500">DeliverPacket(Node *node, Message *msg,</a></div>
+      <div class="Code_Segment"><a name="937501">              int interfaceIndex, NodeAddress previousHopAddress)</a></div>
+      <div class="Code_Segment"><a name="937502">{</a></div>
+      <div class="Code_Segment"><a name="937503">    NetworkDataIp *ip = (NetworkDataIp *) node-&gt;networkData.networkVar;</a></div>
+      <div class="Code_Segment"><a name="937504">    NodeAddress sourceAddress = 0;</a></div>
+      <div class="Code_Segment"><a name="937505">    NodeAddress destinationAddress =0;</a></div>
+      <div class="Code_Segment"><a name="937506">    unsigned char ipProtocolNumber;</a></div>
+      <div class="Code_Segment"><a name="937507">    unsigned ttl =0;</a></div>
+      <div class="Code_Segment"><a name="937508">    TosType priority;</a></div>
+      <div class="Code_Segment"><a name="937509">    ...</a></div>
+      <div class="Code_Segment"><a name="976015">    IpHeaderType *ipHeader = (IpHeaderType *) msg-&gt;packet;</a></div>
+      <div class="Code_Segment"><a name="937511">    ...</a></div>
+      <div class="Code_Segment"><a name="976031">    ipProtocolNumber = ipHeader-&gt;ip_p;</a></div>
+      <div class="Code_Segment"><a name="937512">    ...</a></div>
+      <div class="Code_Segment"><a name="937513">    switch (ipProtocolNumber)</a></div>
+      <div class="Code_Segment"><a name="937514">    {</a></div>
+      <div class="Code_Segment"><a name="937515">        // Delivery to Transport Layer protocols.</a></div>
+      <div class="Code_Segment"><a name="937516">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="937517">        case IPPROTO_UDP:</a></div>
+      <div class="Code_Segment"><a name="937518">        {</a></div>
+      <div class="Code_Segment"><a name="937519">            SendToUdp(node, msg, priority, sourceAddress, destinationAddress,</a></div>
+      <div class="Code_Segment"><a name="937520">                      interfaceIndex);</a></div>
+      <div class="Code_Segment"><a name="937521">            break;</a></div>
+      <div class="Code_Segment"><a name="937522">        }</a></div>
+      <div class="Code_Segment"><a name="937523">        ...</a></div>
+      <div class="Code_New"><a name="937568">        case IPPROTO_CBR:</a></div>
+      <div class="Code_New"><a name="937536">        {</a></div>
+      <div class="Code_New"><a name="937537">            SendToCbr(node, msg, priority, sourceAddress,</a></div>
+      <div class="Code_New"><a name="937538">                      destinationAddress, interfaceIndex);</a></div>
+      <div class="Code_New"><a name="937539">            break;</a></div>
+      <div class="Code_New"><a name="937540">        }</a></div>
+      <div class="Code_Segment"><a name="937541">        ...</a></div>
+      <div class="Code_Segment"><a name="937542">    }</a></div>
+      <div class="Code_Segment"><a name="937543">    ...</a></div>
+      <div class="Code_Segment"><a name="937544">}</a></div>
+      <div class="Figure">FIGURE 4-224.&nbsp;&nbsp;<a name="937546">Network Layer to Application Layer Bypassing Transport Layer</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="937726">Write the function SendToCbr in network_ip.cpp, as shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#934828', '');" title="Communication Between Layers">Figure&nbsp;4-225</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="NumberedCont"><a name="937496">Function SendToCbr uses the event type </a><span style="font-family: &quot;Courier New&quot;">MSG_APP_FromTransport</span> to send a packet from IP to the Application Layer. This name is misleading because the packet is being sent from the Network Layer, not from the Transport Layer. A more meaningful name for the event type would be <span style="font-family: &quot;Courier New&quot;">MSG_APP_FromNetwork</span>. If this event type is used, declare the new event type in api.h, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#987147', '');" title="Application Layer">Section&nbsp;4.2.5.6.2</a></span>, and in the CBR server event dispatcher function AppLayerCbrServer, shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#998806', '');" title="Application Layer">Figure&nbsp;4-26</a></span>, replace <span style="font-family: &quot;Courier New&quot;">MSG_APP_FromTransport</span> with <span style="font-family: &quot;Courier New&quot;">MSG_APP_FromNetwork</span>.   </div>
+      <div class="Code_New"><a name="937392">&nbsp;</a></div>
+      <div class="Code_New"><a name="937398">void SendToCbr(</a></div>
+      <div class="Code_New"><a name="937400">     Node *node,</a></div>
+      <div class="Code_New"><a name="937401">     Message *msg,</a></div>
+      <div class="Code_New"><a name="937402">     TosType priority,</a></div>
+      <div class="Code_New"><a name="937403">     NodeAddress sourceAddress,</a></div>
+      <div class="Code_New"><a name="937404">     NodeAddress destinationAddress,</a></div>
+      <div class="Code_New"><a name="937405">     int incomingInterfaceIndex)</a></div>
+      <div class="Code_New"><a name="937406">{</a></div>
+      <div class="Code_New"><a name="937407">     CbrData data;</a></div>
+      <div class="Code_New"><a name="937435">     IpToAppRecv *info;</a></div>
+      <div class="Code_New"><a name="937436">     </a></div>
+      <div class="Code_New"><a name="937437">     // Get the CBR header to get source port information.</a></div>
+      <div class="Code_New"><a name="937438">     memcpy (&amp;data, MESSAGE_ReturnPacket(msg), sizeof(data));</a></div>
+      <div class="Code_New"><a name="937439">     </a></div>
+      <div class="Code_New"><a name="937440">     // Set layer and protocol to Application Layer and CBR Server respectively.</a></div>
+      <div class="Code_New"><a name="937441">     MESSAGE_SetLayer(msg, APP_LAYER, APP_CBR_SERVER);</a></div>
+      <div class="Code_New"><a name="937434">     </a></div>
+      <div class="Code_New"><a name="937451">     // Set event type to one recognized by CBR.</a></div>
+      <div class="Code_New"><a name="937450">     MESSAGE_SetEvent(msg, MSG_APP_FromTransport);</a></div>
+      <div class="Code_New"><a name="937408">     </a></div>
+      <div class="Code_New"><a name="937460">     // Set the info field (this will be used by CBR Server).</a></div>
+      <div class="Code_New"><a name="937463">     MESSAGE_InfoAlloc(node, msg, sizeof(IpToAppRecv));</a></div>
+      <div class="Code_New"><a name="937410">     info = (IpToAppRecv *) MESSAGE_ReturnInfo(msg);</a></div>
+      <div class="Code_New"><a name="949182">     SetIPv4AddressInfo(&amp;(info-&gt;sourceAddr), sourceAddress);</a></div>
+      <div class="Code_New"><a name="937467">     info-&gt;sourcePort = data.sourcePort;</a></div>
+      <div class="Code_New"><a name="949200">     SetIPv4AddressInfo(&amp;(info-&gt;destAddr), destinationAddress);</a></div>
+      <div class="Code_New"><a name="937468">     info-&gt;destPort = APP_CBR_SERVER;</a></div>
+      <div class="Code_New"><a name="937470">     info-&gt;incomingInterfaceIndex = incomingInterfaceIndex;</a></div>
+      <div class="Code_New"><a name="937471">    </a></div>
+      <div class="Code_New"><a name="937472">    // Send packet to Application Layer.</a></div>
+      <div class="Code_New"><a name="937493">    MESSAGE_Send(node, msg, PROCESS_IMMEDIATELY);</a></div>
+      <div class="Code_New"><a name="937473">}</a></div>
+      <div class="Figure">FIGURE 4-225.&nbsp;&nbsp;<a name="934828">Delivering Packets from IP to CBR</a></div>
+      <div class="Heading2Numbered">4.11.3  <a name="934834">Communication Among Layers Across Nodes</a></div>
+      <div class="BodyAfterHead"><a name="934835">In addition to supporting the ability to communicate between non-adjacent layers, </a><span class="Variable">QualNet</span> also allows the capability to bypass the protocol stack and communicate directly across nodes. For instance, an application protocol at one node can directly communicate with an application protocol at another node. This is not restricted to just between the same applications. Cross-node communication can also occur between different protocols in the same layer or of different layers. </div>
+      <div class="Body" style="margin-left: 57.6pt; text-indent: -28.8pt"><span style="font-weight: bold"><a name="937992">Note</a></span>: In general, we do not recommend using this capability. Bypassing the lower layers of the protocol stack may result in misleading statistical results. Use of this capability also has an impact on parallel execution, including disabling some optimizations that are implemented at the lower layers of the stack. However, if handled properly, it can result in improved runtime performance.</div>
+      <div class="Body"><a name="949283">To continue with our CBR example, if we wanted to model only a fixed delay when sending CBR traffic between the source node and the destination node, we can achieve this by sending a message directly from the CBR source node to the CBR destination node. To achieve this, modify the CBR function AppLayerCBrClient, as shown in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#934850', '');" title="Communication Between Layers">Figure&nbsp;4-226</a>. AppLayerCbrClient is implemented in the file <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/app_cbr.cpp.</div>
+      <div class="Body"><a name="938000">Also, include the file partition.h in app_cbr.cpp to access the partition data structure, which is required to map the destination node identifier to a node pointer, by inserting the following statement in app_cbr.cpp:</a></div>
+      <div class="Code_Segment_Large"><a name="938012">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="938051">#include "partition.h"</a></div>
+      <div class="Code_Segment_Large"><a name="938017">&nbsp;</a></div>
+      <div class="Body"><a name="938056">The comments in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-11.html#934850', '');" title="Communication Between Layers">Figure&nbsp;4-226</a></span> explain the purpose of each line of code.</div>
+      <div class="Code_Segment"><a name="937834">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="937835">void AppLayerCbrClient(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="937836">{</a></div>
+      <div class="Code_Segment"><a name="937837">    ...</a></div>
+      <div class="Code_Segment"><a name="937838">            switch (timer-&gt;type)</a></div>
+      <div class="Code_Segment"><a name="937844">            {</a></div>
+      <div class="Code_Segment"><a name="937845">                case APP_TIMER_SEND_PKT:</a></div>
+      <div class="Code_Segment"><a name="937846">                {</a></div>
+      <div class="Code_Segment"><a name="937847">                    CbrData data;</a></div>
+      <div class="Code_New"><a name="937848">                    Message *newMsg;</a></div>
+      <div class="Code_New"><a name="937901">                    Node *destNode;</a></div>
+      <div class="Code_New"><a name="937909">                    NodeAddress destId;</a></div>
+      <div class="Code_New"><a name="937910">                    UdpToAppRecv *info;</a></div>
+      <div class="Code_Segment"><a name="937849">                    ...</a></div>
+      <div class="Code_New"><a name="937855">                    // Get the destination nodeId.</a></div>
+      <div class="Code_New"><a name="937913">                    destId = MAPPING_GetNodeIdFromInterfaceAddress(</a></div>
+      <div class="Code_New"><a name="949344">                                     node, GetIPv4Address(clientPtr-&gt;remoteAddr));</a></div>
+      <div class="Code_New"><a name="949340">                    // nodeIsLocal tells whether the destination node exists on</a></div>
+      <div class="Code_New"><a name="949304">                    // the same processor as the current node.</a></div>
+      <div class="Code_New"><a name="949305">                    BOOL nodeIsLocal = FALSE;</a></div>
+      <div class="Code_New"><a name="949303">                    // Get the destination node pointer.</a></div>
+      <div class="Code_New"><a name="937919">                    nodeIsLocal = PARTITION_ReturnNodePOinter(</a></div>
+      <div class="Code_New"><a name="937915">                                           node-&gt;partitionData,  &amp;destNode,</a></div>
+      <div class="Code_New"><a name="937914">                                           destId, TRUE);</a></div>
+      <div class="Code_New"><a name="937916">                    // Make sure that the destination node pointer exists.</a></div>
+      <div class="Code_New"><a name="937927">                    assert (destNode != NULL);</a></div>
+      <div class="Code_New"><a name="937911">                    // Create a new message to send to CBR Server at destination.</a></div>
+      <div class="Code_New"><a name="937856">                    newMsg = MESSAGE_Alloc(node, APP_LAYER, APP_CBR_SERVER,</a></div>
+      <div class="Code_New"><a name="937937">                                           MSG_APP_FromTransport);</a></div>
+      <div class="Code_New"><a name="937857">                   // Allocate memory for user data.</a></div>
+      <div class="Code_New"><a name="937858">                   MESSAGE_PacketAlloc(node, newMsg, sizeof(data), TRACE_CBR);</a></div>
+      <div class="Code_New"><a name="937860">                   memcpy(MESSAGE_returnPacket(newMsg), &amp;data, sizeof(data));</a></div>
+      <div class="Code_New"><a name="937861">                   // Create and set the info field.</a></div>
+      <div class="Code_New"><a name="937946">                   MESSAGE_InfoAlloc(node, newMsg, sizeof(UdpToAppRecv));</a></div>
+      <div class="Code_New"><a name="937949">                   info = (UdpToAppRecv *) MESSAGE_ReturnInfo(msg);</a></div>
+      <div class="Code_New"><a name="937954">                   info-&gt;sourceAddr = clientPtr-&gt;localAddress;</a></div>
+      <div class="Code_New"><a name="937955">                   info-&gt;sourcePort = clientPtr-&gt;sourcePort;</a></div>
+      <div class="Code_New"><a name="937956">                   info-&gt;destAddr = clientPtr-&gt;remoteAddress;</a></div>
+      <div class="Code_New"><a name="937957">                   info-&gt;destPort = APP_CBR_SERVER;</a></div>
+      <div class="Code_New"><a name="937958">                   info-&gt;incomingInterfaceIndex = 0;</a></div>
+      <div class="Code_New"><a name="937866">                   // Send the message to the destination node after 1 ms delay.</a></div>
+      <div class="Code_New"><a name="937977">                   if (nodeIsLocal){</a></div>
+      <div class="Code_New"><a name="949326">                      MESSAGE_Send(destNode, newMsg, 1 * MILLI_SECOND);</a></div>
+      <div class="Code_New"><a name="949325">                   } else {</a></div>
+      <div class="Code_New"><a name="949331">                       // If the node is not local, ise MESSAGE_RemoteSend</a></div>
+      <div class="Code_New"><a name="949333">                       // instead of MESSAGE_Send to deliver the message.</a></div>
+      <div class="Code_New"><a name="949334">                   MESSAGE_RemoteSend(destNode, destId, newMsg, </a></div>
+      <div class="Code_New"><a name="949335">                                      1 * MILLI_SECOND);</a></div>
+      <div class="Code_New"><a name="949328">                   }</a></div>
+      <div class="Code_Segment"><a name="937875">                   clientPtr-&gt;numBytesSent += clientPtr-&gt;itemSize;</a></div>
+      <div class="Code_Segment"><a name="937880">        ...</a></div>
+      <div class="Code_Segment"><a name="937885">}</a></div>
+      <div class="Figure">FIGURE 4-226.&nbsp;&nbsp;<a name="934850">Code Sample to Bypass Layers and Communicate Between Nodes</a></div>
+      <div class="FooterRight" style="color: #000000; font-family: Arial; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: bold; margin-right: 1.00008pt; text-indent: 292.00032pt; text-transform: none; vertical-align: baseline"><a name="949468">&nbsp;</a></div>
+      <div class="Body"><a name="949469">In addition to the change to the layer function, the user must specify a minimum lookahead (i.e., delay) on the message in order to enable parallel execution. Assuming the minimum delay is 1 millisecond, the following code segment must be added to the CBR_ClientInit function.</a></div>
+      <div class="Code_New"><a name="949470">&nbsp;</a></div>
+      <div class="Code_New"><a name="977169">#ifdef PARALLEL</a></div>
+      <div class="Code_New"><a name="949471">    PARALLEL_SetProtocolIsNotEOTCapable(node);</a></div>
+      <div class="Code_New"><a name="949472">    PARALLEL_SetMinimumLookaheadForInterface(</a></div>
+      <div class="Code_New"><a name="949473">        node,</a></div>
+      <div class="Code_New"><a name="949474">        (1 * MILLISECONDS));</a></div>
+      <div class="Code_New"><a name="949475">#endif // PARALLEL</a></div>
+      <div class="Body"><a name="948643">&nbsp;</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

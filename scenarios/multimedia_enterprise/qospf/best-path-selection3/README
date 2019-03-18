@@ -1,0 +1,49 @@
+PURPOSE:-
+--------
+This scenario verifies that QOSPF provides the best of available shortest
+paths to connection requests.
+
+SCENARIO:-
+---------
+
+In this scenario, one CBR application is running and which takes roughly
+all the available bandwidth from node 2 to node 4. During this session,
+a TRAFFIC-GEN application request with QoS requirements arrives.
+Another request arrives after end of the CBR session.
+
+The first session request should get the second path. And the second
+request should get the first path which is freed up after the CBR
+session ends.
+
+
+               (1)
+                |
+                |
+                |
+               (2)
+               / \
+             /     \
+           /         \
+         (3)---------(4)
+
+APPLICATION:-
+------------
+
+CBR 2 4 0 1248 .0001S 2M 4M
+TRAFFIC-GEN 1 4 DET 180 DET 900 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 150000 45MS 1
+TRAFFIC-GEN 1 4 DET 300 DET 900 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 150000 45MS 1
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet best-path-selection3.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. best-path-selection3.app -  QualNet application input file.
+2. best-path-selection3.config - QualNet configuration input file.
+3. best-path-selection3.expected.stat - QualNet statistics collection for QOSPF.
+4. README - This file.
+

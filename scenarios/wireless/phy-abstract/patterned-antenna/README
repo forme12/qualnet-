@@ -1,0 +1,59 @@
+# Copyright (c) 2001-2008, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6701 Center Drive West
+#                          Suite 520
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+--------
+To check whether the new introduced antenna (ANTENNA-MODEL
+PATTERNED) behaves properly in accordance with the 2D pattern
+file format(ASCII2D) with PHY ABSTRACT Model.
+
+SCENARIO:-
+
+There are three nodes in the scenario. Node 1 is having a PATTERNED antenna.
+Gain in the direction of node 3 is negative while in the direction of 
+node 2 is positive. Both the node (2 and 3) initiate the application (CBR) to
+Node 1. But the application from node 3 to node 1 fails due to insufficient 
+gain.
+
+
+------- means a wireless link 
+
+
+SUBNET N8-192.0.0.0 { 1 thru 3 }
+[ 192.0.0.1 ] ANTENNA-MODEL  PATTERNED
+
+radiation pattern at the node 1.
+            _ _  
+          /    \
+3-------1/--------2
+         \      /
+           \ - -
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet.exe default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. default.asciiazimuth- QualNet antenna pattern file for 2D gains
+                            in ASCII format.
+5.default.nodes- QualNet node placement input file.
+6.README- This file.
+

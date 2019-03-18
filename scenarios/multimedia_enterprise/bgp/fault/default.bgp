@@ -1,0 +1,121 @@
+#
+# All the descriptions here corresponds to a single BGP speaker
+# and have to be written/configured for each BGP speaker explicitly.
+#
+#
+# BGP speaker configuration for AS ID
+# ===================================
+# The following associates a BGP speaker with a particular AS ID.  
+#
+# ROUTER <node_id> BGP <as_id>
+#
+# where node_id is the node to be configured and as_id is an 
+# unsigned integer representing the AS ID that the node belongs to, 
+# which should not be 0.
+#
+#
+# All the other BGP-speaker specific configuration parameter 
+# intended to configure the an individual speaker should immediately
+# follow the ROUTER statement. These parameters are described below.
+#
+# BGP route advertisement
+# -----------------------
+# This is used to configure the network address that the BGP speaker 
+# will advertise. A BGP speaker may advertise more than one network addresses
+# by specifying multiple NETWORK statements.
+#
+# NETWORK <ip_address>
+#
+#
+# BGP neighbor connection
+# -----------------------
+# This is used to specify the neighbor connection of the BGP speaker. 
+# One may or may not specify all the neighbors.  However, at least 
+# one of the neighbors must be configured to recognize its counterpart.  
+# Otherwise, the BGP connection will not be established.  More than
+# one neighbor connection can be specified using multiple NEIGHBOR statements.
+#
+# NEIGHBOR <neighbor_ip_address> REMOTE-AS <remote_as_id>
+#
+#
+# BGP weight of a neighboring BGP speaker
+# ---------------------------------------
+# The weight corresponding to a neighbor can be specified as follows.
+#
+# NEIGHBOR <neighbor_ip_address> WEIGHT <weight_value>
+#
+#
+# Disabling route synchronization
+# -------------------------------
+# The following statement disables IGP route synchronization.
+# By default, synchronization is used.
+#
+# NO SYNCHRONIZATION
+#
+#
+# Specifying local preference
+# ---------------------------
+# The following statement specifies local preferences for internal paths.
+#
+# DEFAULT LOCAL-PREFERENCE <unsigned_integer>
+#
+#
+# Specifying multi-exit discriminator (MED)
+# ----------------------------------------
+# The following statement specifies MED.
+#
+# DEFAULT-METRIC <unsigned integer>
+#
+#
+# Disabling IGP route injection into BGP
+# --------------------------------------
+# The following statement has to be given to stop IGP route injection
+# into BGP.  By default, IGP route injection into BGP is used.
+#
+# NO-ADVERTISEMENT-FROM-IGP
+#
+#
+# Setting the default IGP probe time interval 
+# --------------------------------------------
+# The following sets the probe interval if IGP route injection 
+# into BGP is used:
+#
+# BGP-PROBE-IGP-INTERVAL <time>
+#
+#
+#
+# EXAMPLE:
+#
+# The following specifies that node 4 is a BGP speaker in AS 1.
+# Node 4 is advertising N8-2.0 to neighbor BGP speaker 1.2, which is
+# located in AS 2.
+#
+# ROUTER 4 BGP 1
+# NETWORK N8-2.0
+# NEIGHBOR 1.2 REMOTE-AS 2
+#
+# Here, it specifies that node 5 is a BGP speaker in AS 2.
+# Node 5 is advertising N8-3.0 to neighbor BGP speaker 1.1, which is
+# located in AS 1.
+#
+# ROUTER 5 BGP 2
+# NETWORK N8-3.0
+# NEIGHBOR 1.1 REMOTE-AS 1
+#
+ROUTER 4 BGP 1
+NETWORK N8-2.0
+NETWORK N2-1.0
+NEIGHBOR 1.2 REMOTE-AS 2
+
+ROUTER 5 BGP 2
+NETWORK N8-3.0
+NETWORK N2-1.0
+NETWORK N2-5.0
+NEIGHBOR 1.1 REMOTE-AS 1
+NEIGHBOR 5.2 REMOTE-AS 3
+
+
+ROUTER 9 BGP 3
+NETWORK N8-4.0
+NETWORK N2-5.0
+NEIGHBOR 5.1 REMOTE-AS 2

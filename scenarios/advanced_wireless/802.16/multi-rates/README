@@ -1,0 +1,61 @@
+PURPOSE:-
+--------
+To test the multiple rates capability of 802.16 using different coding
+and modulation combinations. The rates are properly chosen
+based on signal strengths. In this sample, the signal strength is mainly
+decided by the distance between the BS and SS.
+
+QualNet 802.16 Model only supports 7 coding and modulation combinations.
+
+
+SCENARIO:-
+---------
+Seven subnets are created each containing 1 BS and 1 SS. The distances
+between the BS and the SS of the seven subnets are adjusted in such a way
+that each pair of BS and SS will use a different coding + modulation
+combination. Each BS has one CBR flow to the SS in its subnet. The CBR
+client generates enough traffic more than the highest data rates. Then
+we can observe the different throughputs at the CBR servers due to choices
+of different coding + modulation combinations.
+
+
+    1(BS)  3(BS)  5(BS)  7(BS)  9(BS)  11(BS)  13(BS)
+
+    2(SS)
+
+           4(SS)
+
+                  6(SS)
+
+                         8(SS)
+
+                                10(SS)
+
+                                       12(SS)
+
+                                              14(SS)
+
+Seven CBR flows are defined from BSs to SSs.
+
+CBR 1 2 0 1024 0.0002S 15S 0S PRECEDENCE 0
+CBR 3 4 0 1024 0.0002S 15S 0S PRECEDENCE 0
+CBR 5 6 0 1024 0.0002S 15S 0S PRECEDENCE 0
+CBR 7 8 0 1024 0.0002S 15S 0S PRECEDENCE 0
+CBR 9 10 0 1024 0.0002S 15S 0S PRECEDENCE 0
+CBR 11 12 0 1024 0.0002S 15S 0S PRECEDENCE 0
+CBR 13 14 0 1024 0.0002S 15S 0S PRECEDENCE 0
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet multi-rates.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. multi-rates.app -  QualNet configuration file for application input.
+2. multi-rates.config - QualNet configuration input file.
+3. multi-rates.nodes - QualNet node placement file for the simulation run.
+4. multi-rates.expected.stat - QualNet statistics collection.
+5. README - This file.

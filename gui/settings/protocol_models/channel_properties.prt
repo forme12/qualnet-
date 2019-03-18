@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+        <subcategory name="Channel Properties">
+                <variable name="Number of Channels" key="DUMMY-NUM-PROPAGATION-CHANNEL-FREQUENCY" type="Array" default="1" min="1" max="1999" keyvisible="false">
+                        <variable name="Channel Frequency" key="PROPAGATION-CHANNEL-FREQUENCY" type="Fixed multiplier" default="2.4 GHz" unit="Hz" maxunit="GHz" format="List" />
+                        <variable name="Propagation Model" key="PROPAGATION-MODEL" type="Selection" default="STATISTICAL" format="Array" length="PROPAGATION-CHANNEL-FREQUENCY.length" visibilityrequires="false" addon="wireless">
+                                <option value="STATISTICAL" name="Statistical" />
+                        </variable>
+                        <variable name="Pathloss Model" key="PROPAGATION-PATHLOSS-MODEL" type="Selection" default="TWO-RAY" format="Array" length="PROPAGATION-CHANNEL-FREQUENCY.length" help="2-Ray Pathloss Propagation Model">
+                                <option value="TWO-RAY" name="Two Ray" addon="wireless"/>
+                                <option value="FREE-SPACE" name="Free Space" addon="wireless"/>
+                                <option value="ITM" name="Irregular Terrain Model" help="Requires that a terrain database be specified" addon="wireless">
+                                        <variable name="Sampling Distance (meters)" key="PROPAGATION-SAMPLING-DISTANCE" type="Fixed" default="100.0" min="0"  help="Longest interval to sample elevation values for terrain-based path loss models" />
+                                        <variable name="Refractivity" key="PROPAGATION-REFRACTIVITY" type="Integer" default="360" min="200" max="450"/>
+                                        <variable name="Conductivity (siemens/meter)" key="PROPAGATION-CONDUCTIVITY" type="Fixed" min="0.00001" max="100.0" default="0.005" />
+                                        <variable name="Permittivity" key="PROPAGATION-PERMITTIVITY" type="Fixed" min="1.0" max="100.0" default="15.0" />
+                                        <variable name="Humidity" key="PROPAGATION-HUMIDITY" type="Fixed" default="10.0" />
+                                        <variable name="Climate" key="PROPAGATION-CLIMATE" type="Selection" min="0.0" max="110.0" default="1">
+                                                <option value="1" name="Equatorial" />
+                                                <option value="2" name="Continental Subtropical" />
+                                                <option value="3" name="Maritime Tropical" />
+                                                <option value="4" name="Desert" />
+                                                <option value="5" name="Continental Temperate" />
+                                                <option value="6" name="Maritime Temperate, Over Land" />
+                                                <option value="7" name="Maritime Temperate, Over Sea" />
+                                        </variable>
+                                        <variable name="Antenna Polarization" key="ANTENNA-POLARIZATION" type="Selection" default="VERTICAL">
+                                                <option value="VERTICAL" name="Vertical" />
+                                                <option value="HORIZONTAL" name="Horizontal" />
+                                        </variable>
+                                </option>
+                                <option value="TIREM" name="TIREM" help="Requires that a terrain database be specified" addon="tirem">
+                                        <variable name="TIREM DLL File" key="TIREM-DLL-FILENAME" type="File" default="[Required]" help="Windows only" filetype="dll" />
+                                        <variable key="PROPAGATION-SAMPLING-DISTANCE" type="Fixed" name="Sampling Distance (meters)" default="100.0" min="0" help="Longest interval to sample elevation values for terrain-based path loss models" />
+                                        <variable key="PROPAGATION-REFRACTIVITY" type="Integer" name="Refractivity" default="360" min="200" max="450"/>
+                                        <variable key="PROPAGATION-CONDUCTIVITY" type="Fixed" name="Conductivity (siemens/meter)" min="0.00001" max="100.0" default="0.005" />
+                                        <variable key="PROPAGATION-PERMITTIVITY" type="Fixed" name="Permittivity" min="1.0" max="100.0"  default="15" />
+                                        <variable key="PROPAGATION-HUMIDITY" type="Fixed" name="Humidity" min="0.0" max="110.0"  default="10.0" />
+                                        <variable key="PROPAGATION-CLIMATE" type="Selection" name="Climate" default="1">
+                                                <option value="1" name="Equatorial" />
+                                                <option value="2" name="Continental Subtropical" />
+                                                <option value="3" name="Maritime Tropical" />
+                                                <option value="4" name="Desert" />
+                                                <option value="5" name="Continental Temperate" />
+                                                <option value="6" name="Maritime Temperate, Over Land" />
+                                                <option value="7" name="Maritime Temperate, Over Sea" />
+                                        </variable>
+                                        <variable key="ANTENNA-POLARIZATION" type="Selection" name="Antenna Polarization" default="VERTICAL">
+                                                <option value="VERTICAL" name="Vertical" />
+                                                <option value="HORIZONTAL" name="Horizontal" />
+                                        </variable>
+                                </option>
+                                <option value="PATHLOSS-MATRIX" name="Pathloss Matrix" addon="wireless">
+                                </option>
+                                <option value="URBAN-MODEL-AUTOSELECT" name="Urban Model Autoselect" addon="urban">
+                                        <variable key="PROPAGATION-URBAN-AUTO-SELECT-ENVIRONMENT" name="Propagation Environment" type="Selection" default="METROPOLITAN">
+                                                <option value="METROPOLITAN" name="Metropolitan"/>
+                                                <option value="URBAN" name="Urban"/>
+                                        </variable>
+                                </option>
+                                <option value="COST231-WALFISH-IKEGAMI" name="COST231-WALFISH-IKEGAMI" addon="urban">
+                                        <variable key="PROPAGATION-COST231-WALFISH-IKEGAMI-ENVIRONMENT" name="Environment" type="Selection" default="METROPOLITAN">
+                                                <option value="METROPOLITAN" name="Metropolitan"/>
+                                                <option value="URBAN" name="Urban"/>
+                                        </variable>
+                                        <variable key="PROPAGATION-ROOF-HEIGHT" name="Roof Height" type="Fixed" default="21.0" help="Height in meters" min="0" />
+                                        <variable key="PROPAGATION-STREET-WIDTH" name="Street Width" type="Fixed" default="20.0" help="Width in meters" min="0" />
+                                        <variable key="PROPAGATION-BUILDING-SEPARATION" name="Building Separation" type="Fixed" default="40.0" help="Separation between buildings in meters" min="0" />
+                                </option>
+                                <option value="OKUMURA-HATA" name="OKUMURA-HATA" addon="urban">
+                                        <variable key="PROPAGATION-OKUMURA-HATA-ENVIRONMENT" name="Environment" type="Selection" default="URBAN">
+                                                <option value="OPEN-RURAL" name="Open-Rural"/>
+                                                <option value="QUASI-OPEN-RURAL" name="Quasi-Open-Rural"/>
+                                                <option value="METROPOLITAN" name="Metropolitan"/>
+                                                <option value="URBAN" name="Urban"/>
+                                        </variable>
+                                </option>
+                                <option value="COST231-HATA" name="COST231-HATA" addon="urban">
+                                        <variable key="PROPAGATION-COST231-HATA-ENVIRONMENT" name="Environment" type="Selection" default="URBAN">
+                                                <option value="SUBURBAN" name="Suburban"/>
+                                                <option value="URBAN" name="Urban"/>
+                                        </variable>
+                                </option>
+                                <option value="SUBURBAN" name="Suburban" addon="urban">
+                                        <variable name="Propagation Percent Area Covered By Vegetation" key="PROPAGATION-PERCENT-AREA-COVERED-BY-VEGETATION" type="Integer" min="0" max="100" default="50"/>
+                                        <variable name="Propagation Terrain Type" key="PROPAGATION-TERRAIN-TYPE" type="Selection" default="FLAT">
+                                                <option value="FLAT" name="Flat"/>
+                                                <option value="HILLY" name="Hilly"/>
+                                        </variable>
+                                </option>
+                                <!--<option value="INDOOR" name="Indoor" addon="urban">
+                                        <variable name="Propagation Environment" key="PROPAGATION-INDOOR-ENVIRONMENT" type="Selection" default="LOS">
+                                                <option value="LOS" name="LOS"/>
+                                                <option value="NLOS" name="NLOS"/>
+                                        </variable>
+                                        <variable name="Propagation Indoor Link Type" key="PROPAGATION-INDOOR-LINK-TYPE" type="Selection" default="RR">
+                                                <option value="RR" name="Room to Room"/>
+                                                <option value="CC" name="Corridor to Corridor"/>
+                                                <option value="OO" name="Open Area to Open Area"/>
+                                                <option value="RC" name="Room to Corridor"/>
+                                                <option value="RO" name="Room to Open Area"/>
+                                                <option value="CO" name="Corridor to Open Area"/>
+                                        </variable>
+                                        <variable name="Roof Height (meters)" key="PROPAGATION-ROOF-HEIGHT" type="Fixed" default="21.0"/>
+                                        <variable name="Average Ceiling Height (meters)" key="PROPAGATION-AVG-CEILING-HEIGHT" type="Fixed" default="10.0"/>
+                                        <variable name="Number of Floors" key="NUMBER-OF-FLOORS" type="Integer" default="1"/>
+                                </option>-->
+                                <option value="STREET-MICROCELL" name="Street Microcell" addon="urban">
+                                        <variable name="Street Microcell Environment" key="PROPAGATION-STREET-MICROCELL-ENVIRONMENT" type="Selection" default="LOS">
+                                                <option value="LOS" name="LOS"/>
+                                                <option value="NLOS" name="NLOS"/>
+                                        </variable>
+                                </option>
+                                <option value="STREET-M-TO-M" name="Street M-To-M" addon="urban">
+                                        <variable name="Average Number of Buildings in Path" key="NUM-OF-BUILDINGS-IN-PATH" type="Integer" default="3"/>
+                                        <variable name="Roof Height (meters)" key="PROPAGATION-ROOF-HEIGHT" type="Fixed" default="21.0"/>
+                                        <variable name="Street Width (meters)" key="PROPAGATION-STREET-WIDTH" type="Fixed" default="20.0"/>
+                                </option>
+                            <!--    <option value="PATHLOSS-OPAR-PROP" name="OPAR PROP" addon="wireless">
+                                         <variable name="Number of Terrain Regions" key="NUM-REGION" type="Array" default="1" min="1">
+                                                <variable name="Primary Model" key="PROPAGATION-PATHLOSS-MODEL-PRIMARY" type="Selection" default="ITM" format="Array" length="NUM-REGION.length">
+                                                        <option value="ITM" name="Irregular Terrain Model">
+                                                               <variable name="Sampling Distance (meters)" key="PROPAGATION-SAMPLING-DISTANCE" type="Fixed" default="100.0" min="0"  help="Longest interval to sample elevation values for terrain-based path loss models" />
+                                                                <variable name="Refractivity" key="PROPAGATION-REFRACTIVITY" type="Integer" default="360" min="200" max="450"/>
+                                                                <variable name="Conductivity (siemens/meter)" key="PROPAGATION-CONDUCTIVITY" type="Fixed" min="0.00001" max="100.0" default="0.005" />
+                                                                <variable name="Permittivity" key="PROPAGATION-PERMITTIVITY" type="Fixed" min="1.0" max="100.0" default="15.0" />
+                                                                <variable name="Humidity" key="PROPAGATION-HUMIDITY" type="Fixed" default="10.0" />
+                                                                <variable name="Climate" key="PROPAGATION-CLIMATE" type="Selection" min="0.0" max="110.0" default="1">
+                                                                        <option value="1" name="Equatorial" />
+                                                                        <option value="2" name="Continental Subtropical" />
+                                                                        <option value="3" name="Maritime Tropical" />
+                                                                        <option value="4" name="Desert" />
+                                                                        <option value="5" name="Continental Temperate" />
+                                                                        <option value="6" name="Maritime Temperate, Over Land" />
+                                                                        <option value="7" name="Maritime Temperate, Over Sea" />
+                                                                </variable>
+                                                                <variable name="Antenna Polarization" key="ANTENNA-POLARIZATION" type="Selection" default="VERTICAL">
+                                                                        <option value="VERTICAL" name="Vertical" />
+                                                                        <option value="HORIZONTAL" name="Horizontal" />
+                                                                </variable>
+                                                        </option>        
+                                                        <option value="TWO-RAY" name="Two Ray"/>
+                                                        <option value="FREE-SPACE" name="Free Space"/>
+                                                </variable>
+                                                <variable name="Obstruction Type" key="PROPAGATION-OBSTRUCTION-TYPE"  type="Selection" default="BUILDING" format="Array" length="NUM-REGION.length">
+                                                        <option value="BUILDING" name="Building"/>
+                                                        <option value="FOLIAGE" name="Foliage"/>
+                                                </variable>
+                                                <variable name="Region SW Corner" key="PROPAGATION-TERRAIN-SOUTH-WEST-CORNER"  displayname="SW Corner" type="Coordinates" default="34.99 -120" format="Array" length="NUM-REGION.length"/>
+                                                <variable name="Region NE Corner" key="PROPAGATION-TERRAIN-NORTH-EAST-CORNER"  displayname="NE Corner" type="Coordinates" default="35.00 -119.99" format="Array" length="NUM-REGION.length"/>
+                                                <variable name="Intra Area Building Density Factor" key="PROPAGATION-INTRA-AREA-BUILDING-OBSTRUCTION-DENSITY-FACTOR" type="Fixed multiplier" default="0.02" format="Array" length="NUM-REGION.length"/>
+                                                <variable name="Inter Area Building Density Factor" key="PROPAGATION-INTER-AREA-BUILDING-OBSTRUCTION-DENSITY-FACTOR" type="Fixed multiplier" default="0.04" format="Array" length="NUM-REGION.length"/>
+                                                <variable name="Intra Area Foliage Density Factor" key="PROPAGATION-INTRA-AREA-FOLIAGE-OBSTRUCTION-DENSITY-FACTOR" type="Fixed multiplier" default="0.2" format="Array" length="NUM-REGION.length"/>
+                                                <variable name="Inter Area Foliage Density Factor" key="PROPAGATION-INTER-AREA-FOLIAGE-OBSTRUCTION-DENSITY-FACTOR" type="Fixed multiplier" default="0.4" format="Array" length="NUM-REGION.length"/>
+                                        </variable>                               
+                                 </option>
+                            -->
+                        </variable>
+                        <variable name="Shadowing Model" key="PROPAGATION-SHADOWING-MODEL" type="Selection" default="CONSTANT" format ="Array" length="PROPAGATION-CHANNEL-FREQUENCY.length" addon="wireless">
+                                <option value="NONE" name="None" />
+                                <option value="CONSTANT" name="Constant">
+                                        <variable name="Shadowing Mean (dB)" key="PROPAGATION-SHADOWING-MEAN" type="Fixed" default="4.0" help="in dB" min="0" />
+                                </option>
+                                <option value="LOGNORMAL" name="Lognormal">
+                                        <variable name="Shadowing Mean (dB)" key="PROPAGATION-SHADOWING-MEAN" type="Fixed" default="4.0" help="in dB" min="0" />
+                                </option>
+                        </variable>
+                        <variable default="NONE" format="Array" key="PROPAGATION-FADING-MODEL" length="PROPAGATION-CHANNEL-FREQUENCY.length" name="Fading Model" type="Selection" addon="wireless">
+                                <option name="None" value="NONE"/>
+                                <option name="Rayleigh" value="RAYLEIGH">
+                                        <variable default="10.0" name="Maximum Velocity (meters/sec)" key="PROPAGATION-FADING-MAX-VELOCITY" min="0" type="Fixed"/>
+                                </option>
+                                <option name="Ricean" value="RICEAN">
+                                        <variable default="0.0" key="PROPAGATION-RICEAN-K-FACTOR" name="Ricean K Factor" type="Fixed"/>
+                                        <variable default="10.0" name="Maximum Velocity (meters/sec)" key="PROPAGATION-FADING-MAX-VELOCITY" min="0" type="Fixed"/>
+                                </option>
+                                <option name="Fast Rayleigh" value="FAST-RAYLEIGH">
+                                </option>
+                        </variable>
+                        <variable name="Enable Inter-channel Interfernce" key="PROPAGATION-ENABLE-CHANNEL-OVERLAP-CHECK" type="Selection" keyvisible="false" default="NO" help="Enable/Disable Channel Interference model">
+                                <option name="Yes" value="YES"/>
+                                <option name="No" value="NO"/>
+                        </variable>
+                        <variable name="Signal Propagation Speed (m/s)" key="PROPAGATION-SPEED" type="Fixed" default="3e8" help="How fast the wireless signal propagates. Default value is the speed of light." length="PROPAGATION-CHANNEL-FREQUENCY.length" optional="true" addon="wireless"/>
+                        <variable name="Propagation Limit (dBm)" key="PROPAGATION-LIMIT" type="Fixed" default="-111.0" help="Signals with powers below PROPAGATION-LIMIT (in dBm) (before the antenna gain at the receiver) are not delivered." format="Array" length="PROPAGATION-CHANNEL-FREQUENCY.length" addon="wireless"/>
+                        <variable name="Maximum Propagation Distance" key="PROPAGATION-MAX-DISTANCE" type="Fixed" default="0" format="Array" length="PROPAGATION-CHANNEL-FREQUENCY.length" optional="true" help="This parameter optimizes performance by preventing communication between nodes that are more than this distance apart. A value of 0 disables the optimization. May reduce accuracy if set too low." addon="wireless"/>
+                        <variable name="Propagation Communication Proximity" key="PROPAGATION-COMMUNICATION-PROXIMITY" type="Fixed" default="400" format="Array" optional="true" addon="wireless"/>
+                        <variable name="Propagation Profile Update Ratio" key="PROPAGATION-PROFILE-UPDATE-RATIO" type="Fixed" default="0.0" min="0.0" max="1.0" format="Array" optional="true" help= "This parameter optimizes performance by reducing the number of signal transmission calculations that are performed for nodes that are not in proximity to each other. A value of 0.0 disables this optimization. A value of 0.25 is typical.  Values higher than 0.5 may significantly degrade the simulation accuracy." addon="wireless"/>
+                </variable>
+                <variable name="Pathloss Matrix File" key="PROPAGATION-PATHLOSS-MATRIX-FILE" type="File" visibilityrequires="scriptInterface.anyEqualsTo('PROPAGATION-PATHLOSS-MODEL', 'PATHLOSS-MATRIX')" default="[Required]" />
+                <variable default="[Required]" name="Gaussian Components File" key="PROPAGATION-FADING-GAUSSIAN-COMPONENTS-FILE"  type="File" format="Node" visibilityrequires="scriptInterface.anyEqualsTo('PROPAGATION-FADING-MODEL', 'RAYLEIGH') ||
+                scriptInterface.anyEqualsTo('PROPAGATION-FADING-MODEL', 'RICEAN')
+                || scriptInterface.anyEqualsTo('PROPAGATION-FADING-MODEL', 'FAST-RAYLEIGH')" addon="wireless" optional="true"/>
+        <!--        
+        <variable name="Specify Gaussian Components File" key="DUMMY-SPECIFY-GAUSSIAN-COMPONENT-FILE" type="Selection" keyvisible="false" default="NO" help="The Gaussian componenet file must be specified when RAYLEIGH,  RICEAN or FAST-RAYLEIGH pathloss model is used">
+        <option name="Yes" value="YES">
+            <variable default="[Required]" name="Gaussian Components File" key="PROPAGATION-FADING-GAUSSIAN-COMPONENTS-FILE"  type="File"/>
+        </option>
+        <option name="No" value="NO"/>
+            </variable>-->
+        </subcategory>
+</category>

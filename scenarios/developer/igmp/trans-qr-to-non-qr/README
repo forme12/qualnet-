@@ -1,0 +1,48 @@
+PURPOSE:-
+--------
+
+To test the transition from querier to non querier should not occur
+if that very querier receives a leave report.
+
+SCENARIO:-
+---------
+                  (1R)                (2R)
+                   |                   |
+            1.0  __|___________________|____
+                            |
+                            |
+                           (3)
+                           3 remains unplugged from network
+                             during fault time.
+
+INPUT:-
+------
+default.config file:-
+--------------------
+SUBNET N8-1.0 {1, 2, 3}
+
+IGMP-ROUTER-LIST            {1, 2}
+
+IGMP-UNSOLICITED-REPORT-COUNT    2
+
+
+default.member file:-
+--------------------
+3 225.0.0.2 4S 10M
+
+default.fault file:-
+-------------------
+INTERFACE-FAULT 1.1 0S 10M
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.config - QualNet configuration input file.
+2. default.member - QualNet group join information input file.
+3. default.fault  - QualNet fault configuration file.
+4. default.expected.stat - QualNet statistics collection.
+5. README - This file.

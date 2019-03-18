@@ -1,0 +1,48 @@
+PURPOSE:-
+--------
+
+To test the IGMP Summary tables, provides information in regards to the status of the nodes in multicast scenario.
+
+
+
+
+SCENARIO:-
+---------
+                      (2)         (3)
+                       |           |
+                       |           |
+         1.0     -----------------------------
+                              |            |
+                              |            |
+                             (1R)          (4)
+
+
+SUBNET N8-1.0 {1, 2, 3, 4}
+
+IGMP-ROUTER-LIST {1}
+
+
+
+default.member file:-
+--------------------
+2 225.0.0.1  5S 10M
+3 225.0.0.2 10S 12M
+4 225.0.0.3 25S 15M
+
+IGMP Summary tables is configured in the config file:
+
+STATS-DB-MULTICAST-IGMP-SUMMARY-TABLE YES
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.config - QualNet configuration input file.
+2. default.member - QualNet group join information input file
+3. default.expected.stat - QualNet statistics collection.
+3. default.expected.db - QualNet DB collection.
+4. README - This file.

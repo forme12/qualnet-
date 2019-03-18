@@ -1,0 +1,43 @@
+PURPOSE:-
+--------
+To test RIPng behavior for large number of hosts in a subnet.
+
+
+SCENARIO:-
+---------
+
+     -+-                     -+-
+      |(1 thru 50)            |(51 thru 100)
+ (50)-+                       +--(100)
+      :                       :
+      |     2001:0:1:2::0     |
+      +--(1)---------x-(51)---+
+      |                 |     |
+     -+-                |    -+-
+                        |
+                       (101)
+                    |   |     (101 thru 150)     |
+                    +---+-----....------------+--+
+                    |                         |  |
+                                            (150)
+
+
+Node 1 sends 100 CBR packets to Node 150. Each Packet is of size 512
+bytes and sent with 1 min interval.
+
+Interface at Node-51 connecting the link 2001:0:1:2::0 fails from 15M
+to 25M of simulation.
+
+
+RUN:-
+----
+Type '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.fault - Interface Failure Configuration file.
+4. default.expected.stat - QualNet statistics collection.
+5. README - This file.

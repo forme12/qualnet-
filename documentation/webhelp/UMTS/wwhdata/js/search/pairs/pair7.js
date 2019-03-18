@@ -1,0 +1,21 @@
+function FileData_Pairs(x)
+{
+x.t("appendix","describes");
+x.t("2008","2012");
+x.t("scalable","network");
+x.t("describes","configure");
+x.t("packets","two");
+x.t("networks","appendix");
+x.t("networks","enable");
+x.t("networks","routing");
+x.t("network","technologies");
+x.t("domains","2008");
+x.t("umts","networks");
+x.t("2012","scalable");
+x.t("scenarios","umts");
+x.t("enable","routing");
+x.t("configure","scenarios");
+x.t("routing","packets");
+x.t("routing","umts");
+x.t("two","domains");
+}

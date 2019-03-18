@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Group Node Placement and Mobility Models</title>
+    <link rel="StyleSheet" href="css/Group%20Placement%20and%20Mobility.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Ch7%20-%20Mobility%20Models.html#998293">7	Mobility Models</a> &gt; 7.2  Group Node Placement and Mobility Models</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">7.2  <a name="998293">Group Node Placement and Mobility Models</a></div>
+      <div class="Heading2Numbered">7.2.1  <a name="1002410">Description</a></div>
+      <div class="BodyAfterHead"><a name="998295">Group mobility model is for simulating the group movement behaviors in the real world, such as a group of travelers, etc. The members of the same group tend to have similar movement tracks. However, inside the group, members also have relative mobility. To depict such behaviors, the mobility vector of a node can be considered as the sum of two mobility vectors. One is called the group mobility vector, which is shared by all members of the same group. The other is called the internal mobility vector, which represents the relative mobility of a node inside the group. The vector sum of the two mobility vectors decides the mobility of the node. The movements of a node are also limited by the group boundary. In </a><span class="Variable">QualNet</span>, the two mobility vectors, group mobility vector and internal mobility vector, are simulated by using the random waypoint mobility model independently.</div>
+      <div class="Heading2Numbered">7.2.2  <a name="1002416">Features and Assumptions</a></div>
+      <div class="BodyAfterHead"><a name="1005863">This section describes the implemented features, omitted features, assumptions and limitations of the Group Node Placement and Mobility model.</a></div>
+      <div class="Heading3Numbered">7.2.2.1  <a name="1002417">Implemented Features</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1019398">Defining groups by specifying node IDs and configuring mobility parameters for each group in Group node placement model.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1019399">Support for placing nodes using the following strategies: uniform, random, or grid in specified group area.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1019400">Simulation of the group mobility.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1011313">Flexible mobility pattern configuration which includes static groups, slow and fast moving groups, groups moving without internal mobility and with internal mobility only (in which nodes move only inside the group area as groups are static).</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1002418">Any number (not necessarily a perfect square) of nodes can be placed in a group with placement type grid.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">7.2.2.2  <a name="1002421">Omitted Features</a></div>
+      <div class="BodyAfterHead"><a name="1002422">None.</a></div>
+      <div class="Heading3Numbered">7.2.2.3  <a name="1002425">Assumptions and Limitations</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1011328">If node placement method other than group node placement is used, nodes in a group should have initial positions within the group area. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1011848">A node can only appear in one mobility group.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1011849">Each group is one subnet. Thus, there is no explicit definition for the group member.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">7.2.3  <a name="1002435">Command Line Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1008243">To select the Group Node Placement model, include the following parameter in the scenario configuration (.config) file:</a></div>
+      <div class="Declaration"><a name="1008245">[&lt;Qualifier&gt;] NODE-PLACEMENT   GROUP</a></div>
+      <div class="Body"><a name="1008260">To select the Group Mobility model, include the following parameter in the scenario configuration (.config) file:</a></div>
+      <div class="Declaration"><a name="1008262">[&lt;Qualifier&gt;] MOBILITY   GROUP-MOBILITY</a></div>
+      <div class="Body"><a name="1008249">The scope of this parameter declaration can be Global or Node. See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Ch1%20-%20Overview.01.2.html#1064427', '');" title="Conventions Used">Section&nbsp;1.2.1.1</a></span> for a description of <span style="font-family: &quot;Courier New&quot;">&lt;Qualifier&gt;</span> for each scope.</div>
+      <div class="Anchor"><a name="1008274">&nbsp;</a></div>
+      <div class="Heading4"><a name="1014124">Configuration Requirements</a></div>
+      <div class="BodyAfterHead"><a name="1008278">The Group Mobility model can be used only with the Group Node Placement model.</a></div>
+      <div class="Anchor"><a name="1014134">&nbsp;</a></div>
+      <div class="Heading4"><a name="998297">Group Node Placement and Mobility Parameters</a></div>
+      <div class="BodyAfterHead"><a name="1008281">In order to use the Group Node Placement and Group Mobility parameters, node groups have to be defined. A group definition consists of identifying the nodes that belong to the group and the area within which the nodes are placed initially. </a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Group%20Placement%20and%20Mobility.html#1008292', '');" title="Group Node Placement and Mobility Models" name="1009021">Table&nbsp;7-3</a></span> describes the Group Node Placement parameters. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Ch1%20-%20Overview.01.2.html#1058602', '');" title="Conventions Used">Section&nbsp;1.2.1.3</a></span> for a description of the format used for the parameter table.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 7-3.&nbsp;&nbsp;<a name="1008292">Group Node Placement Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1008298">Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1008300">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 216pt">
+            <div class="CellHeading"><a name="1008302">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008304">NUM-MOBILITY-GROUPS</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1008305">Required</a></span></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008306">Scope</a></span></div>
+            <div class="CellBody"><a name="1008307">Global</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008309">Integer</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1008310">Range</a></span>:</div>
+            <div class="CellBody_Courier"><a name="1008311">&gt; 0</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008316">Number of node groups.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008355">MOBILITY-GROUP</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1008356">Required</a></span></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008357">Scope</a></span></div>
+            <div class="CellBody"><a name="1008358">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008369">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008373">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008361">Node-list</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008364">Node identifiers of the nodes in the group.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008397">GROUP-AREA-ORIGIN</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1008398">Required</a></span></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008399">Scope</a></span></div>
+            <div class="CellBody"><a name="1008400">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008401">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008402">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008404">Coordinates</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008406">Origin of the area within which the nodes are placed initially. </a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1008429">The coordinates of the group area origin must be specified in the same coordinate system as is used to define the scenario terrain. If </a><span style="font-family: &quot;Courier New&quot;">COORDINATE-SYSTEM</span> is set to <span style="font-family: &quot;Courier New&quot;">CARTESIAN</span>, then the group area origin must be specified as a (x-coordinate, y-coordinate) pair. If <span style="font-family: &quot;Courier New&quot;">COORDINATE-SYSTEM</span> is set to <span style="font-family: &quot;Courier New&quot;">LATLONALT</span>, then the group area origin must be specified as a (latitude, longitude) pair.</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008448">GROUP-AREA-DIMENSION</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1008449">Required</a></span></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008450">Scope</a></span></div>
+            <div class="CellBody"><a name="1008451">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008452">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008453">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008455">String (see note)</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008457">Dimensions of the area within which the nodes are placed initially. </a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1008458">The dimensions are specified as a (x-dimension, y-dimension) pair, where the x- and y-dimensions are in meters.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008511">GROUP-NODE-PLACEMENT</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1008512">Required</a></span></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008488">Scope</a></span></div>
+            <div class="CellBody"><a name="1008489">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008490">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008491">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008493">List:</a></div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1008517">RANDOM</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1008518">UNIFORM</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1008521">GRID</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1017698">Node placement model used for the initial placement of nodes with the group area.</a></div>
+            <div class="CellBody"><a name="1008543">Refer to </a><span style="font-style: italic">Developer Model Library</span> for a description of these node placement models and the additional parameters that need to be specified for each placement model. </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1011579">GROUP-SEED</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1011581">Optional</a></span></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1011651">Scope</a></span></div>
+            <div class="CellBody"><a name="1011652">Global, Integer</a></div>
+            <div class="CellBody"><a name="1011571">&nbsp;</a></div>
+          </td>
+          <td style="background-color: transparent; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.25pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.25pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1011679">Integer</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1011680">Range</a></span>:</div>
+            <div class="CellBody_Courier"><a name="1011681">≥ 0</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1011682">Default</a></span>:</div>
+            <div class="CellBody"><a name="1011683">(see note)</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1011611">Used to generate random number streams for a specific group. </a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1011613">The default value of </a><span style="font-family: &quot;Courier New&quot;">GROUP-SEED</span><span style="font-size: 10.0pt"> </span>is the value of the <span style="font-family: &quot;Courier New&quot;">SEED</span> parameter. Refer to <span class="Variable" style="font-style: italic">QualNet User’s Guide</span> for a description of the <span style="font-family: &quot;Courier New&quot;">SEED</span> parameter. </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1011691">GROUP-GRID-UNIT</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1011692">Optional</a></span></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1011693">Scope</a></span></div>
+            <div class="CellBody"><a name="1011694">Global</a></div>
+            <div class="CellBody"><a name="1011695">&nbsp;</a></div>
+          </td>
+          <td style="background-color: transparent; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.25pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.25pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1011697">Real</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1011698">Range</a></span>:</div>
+            <div class="CellBody_Courier"><a name="1011699">&gt; 0</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1011700">Default</a></span>:</div>
+            <div class="CellBody"><a name="1011701">(see note)</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1011725">Unit</a></span>:</div>
+            <div class="CellBody_Indented"><a name="1011717">meters (in Cartesian), degrees (in Lat-Lon-Alt)</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1011738">Specifies the distance between the nodes of a specific group when they are placed in a grid format.</a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1011744">The default value of </a><span style="font-family: &quot;Courier New&quot;">GROUP-GRID-UNIT</span><span style="font-size: 10.0pt"> </span>is the value of the <span style="font-family: &quot;Courier New&quot;">GRID-UNIT</span> parameter used by the Grid Node Placement Model (refer to <span style="font-style: italic">Developer Model Library</span>).</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Group%20Placement%20and%20Mobility.html#1008571', '');" title="Group Node Placement and Mobility Models" name="1008645">Table&nbsp;7-4</a></span> describes the Group Mobility parameters.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 7-4.&nbsp;&nbsp;<a name="1008571">Group Mobility Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1008577">Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1008579">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 216pt">
+            <div class="CellHeading"><a name="1008581">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1014307">MOBILITY-GROUP-PAUSE</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1014308">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1014309">Scope</a></span></div>
+            <div class="CellBody"><a name="1008597">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008598">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008599">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008710">Time</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008603">Pause interval for the group.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008605">MOBILITY-GROUP-MIN-SPEED</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1008835">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008607">Scope</a></span></div>
+            <div class="CellBody"><a name="1008608">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008609">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008610">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008716">Real</a></div>
+            <div class="CellRun-In_Plain"><a name="1008717">Unit</a></div>
+            <div class="CellBody_Indented"><a name="1008718">meters/sec</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008615">Minimum speed of the group.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008660">MOBILITY-GROUP-MAX-SPEED</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1009332">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008662">Scope</a></span></div>
+            <div class="CellBody"><a name="1008663">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008664">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008665">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008724">Real</a></div>
+            <div class="CellRun-In_Plain"><a name="1008725">Unit</a></div>
+            <div class="CellBody"><a name="1008667">meters/sec</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008669">Maximum speed of the group.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008695">MOBILITY-GROUP-INTERNAL-PAUSE</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1009336">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008697">Scope</a></span></div>
+            <div class="CellBody"><a name="1008698">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008699">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008700">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008730">Time</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008704">Pause interval for individual nodes within the group.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008684">MOBILITY-GROUP-INTERNAL-MIN-SPEED</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1009340">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008686">Scope</a></span></div>
+            <div class="CellBody"><a name="1008687">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008688">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008689">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008736">Real</a></div>
+            <div class="CellRun-In_Plain"><a name="1008737">Unit</a></div>
+            <div class="CellBody"><a name="1008691">meters/sec</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008693">Minimum speed of individual nodes within the group.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1014229">MOBILITY-GROUP-INTERNAL-MAX-SPEED</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1014230">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1014231">Scope</a></span></div>
+            <div class="CellBody"><a name="1008676">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008677">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008678">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008742">Real</a></div>
+            <div class="CellRun-In_Plain"><a name="1008743">Unit</a></div>
+            <div class="CellBody"><a name="1008680">meters/sec</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008682">Maximum speed of individual nodes within the group.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008869">GROUP-TERRAIN-CONSTRAINT-SOUTH-WEST-CORNER</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1009348">Optional</a></span> (see note 1)</div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008871">Scope</a></span></div>
+            <div class="CellBody"><a name="1008872">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008873">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008874">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008891">Coordinates</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008907">South-west corner of the region within which the group is constrained to move. </a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1011353">The south-west corner of the region should lie within the terrain area specified for the scenario. </a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008930">GROUP-TERRAIN-CONSTRAINT-NORTH-EAST-CORNER</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1009354">Optional</a></span> (see note 1)</div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008932">Scope</a></span></div>
+            <div class="CellBody"><a name="1008933">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008934">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008935">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008943">Coordinates</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008949">North-east corner of the region within which the group is constrained to move. </a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1014355">The north-east corner of the region should lie within the terrain area specified for the scenario.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008972">GROUP-TERRAIN-CONSTRAINT-LOWER-LEFT-CORNER</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1009358">Optional</a></span> (see note 2)</div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008974">Scope</a></span></div>
+            <div class="CellBody"><a name="1008975">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008976">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008977">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008979">Coordinates</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008981">Lower left corner of the region within which the group is constrained to move. </a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1014371">The lower left corner of the region should lie within the terrain area specified for the scenario.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1008960">GROUP-TERRAIN-CONSTRAINT-UPPER-RIGHT-CORNER</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1009364">Optional</a></span> (see note 2)</div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1008962">Scope</a></span></div>
+            <div class="CellBody"><a name="1008963">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1008964">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1008965">group index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008967">Coordinates</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1008969">Upper right corner of the region within which the group is constrained to move. </a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1014389">The upper right corner of the region should lie within the terrain area specified for the scenario.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Notes_003a">
+              <span class="Bold">Notes:</span><a name="1009187">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                      <span class="StepNumber">1.	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Numbered__0028first_0029_inner"><a name="1009264">Parameters </a><span style="font-family: &quot;Courier New&quot;">GROUP-TERRAIN-CONSTRAINT-SOUTH-WEST-CORNER</span> and <span style="font-family: &quot;Courier New&quot;">GROUP-TERRAIN-CONSTRAINT-NORTH-EAST-CORNER</span> are applicable only if the Lat-Lon-Alt coordinate system is used and is specified as a (latitude, longitude) pair. If the Lat-Lon-Alt coordinate system is used and these parameters are not specified, then the group can move over the entire terrain of the scenario.</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Numbered_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                      <span class="StepNumber">2.	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Numbered_inner"><a name="1009262">Parameters </a><span style="font-family: &quot;Courier New&quot;">GROUP-TERRAIN-CONSTRAINT-LOWER-LEFT-CORNER</span> and <span style="font-family: &quot;Courier New&quot;">GROUP-TERRAIN-CONSTRAINT-UPPER-RIGHT-CORNER</span> are applicable only if the Cartesian coordinate system is used and is specified as a (x-coordinate, y-coordinate) pair. If these parameters are not specified, then the group can move over the entire terrain of the scenario.</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading2Numbered">7.2.4  <a name="1014406">GUI Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1019057">The Group Mobility model can not be configured using the GUI.</a></div>
+      <div class="Heading2Numbered">7.2.5  <a name="998405">Sample Scenario</a></div>
+      <div class="Heading3Numbered">7.2.5.1  <a name="1018792">Scenario Description</a></div>
+      <div class="BodyAfterHead"><a name="998406">The sample scenario demonstrates the above group mobility parameters. In this scenario, a total of five groups are defined. They are:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998407">Group 0: From node 1 to node 40. This group is static, with nodes scattered in the whole simulation field.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998408">Group 1: From node 41 to node 50. This is a fast moving group with speed between 40 m/s to 60 m/s.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998409">Group 2: From node 51 to node 60. This is a fast moving group with speed between 20 m/s to 40 m/s.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998410">Group 3: From node 61 to node 70. This is a middle-speed moving group with speed between 10 m/s to 20 m/s.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998411">Group 4: From node 71 to node 80. This is a slow-moving group with speed between 1 m/s to 10 m/s.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">7.2.5.2  <a name="998412">Command Line Configuration</a></div>
+      <div class="BodyAfterHead"><a name="998413">To configure the above mobility scenario, use the following parameters:</a></div>
+      <div class="Declaration"><a name="998415"># A total of 80 nodes in the scenario</a></div>
+      <div class="Declaration"><a name="998416">SUBNET N16-0 {1 thru 80}</a></div>
+      <div class="Declaration"><a name="998417">&nbsp;</a></div>
+      <div class="Declaration"><a name="998418"># Define groups</a></div>
+      <div class="Declaration"><a name="998419">NUM-MOBILITY-GROUPS    5</a></div>
+      <div class="Declaration"><a name="998420">MOBILITY-GROUP[0] {1 thru 40}</a></div>
+      <div class="Declaration"><a name="998421">MOBILITY-GROUP[1] {41 thru 50}</a></div>
+      <div class="Declaration"><a name="998422">MOBILITY-GROUP[2] {51 thru 60}</a></div>
+      <div class="Declaration"><a name="998423">MOBILITY-GROUP[3] {61 thru 70}</a></div>
+      <div class="Declaration"><a name="998424">MOBILITY-GROUP[4] {71 thru 80}</a></div>
+      <div class="Declaration"><a name="998425">&nbsp;</a></div>
+      <div class="Declaration"><a name="998426"># Define initial group areas</a></div>
+      <div class="Declaration"><a name="998427">GROUP-AREA-ORIGIN[0]    (0, 0)</a></div>
+      <div class="Declaration"><a name="998428">GROUP-AREA-DIMENSION[0] (1500, 1500)</a></div>
+      <div class="Declaration"><a name="998429">GROUP-AREA-ORIGIN[1]    (150, 150)</a></div>
+      <div class="Declaration"><a name="998430">GROUP-AREA-DIMENSION[1] (450, 450)</a></div>
+      <div class="Declaration"><a name="998431">GROUP-AREA-ORIGIN[2]    (900, 150)</a></div>
+      <div class="Declaration"><a name="998432">GROUP-AREA-DIMENSION[2] (450, 450)</a></div>
+      <div class="Declaration"><a name="998433">GROUP-AREA-ORIGIN[3]    (150, 900)</a></div>
+      <div class="Declaration"><a name="998434">GROUP-AREA-DIMENSION[3] (450, 450)</a></div>
+      <div class="Declaration"><a name="998435">GROUP-AREA-ORIGIN[4]    (900, 900)</a></div>
+      <div class="Declaration"><a name="998436">GROUP-AREA-DIMENSION[4] (450, 450)</a></div>
+      <div class="Declaration"><a name="998437">&nbsp;</a></div>
+      <div class="Declaration"><a name="1019759">GROUP-NODE-PLACEMENT[0]  UNIFORM</a></div>
+      <div class="Declaration"><a name="1019760">GROUP-NODE-PLACEMENT[1]  UNIFORM</a></div>
+      <div class="Declaration"><a name="1019761">GROUP-NODE-PLACEMENT[2]  UNIFORM</a></div>
+      <div class="Declaration"><a name="1019762">GROUP-NODE-PLACEMENT[3]  UNIFORM</a></div>
+      <div class="Declaration"><a name="1019751">GROUP-NODE-PLACEMENT[4]  UNIFORM</a></div>
+      <div class="Declaration"><a name="1019774">&nbsp;</a></div>
+      <div class="Declaration"><a name="998438"># Specify group node placement</a></div>
+      <div class="Declaration"><a name="998439">NODE-PLACEMENT   GROUP</a></div>
+      <div class="Declaration"><a name="998440">&nbsp;</a></div>
+      <div class="Declaration"><a name="998441"># Specify group mobility model and configure movement speeds</a></div>
+      <div class="Declaration"><a name="998442">MOBILITY    GROUP-MOBILITY</a></div>
+      <div class="Declaration"><a name="998443">&nbsp;</a></div>
+      <div class="Declaration"><a name="998444"># Group 0 is static</a></div>
+      <div class="Declaration"><a name="998445">MOBILITY-GROUP-PAUSE[0]                0S</a></div>
+      <div class="Declaration"><a name="998446">MOBILITY-GROUP-MIN-SPEED[0]            0</a></div>
+      <div class="Declaration"><a name="998447">MOBILITY-GROUP-MAX-SPEED[0]            0</a></div>
+      <div class="Declaration"><a name="998448">MOBILITY-GROUP-INTERNAL-PAUSE[0]       0S</a></div>
+      <div class="Declaration"><a name="998449">MOBILITY-GROUP-INTERNAL-MIN-SPEED[0]   0</a></div>
+      <div class="Declaration"><a name="998450">MOBILITY-GROUP-INTERNAL-MAX-SPEED[0]   0</a></div>
+      <div class="Declaration"><a name="998451">&nbsp;</a></div>
+      <div class="Declaration"><a name="998452"># Group 1 is a fast moving group with speed between 40 m/s to 60 m/s</a></div>
+      <div class="Declaration"><a name="998453">MOBILITY-GROUP-PAUSE[1]                0S</a></div>
+      <div class="Declaration"><a name="998454">MOBILITY-GROUP-MIN-SPEED[1]            40</a></div>
+      <div class="Declaration"><a name="998455">MOBILITY-GROUP-MAX-SPEED[1]            60</a></div>
+      <div class="Declaration"><a name="998456">MOBILITY-GROUP-INTERNAL-PAUSE[1]       10S</a></div>
+      <div class="Declaration"><a name="998457">MOBILITY-GROUP-INTERNAL-MIN-SPEED[1]   10</a></div>
+      <div class="Declaration"><a name="998458">MOBILITY-GROUP-INTERNAL-MAX-SPEED[1]   20</a></div>
+      <div class="Declaration"><a name="998459">&nbsp;</a></div>
+      <div class="Declaration"><a name="998460"># Group 2 is a fast moving group with speed between 20 m/s to 40 m/s</a></div>
+      <div class="Declaration"><a name="998461">MOBILITY-GROUP-PAUSE[2]                0S</a></div>
+      <div class="Declaration"><a name="998462">MOBILITY-GROUP-MIN-SPEED[2]            20</a></div>
+      <div class="Declaration"><a name="998463">MOBILITY-GROUP-MAX-SPEED[2]            40</a></div>
+      <div class="Declaration"><a name="998464">MOBILITY-GROUP-INTERNAL-PAUSE[2]       10S</a></div>
+      <div class="Declaration"><a name="998465">MOBILITY-GROUP-INTERNAL-MIN-SPEED[2]   10</a></div>
+      <div class="Declaration"><a name="998466">MOBILITY-GROUP-INTERNAL-MAX-SPEED[2]   20</a></div>
+      <div class="Declaration"><a name="998467">&nbsp;</a></div>
+      <div class="Declaration"><a name="998468"># Group 3 is a middle speed moving group with speed between </a></div>
+      <div class="Declaration"><a name="1008206"># 10 m/s to 20 m/s</a></div>
+      <div class="Declaration"><a name="998469">MOBILITY-GROUP-PAUSE[3]                10S</a></div>
+      <div class="Declaration"><a name="998471">MOBILITY-GROUP-MIN-SPEED[3]            10</a></div>
+      <div class="Declaration"><a name="998472">MOBILITY-GROUP-MAX-SPEED[3]            20</a></div>
+      <div class="Declaration"><a name="998473">MOBILITY-GROUP-INTERNAL-PAUSE[3]       10S</a></div>
+      <div class="Declaration"><a name="998474">MOBILITY-GROUP-INTERNAL-MIN-SPEED[3]   10</a></div>
+      <div class="Declaration"><a name="998475">MOBILITY-GROUP-INTERNAL-MAX-SPEED[3]   20</a></div>
+      <div class="Declaration"><a name="998476">&nbsp;</a></div>
+      <div class="Declaration"><a name="998477"># group 4 is a slow moving group with speed between 1m/s to 10m/s</a></div>
+      <div class="Declaration"><a name="998478">MOBILITY-GROUP-PAUSE[4]                10S</a></div>
+      <div class="Declaration"><a name="998479">MOBILITY-GROUP-MIN-SPEED[4]            1</a></div>
+      <div class="Declaration"><a name="998480">MOBILITY-GROUP-MAX-SPEED[4]            10</a></div>
+      <div class="Declaration"><a name="998481">MOBILITY-GROUP-INTERNAL-PAUSE[4]       10S</a></div>
+      <div class="Declaration"><a name="1011826">MOBILITY-GROUP-INTERNAL-MIN-SPEED[4]   10</a></div>
+      <div class="Declaration"><a name="1011827">MOBILITY-GROUP-INTERNAL-MAX-SPEED[4]   20</a></div>
+      <div class="Heading2Numbered">7.2.6  <a name="1011821">Scenarios Included in </a><span class="Variable">QualNet</span></div>
+      <div class="BodyAfterHead"><span class="Variable"><a name="1009059">QualNet</a></span> distribution includes several sample scenarios for the Group Node Placement and Mobility models. All scenarios are located in the directory <span class="Variable">QUALNET_HOME</span>/scenarios/wireless/group-mobility. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Group%20Placement%20and%20Mobility.html#1009069', '');" title="Group Node Placement and Mobility Models">Table&nbsp;7-5</a></span> lists the sub-directory where each scenario is located.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 7-5.&nbsp;&nbsp;<a name="1009069">Group Node Placement and Mobility Scenarios Included in </a><span class="Variable">QualNet</span>&nbsp;</div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 104.24952pt">
+            <div class="CellHeading"><a name="1009073">Scenario</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 363.75048pt">
+            <div class="CellHeading"><a name="1009075">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1009077">5groups</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1009079">Shows the Group Mobility model.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading2Numbered">7.2.7  <a name="1002462">References</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="1002463"> X. Hong, M. Gerla, G. Pei and C.-C. Chiang. "A Group Mobility Model for Ad Hoc Wireless Networks." ACM/IEEE MSWiM'99, Seattle, WA. August 1999.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

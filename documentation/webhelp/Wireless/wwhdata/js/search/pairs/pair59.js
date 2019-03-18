@@ -1,0 +1,27 @@
+function FileData_Pairs(x)
+{
+x.t("miscellaneous","models");
+x.t("pattern","model");
+x.t("2008","2012");
+x.t("scalable","network");
+x.t("describes","features");
+x.t("sections","battery");
+x.t("consists","following");
+x.t("battery","models");
+x.t("network","technologies");
+x.t("features","configuration");
+x.t("requirements","parameters");
+x.t("parameters","statistics");
+x.t("weather","pattern");
+x.t("2012","scalable");
+x.t("chapter","describes");
+x.t("scenarios","miscellaneous");
+x.t("configuration","requirements");
+x.t("models","miscellaneous");
+x.t("models","consists");
+x.t("models","weather");
+x.t("models","chapter");
+x.t("following","sections");
+x.t("model","2008");
+x.t("statistics","scenarios");
+}

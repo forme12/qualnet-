@@ -1,0 +1,75 @@
+PURPOSE:-
+--------
+To test the basic handover functionality of IEEE 802.16e
+in multicell environment and with high mobility.
+
+
+SCENARIO:-
+---------
+6 subnets 192.0.6.0, 192.0.7.0, 192.0.8.0, 192.0.9.0, 192.0.10.0, 192.0.11.0
+192.0.6.0 has 4 nodes (1 to 4) with 4 as BS and rests as MS
+192.0.7.0 has 4 nodes (5 to 8) with 5 as BS and rests as MS
+192.0.8.0 has 4 nodes (9 to 12) with 10 as BS and rests as MS
+192.0.9.0 has 4 nodes (13 to 16) with 13 as BS and rests as MS
+192.0.10.0 has 4 nodes (17 to 20) with 17 as BS and rests as MS
+192.0.11.0 has 4 nodes (21 to 24) with 21 as BS and rests as MS
+
+All the BSs connect to node 25 via wired point-to-point links.
+
+Each subnet operates with different radio frequency
+
+Node 1 moves from left to right, then from right o left. 
+It is originally close to BS node 4. So it
+register with BS node 4. When it moves to right, it will perform handover
+to BS node 5, then handover to BS node 10, then handover to BS node 21,
+then handover to BS node 17, then handover to BS node 13, 
+and finally handover to original BS node 4.
+
+     
+     
+     
+  -------------------------------------------------------------------
+ |	       |                         |                          |
+ |	       4 (BS)                    5 (BS)                    10 (BS)
+ |	   1        2                6                          9      11
+ |					      8
+ |	       3                         7                           12
+ 25
+ |
+ |
+ |
+ |-------------------------------------------------------------------	       
+	       |                         |                           |
+	       13 (BS)                   17 (BS)                    21 (BS)
+	   12       15                18                          22      23
+					      19
+	       16                         20                           24
+		        
+			       
+			       
+			       
+
+6 CBR flow are running:
+- CBR 1 3 200 512 1S 10S 0S PRECEDENCE 2
+- CBR 1 7 200 512 1S 10S 0S PRECEDENCE 4
+- CBR 1 14 200 512 1S 10S 0S PRECEDENCE 5
+- CBR 18 1 200 512 1S 10S 0S PRECEDENCE 4
+- CBR 9 1 200 512 1S 10S 0S PRECEDENCE 3
+- CBR 22 1 200 512 1S 10S 0S PRECEDENCE 0
+
+Totally six handovers are performed. 
+A number of packets are dropped due to high mobility.
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet 802.16e-multicell-high-mobility.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. 802.16e-multicell-high-mobility.app -  QualNet configuration file for application input.
+2. 802.16e-multicell-high-mobility.config - QualNet configuration input file.
+3. 802.16e-multicell-high-mobility.nodes - QualNet node placement file for the simulation run.
+4. 802.16e-multicell-high-mobility.expected.stat - QualNet statistics collection.
+5. README - This file.

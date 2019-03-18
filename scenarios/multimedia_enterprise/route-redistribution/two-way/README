@@ -1,0 +1,59 @@
+PURPOSE:-
+--------
+To verify two-way redistribution between routing
+protocols - RIPv2 & OSPFv2.
+
+
+SCENARIO:-
+---------
+
+
+ 192.168.1.0                                               192.168.5.0
+    ---                                                        ---
+     |                                                          |
+ (1)-+    192.168.2.0     192.168.3.0            192.168.4.0    +-(7)
+     +-(3)-----------(4)----------------------(5)-----------(6)-+
+ (2)-+                 \                      /                 +-(8)
+     |                  \       OSPFv2       /                  |
+    ---                  \                  /                  ---
+ RIPv2                    \                /                  RIPv2
+                           \              /
+             192.168.6.0    \            /  192.168.7.0
+                             \          /
+                              \        /
+                               \      /
+                                \    /
+                                 \  /
+                                  \/
+                                 (9)
+                                  |
+                                  |192.168.8.0
+                                  |
+                                 (10)
+                                  |
+                            |--+--+--+--|  192.168.9.0
+                               |     |
+                               |     |
+                              (11)  (12)
+
+                                RIPv2
+
+
+CBR is used to send data segments from
+Node-1 to Node-9,
+Node-1 to Node-10,
+Node-1 to Node-11
+
+
+RUN:-
+----
+Type '<QUALNET_HOME>/bin/qualnet default.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. default.router-config - QualNet router configuration file.
+5. README - This file.

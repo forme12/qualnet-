@@ -1,0 +1,1101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Discrete-event Simulation in QualNet</title>
+    <link rel="StyleSheet" href="css/Chapter%203.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%203.04.1.html#977894">3	Simulator Basics</a> &gt; 3.3  Discrete-event Simulation in QualNet</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">3.3  <a name="977894">Discrete-event Simulation in </a><span class="Variable">QualNet</span></div>
+      <div class="BodyAfterHead"><a name="977895">This section describes implementation details of discrete-event simulation in </a><span class="Variable">QualNet</span>: types of events, data structures and classes to implement events, and API functions for event operations. </div>
+      <div class="Heading2Numbered">3.3.1  <a name="919705">Events and Messages</a></div>
+      <div class="BodyAfterHead"><a name="919762">In </a><span class="Variable">QualNet</span>, the class used to represent an event is called a <span style="font-style: italic">message</span>. A message holds information about the event such as the type of event, and the associated data. In the context of <span class="Variable">QualNet</span>, the terms <span style="font-style: italic">event</span> and <span style="font-style: italic">message</span> are often used interchangeably.</div>
+      <div class="Body"><a name="932061">There are two types of events in </a><span class="Variable">QualNet</span>: <span style="font-style: italic">packet events</span> and <span style="font-style: italic">timer events</span>. Packet events are used to simulate exchange of data packets between layers or between nodes. Packet events are also used for modeling communication between different entities at the same layer. Timer events are used to simulate time-outs and are internal to a protocol. Packets events are discussed in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#919421', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.2.1</a></span> and timer events are discussed in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#920185', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.2.2</a></span>.</div>
+      <div class="Body"><a name="932216">In this section, we describe the message class and the APIs for message operations. </a></div>
+      <div class="Heading3Numbered">3.3.1.1  <a name="931856">Message Class</a></div>
+      <div class="BodyAfterHead"><a name="931860">The class </a><span style="font-family: &quot;Courier New&quot;">Message</span>, defined in file <span class="Variable">QUALNET_HOME</span>/include/message.h, is used to implement events. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#931942', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-2</a></span> shows the main components of this class.  Both packet and timer events are implemented using the <span style="font-family: &quot;Courier New&quot;">Message</span> class.</div>
+      <div class="Code_Segment"><a name="935049">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="988822">class Message</a></div>
+      <div class="Code_Segment"><a name="988823">{</a></div>
+      <div class="Code_Segment"><a name="988824">private:</a></div>
+      <div class="Code_Segment"><a name="988825">    static const UInt8 SENT = 0x01; // Message is being sent</a></div>
+      <div class="Code_Segment"><a name="988826">    ...</a></div>
+      <div class="Code_Segment"><a name="988829">public:</a></div>
+      <div class="Code_Segment"><a name="988830">    // The default constructor should not be used unless under specific</a></div>
+      <div class="Code_Segment"><a name="988831">    // circumstances.  The message is not initialized here.</a></div>
+      <div class="Code_Segment"><a name="988832">    Message();</a></div>
+      <div class="Code_Segment"><a name="935123">  ...</a></div>
+      <div class="Code_Segment"><a name="968109">  short layerType;         // Layer which will receive the message.</a></div>
+      <div class="Code_Segment"><a name="968110">  short protocolType;      // Protocol which will receive the </a></div>
+      <div class="Code_Segment"><a name="968111">                           // message in the layer.</a></div>
+      <div class="Code_Segment"><a name="931895">  short instanceId;        // Which instance to give message to (for multiple</a></div>
+      <div class="Code_Segment"><a name="940925">                           // copies of a protocol or application).</a></div>
+      <div class="Code_Segment"><a name="931897">  short eventType;         // Message's event type.</a></div>
+      <div class="Code_Segment"><a name="931874">  ...</a></div>
+      <div class="Code_Segment"><a name="961106">  int packetSize;          // Size of the packet field.</a></div>
+      <div class="Code_Segment"><a name="961107">  char *packet;            // Simulates a data packet, including headers.</a></div>
+      <div class="Code_Segment"><a name="931917">  ...</a></div>
+      <div class="Code_Segment"><a name="931923">  int virtualPayLoadSize;  // Size of “virtual” data.</a></div>
+      <div class="Code_Segment"><a name="968135"> </a></div>
+      <div class="Code_Segment"><a name="968136">  clocktype packetCreationTime;   // If this is a packet, it’s creation time.</a></div>
+      <div class="Code_Segment"><a name="968137">  ...</a></div>
+      <div class="Code_Segment"><a name="931935">  std::vector&lt;MessageInfoHeader&gt; infoArray;</a></div>
+      <div class="Code_Segment"><a name="968990">  ...</a></div>
+      <div class="Code_Segment"><a name="968989">}</a></div>
+      <div class="Figure">FIGURE 3-2.&nbsp;&nbsp;<a name="931942">Message Class</a></div>
+      <div class="Body"><a name="931974">Some of the members of the </a><span style="font-family: &quot;Courier New&quot;">Message</span> class are explained below.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="931975">layerType</a></span>: This is the layer associated with the event.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="931981">protocolType</a></span>: This is the protocol associated with the event. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="931993">instanceId</a></span>: If there are multiple instances of a protocol, this field denotes the instance of the protocol associated with the event.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="931994">eventType</a></span>: This is the type of the event. Event types are listed in <span class="Variable">QUALNET_HOME</span>/include/api.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="931999">packet</a></span>: If the class instance is used to simulate an actual data packet in the network, this field stores the packet. Headers added by different layers are included in this field.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="932000">packetSize</a></span>: This is the size of the <span style="font-family: &quot;Courier New&quot;">packet</span> field.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940931">virtualPayLoadSize</a></span>: This is the size of that part of user data whose contents are not important and hence is not allocated any memory, but whose size affects the calculation of transmission time and buffer size. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="932018">packetCreationTime</a></span>: If the class instance is used to simulate an actual packet in the network, this field stores the packet’s creation time. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="968995">infoArray</a></span>: This is an array that stores additional information that is used in the processing of the event and for information that needs to be transported between layers or nodes. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#932174', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.1.1</a></span> for details of this field.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading4Numbered">3.3.1.1.1  <a name="932174">Message </a><span style="font-family: &quot;Courier New&quot;">infoArray</span> Member</div>
+      <div class="BodyAfterHead"><a name="932195">The message </a><span style="font-family: &quot;Courier New&quot;">infoArray</span> member is an array used to store extra information about the message that is used for processing the message as well as information that needs to be transported between layers or nodes. This information does not affect the transmission delay calculations because it does not model the actual data being transmitted. </div>
+      <div class="Body"><a name="968239">Each element of the array is a structure of type </a><span style="font-family: &quot;Courier New&quot;">MessageInfoHeader</span>, which is declared in <span class="Variable">QUALNET_HOME</span>/include/message.h and is shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#968166', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-3</a></span>.</div>
+      <div class="Code_Segment"><a name="968164">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="968168">typedef struct message_info_header_str</a></div>
+      <div class="Code_Segment"><a name="968169">{</a></div>
+      <div class="Code_Segment"><a name="968170">    unsigned short infoType; // type of the info field</a></div>
+      <div class="Code_Segment"><a name="968171">    unsigned short infoSize; // size of buffer pointed to by "info" variable</a></div>
+      <div class="Code_Segment"><a name="968172">    char* info;              // pointer to buffer for holding info</a></div>
+      <div class="Code_Segment"><a name="968165">} MessageInfoHeader;</a></div>
+      <div class="Figure">FIGURE 3-3.&nbsp;&nbsp;<span style="font-family: &quot;Courier New&quot;"><a name="968166">MessageInfoHeader</a></span> Data Structure</div>
+      <div class="Body"><a name="968199">The fields of the </a><span style="font-family: &quot;Courier New&quot;">MessageInfoHeader</span> data structure are explained below.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="968200">infoType</a></span>: This indicates the type of the information contained in this struct. The value of this field can be one of the enumerations of the type <span style="font-family: &quot;Courier New&quot;">MessageInfoType</span> which is declared in <span class="Variable">QUALNET_HOME</span>/include/message.h and is shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#968391', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-4</a></span>. Users can add additional members to this enumeration for their use, as explained in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#993739', '');" title="General Programming Utility Functions">Section&nbsp;4.1.2</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="968460">infoSize</a></span>: This is the size of the <span style="font-family: &quot;Courier New&quot;">info</span> field of this struct.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="968226">info</a></span>: This is the pointer to the buffer that stores the information.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment"><a name="968435">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="968449">typedef enum message_info_type_str</a></div>
+      <div class="Code_Segment"><a name="968397">{</a></div>
+      <div class="Code_Segment"><a name="968398">    INFO_TYPE_UNDEFINED = 0,  // an empty info field.</a></div>
+      <div class="Code_Segment"><a name="968399">    INFO_TYPE_DEFAULT = 1,    // default info type used in situations where</a></div>
+      <div class="Code_Segment"><a name="968400">                              // specific type is given to the info field.</a></div>
+      <div class="Code_Segment"><a name="968401">    INFO_TYPE_AbstractCFPropagation, // type for abstract contention free</a></div>
+      <div class="Code_Segment"><a name="968402">                                     // propagation info field.</a></div>
+      <div class="Code_Segment"><a name="968403">    INFO_TYPE_AppName,      // Pass the App name down to IP layer</a></div>
+      <div class="Code_Segment"><a name="968404">    INFO_TYPE_StatCategoryName,</a></div>
+      <div class="Code_Segment"><a name="968405">    INFO_TYPE_DscpName,</a></div>
+      <div class="Code_Segment"><a name="969022">    ...</a></div>
+      <div class="Code_Segment"><a name="969029">    INFO_TYPE_TransStatsDbContent,</a></div>
+      <div class="Code_Segment"><a name="969023">    INFO_TYPE_NetStatsDbContent,</a></div>
+      <div class="Code_Segment"><a name="969150">    ...</a></div>
+      <div class="Code_Segment"><a name="969025">} MessageInfoType;</a></div>
+      <div class="Figure">FIGURE 3-4.&nbsp;&nbsp;<span style="font-family: &quot;Courier New&quot;"><a name="968391">MessageInfoType</a></span> Enumeration Type</div>
+      <div class="Body"><a name="968197">Different elements of the </a><span style="font-family: &quot;Courier New&quot;">infoArray</span> field can be used for different purposes, for both timer events and packet events. For example, one of the elements of the array can be used to store additional information associated with a timer, e.g., for a timer indicating that a route has expired, the destination address for the expired route can be stored in one of the elements of <span style="font-family: &quot;Courier New&quot;">infoArray</span>. This can assist the timer event handler to locate and remove the correct entry in the routing table.</div>
+      <div class="Body"><span class="Variable"><a name="968264">QualNet</a></span> provides several APIs to manipulate the <span style="font-family: &quot;Courier New&quot;">infoArray</span> field. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.2.html#993739', '');" title="General Programming Utility Functions">Section&nbsp;4.1.2</a></span> for a more detailed description of the <span style="font-family: &quot;Courier New&quot;">infoArray</span> field and its associated APIs.</div>
+      <div class="Heading4Numbered">3.3.1.1.2  <a name="932181">Message </a><span style="font-family: &quot;Courier New&quot;">packet</span> Field</div>
+      <div class="BodyAfterHead"><a name="932239">The message </a><span style="font-family: &quot;Courier New&quot;">packet</span> field simulates the actual data being transmitted. Unlike the <span style="font-family: &quot;Courier New&quot;">infoArray</span> field, the size of this field, indicated by the <span style="font-family: &quot;Courier New&quot;">packetSize</span> member of the <span style="font-family: &quot;Courier New&quot;">Message</span> class, does affect the transmission delay calculations.</div>
+      <div class="Heading3Numbered">3.3.1.2  <a name="919706">Message APIs</a></div>
+      <div class="BodyAfterHead"><a name="977640">Several API functions are available in </a><span class="Variable">QualNet</span> for message operations. The message APIs can be called from any layer. The prototypes for these functions can be found in the file <span class="Variable">QUALNET_HOME</span>/include/message.h. The implementation code for these functions can be found in the file <span class="Variable">QUALNET_HOME</span>/main/message.cpp. Some of the message APIs are listed below. Refer to <span style="font-style: italic">API Reference Guide</span> or the file message.h for a complete list of message APIs and their parameters. </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932118">MESSAGE_Send: This function schedules the specified event (message) to occur after the specified delay.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Note_Indented"><a name="932941">Do not alter any fields of the message class instance after an event has been scheduled by calling MESSAGE_Send.</a><span style="font-style: italic; font-weight: normal"> </span><img class="Default" src="images/Chapter%203.04.4.1.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932126">MESSAGE_Alloc: This function allocates a new message structure and sets the</a><span style="font-family: &quot;Courier New&quot;"> layerType</span>, <span style="font-family: &quot;Courier New&quot;">protocolType</span> and <span style="font-family: &quot;Courier New&quot;">eventType</span> fields of the structure to the values passed to the function as parameters.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932131">MESSAGE_Free: This function frees the message specified. The </a><span style="font-family: &quot;Courier New&quot;">packet</span> and <span style="font-family: &quot;Courier New&quot;">infoArray</span> fields of the message are freed, and then the message itself is freed.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932206">MESSAGE_AddInfo: This function allocates one element of the </a><span style="font-family: &quot;Courier New&quot;">infoArray</span> field of the specified message. The type and size of the associated <span style="font-family: &quot;Courier New&quot;">info</span> field are passed as parameters.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932207">MESSAGE_ReturnInfo: This function takes the </a><span style="font-family: &quot;Courier New&quot;">infoType</span> as a parameter and returns a pointer to the associated <span style="font-family: &quot;Courier New&quot;">info</span> field of the specified message.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932208">MESSAGE_ReturnInfoSize: This function takes the </a><span style="font-family: &quot;Courier New&quot;">infoType</span> as a parameter and returns the associated <span style="font-family: &quot;Courier New&quot;">infoSize</span> field of the specified message.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932256">MESSAGE_PacketAlloc: This function allocates the </a><span style="font-family: &quot;Courier New&quot;">packet</span> field of the specified message. The size of the <span style="font-family: &quot;Courier New&quot;">packet</span> field and the name of the protocol that creates the packet are passed as parameters.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932257">MESSAGE_ReturnPacket: This function returns a pointer to the </a><span style="font-family: &quot;Courier New&quot;">packet</span> field of the specified message.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932267">MESSAGE_ReturnActualPacketSize: This function returns the </a><span style="font-family: &quot;Courier New&quot;">packetSize</span> field of the specified message.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932105">MESSAGE_CancelSelfMsg: This function cancels a message that had been scheduled earlier. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Note_Indented"><a name="933008"><img class="Default" src="images/Chapter%203.04.4.2.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />Do not free the message explicitly or re-use the message after canceling it. The function MESSAGE_CancelSelfMsg also frees the memory associated with the message.</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932330">MESSAGE_AddHeader: This function adds a header to the packet enclosed in the specified message. The </a><span style="font-family: &quot;Courier New&quot;">packetSize</span> field of the message is incremented by the size of the header and the <span style="font-family: &quot;Courier New&quot;">packet</span> field points to the newly allocated header. The header size and the name of the protocol that adds the header are passed as a parameters.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932333">MESSAGE_RemoveHeader: This function removes a header from the packet enclosed in the specified message. The </a><span style="font-family: &quot;Courier New&quot;">packetSize</span> field of the message is decremented by the size of the header, and the <span style="font-family: &quot;Courier New&quot;">packe</span>t field points to the space after the removed header. The header size and the name of the protocol that removes the header are passed as parameters.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932331">MESSAGE_GetLayer: This function returns the </a><span style="font-family: &quot;Courier New&quot;">layerType</span> field of the specified message.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932348">MESSAGE_GetProtocol: This function returns the </a><span style="font-family: &quot;Courier New&quot;">protocolType</span> field of the specified message.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932349">MESSAGE_GetEvent: This function returns the </a><span style="font-family: &quot;Courier New&quot;">eventType</span> field of the specified message.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">3.3.2  <a name="932094">Types of Events</a></div>
+      <div class="BodyAfterHead"><a name="919821">In </a><span class="Variable">QualNet</span>, there are two types of events: packet events and timer events. Although both packet and timer events are defined using the same <span style="font-family: &quot;Courier New&quot;">Message</span> class (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#931856', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.1</a></span>), they vary in their purpose and the manner in which they are handled by <span class="Variable">QualNet</span>. </div>
+      <div class="Heading3Numbered">3.3.2.1  <a name="919421">Packet Events</a></div>
+      <div class="BodyAfterHead"><a name="919972">Packet events are used to simulate transmission of packets across the network. A packet is defined as a unit of virtual or real data at any layer of the protocol stack. When a node needs to send a packet to an adjacent layer in the </a><span class="Variable">QualNet</span> protocol stack, it schedules a packet event at the adjacent layer. The occurrence of the packet event at the adjacent layer simulates the arrival of the packet. </div>
+      <div class="Body"><a name="932478">When a protocol residing at a particular layer at one node sends packets the corresponding protocol at the same layer at another node, the packet is passed down through the protocol stack at the sending node, across the network, and then up through the protocol stack at the receiving node. At each level of the protocol stack at the sending node, header information is added to the packet as it is sent to the layer below. Each layer is responsible for sending the packet to its adjacent layer. At the receiving node, each layer strips off its header and sends the packet to the layer above, until the original packet is finally available to the receiving protocol. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#932486', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-5</a></span> shows an example of this process for the case when the originating protocol resides at the Application Layer. The steps in this process are listed below.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932535">The originating protocol creates a new message by using the API MESSAGE_Alloc. The protocol creates the </a><span style="font-family: &quot;Courier New&quot;">packet</span> field of this message by using the API MESSAGE_PacketAlloc. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932541">The protocol puts the data to be sent to the receiving node in the </a><span style="font-family: &quot;Courier New&quot;">packet</span> field of the message, sets the other fields of the message appropriately, and sends the message to the next layer (Transport Layer in this case) by using the API MESSAGE_Send. Function MESSAGE_Send schedules a packet event for the next layer to occur after a delay that is specified as a parameter.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932544">When the packet is received by the Transport Layer protocol, the Transport Layer protocol appends its header to the packet by using the API MESSAGE_AddHeader and sets the header fields appropriately. The Transport Layer protocol then sends the resulting packet to the next layer in the stack by using the API MESSAGE_Send.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932551">The previous step is repeated at each layer in the protocol stack: Each layer adds its header to the packet and sends the resulting packet to the next layer.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932558">When the packet arrives at the Physical Layer of the source node, it schedules a packet receive event for the Physical Layer at the destination node.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932559">When a layer at the destination node receives a packet, it removes the corresponding header using the API MESSAGE_RemoveHeader, and sends the resulting packet to the next higher layer in the protocol stack using the API MESSAGE_Send.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932562">The previous step is repeated at each layer in the protocol stack: Each layer removes its header and sends the resulting packet to the next higher layer. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="932565">When the packet arrives at the Application Layer at the destination node, the receiving protocol processes the packet and frees the message using the API MESSAGE_Free.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="932516"><img class="Default" src="images/Chapter%203.04.4.3.jpg" width="465" height="378" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /> </a></div>
+      <div class="Figure">FIGURE 3-5.&nbsp;&nbsp;<a name="932486">The Life Cycle of a Packet</a></div>
+      <div class="Body"><a name="928498">In </a><span class="Variable">QualNet</span>, communication between adjacent layers can take place by using message APIs, as shown in <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#932486', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-5</a>, or by using layer-specific APIs. Message APIs are generic and can be used at any layer, while layer-specific APIs are specific to a particular layer. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#977820', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.2.1.1</a></span> gives an overview of the use of layer-specific APIs for packet exchange between layers. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#928544', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.2.1.2</a></span> gives an overview of the use of message APIs for packet exchange between layers</div>
+      <div class="Heading4Numbered">3.3.2.1.1  <a name="977820">Sending Packets Using Layer-specific APIs</a></div>
+      <div class="BodyAfterHead"><a name="977821">To simplify protocol development, </a><span class="Variable">QualNet</span> provides layer-specific API functions to send packets. Rather than using the raw message API as shown in <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#932486', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-5</a>, the protocol developer can simply use the layer-specific API functions to send packets from a particular layer. The layer-specific API functions are responsible for scheduling events at the adjacent layers as a packet travels through the protocol stack. The APIs provided at each layer encapsulate the message APIs and hides details of scheduling events at the adjacent layer, thus providing easy-to-use functions for sending out packets from a specific layer of the protocol stack. </div>
+      <div class="Body"><a name="930699">The layer-specific API functions vary for each layer. The API calls available at each layer are discussed in the corresponding section of </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-1.05.1.html#1039402', '');" title="Developing Protocol Models in QualNet">Chapter&nbsp;4</a></span>. To understand the available APIs at each layer, refer to the API functions used for sending packets in the source code of <span class="Variable">QualNet</span> implementation of protocols operating at that layer. As an example, we give an overview of using the layer-specific packet exchange APIs available at the Application Layer in this section.</div>
+      <div class="BodyAfterHead"><a name="920038">Packet exchanges at the Application Layer fall into two categories: </a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="920039">	Exchanging packets with the UDP protocol at the Transport Layer</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="920040">	Exchanging packets with the TCP protocol at the Transport Layer</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#967654', '');" title="Discrete-event Simulation in QualNet" name="932697">Table&nbsp;3-1</a> lists the API calls available for sending packets at the Application Layer using UDP at the Transport Layer. <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#967698', '');" title="Discrete-event Simulation in QualNet">Table&nbsp;3-2</a> lists the API calls available for sending packets at the Application Layer using TCP at the Transport Layer. These functions are defined in <span class="Variable">QUALNET_HOME</span>/main/app_util.cpp. The underlying code for each of these functions creates and sends messages using the message APIs discussed in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#919706', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.2</a></span>. </div>
+      <table class="Format_A" style="text-align: left; width: 429.69456pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 3-1.&nbsp;&nbsp;<a name="967654">API Functions for Sending Packets via UDP</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 216pt">
+            <div class="CellHeading"><a name="928047">API Function</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 213.69456pt">
+            <div class="CellHeading"><a name="928049">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928051">APP_UdpSendNewData</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928053">Sends user data via UDP to a destination after a user-specified delay.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928055">APP_UdpSendNewDataWithPriority</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928057">Sends user data via UDP to a destination after a user-specified delay with a user-specified priority value.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928059">APP_UdpSendNewHeaderData</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928061">Appends an application header to user data and sends it via UDP to a destination after a user-specified delay.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928063">APP_UdpSendNewHeaderDataWithPriority </a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928065">Appends an application header to user data and sends it via UDP to a destination after a user-specified delay with a user-specified priority</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928067">APP_UdpSendNewHeaderVirtualDataWithPriority </a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928070">Sends a packet composed of an application header containing useful information and user data whose contents are unimportant and serve only to add to resource consumption (queue capacity, transmission delays, etc.), via UDP to a destination after a user-specified delay with a user-specified priority value.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Note_Indented"><a name="928277"><img class="Default" src="images/Chapter%203.04.4.4.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />The APP_UdpSendNewHeaderVirtualDataWithPriority function is overloaded and can also be used to send to a particular port number.</a></div>
+      <div class="Body"><a name="928303">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 395.85456pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 3-2.&nbsp;&nbsp;<a name="967698">API Functions for Sending Packets via TCP</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 182.16pt">
+            <div class="CellHeading"><a name="928292">API Function</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 213.69456pt">
+            <div class="CellHeading"><a name="928294">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928296">APP_TcpSendData</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.25pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="940466">Sends user data via TCP to a destination. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928300">APP_TcpSendNewHeaderVirtualData</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.25pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="928302">Sends a packet composed of an application header containing useful information and user data whose contents are unimportant and serve only to add to resource consumption (queue capacity, transmission delays, etc.), via TCP to a destination.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#940159', '');" title="Discrete-event Simulation in QualNet" name="940519">Figure&nbsp;3-6</a> shows a code segment from the RIP implementation function RipSendResponse that uses the API function APP_UdpSendNewDataWithPriority to send a packet from the Application Layer. Function RipSendResponse is implemented in <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/routing_rip.cpp. Notice that initially a variable, <span style="font-family: &quot;Courier New&quot;">response,</span> is defined. This variable is the user data. This variable is then filled with information (RIP command and RIP version information). Next, the function assigns the destination address and calls the API function APP_UdpSendNewDataWithPriority to send the packet. The parameters of this API function are explained below.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940520">node</a></span>: Pointer to the node</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940524">appType</a></span>: Application type</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940525">sourceAddr</a></span>: Source address</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940526">sourcePort</a></span>: Source port number</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940527">destAddr</a></span>: Destination address</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940528">outgoingInterface</a></span>: Outgoing interface index</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940529">payload</a></span>: Pointer to user data</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940530">payloadSize</a></span>: Size of user data</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940531">TosType</a></span>: Priority for the packet</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940532">delay</a></span>: Delay after which data is to be sent</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940533">traceProtocol</a></span>: Trace protocol</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment"><a name="940521">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940164">static void RipSendResponse(Node* node, int interfaceIndex, </a></div>
+      <div class="Code_Segment"><a name="940171">                            RipResponseType type) </a></div>
+      <div class="Code_Segment"><a name="940221">{</a></div>
+      <div class="Code_Segment"><a name="940092">    ...</a></div>
+      <div class="Code_Segment"><a name="940174">    unsigned routeIndex;</a></div>
+      <div class="Code_Segment"><a name="940093">    RipResponse response;</a></div>
+      <div class="Code_Segment"><a name="940094">    response.command = RIP_RESPONSE;       // Response message</a></div>
+      <div class="Code_Segment"><a name="940095">    ...</a></div>
+      <div class="Code_Segment"><a name="940211">    routeIndex = 0;</a></div>
+      <div class="Code_Segment"><a name="940193">    while (routeIndex &lt; dataPtr-&gt;numRoutes)</a></div>
+      <div class="Code_Segment"><a name="940194">    {</a></div>
+      <div class="Code_Segment"><a name="940195">        int rteIndex;</a></div>
+      <div class="Code_Segment"><a name="940196">        ...</a></div>
+      <div class="Code_Segment"><a name="968637">        if (rteIndex != 0)</a></div>
+      <div class="Code_Segment"><a name="940200">        {</a></div>
+      <div class="Code_Segment"><a name="940105">            NodeAddress destAddress;</a></div>
+      <div class="Code_Segment"><a name="940106">            if (NetworkIpIsWiredNetwork(node, interfaceIndex))</a></div>
+      <div class="Code_Segment"><a name="940107">            {</a></div>
+      <div class="Code_Segment"><a name="940108">                destAddress = NetworkIpGetInterfaceBroadcastAddress(</a></div>
+      <div class="Code_Segment"><a name="940109">                                   node,</a></div>
+      <div class="Code_Segment"><a name="940110">                                   interfaceIndex);</a></div>
+      <div class="Code_Segment"><a name="940111">            }</a></div>
+      <div class="Code_Segment"><a name="940112">            else</a></div>
+      <div class="Code_Segment"><a name="940113">            {</a></div>
+      <div class="Code_Segment"><a name="940114">                destAddress = ANY_DEST;</a></div>
+      <div class="Code_Segment"><a name="940115">            }</a></div>
+      <div class="Code_Segment"><a name="940116">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="968650">            APP_UdpSendNewDataWithPriority(</a></div>
+      <div class="Code_Segment"><a name="968651">                node,</a></div>
+      <div class="Code_Segment"><a name="968652">                APP_ROUTING_RIP,</a></div>
+      <div class="Code_Segment"><a name="968653">                NetworkIpGetInterfaceAddress(node, interfaceIndex),</a></div>
+      <div class="Code_Segment"><a name="968654">                APP_ROUTING_RIP,</a></div>
+      <div class="Code_Segment"><a name="968655">                destAddress,</a></div>
+      <div class="Code_Segment"><a name="968656">                interfaceIndex,</a></div>
+      <div class="Code_Segment"><a name="968657">                (char*) &amp;response,</a></div>
+      <div class="Code_Segment"><a name="968658">                RIP_HEADER_SIZE + RIP_RTE_SIZE * rteIndex,</a></div>
+      <div class="Code_Segment"><a name="968659">                IPTOS_PREC_INTERNETCONTROL,</a></div>
+      <div class="Code_Segment"><a name="968660">                RANDOM_nrand(dataPtr-&gt;updateSeed) </a></div>
+      <div class="Code_Segment"><a name="968667">                                            % (clocktype) RIP_STARTUP_DELAY,</a></div>
+      <div class="Code_Segment"><a name="940117">                TRACE_RIP);</a></div>
+      <div class="Code_Segment"><a name="940222">            ...</a></div>
+      <div class="Code_Segment"><a name="940230">            }</a></div>
+      <div class="Code_Segment"><a name="940231">        }</a></div>
+      <div class="Code_Segment"><a name="940157">}</a></div>
+      <div class="Figure">FIGURE 3-6.&nbsp;&nbsp;<a name="940159">Sending a Packet Using a Layer-specific API</a></div>
+      <div class="Heading4Numbered">3.3.2.1.2  <a name="928544">Sending Packets Using Message APIs</a></div>
+      <div class="BodyAfterHead"><a name="920156">Layer-specific APIs provide a convenient means for sending packets through the protocol stack. However, sometimes it may be desirable to bypass the layer-specific APIs. This may be due to certain specifics of protocol design. This section describes how to send packets using message APIs.</a></div>
+      <div class="Body"><a name="940737">To understand the use of message APIs, take a look at the implementation of the layer-specific API, APP_UdpSendNewDataWithPriority, used in function RipSendResponse (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#977820', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.2.1.1</a></span>) to send a packet from the Application Layer to the UDP protocol at the Transport Layer. APP_UdpSendNewdataWithPriority is implemented in <span class="Variable">QUALNET_HOME</span>/main/app_util.cpp and is shown in <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#940243', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-7</a>.</div>
+      <div class="Code_Segment"><a name="920190">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961139">void</a></div>
+      <div class="Code_Segment"><a name="961140">APP_UdpSendNewDataWithPriority(</a></div>
+      <div class="Code_Segment"><a name="961141">    Node *node,</a></div>
+      <div class="Code_Segment"><a name="961142">    AppType appType,</a></div>
+      <div class="Code_Segment"><a name="961143">    NodeAddress sourceAddr,</a></div>
+      <div class="Code_Segment"><a name="961144">    short sourcePort,</a></div>
+      <div class="Code_Segment"><a name="961145">    NodeAddress destAddr,</a></div>
+      <div class="Code_Segment"><a name="961146">    int outgoingInterface,</a></div>
+      <div class="Code_Segment"><a name="961147">    char *payload,</a></div>
+      <div class="Code_Segment"><a name="961148">    int payloadSize,</a></div>
+      <div class="Code_Segment"><a name="961149">    TosType priority,</a></div>
+      <div class="Code_Segment"><a name="961150">    clocktype delay,</a></div>
+      <div class="Code_Segment"><a name="961151">    TraceProtocolType traceProtocol)</a></div>
+      <div class="Code_Segment"><a name="961152">{</a></div>
+      <div class="Code_Segment"><a name="961153">    Message *msg;</a></div>
+      <div class="Code_Segment"><a name="961154">    AppToUdpSend *info;</a></div>
+      <div class="Code_Segment"><a name="961155">    ActionData acnData;</a></div>
+      <div class="Code_Segment"><a name="961156">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961157">    msg = MESSAGE_Alloc(</a></div>
+      <div class="Code_Segment"><a name="961158">              node,</a></div>
+      <div class="Code_Segment"><a name="961159">              TRANSPORT_LAYER,</a></div>
+      <div class="Code_Segment"><a name="961160">              TransportProtocol_UDP,</a></div>
+      <div class="Code_Segment"><a name="961161">              MSG_TRANSPORT_FromAppSend);</a></div>
+      <div class="Code_Segment"><a name="961162">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961163">    MESSAGE_PacketAlloc(node, msg, payloadSize, traceProtocol);</a></div>
+      <div class="Code_Segment"><a name="961164">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961165">    memcpy(MESSAGE_ReturnPacket(msg), payload, payloadSize);</a></div>
+      <div class="Code_Segment"><a name="961167">    MESSAGE_InfoAlloc(node, msg, sizeof(AppToUdpSend));</a></div>
+      <div class="Code_Segment"><a name="961168">    info = (AppToUdpSend *) MESSAGE_ReturnInfo(msg);</a></div>
+      <div class="Code_Segment"><a name="961170">    SetIPv4AddressInfo(&amp;info-&gt;sourceAddr, sourceAddr);</a></div>
+      <div class="Code_Segment"><a name="961171">    info-&gt;sourcePort = sourcePort;</a></div>
+      <div class="Code_Segment"><a name="961173">    SetIPv4AddressInfo(&amp;info-&gt;destAddr, destAddr);</a></div>
+      <div class="Code_Segment"><a name="961174">    info-&gt;destPort = (short) appType;</a></div>
+      <div class="Code_Segment"><a name="961176">    info-&gt;priority = priority;</a></div>
+      <div class="Code_Segment"><a name="961177">    info-&gt;outgoingInterface = outgoingInterface;</a></div>
+      <div class="Code_Segment"><a name="969051">    info-&gt;ttl = IPDEFTTL;</a></div>
+      <div class="Code_Segment"><a name="961178">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961179">    //Trace Information</a></div>
+      <div class="Code_Segment"><a name="961180">    acnData.actionType = SEND;</a></div>
+      <div class="Code_Segment"><a name="961181">    acnData.actionComment = NO_COMMENT;</a></div>
+      <div class="Code_Segment"><a name="961182">    TRACE_PrintTrace(node, msg, TRACE_APPLICATION_LAYER,</a></div>
+      <div class="Code_Segment"><a name="961183">        PACKET_OUT, &amp;acnData);</a></div>
+      <div class="Code_Segment"><a name="961184">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961185">    MESSAGE_Send(node, msg, delay);</a></div>
+      <div class="Code_Segment"><a name="940239">}</a></div>
+      <div class="Figure">FIGURE 3-7.&nbsp;&nbsp;<a name="940243">Implementation of APP_UdpSendNewDataWithPriority</a></div>
+      <div class="Body"><a name="920227">Function APP_UdpSendNewDataWithPriority allocates a </a><span style="font-family: &quot;Courier New&quot;">message</span> variable <span style="font-family: &quot;Courier New&quot;">msg</span> using the API MESSAGE_Alloc. This is followed by a call to MESSAGE_PacketAlloc to allocate the <span style="font-family: &quot;Courier New&quot;">packet</span> field of the message. The third parameter to MESSAGE_PacketAlloc, <span style="font-family: &quot;Courier New&quot;">payloadSize</span>, is used to set the size of the <span style="font-family: &quot;Courier New&quot;">packet</span> field. Once MESSAGE_PacketAlloc has been called, the <span style="font-family: &quot;Courier New&quot;">packet</span> field in the message structure can be used to access this space. The API function MESSAGE_ReturnPacket is used to access the <span style="font-family: &quot;Courier New&quot;">packet</span> field of the message. </div>
+      <div class="Body"><a name="928330">The user data is then copied into the </a><span style="font-family: &quot;Courier New&quot;">packet</span> field using the memcpy function. Additional information can be stored in the <span style="font-family: &quot;Courier New&quot;">infoArray[0].info</span> field of the message (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#932174', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.1.1</a></span>), which is allocated using the API MESSAGE_InfoAlloc. (MESSGE_InfoAlloc is equivalent to using MESSAGE_AddInfo with <span style="font-family: &quot;Courier New&quot;">INFO_TYPE_DEFAULT</span> as the <span style="font-family: &quot;Courier New&quot;">info</span> field type, and allocates the 0<span style="vertical-align: super">th</span> element of <span style="font-family: &quot;Courier New&quot;">infoArray</span>). The API MESSAGE_ReturnInfo is used to access the <span style="font-family: &quot;Courier New&quot;">infoArray[0].info</span> field of the message. After storing information in the <span style="font-family: &quot;Courier New&quot;">infoArray[0].info</span> field of the message, the packet is sent to the next layer using the MESSAGE_Send function. (When the message is allocated using MESSAGE_Alloc in the first step of APP_UdpSendNewDataWithPriority, the <span style="font-family: &quot;Courier New&quot;">layerType</span>, <span style="font-family: &quot;Courier New&quot;">protocolType</span> and <span style="font-family: &quot;Courier New&quot;">eventType</span> fields are set to <span style="font-family: &quot;Courier New&quot;">TRANSPORT_LAYER</span>, <span style="font-family: &quot;Courier New&quot;">TransportProtocol_Udp</span> and <span style="font-family: &quot;Courier New&quot;">MSG_TRANSPORT_FromAppSend</span>, respectively. The result of calling MESSAGE_Send in the last step of APP_UdpSendNewDataWithPriority is to schedule a <span style="font-family: &quot;Courier New&quot;">MSG_TRANSPORT_FromAppSend</span> event at the UDP protocol at the Transport Layer after a delay specified by the third parameter of MESSAGE_Send.) </div>
+      <div class="Body"><a name="929059">When a packet from the Application Layer arrives at the UDP protocol at the Transport Layer, UDP appends a header to the packet and sends it to the next layer (Network Layer). This is done in the UDP function TransportUdpSendToNetwork, which is implemented in </a><span class="Variable">QUALNET_HOME</span>//libraries/developer/src/transport_udp.cpp and is shown in <a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#940381', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-8</a>. </div>
+      <div class="Code_Segment"><a name="940377">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961202">void</a></div>
+      <div class="Code_Segment"><a name="961203">TransportUdpSendToNetwork(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="961204">{</a></div>
+      <div class="Code_Segment"><a name="961205">    TransportDataUdp *udp = (TransportDataUdp *) node-&gt;transportData.udp;</a></div>
+      <div class="Code_Segment"><a name="961206">    TransportUdpHeader *udpHdr;</a></div>
+      <div class="Code_Segment"><a name="961207">    AppToUdpSend *info;</a></div>
+      <div class="Code_Segment"><a name="961208">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961209">    if (udp-&gt;udpStatsEnabled == TRUE)</a></div>
+      <div class="Code_Segment"><a name="961210">    {</a></div>
+      <div class="Code_Segment"><a name="961211">        udp-&gt;statistics-&gt;numPktFromApp++;</a></div>
+      <div class="Code_Segment"><a name="961212">    }</a></div>
+      <div class="Code_Segment"><a name="961213">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961214">    MESSAGE_AddHeader(node, msg, sizeof(TransportUdpHeader), TRACE_UDP);</a></div>
+      <div class="Code_Segment"><a name="961215">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961216">    udpHdr = (TransportUdpHeader *) msg-&gt;packet;</a></div>
+      <div class="Code_Segment"><a name="961217">    info = (AppToUdpSend *) MESSAGE_ReturnInfo(msg);</a></div>
+      <div class="Code_Segment"><a name="961218">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961219">    udpHdr-&gt;sourcePort = info-&gt;sourcePort;</a></div>
+      <div class="Code_Segment"><a name="961220">    udpHdr-&gt;destPort = info-&gt;destPort;</a></div>
+      <div class="Code_Segment"><a name="961221">    udpHdr-&gt;length = (unsigned short) MESSAGE_ReturnPacketSize(msg);</a></div>
+      <div class="Code_Segment"><a name="961222">    udpHdr-&gt;checksum = 0;  /* checksum not calculated */</a></div>
+      <div class="Code_Segment"><a name="961223">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961224">    ActionData acnData;</a></div>
+      <div class="Code_Segment"><a name="961225">    acnData.actionType = SEND;</a></div>
+      <div class="Code_Segment"><a name="961226">    acnData.actionComment = NO_COMMENT;</a></div>
+      <div class="Code_Segment"><a name="961227">    TRACE_PrintTrace(node,</a></div>
+      <div class="Code_Segment"><a name="961228">                     msg,</a></div>
+      <div class="Code_Segment"><a name="961229">                     TRACE_TRANSPORT_LAYER,</a></div>
+      <div class="Code_Segment"><a name="961230">                     PACKET_OUT,</a></div>
+      <div class="Code_Segment"><a name="961231">                     &amp;acnData);</a></div>
+      <div class="Code_Segment"><a name="961232">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961233">    NetworkIpReceivePacketFromTransportLayer(</a></div>
+      <div class="Code_Segment"><a name="961234">        node,</a></div>
+      <div class="Code_Segment"><a name="961235">        msg,</a></div>
+      <div class="Code_Segment"><a name="961236">        info-&gt;sourceAddr,</a></div>
+      <div class="Code_Segment"><a name="961237">        info-&gt;destAddr,</a></div>
+      <div class="Code_Segment"><a name="961238">        info-&gt;outgoingInterface,</a></div>
+      <div class="Code_Segment"><a name="961239">        info-&gt;priority,</a></div>
+      <div class="Code_Segment"><a name="961240">        IPPROTO_UDP,</a></div>
+      <div class="Code_Segment"><a name="961241">        FALSE,</a></div>
+      <div class="Code_Segment"><a name="969063">        info-&gt;ttl);</a></div>
+      <div class="Code_Segment"><a name="940386">}</a></div>
+      <div class="Figure">FIGURE 3-8.&nbsp;&nbsp;<a name="940381">Adding a Header at Transport Layer</a></div>
+      <div class="Body"><a name="940791">In function TransportUdpSendToNetwork, the API function MESSAGE_AddHeader is used to add a header before a packet. This function reserves additional space in the packet for a header. The header size is specified by the third parameter of the function. MESSAGE_AddHeade</a><span style="font-weight: bold">r</span> also appropriately updates the <span style="font-family: &quot;Courier New&quot;">packetSize</span> field in the <span style="font-family: &quot;Courier New&quot;">message</span> structure. After this function is called, the <span style="font-family: &quot;Courier New&quot;">packet</span> field in the <span style="font-family: &quot;Courier New&quot;">message</span> structure points to the space occupied by this new header. </div>
+      <div class="Body"><a name="940792">TransportUdpSendToNetwork next updates the header fields and calls the Transport Layer-specific API function NetworkIpReceivePacketFromTransportLayer to send the packet to the next layer (the Network Layer). In this way the packet travels down the protocol stack with each layer adding its own header. This is graphically illustrated in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#932486', '');" title="Discrete-event Simulation in QualNet">Figure&nbsp;3-5</a>.</div>
+      <div class="Heading3Numbered">3.3.2.2  <a name="920185">Timer Events</a></div>
+      <div class="BodyAfterHead"><a name="919899">Timer events are used to perform the function of alarms. They essentially allow an application to schedule events for itself at a future time. Periodic alarms are implemented by re-setting the timer event after it has occurred. Timer events are set and received within a protocol and they do not travel through the protocol stack. </a></div>
+      <div class="Body"><a name="919901">Examples of timer events are:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="919902">Timer alarm to send route updates every 5 seconds</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="919903">Timer alarm to remove expired route from routing table 3 seconds after it is installed</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading4Numbered">3.3.2.2.1  <a name="919880">Setting Timers</a></div>
+      <div class="BodyAfterHead"><a name="919912">Timer events are also implemented using the </a><span style="font-family: &quot;Courier New&quot;">message</span> class described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#931856', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.1</a></span>. To set a timer event, allocate a new message using the function MESSAGE_Alloc (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#919706', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.2</a></span>). Pass as parameters to the function the node pointer, the layer, the protocol and the event type. The event types are defined in <span class="Variable">QUALNET_HOME</span>/include/api.h. </div>
+      <div class="Body"><a name="932866">For example, the following code schedules an event of type </a><span style="font-family: &quot;Courier New&quot;">MSG_APP_RIP_RegularUpdateAlarm</span><span style="font-size: 9.0pt"> for the RIP protocol at the Application Layer to occur after a delay of 5 seconds from the current simulation time.</span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935770">Message *newMsg;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935771">clocktype delay;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935774">newMsg = MESSAGE_Alloc(node,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935775">									APP_LAYER,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935776">									APP_ROUTING_RIP,</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935777">									MSG_APP_RIP_RegularUpdateAlarm);</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935778">delay = 5* SECOND;</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935779">MESSAGE_Send(node, newMsg, delay);</a></span></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="935780">&nbsp;</a></div>
+      <div class="BodyAfterHead" style="text-indent: 0.96552pt"><a name="919925">Note that if the delay is set to 0, the event occurs after the current function finishes execution but before the simulation clock is advanced.</a></div>
+      <div class="Body"><a name="928859">It may be required to store some additional information with a timer. The message </a><span style="font-family: &quot;Courier New&quot;">infoArray</span> field is used with timers for this purpose. As an example, consider a time-out timer to receive an acknowledgment for a transmitted packet. In this case, the <span style="font-family: &quot;Courier New&quot;">infoArray[0].info</span> field of the message can store the sequence number and destination IP address of the packet for which an acknowledgment is expected. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#932174', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.1.1</a></span> for more details of the message <span style="font-family: &quot;Courier New&quot;">infoArray</span> field.</div>
+      <div class="Heading4Numbered">3.3.2.2.2  <a name="919886">Canceling Timers</a></div>
+      <div class="BodyAfterHead"><a name="919950">The API function MESSAGE_CancelSelfMsg (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.4.html#919706', '');" title="Discrete-event Simulation in QualNet">Section&nbsp;3.3.1.2</a></span>) is used to cancel a message in the <span class="Variable">QualNet</span> scheduler. The message must be a self message, i.e., a message the node sent to itself. The function accepts a pointer to a node and a pointer to the message to be cancelled as arguments. </div>
+      <div class="BodyAfterHead"><a name="936145">For example, consider the following function call: </a></div>
+      <div class="Code_Segment"><a name="936146">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="989697">MESSAGE_CancelSelfMsg(node, msgToCancelPtr)</a></div>
+      <div class="Code_Segment"><a name="936156">&nbsp;</a></div>
+      <div class="BodyAfterHead"><a name="936147">In the function call above, </a><span style="font-style: italic">msgToCancelPtr</span> is a pointer to the original message that needs to be canceled. To use this function, the pointer to the original message has to be retained.</div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

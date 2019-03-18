@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="Threaded Application Properties" singlehost="false" loopback="enabled" propertytype="THREADED-APP" displayname="Threaded App">
+    <variable name="Source" key="SOURCE" type="SelectionDynamic" keyvisible="false" optional="false"/>
+    <variable name="Destination" key="DESTINATION" type="SelectionDynamic" keyvisible="false" optional="false"/>
+    <variable name="Delivery Type" key="DELIVERY-TYPE" type="Selection" default="RELIABLE" keyvisible="true" optional="false">
+        <option value="RELIABLE" name="Reliable" />
+        <option value="UNRELIABLE" name="Unreliable" />
+    </variable>
+    <variable name="Application Name" key="APPLICATION-NAME" type="Text" default="THREADED-APP" optional="true" keyvisible="true" />
+
+    <variable name="Start Time" key="START-TIME" type="Selection" default="DET" keyvisible="true" optional="false">
+        <option value="DET" name="Deterministic">
+            <variable name="Start Time" key="FIXED-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="UNI" name="Uniform">
+            <variable name="Earliest Start Time" key="EARLIEST-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+            <variable name="Latest Start Time" key="LATEST-START-TIME" type="Time" default="10S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="EXP" name="Exponential">
+            <variable name="Mean Start Time" key="MEAN-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="TRIGGERED" name="Triggered">
+        </option>
+    </variable>
+
+    <variable name="Duration" key="DURATION" type="Selection" default="DET" keyvisible="true" optional="false">
+        <option value="DET" name="Deterministic">
+            <variable name="Duration" key="FIXED-DURATION-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="UNI" name="Uniform">
+            <variable name="Shortest Duration" key="SHORTEST-DURATION-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+            <variable name="Longest Duration" key="LONGEST-DURATION-TIME" type="Time" default="10S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="EXP" name="Exponential">
+            <variable name="Mean Duration" key="MEAN-DURATION-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+
+    <variable name="Request Packet Count Distribution" key="REQUEST-NUM" type="Selection" default="DET" keyvisible="true" optional="false">
+        <option value="DET" name="Deterministic">
+            <variable name="Number of Request Packets" key="FIXED-REQUEST-NUM" type="Integer" default="1" keyvisible="false" optional="false"/>
+        </option>
+        <option value="UNI" name="Uniform">
+            <variable name="Smallest Number of Request Packets" key="SMALL-REQUEST-NUM" type="Integer" default="1" keyvisible="false" optional="false"/>
+            <variable name="Largest Number of Request Packets" key="LARGE-REQUEST-NUM" type="Integer" default="10" keyvisible="false" optional="false"/>
+        </option>
+        <option value="EXP" name="Exponential">
+            <variable name="Mean Number of Request Packets" key="MEAN-REQUEST-NUM" type="Integer" default="10" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+
+    <variable name="Request Packet Size Distribution" key="REQUEST-SIZE" type="Selection" default="DET" keyvisible="true" optional="false">
+        <option value="DET" name="Deterministic">
+            <variable name="Request Packet Size (bytes)" key="FIXED-REQUEST-SIZE" type="Integer" default="512" keyvisible="false" optional="false"/>
+        </option>
+        <option value="UNI" name="Uniform">
+            <variable name="Smallest Request Packet Size (bytes)" key="SMALLEST-REQUEST-SIZE" type="Integer" default="1" keyvisible="false" optional="false"/>
+            <variable name="Largest Request Packet Size (bytes)" key="LARGEST-REQUEST-SIZE" type="Integer" default="65391" keyvisible="false" optional="false"/>
+        </option>
+        <option value="EXP" name="Exponential">
+            <variable name="Mean Request Packet Size (bytes)" key="MEAN-REQUEST-SIZE" type="Integer" default="512" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+   
+    <variable name="Request Packet Interval Distribution" key="REQUEST-INTERVAL" type="Selection" default="DET"  keyvisible="true" optional="false">
+        <option value="DET" name="Deterministic">
+            <variable name="Request Packet Interval" key="FIXED-REQUEST-INTERVAL" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="UNI" name="Uniform">
+            <variable name="Shortest Request Packet Interval" key="SMALLEST-REQUEST-INTERVAL" type="Time" default="1MS" keyvisible="false" optional="false"/>
+            <variable name="Longest Request Packet Interval" key="LONGEST-REQUEST-INTERVAL" type="Time" default="10S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="EXP" name="Exponential">
+            <variable name="Mean Request Packet Interval" key="MEAN-REQUEST-INTERVAL" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+   
+    <variable name="Priority of Request Packets" key="REQUEST-TOS" type="Selection" default="PRECEDENCE" keyvisible="true" optional="true">
+        <option value="TOS" name="TOS" help="value (0-255) of the TOS bits in the IP header">
+            <variable name="TOS Value" key="TOS-BITS" type="Integer" default="0" min="0" max="255" keyvisible="false" optional="false"/>
+        </option>
+        <option value="DSCP" name="DSCP" help="value (0-63) of the DSCP bits in the IP header">
+            <variable name="DSCP Value" key="DSCP-BITS" type="Integer" default="0" min="0" max="63" keyvisible="false" optional="false"/>
+        </option>
+        <option value="PRECEDENCE" name="Precedence" help="value (0-7) of the Precedence bits in the IP header">
+            <variable name="Precedence Value" key="PRECEDENCE-BITS" type="Integer" default="0" min="0" max="7" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+   
+    <variable name="Enable Fragmentation" key="SPECIFY-FRAGMENT-SIZE" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="FRAGMENT-SIZE" name="Yes">
+            <variable name="Fragment Size (bytes)" key="FRAGMENT-SIZE-VALUE" type="Integer" default="1024" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+   
+    <variable name="Specify Source Port" key="SPECIFY-SOURCE-PORT" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="SOURCE-PORT" name="Yes">
+            <variable name="Source Port" key="SOURCE-PORT-VALUE" type="Integer" default="1025" min="0" max="655535" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+
+    <variable name="Specify Destination Port" key="SPECIFY-DESTINATION-PORT" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="DESTINATION-PORT" name="Yes">
+            <variable name="Destination Port" key="DESTINATION-PORT-VALUE" type="Integer" default="1025" min="0" max="655535" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+
+    <variable name="Specify Chain ID" key="SPECIFY-CHAIN-ID" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="CHAIN-ID" name="Yes">
+            <variable name="Chain ID" key="CHAIN-ID-VALUE" type="Integer" default="1" min="1" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+
+    <variable name="Specify Thread Step" key="SPECIFY-THREAD-STEP" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="THREAD-STEP" name="Yes">
+            <variable name="Thread Step" key="THREAD-STEP-VALUE" type="Integer" default="1" min="1" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+
+    <variable name="Specify IER Name" key="SPECIFY-IER-NAME" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="IER-NAME" name="Yes">
+            <variable name="IER Name" key="IER-NAME-VALUE" type="Text" default="[Optional]" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+
+    <variable name="Specify Probability" key="SPECIFY-PROBABILITY" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="PROBABILITY" name="Yes">
+            <variable name="Probability" key="PROBABILITY-VALUE" type="Fixed" min="0" max="1" default="0.5" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+    
+    <variable name="Specify Repeat Interval" key="REPEAT-INTERVAL" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="REPEAT-INTERVAL" name="Yes">
+            <variable name="Repeat Interval Distribution" key="REPEAT-INTERVAL-DISTRIBUTION" type="Selection" default="DET" keyvisible="false" optional="false">
+                <option value="DET" name="Deterministic">
+                    <variable name="Repeat Interval" key="FIXED-REPEAT-INTERVAL-VALUE" type="Time" default="1S" keyvisible="false" optional="false"/>
+                </option>
+                <option value="UNI" name="Uniform">
+                    <variable name="Smallest Repeat Interval" key="SMALLEST-REPEAT-INTERVAL-VALUE" type="Time" default="1MS" keyvisible="false" optional="false"/>
+                    <variable name="Longest Repeat Interval" key="LONGEST-REPEAT-INTERVAL-VALUE" type="Time" default="10S" keyvisible="false" optional="false"/>
+                </option>
+                <option value="EXP" name="Exponential">
+                    <variable name="Mean Repeat Interval" key="MEAN-REPEAT-INTERVAL-VALUE" type="Time" default="1S" keyvisible="false" optional="false"/>
+                </option>
+            </variable>
+            <variable name="Repeat Number" key="REPEAT-NUMBER-VALUE" type="Integer" default="0" min="0" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+    
+    <variable name="Specify Chain Increment" key="SPECIFY-CHAIN-INCREMENT" type="Selection" default="N/A" keyvisible="false" optional="true">
+        <option value="N/A" name="No" />
+        <option value="CHAIN-INCREMENT" name="Yes">
+            <variable name="Chain Increment" key="CHAIN-INCREMENT-VALUE" type="Integer" default="1" min="1" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+    
+    
+    <variable name="Trigger Type" key="TRIGGER-TYPE" type="Selection" default="PACKETS"  keyvisible="true" optional="true">
+        <option value="PACKETS" name="Packets">
+            <variable name="Packets" key="PACKETS-VALUE" type="Integer" default="1" keyvisible="false" optional="false"/>
+        </option>
+        <option value="FIRING-RULE" name="Firing rule">
+            <variable name="Firing Rule" key="FIRING-RULE-VALUE" type="Text" default="[Required]" keyvisible="false" optional="false"/>
+        </option>
+    </variable>
+
+
+    <variable name="Trigger Delay" key="TRIGGER-DELAY" type="Selection" default="DET" keyvisible="true" optional="false">
+        <option value="DET" name="Deterministic">
+            <variable name="Duration" key="FIXED-TRIGGER-DELAY" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="UNI" name="Uniform">
+            <variable name="Shortest Duration" key="SHORTEST-TRIGGER-DELAY" type="Time" default="1S" keyvisible="false" optional="false"/>
+            <variable name="Longest Duration" key="LONGEST-TRIGGER-DELAY" type="Time" default="10S" keyvisible="false" optional="false"/>
+        </option>
+        <option value="EXP" name="Exponential">
+            <variable name="Mean Duration" key="MEAN-TRIGGER-DELAY" type="Time" default="1S" keyvisible="false" optional="false"/>
+        </option>
+    </variable>    
+    
+    
+
+</category>
+

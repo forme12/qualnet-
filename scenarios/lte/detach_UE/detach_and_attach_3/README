@@ -1,0 +1,60 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+-------
+To test attaching a UE to an eNB after the UE was once detatched 
+from another eNB.
+
+SCENARIO:-
+---------
+One subnet is present in the scenario, having two base stations (eNodeB), 
+one user equipment (UE), one Serving Gateway/Mobility Management Entity 
+(SGW/MME) and a Corresponding Node (CN). Node 4 is UE. Node 2 and 3 are
+eNodeB. Node 1 is SGW/MME. Node 6 is CN. The UE once goes outside the 
+coverd area of Node2 and goes inside the area of Node3.
+
+TOPOLOGY:
+---------
+
+
+ 6(CN)     1(SGWMME)     2(eNodeB)       4(UE)
+               
+                         3(eNodeB)
+
+
+CBR flows ares:
+
+- CBR 4 6 0 512 10MS 2S 8S PRECEDENCE 0
+- CBR 6 4 0 512 10MS 2S 8S PRECEDENCE 0
+
+No fading model is being used in the scenario.
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet detach_and_attach_3.config'.
+
+
+DESCRIPTION OF THE FILES:-
+------------------------
+1.detach_and_attach_3.config - QualNet configuration input file.
+2.detach_and_attach_3.app    - QualNet configuration file for application input.
+3.detach_and_attach_3.nodes  - QualNet node placement file for the simulation run.
+4.detach_and_attach_3.expected.stat - QualNet statistics collection.
+6.UL_BER_MCS*.ber - Bit error rate table for various MCS(modulation, coding systems) for Uplink.
+7.DL_BER_MCS*.ber - Bit error rate table for various MCS(modulation, coding systems) for Downlink.
+8.README - This file

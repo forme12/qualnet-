@@ -1,0 +1,172 @@
+This document describes the sample scenarios for the mac switched model.
+These scenarios aim to illustrate some functional aspects of the model
+as well as configuration requirements.
+
+Salient features of the configuration are described here. Each scenario
+has more details within the 'default.config' file in the respective
+sub-directories.
+
+....................................................................
+
+Performance
+    Reduction of bus conflicts,
+    Increase of available bandwidth,
+    Reduction of run time.
+
+
+There are two scenarios for comparison.
+
+In the first, there are a total of 32 nodes attached in groups of 8 nodes
+per 802.3 LAN segment to different ports of a switch.
+
+
+           1|           |17
+           .|----   ----|.
+           8|   |   |   |24
+                |   |
+                Sw100
+                |   |
+           9|   |   |   |25
+           .|----   ----|.
+          16|           |32
+
+Directory: performance/sample1/
+
+
+The second scenario has each of the 32 nodes attached to individual ports
+of a switch. Here, each of the nodes have the full bandwidth of the LAN
+available to them.
+
+Directory: performance/sample2/
+
+....................................................................
+
+Spanning tree
+    Creation of loop free single spanning tree,
+    Determination of new spanning tree after topology change.
+
+
+The first scenario illustrates a scenario with loops. There are
+additional commented user configuration to allow root preference,
+change path costs (port costs), alter timer values.
+
+                         10                          11
+  40        41           ------------------------------
+   ---------     30        |            |          |
+      |           |        |            |          |
+      |           |------ Sw1           |          |
+      |           |        |            |          | 
+     Sw2 ---------|        |           Sw3        Sw4
+      |           |        |            |          |
+      |           |------ Sw5           |          |
+      |           |        |            |          |
+     50          31        |            |          |
+                         ------------------------------
+                       20                           21
+
+Directory: stp/sample1/
+
+
+The second scenario uses the same topology and introduces interface
+faults at various interfaces of the switches. This results in
+recomputation to different spanning trees.
+
+Directory: stp/sample2/
+
+....................................................................
+
+VLANs
+    Isolation of broadcast domains,
+    Intra-VLAN and inter-VLAN communication.
+
+
+The first scenario illustrates the VLAN related configuration for
+VLAN member sets, untagged sets, port VLAN ID at the switch and
+switch ports.
+
+                12                     22                     32
+                 |                      |                      |
+                 | 2 access             | 2 access             | 2 access
+                 |                      |                      |
+   2 access +--------+             +--------+             +--------+
+    --------|        |   2 trunk   |        |   2 trunk   |        |
+  100       |  Sw1   |-------------|  Sw2   |-------------|  Sw3   |
+    --------|        |   3 trunk   |        |   3 trunk   |        |
+   3 access +--------+             +--------+             +--------+
+                 |                      |                      |
+                 | 3 access             | 3 access             | 3 access
+                 |                      |                      |
+                14                     24                     34 
+
+Directory: vlan/sample1/
+
+
+The second scenario considers a configuration where multicasts groups
+span more than one VLAN in a switched scenario.
+
+              121  122  123              22
+              ------------               |
+                   |                     |
+                   | 2 access            | 2 access
+      2 access +-------+             +-------+
+           +---|       |             |       |
+           |   |       |    2 and 4  |       |
+  101 --- 11   |  sw1  |-------------|  sw2  |
+           |   |       |     trunk   |       |
+           +---|       |             |       |
+      4 access +-------+             +-------+
+                   | 4 access            | 4 access
+                   |                     |
+              ------------               |
+              141  142  143              24
+
+Directory: vlan/sample2/
+
+
+....................................................................
+
+GVRP/GARP
+    Dynamic configuration of member sets,
+    Operation with STP in larger networks.
+
+
+The first scenario matches the one under vlan/sample1 with the
+difference that GVRP is enabled to dynamically create the member
+sets instead of them having to be manually input in the .config
+file.
+
+Directory: gvrp/sample1/
+
+
+The second scenario takes the popular 'ring of 8' scenario
+to illustrate the operations of GVRP in parallel with STP.
+
+
+       10              20              30              40
+        |               |               |               |
+        | 2 access      | 3 access      | 4 access      | 5 access
+        |               |               |               |
+   +--------+      +--------+      +--------+      +--------+
+   |        |      |        |      |        |      |        |
+   |  Sw 1  |------|  Sw 2  |------|  Sw 3  |------|  Sw 4  |
+   |        |      |        |      |        |      |        |
+   +--------+      +--------+      +--------+      +--------+
+        |                                               |
+        |                                               |
+        |                                               |
+   +--------+      +--------+      +--------+      +--------+
+   |        |      |        |      |        |      |        |
+   |  Sw 8  |------|  Sw 7  |------|  Sw 6  |------|  Sw 5  |
+   |        |      |        |      |        |      |        |
+   +--------+      +--------+      +--------+      +--------+
+        |               |               |               |
+        | 5 access      | 4 access      | 3 access      | 2 access
+        |               |               |               |
+       80              70              60              50
+
+
+Directory: gvrp/sample2/
+
+
+--------------------------------------------------------------------
+

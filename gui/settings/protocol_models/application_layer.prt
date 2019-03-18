@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="Application Layer">
+        <variable name="Multimedia Signalling Protocol" key="MULTIMEDIA-SIGNALLING-PROTOCOL" help="The signalling protcol must to be configured in order to run VoIP" type="Selection" default="N/A" optional="true">
+            <option value="N/A" name="None" />
+            <option value="H323" name="H323">
+                <variable name="H323 Call Model" key="H323-CALL-MODEL" type="Selection" default="DIRECT">
+                    <option value="DIRECT" name="Direct" />
+                    <option value="GATEKEEPER-ROUTED" name="Gatekeeper Routed" >
+                         <variable name="Specify GateKeeper Address" key="DUMMY-GATEKEEPER-EXISTS" type="Selection" default="NO">
+                              <option value="NO" name="No" />
+                              <option value="YES" name="Yes" >
+                                  <variable name="Gatekeeper Address" key="GATEKEEPER-ADDRESS" type="Dotted decimal" default="224.0.1.41"/>
+                              </option>
+                          </variable>
+                     </option>
+                </variable>
+                <variable name="Configure as H323 Gatekeeper" key="H323-GATEKEEPER" type="Selection" default="NO" optional="true">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Terminal Alias Address File" key="TERMINAL-ALIAS-ADDRESS-FILE" type="File" default="[Required]" filetype="endpoint" />
+            </option>
+            <option value="SIP" name="SIP">
+                <variable name="Configure as SIP Proxy" key="SIP-PROXY" type="Selection" default="NO" optional="true" help="Specify whether this node act as proxy or not">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="SIP Transport Layer Protocol" key="SIP-TRANSPORT-LAYER-PROTOCOL" type="Selection" default="TCP" disable="true" help="Current implementation uses TCP only.">
+                    <option value="TCP" name="TCP" />
+                    <!--<option value="UDP" name="UDP" />
+                    <option value="SCTP" name="SCTP" />-->
+                </variable>
+                <variable name="SIP Call Model" key="SIP-CALL-MODEL" type="Selection" default="DIRECT">
+                    <option value="PROXY-ROUTED" name="Proxy Routed" />
+                    <option value="DIRECT" name="Direct" />
+                </variable>
+                <variable name="Terminal Alias Address File" key="TERMINAL-ALIAS-ADDRESS-FILE" type="File" default="[Required]" filetype="sip" />
+                <variable name="DNS Address File" key="DNS-ADDRESS-FILE" type="File" default="[Required]" filetype="dns" />
+            </option>
+        </variable>
+        <variable name="Set VoIP Parameters" key="DUMMY-VOIP-APPLICATION-EXISTS" type="Selection" default="N/A">
+            <option value="N/A" name="No" />
+            <option value="YES" name="Yes">
+                <variable name="VoIP Connection Delay" key="VOIP-CONNECTION-DELAY" type="Time" default="8S" help="The delay after which the called party receives the call." />
+                <variable name="VoIP Call Timeout" key="VOIP-CALL-TIMEOUT" type="Time" default="60S" requires="this.value >= [VOIP-CONNECTION-DELAY]" help="The threshold after which the call will be rejected." />
+                <variable name="VoIP Total Loss Probability" key="VOIP-TOTAL-LOSS-PROBABILITY" type="Fixed" default="5.07" help="Total Loss Probability for MOS Calculation." optional="true"/>
+            </option>
+        </variable>
+        <variable name="Enable RTP" key="RTP-ENABLED" type="Selection" default="NO" >
+        <option value="NO" name="No" />
+        <option value="YES" name="Yes">
+            <variable name="RTCP Session Management Bandwidth (bps)" key="RTCP-SESSION-MANAGEMENT-BANDWIDTH" type="Integer" default="64000" min="1"/>
+            <variable name="Enable RTP Jitter Buffer" key="RTP-JITTER-BUFFER-ENABLED" type="Selection" default="NO">
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+                <variable name="Jitter Buffer Size (packets)" key="RTP-JITTER-BUFFER-MAXNO-PACKET" type="Integer" default="100" help="The maximum size of the jitter buffer." min="1"/>
+                <variable name="Maximum Jitter Buffer Delay" key="RTP-JITTER-BUFFER-MAXIMUM-DELAY" type="Time" default="10MS" help="The duration that specifies how long one packet can stay in jitter buffer." />
+                <variable name="Jitter Buffer Talkspurt Delay" key="RTP-JITTER-BUFFER-TALKSPURT-DELAY" type="Time" default="10MS" help="The time interval at which new calculation of Maximum delay of packet in jitter Buffer is updated." />
+            </option>
+            </variable>
+        </option>
+        </variable>
+        <variable name="Enable MDP" key="MDP-ENABLED" type="Selection" default="NO">
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+                <variable name="Specify MDP Profile File" key="DUMMY-MDP-PROFILE-FILENAME" type="Selection" default="NO" >
+                    <option value="YES" name="Yes">
+                        <variable name="MDP Profile File" key="MDP-PROFILE-FILE" type="File" default = "[Required]" filetype="mdp" />
+                        <variable name="Specify MDP Profile" key="DUMMY-MDP-PROFILE" type="Selection" default="NO" >
+                            <option value="YES" name="Yes">
+                                <variable name="MDP Profile Name" key="MDP-PROFILE" type="Text" default = "[Required]" />
+                            </option>
+                            <option value="NO" name="No" />
+                        </variable>
+                    </option>
+                    <option value="NO" name="No" />
+                </variable>
+                <variable name="MDP Cache Properties" key="MDP-TX-CACHE" type="Text" default="8 5000 8388608" />
+                <variable name="MDP TX Buffer Size (bytes)" key="MDP-TX-BUFFER-SIZE" type="Integer" default="1048576" min="0" />
+                <variable name="MDP RX Buffer Size (bytes)" key="MDP-RX-BUFFER-SIZE" type="Integer" default="1048576" min="0" />
+                <variable name="MDP Segment Pool Size" key="MDP-SEGMENT-POOL-SIZE" type="Integer" default="10" min="0" />
+            </option>
+        </variable>
+    </subcategory>
+</category>
+

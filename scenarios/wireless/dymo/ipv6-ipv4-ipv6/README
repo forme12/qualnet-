@@ -1,0 +1,81 @@
+#Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+--------
+Test dual-ip (ipv6-ipv4-ipv6) behavior.
+
+
+
+SCENARIO:-
+---------
+
+-------- means a wireless link
+
+-------
+|     |
+|     | means a wireless subnet where the nodes are directly reachable
+|     |
+-------
+
+ Subnet-1              Subnet-2              Subnet-3
+-------------         -----------          -------------
+|  1     2  |         | 6    7  |          | 13    12 |
+|           |         |         |          |          | 
+|  5        |----3----|         |-----8 ---|          |
+|     4     |         | 10   9  |          | 14    15 |
+--------------        -----------          -------------
+SLA-0                 N8-192.0.1.0             SLA-2
+
+There are two applications between source node and destination node. Both Applications are CBR.Which is used to send 100 data packets of
+512 bytes from node 1 to node 14 and node 13 to node 5.Both applications start time is 1S.Source node will continuously send the data packets to the target 
+node till the end of simulation time is not reached.
+Subnet1 is IPV6, subnet2 is IPV4 and subnet 3 is again IPV6.
+Node 3 and Node 8 are dual IP nodes. IPV4 tunnel is used to send data packet of IPV6 network in both directions.
+Node 1 (Source node) has no route for the target node 14 so it generate RREQ Routing Message and broadcast it with the TTL value of 1.
+Similarly, node 13 also generate RREQ routing message for the target node 5.This RREQ message is dropped at the intermediate node 2, 5, 4 
+and 3 because TTL value is zero after preprocessing of routing message. Source node will again retried RREQ message with the TTL value of 
+3. Now, after processing RREQ message, intermediate node 2,5,4 and 3 will forward this RREQ message to its neighboring nodes with TTL 
+value 2. At node 3, this is dual IP node use tunnel to forward the control packets with TTL value 2. When the source node and the other 
+nodes receive the same RREQ message again then this RREQ message is count as duplicate RREQ message so it is discarded. Nodes 6, 7, 9 ,
+10 and 8 will forward this RREQ message with TTL value 1.Now, the target node 14 will receive this RREQ message and generating RREP 
+routing message which in unicasted toward next hop which is node 8 dual IP node. After travelling,hop by hop distance when source node 1
+receives this RREP routing message through dual IP node 3 then route is established between source and the target node.
+Same procedure is repeated for the application between node 13 and node 5.
+
+
+
+Note :- In this scenario MOBILITY of nodes is NONE. 
+----
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet ipv6-ipv4-ipv6.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. ipv6-ipv4-ipv6.app -  QualNet configuration file for application input.
+2. ipv6-ipv4-ipv6.config - QualNet configuration input file.
+3. ipv6-ipv4-ipv6.expected.stat - QualNet statistics collection.
+4. ipv6-ipv4-ipv6.nodes - QualNet node position file.
+5. ipv6-ipv4-ipv6.tunnel- Qualnet tunnel file for dual ip nodes.
+6. ipv6-ipv4-ipv6.routes-default- Qualnet default route file.
+7. README - This file.
+
+

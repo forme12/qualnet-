@@ -1,0 +1,45 @@
+# This file is used to specify the various configurable parameters of OSPFv2.
+#
+# Some parameter setting need to be consistent among groups of routers. For
+# example, all routers in an area must agree on that area's parameters, and 
+# all routers attached to a network must agree on that network's IP network
+# number and mask.
+#
+#############################################################################
+# AREA PARAMETERS: (Specific to a single area)
+#############################################################################
+#
+# AREA ID: A 32 bit number that uniquely identify the area within an AS.
+# NOTE: The area ID of 0.0.0.0 is reserved for backbone. Use this area ID for
+#       backbone only. Also note that backbone can't be configured as stub.
+#
+# [<Network number>]  AREA-ID  <Area ID in IP address format>
+#
+# For example
+# [N8-1.0]  AREA-ID  0.0.0.1
+#
+#
+# LIST OF ADDRESS RANGE: Describes the collection of IP addresses contained in
+# the address range.
+#
+# AREA  <Area ID>  RANGE  { <Network1>, <Network2>, ... , <NetworkN> }
+#
+#
+# DEFINING STUB AREA: Define an area as Stub.
+#
+# AREA  <Area ID>  STUB  <Stub Default Cost>
+
+
+[N8-1.0]  AREA-ID  0.0.0.1
+
+AREA  0.0.0.1  RANGE  {N8-1.0}
+
+
+[N8-2.0]  AREA-ID  0.0.0.2
+
+AREA  0.0.0.2  RANGE  {N8-2.0}
+
+
+[N2-3.0]  AREA-ID  0.0.0.0
+
+AREA  0.0.0.0  RANGE  {N2-3.0}

@@ -1,0 +1,55 @@
+PURPOSE:-
+--------
+To test Service Differentiation among the Three Service Classes with WRR
+as inner Scheduler for 6 nodes.
+
+
+SCENARIO:-
+---------
+
+------ Indicates link
+ 1 -------+
+    10 Mb  \
+     5 ms   \
+             3-------- 4 ---------- 5 -------- 6
+            /   10 Mb       5 Mb      10 Mb
+           /     5 ms       5 ms       5 ms
+ 2 -------+
+    10 Mb
+     5 ms
+
+
+                    Topology
+
+
+s - Source Node
+dest - Destination Node
+core - Core Router
+e - Edge Router
+
+CBR is used to send data segments of 1000B from s1 to dest6 with
+three different type of priority for three different type of
+condition classes.
+
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet Configuration file for application input.
+2. default.config - QualNet Configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. scheduler-thruput41.out &     - Service Ratio vs. time &
+   scheduler-service-ratio41.out - Thruput vs. time graph data for each queue
+                                 at specified interval.
+5. default.traffic-conditioner - QualNet Configuration file for
+                                 Traffic Rules.
+6. default.routes-static - QualNet Configuration file for Static Routing.
+7. dpsk.ber - QualNet bit error rate file.
+8. phbparam.in - QualNet Configuration file for Mapping queue vs
+                 packet priority.
+9. README - This file.

@@ -1,0 +1,171 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+# To Enable EIGRP Router following statement must be given.
+#
+# ROUTER <node-id> <as-id>
+#
+# Each router (that will run EIGRP) MUST be configured with all the
+# networks DIRECTLY attached to it. NETWORK statement is used to
+# configure a router with it's directly attached networks. If router
+# is connected with networks, whose ip addresses are ip1, ip2 and ip3,
+# then following NETWORK statement is used - and also each network
+# must be followed by its corresponding subnet mask address.
+#
+# NETWORK <ip1> <subnet-mask1>
+# NETWORK <ip2> <subnet-mask2>
+# NETWORK <ip3> <subnet-mask3>
+#
+# The configuration parameters described below are optional. If they
+# are not given default values are used.
+#
+# To enable/disable IP split horizon set the following configuration
+# parameter:
+# IP-SPLIT-HORIZON
+# or
+# NO-IP-SPLIT-HORIZON
+#
+# To enable/disable poison reverse set the following configuration
+# parameter:
+# EIGRP-POISON-REVERSE  ON | OFF.
+#
+# EIGRP Timers:
+# One can set EIGRP hello and hold timer values.These timer values
+# are interface specific. If this values are not set a default
+# value is assumed. An example setting is as below
+#
+# EIGRP-HOLD-TIME       1  5S
+# EIGRP-HELLO-INTERVAL  1 10S
+#
+# EIGRP Route filtering:
+# EIGRP route filtering can be done using DISTRIBUTE-LIST command.
+# Format of the command is as below:
+# DISTRIBUTE-LIST <ACL-list/number> <interface type (IN/OUT)>
+# DISRTIBUTE-LIST <interface type (IN/OUT)> <interface index>
+# Here <ACL-list/number> specifies an access list name/number that
+# suppose to exist in the router configuration file.
+#
+# Example1:
+# DISTRIBUTE-LIST EigrpFilter1 OUT
+# DISTRIBUTE-LIST EigrpFilter1 OUT 1
+#
+# Where "EigrpFilter1" is an Access List specification that suppose
+# to exist in router configuration file.
+#
+# Example2:
+# ROUTER  5 1
+# NETWORK 0.0.5.0   255.255.255.252
+# NETWORK 0.0.1.0   255.255.255.252
+# NETWORK 0.0.2.0   255.255.255.252
+# DISTRIBUTE-LIST Router5-ACL  OUT
+# DISTRIBUTE-LIST Router5-ACL  OUT 0
+# DISTRIBUTE-LIST Router5-ACL  OUT 1
+# Distribute list named "Router5-ACL" is specified at more
+# than one interfaces (interface 1 and 0)
+#
+# The IP-ROUTE command. The syntax of the command is as follows:
+# IP-ROUTE <prefix> <mask> <address>
+# where prefix is the address of the network you are
+# creating a route for, mask is the mask for this network,
+# and address is the IP address of the interface you are
+# routing the packets to. For all of the eigrp routers
+# except the exit router (the one connected to the core)
+# use the following command to create the default route.
+# ip route 0.0.0.0 0.0.0.0 156.156.15.1
+#
+# Example:
+# ROUTER  1 1
+# NETWORK 0.0.1.0    255.255.255.252
+# NETWORK 0.0.100.0  255.255.255.0
+# IP-ROUTE 0.0.0.0  0.0.0.0  0.0.1.1
+# This means router 1 has a default route thru the interface whose
+# IP address is 0.0.1.1.
+# One can also use it to specify a static route.
+#
+# IP-DEFAULT-NETWORK <network-address>
+# It is used to specify a default network address. The default
+# network will be used for default-candidate routing.
+#
+# Route summarization related commands:
+# There are two commands related to route summarization. They are
+# 1) NO-AUTO-SUMMARY and
+# 2) AUTO-SUMMARY
+# EIGRP by default summarizes route, so AUTO-SUMMARY is the default
+# value. To stop auto summarization at a particular node one can
+# give NO-AUTO-SUMMERY command.
+#
+# Example1
+# ROUTER  2 1
+# NETWORK 131.7.0.0   255.255.0.0
+# NETWORK 172.16.0.0  255.255.0.0
+# NO-AUTO-SUMMARY
+# This means router 2 has turned its auto summarization feature off.
+#
+# Example2
+# ROUTER  2 1
+# NETWORK 131.7.0.0   255.255.0.0
+# NETWORK 172.16.0.0  255.255.0.0
+# AUTO-SUMMARY
+# Sence by default EIGRP summarizes route "AUTO-SUMMARY" option is
+# redundent here.
+#
+# Example3
+# ROUTER  2 1
+# NETWORK 131.7.0.0   255.255.0.0
+# NETWORK 172.16.0.0  255.255.0.0
+# AUTO-SUMMARY
+# NO-AUTO-SUMMARY
+# In this type of configurations last option will work.
+#
+
+ROUTER  1 1
+NETWORK 0.0.1.0   255.255.255.252
+NETWORK 0.0.2.0   255.255.255.252
+NETWORK 0.0.3.0   255.255.255.252
+#NO-IP-SPLIT-HORIZON
+
+ROUTER  2 1
+NETWORK 0.0.1.0   255.255.255.252
+NETWORK 0.0.4.0   255.255.255.252
+#NO-IP-SPLIT-HORIZON
+
+ROUTER  3 1
+NETWORK 0.0.2.0   255.255.255.252
+NETWORK 0.0.5.0   255.255.255.252
+#NO-IP-SPLIT-HORIZON
+
+ROUTER  4 1
+NETWORK 0.0.3.0   255.255.255.252
+NETWORK 0.0.6.0   255.255.255.252
+#NO-IP-SPLIT-HORIZON
+
+ROUTER  5 1
+NETWORK 0.0.4.0   255.255.255.252
+NETWORK 0.0.5.0   255.255.255.252
+NETWORK 0.0.6.0   255.255.255.252
+NETWORK 0.0.7.0   255.255.255.252
+#NO-IP-SPLIT-HORIZON
+
+ROUTER  6 1
+NETWORK 0.0.7.0   255.255.255.252
+NETWORK 0.0.8.0   255.255.255.252
+#NO-IP-SPLIT-HORIZON
+
+ROUTER  7 1
+NETWORK 0.0.8.0   255.255.255.252
+#NO-IP-SPLIT-HORIZON

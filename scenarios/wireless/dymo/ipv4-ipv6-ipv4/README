@@ -1,0 +1,80 @@
+#Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+--------
+Test dual-ip (ipv4-ipv6-ipv4) behavior under DYMO routing protocol.
+
+
+
+SCENARIO:-
+---------
+
+-------- means a wireless link
+
+-------
+|     |
+|     | means a wireless subnet where the nodes are directly reachable
+|     |
+-------
+
+ Subnet-1              Subnet-2              Subnet-3
+-------------         -----------          -------------                                                                                
+|  1     2  |         | 6    7  |          | 10   11  |
+|           |         |         |          |          | 
+|  5        |----3----|         |-----8 ---|12    13  |
+|     4     |         |    9    |          |   14     |
+--------------        -----------          -------------
+N8-192.0.0.0           SLA-1               N8-192.0.2.0
+
+
+There are two applications between source node and destination node. Application 1, CBR is used to send 100 data packets of 512 bytes 
+from node 1 to node 12 and second Application,FTP/Generic is used to send 1000 items of 512 byte from node 12 to 1. Both applications 
+start time is 1S. Source node will continuously send the data packets to the target node till the end of simulation time is not reached.
+Subnet1 is IPV4, subnet2 is IPV6 and subnet 3 is again IPV4.
+Node 3 and Node 8 are dualip nodes. IPV6 tunnel is used to send data packet of IPV4 network in both directions.
+Node 1 (Source node) has no route for the target node 12 so it generate RREQ Routing Message and broadcast it with the TTL value of 1. 
+This RREQ message is dropped at the intermediate node 2,5,4 and 3 because TTL value is zero after preprocessing of routing message.
+Source node will again retried RREQ message with the TTL value of 3. Now, after processing RREQ message, intermediate node 2,5,4and 3 
+will forward this RREQ message to its neighboring nodes with TTL value 2. At node 3, which is dual IP node use tunnel to forward the 
+control packets with TTL value 2. When the source node and the other nodes receive the same RREQ message again this RREQ message is count as duplicate
+RREQ so it is discarded. Nodes 6, 7, 9 and 8 will forward this RREQ message with TTL value 1.Now, the target node 12 will receive this RREQ
+message and generating RREP routing message which in unicasted toward next hop which in node 8 dual IP node. After travelling,hop by hop 
+distance when source node 1 receives this RREP routing message through dual IP node 3 then route is established between source and the 
+target node.
+
+
+Note :- In this scenario MOBILITY of nodes is NONE. 
+----
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet ipv4-ipv6-ipv4.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. ipv4-ipv6-ipv4.app -  QualNet configuration file for application input.
+2. ipv4-ipv6-ipv4.config - QualNet configuration input file.
+3. ipv4-ipv6-ipv4.expected.stat - QualNet statistics collection.
+4. ipv4-ipv6-ipv4.nodes - QualNet node position file.
+5. ipv4-ipv6-ipv4.tunnel- Qualnet tunnel file for dual ip nodes.
+6. ipv4-ipv6-ipv4.routes-default- Qualnet default route file.
+7. README - This file.
+
+

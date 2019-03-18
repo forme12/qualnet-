@@ -1,0 +1,76 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+#
+# ***** QualNet Tunnel Configuration File *****
+#
+#
+# A tunnel can be specified by the following way
+#
+# <node-id> <tunnel-type> <tunnel-id>
+# <tunnel-start-address> <[optional-address for tunnel start]>
+# <tunnel-end-address> <[INHERIT-FROM <inherited-interface-index>]>
+# <[BANDWIDTH <tunnel-bandwidth>]> <[PROPOGATION-DELAY <propagation-delay>]>
+#
+# where
+#      <node-id>              is the node on which tunnel is to be configured
+#      <tunnel-type>          can either be v4-tunnel or v6-tunnel
+#      <tunnel-id>            is an integer to uniquely specify a tunnel for
+#                             a node.However this is not of any significance
+#                             and is kept only for backward compatibility.
+#      <tunnel-start-address> specifies the address of the interface at which
+#                             the tunnel is configured.
+#      <[optional-address for tunnel start]> provides an option to specify
+#                             IPv4 address for the v6-tunnel connected
+#                             interface (pseudo interface) and IPv6 address
+#                             for the v4-tunnel connected interface
+#                             (pseudo interface) of the Dual-Ip enabled node
+#      <tunnel-end-address>   specifies the address of the interface of the
+#                             node located  at the other end of the tunnel
+#      <[INHERIT-FROM <inherited-interface-index>]> provides an option to
+#                             specify the interface index from which the
+#                             tunneling interface (pseudo interface) will
+#                             inherit the unicast/multicasts routing protocols
+#      <[BANDWIDTH <tunnel-bandwidth>]> provides an option to specify the
+#                             maximum bandwidth of the tunnel, though its not
+#                             used currently and is for future use only
+#      <[PROPOGATION-DELAY <propagation-delay>]> provides an option to specify
+#                             the propagation delay of the tunnel, though its
+#                             not used currently and is for future use only.
+
+
+#
+# Note: Tunnels are implemented as pseudo interfaces
+# The type of the pseudo interface will be IPv4 for v6-tunnel and
+# IPv6 for v4-tunnel.To enable the routing across the tunnel user can
+# specify the interface index from which the pseudo interface will inherit the
+# routing protocols otherwise the pseudo interface will inherit the same from the
+# lowest eligible interface.
+# The pseudo interface will use the ip-address of the interface from which it is
+# inheriting the routing protocols however user can specify a separate ip-address
+# for the pseudo interface.
+# For static route configuration, user can specify these optional-addresses
+# as next hop.
+
+# IPv4 Bi-directional Tunnel specification:
+
+2    v4-tunnel    1    192.168.1.1    192.168.2.2
+5    v4-tunnel    1    192.168.2.2    192.168.1.1
+
+# IPv6 Bi-directional Tunnel specification:
+
+2    v6-tunnel    1    2000::1  [240.0.1.1]   2001::2
+6    v6-tunnel    1    2001::2  [240.0.1.2]   2000::1

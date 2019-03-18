@@ -1,0 +1,42 @@
+PURPOSE:-
+--------
+This scenario verifies that QOSPF is able to check whether bandwidth and
+end-to-end delay can be satisfied by providing a path for a session. It
+shows that QOSPF can predict the propagation delay that will be suffered
+by the session. But the protocol cannot predict the queue delays that will
+be suffered during transmission.
+
+SCENARIO:-
+---------
+A CBR session starts between two intermediate nodes of a path through which
+the TRAFFIC-GEN session transmits. So while the request for QoS was
+previously satisfied, traffic delays will begin to exceed the required bounds.
+
+               (1)
+                |
+                |
+                |
+               (2)
+               / \
+             /     \
+           /         \
+         (3)---------(4)
+
+APPLICATION:-
+------------
+TRAFFIC-GEN 1 4 DET 100 DET 900 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 150000 40MS 1
+CBR 2 4 0 1248 .0003S 2M 5M
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet end-to-end-delay.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. end-to-end-delay.app -  QualNet application input file.
+2. end-to-end-delay.config - QualNet configuration input file.
+3. end-to-end-delay.expected.stat - QualNet statistics collection for QOSPF.
+4. README - This file.
+

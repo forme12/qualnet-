@@ -1,0 +1,49 @@
+PURPOSE:-
+--------
+To show the operation of PIM-SM protocol in a tree topology network where some receivers 
+join in middle of the simulation across multi-access LAN segment.
+
+
+
+SCENARIO:-
+---------
+In this scenario, there is one MCBR session, with node 1 being the multicast
+source, 5 RP, and nodes 4, 9 and 10 being multicast receiver.  Nodes 3, 6, 7 and 8 are the IGMP routers.
+The link capacity is 10Mbps for all links.
+
+
+                       |
+      R 4--3       6---|
+           |      /    |---8---|
+           |     /     |       |---10 R
+      |----2----5      |
+  1 --|        RP\     |
+  S               \    |---9 R
+                   7---|
+                       |
+
+
+MCBR is used to transfer 240 data segments of 512B each at 5 second intervals
+starting at 6 minutes into the simulation.
+
+Receivers 9 join at 15 minute, and 10 join at 20 minutes into the simulation.
+Receiver 4 joins at 5M and remains joined for rest of the simulation duration.
+
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet multiaccessLAN-join-sm.config'.
+
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. multiaccessLAN-join-sm.app -  QualNet application configuration input file
+2. multiaccessLAN-join-sm.config - QualNet configuration input file.
+3. multiaccessLAN-join-sm.member - Multicast group specification file
+4. multiaccessLAN-join-sm.expected.stat - QualNet statistics collection for MCBR and PIM-SM.
+5. README - This file.
+

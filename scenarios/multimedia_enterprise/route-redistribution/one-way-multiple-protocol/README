@@ -1,0 +1,62 @@
+PURPOSE:-
+--------
+To verify one-way redistribution between routing
+protocols - RIPv2, IGRP & OSPFv2. The redistribution
+is configured to redistribute IGRP & OSPFv2 routes into RIPv2.
+
+
+SCENARIO:-
+---------
+
+
+            192.168.1.0
+
+             (1)   (2)
+              |     |
+           |  |     |  |
+           |--+--+--+--|
+           |     |     |      IGRP
+                (3)
+                 |
+                 |  192.168.2.0
+                 |
+................(4)..............................
+                 |.\ 192.168.5.0
+                 | .\             -+-
+                 |  .\             |
+ 192.168.3.0     |   .\            |
+                 |    .(9)---------+--(10)   OSPFv2
+    RIPv2        |     .           |
+                (5)     .          +--(11)
+                 |       .         |
+           |--+--+--+--|  .        |
+              |     |      .      -+-
+              |     |       .
+             (6)   (7)       .
+                              . 192.168.6.0
+            192.168.4.0        .
+
+
+
+CBR is used to send data segments from
+Node-2 to Node-6,
+Node-6 to Node-1,
+Node-7 to Node-11,
+Node-11 to Node-1,
+Node-10 to Node-6,
+
+
+RUN:-
+----
+Type '<QUALNET_HOME>/bin/qualnet default.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. default.igrp - QualNet IGRP configuration file.
+5. default.router-config - QualNet router configuration file.
+6. default.routes-default - QualNet default route configuration file.
+7. README - This file.

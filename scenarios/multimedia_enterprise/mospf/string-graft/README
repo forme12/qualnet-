@@ -1,0 +1,40 @@
+PURPOSE:
+-------
+To show the graft operation of MOSPF in a string topology network.
+The multicast receiver will receive most, but not all, the data sent since
+the receiver leaves the group in-between the joins (causing prunes and grafts).
+
+
+
+SCENARIO:
+---------
+In this scenario, there is one MCBR session, with node 1 being the multicast
+source and node 5 being the multicast receiver.  Node 5 joins the group
+1 minute into the simulation and leaves at 13 minutes into the simulation.
+The receiver then rejoins the group 17 minutes into the simulation.
+Node 4 is the IGMP router.
+The link capacity is 10 Mbps for all links.
+
+
+1 ------- 2 ------- 3 ------- 4 ------- 5
+
+
+MCBR is used to transfer 240 data segments of 1000B each at 5 second intervals
+starting at 10 minutes into the simulation.
+
+
+
+RUN:
+-------
+
+Run '<QUALNET_HOME>/bin/qualnet string-graft.config'.
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+1. string-graft.app -  specifies the application being used.
+2. string-graft.config - the QualNet configuration input file.
+3. string-graft.member - specifies the multicast group.
+4. string-graft.stat - QualNet statistics collection for MCBR and MOSPF.
+5. README - this file.
+

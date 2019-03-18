@@ -1,0 +1,64 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+# CONFIGURATION FOR ACCESS LIST
+# -----------------------------------
+#
+# ROUTER <node-id>
+#  Node-id of node where access list is defined. 
+# 
+# INTERFACE <interface-index>
+#  Interface index of node where ACL is to be configured.
+#
+# Rest all configurations for ACL and reflex ACL follow the 
+#  CISCO format. For detailed configuration proposals, refer to the Access 
+#  List design document.
+# 
+# NB:- Access list is applied to that interface which is defined by last
+#  INTERFACE keyword in the current config file.
+# 
+# Inputs in this file are case insensitive.
+# 
+# Possible options for protocol, TCP, UDP, IP, IGMP, ICMP
+#
+# Possible options for port Operator  GT, LT, EQ, NEQ
+#
+# Possible options for address ANY, HOST <ip address>, 
+#                  <ip address, wildcard mask> with their usual meaning
+#                  <operator, port number> field is optional
+#
+#
+
+
+
+NODE-IDENTIFIER 5
+
+INTERFACE 1
+
+ip access-list extended  outboundfilters
+        permit tcp any any reflect tcptraffic
+
+ip access-list extended inboundfilters
+        deny icmp any any       
+        evaluate tcptraffic
+        deny ip any any
+        
+
+ip access-group inboundfilters in
+ip access-group outboundfilters out
+
+

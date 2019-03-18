@@ -1,0 +1,60 @@
+PURPOSE:-
+
+To configure and test the functionality of GVRP.
+
+
+SCENARIO:-
+
+The 'ring of 8' scenario illustrates the operations of GVRP
+in parallel with STP. GVRP propagation waits till STP has
+stabilized and ports have moved to forwarding state.
+
+In particular, it illustrate how GVRP eases the error-prone
+configuration of member sets of large switched networks. Here,
+it suffices to configure the port VLAN IDs of the port connected
+to the access links, e.g. Switch 1 needs only have one port
+set to a PVID of 2.
+
+
+       10              20              30              40
+        |               |               |               |
+        | 2 access      | 3 access      | 4 access      | 5 access
+        |               |               |               |
+   +--------+      +--------+      +--------+      +--------+
+   |        |      |        |      |        |      |        |
+   |  Sw 1  |------|  Sw 2  |------|  Sw 3  |------|  Sw 4  |
+   |        |      |        |      |        |      |        |
+   +--------+      +--------+      +--------+      +--------+
+        |                                               |
+        |                                               |
+        |                                               |
+        |                                               |
+   +--------+      +--------+      +--------+      +--------+
+   |        |      |        |      |        |      |        |
+   |  Sw 8  |------|  Sw 7  |------|  Sw 6  |------|  Sw 5  |
+   |        |      |        |      |        |      |        |
+   +--------+      +--------+      +--------+      +--------+
+        |               |               |               |
+        | 5 access      | 4 access      | 3 access      | 2 access
+        |               |               |               |
+       80              70              60              50
+
+
+
+Generic FTP exchange between 
+ 10,50 starting 60S
+ 40,80 starting 70S
+
+
+
+RUN:-
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. README - This file.

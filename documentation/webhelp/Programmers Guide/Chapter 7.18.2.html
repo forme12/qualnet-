@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Implementation of the Dynamic API</title>
+    <link rel="StyleSheet" href="css/Chapter%207.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%207.18.1.html#939503">7	Dynamic API</a> &gt; 7.1  Implementation of the Dynamic API</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">7.1  <a name="939503">Implementation of the Dynamic API</a></div>
+      <div class="BodyAfterHead"><a name="940122">This section describes the implementation of the dynamic API in </a><span class="Variable">QualNet</span>.</div>
+      <div class="Heading2Numbered">7.1.1  <a name="939019">Dynamic Objects</a></div>
+      <div class="BodyAfterHead"><a name="939021">The dynamic API uses the object oriented features of C++. The dynamic API is implemented by means of dynamic objects which are derived from the base class </a><span style="font-family: &quot;Courier New&quot;">D_Object</span>. The <span style="font-family: &quot;Courier New&quot;">D_Object</span> class is defined in <span class="Variable">QUALNET_HOME</span>/include/dynamic.h and has the following characteristics:</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="939023">Type: Variable, statistic or command</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="939024">Level: The object’s location in the hierarchy (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.2.html#940207', '');" title="Implementation of the Dynamic API">Section&nbsp;7.1.3</a></span>)</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="939025">Permissions: Readable, writable, executable</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="939026">Listeners: If listening is enabled (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.2.html#939029', '');" title="Implementation of the Dynamic API">Section&nbsp;7.1.4</a></span>), an array of all listeners attached to this object</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="939027">Action functions: Functions to read a variable’s value, modify a variable’s value, or execute a command. Not all data types implement all action functions.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">7.1.2  <a name="940349">Built-in Dynamic Objects</a></div>
+      <div class="BodyAfterHead"><a name="940350">The following dynamic objects are pre-defined in </a><span class="Variable">QualNet</span>. These objects are defined in <span class="Variable">QUALNET_HOME</span>/include/dynamic_vars.h.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940351">D_Int32</a></span>: A 4-byte integer</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940352">D_UInt32</a></span>: A 4-byte unsigned integer</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940353">D_Int64</a></span>: An 8-byte signed integer</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940354">D_Float32</a></span>: A-4 byte floating point number</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940355">D_Float64</a></span>: An 8-byte floating point number</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940356">D_NodeAddress</a></span>: A node address or node identifier</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940357">D_String</a></span>: A string</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940358">D_Clocktype</a></span>: A clocktype, 8-byte integer</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">7.1.3  <a name="940207">Hierarchy of Objects</a></div>
+      <div class="BodyAfterHead"><a name="940208">The dynamic objects are organized in a hierarchy structure. This hierarchy structure is similar to the directory structure used by a computer’s operating system. All dynamic objects are organized in the hierarchy based on levels which form a path. For instance, the dynamic object corresponding to the AODV variable </a><span style="font-family: &quot;Courier New&quot;">numRequestsInitiated</span> for node 129 and interface address 192.168.0.129 is located at the following path: <span style="font-family: &quot;Courier New&quot;">/node/129/interface/192.168.0.129/aodv/numRequestsInitiated</span>.</div>
+      <div class="Body"><a name="940621">The hierarchy is implemented using the </a><span style="font-family: &quot;Courier New&quot;">D_Hierarchy</span> class defined in <span class="Variable">QUALNET_HOME</span>/include/dynamic.h.</div>
+      <div class="Heading2Numbered">7.1.4  <a name="939029">Listening</a></div>
+      <div class="BodyAfterHead"><a name="939031">A dynamic object may have one or more listeners attached to it. A listener is a function that is automatically notified when the value of the data component of the dynamic object (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.2.html#939046', '');" title="Implementation of the Dynamic API">Section&nbsp;7.1.5</a></span>) changes. The listener can implement a filter for the updates, thereby determining the thresholds for notification.</div>
+      <div class="Body" style="margin-left: 55.8pt; text-indent: -28.799999999999997pt"><span style="font-weight: bold"><a name="939033">Note: </a></span>By default, listening is enabled for all variables. Listening can be disabled upon customer request, but this would require a customized distribution of <span class="Variable">QualNet</span>.</div>
+      <div class="Heading2Numbered">7.1.5  <a name="939046">Data Component of a Dynamic Object</a></div>
+      <div class="BodyAfterHead"><a name="939048">Some dynamic objects, such as variables and statistics, have a data component. The data component of an object and the dynamic object are internally treated as two separate entities. The data component is contained within the protocol’s data structure. For example, the AODV variable </a><span style="font-family: &quot;Courier New&quot;">numRequestsInitiated</span>, discussed in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.2.html#940207', '');" title="Implementation of the Dynamic API">Section&nbsp;7.1.3</a></span>, would have a data component that is an integer. This integer contains the value of the dynamic variable and is part of the AODV data structure. The object (including the path <span style="font-family: &quot;Courier New&quot;">/node/129/interface/192.168.0.129</span>) is part of the dynamic hierarchy.</div>
+      <div class="Body"><a name="951081">If listening is disabled the data component is a simple variable. For example, if listening is disabled, the built-in dynamic data type </a><span style="font-family: &quot;Courier New&quot;">D_Int32</span> is equivalent to an <span style="font-family: &quot;Courier New&quot;">Int32</span>. The dynamic data type <span style="font-family: &quot;Courier New&quot;">D_Int32</span> is defined in <span class="Variable">QUALNET_HOME</span>/include/dynamic_vars.h. If listening is enabled the data component is a class wrapper for the simple variable. The class wrapper signals the dynamic API when the variable’s value is modified. The dynamic object is located in the hierarchy (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.2.html#940207', '');" title="Implementation of the Dynamic API">Section&nbsp;7.1.3</a></span>) and contains a pointer to the data component.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.2.html#939869', '');" title="Implementation of the Dynamic API" name="939052">Figure&nbsp;7-2</a></span> illustrates the relationship between a dynamic object and its data component. The CBR protocol has a dynamically enabled variable <span style="font-family: &quot;Courier New&quot;">interval</span> of type <span style="font-family: &quot;Courier New&quot;">D_Clocktype</span>. This variable is identified with an un-named dynamic object of type <span style="font-family: &quot;Courier New&quot;">D_ClocktypeObj</span>. The <span style="font-family: &quot;Courier New&quot;">D_ClockTypeObj</span> object acts as an intermediary between the <span style="font-family: &quot;Courier New&quot;">clocktype</span> data and the dynamic API hierarchy. The <span style="font-family: &quot;Courier New&quot;">D_ClocktypeObj</span> is added to the hierarchy at the appropriate position, in this case under <span style="font-family: &quot;Courier New&quot;">…/cbr/1024/interval</span>. The <span style="font-family: &quot;Courier New&quot;">1024</span> level indicates that the CBR source port is 1024.</div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 12.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 7.0pt; margin-top: 14.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 12.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="942340"><img class="Default" src="images/Chapter%207.18.2.1.jpg" width="592" height="352" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></span></div>
+      <div class="Figure">FIGURE 7-2.&nbsp;&nbsp;<a name="939869">Data Components and Hierarchy of Objects</a></div>
+      <div class="Heading2Numbered">7.1.6  <a name="940376">Dynamic Commands</a></div>
+      <div class="BodyAfterHead"><a name="940377">Dynamic commands are similar in implementation to dynamic data types except that a dynamic command does not have a built-in data component. For this reason it is useful to define member variables within the command.</a></div>
+      <div class="Body"><a name="940378">Dynamic commands are derived from the base class </a><span style="font-family: &quot;Courier New&quot;">D_Command</span>, which is defined in <span class="Variable">QUALNET_HOME</span>/include/dynamic.h. As an example, <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.2.html#940391', '');" title="Implementation of the Dynamic API">Figure&nbsp;7-3</a></span> shows the declaration of the dynamic command object <span style="font-family: &quot;Courier New&quot;">D_QshChangeModeCommand</span> in the qsh addon file <span class="Variable">QUALNET_HOME</span>/interfaces/qsh/src/qsh_interface.h. This command is used for changing qsh’s execution mode between real-time, time-managed, and none. </div>
+      <div class="Body"><a name="940559">The </a><span style="font-family: &quot;Courier New&quot;">D_QshChangeModeCommand</span> object records which interface it belongs to in the variable <span style="font-family: &quot;Courier New&quot;">iface</span> and sets the interface using the constructor. The function ExecuteAsString is the action function for this object. Function ExecuteAsString, shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.2.html#940547', '');" title="Implementation of the Dynamic API">Figure&nbsp;7-4</a></span>, reads the incoming parameters passed as the input parameter <span style="font-family: &quot;Courier New&quot;">in</span>, changes qsh’s execution mode, and sends back results in the output parameter <span style="font-family: &quot;Courier New&quot;">out</span>. Function ExecuteAsString of the object <span style="font-family: &quot;Courier New&quot;">D_QshChangeModeCommand</span> is implemented in <span class="Variable">QUALNET_HOME</span>/interfaces/qsh/src/qsh_interface.cpp.</div>
+      <div class="Code_Segment"><a name="940379">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940420">class D_QshChangeModeCommand : public D_Command</a></div>
+      <div class="Code_Segment"><a name="940421">{</a></div>
+      <div class="Code_Segment"><a name="940422">    private:</a></div>
+      <div class="Code_Segment"><a name="940423">        EXTERNAL_Interface* iface;</a></div>
+      <div class="Code_Segment"><a name="940424">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940425">    public:</a></div>
+      <div class="Code_Segment"><a name="940426">        D_QshChangeModeCommand(EXTERNAL_Interface* newIface)</a></div>
+      <div class="Code_Segment"><a name="940427">        {</a></div>
+      <div class="Code_Segment"><a name="940428">            iface = newIface;</a></div>
+      <div class="Code_Segment"><a name="940429">        }</a></div>
+      <div class="Code_Segment"><a name="940430">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940431">        virtual void ExecuteAsString(const std::string&amp; in, std::string&amp; out);</a></div>
+      <div class="Code_Segment"><a name="940418">};</a></div>
+      <div class="Figure">FIGURE 7-3.&nbsp;&nbsp;<a name="940391">Example Dynamic Command</a></div>
+      <div class="Code_Segment"><a name="940465">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940558">void D_QshChangeModeCommand::ExecuteAsString(</a></div>
+      <div class="Code_Segment"><a name="940466">    const std::string&amp; in,</a></div>
+      <div class="Code_Segment"><a name="940467">    std::string&amp; out)</a></div>
+      <div class="Code_Segment"><a name="940468">{</a></div>
+      <div class="Code_Segment"><a name="940469">    QshData* data = (QshData*) iface-&gt;data;</a></div>
+      <div class="Code_Segment"><a name="940470">    D_Hierarchy* h = &amp;iface-&gt;partition-&gt;dynamicHierarchy;</a></div>
+      <div class="Code_Segment"><a name="940463">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="942957">    if (in == "real-time")</a></div>
+      <div class="Code_Segment"><a name="940486">    {</a></div>
+      <div class="Code_Segment"><a name="940487">        ...</a></div>
+      <div class="Code_Segment"><a name="940501">    }</a></div>
+      <div class="Code_Segment"><a name="940502">    else if (in == "time-managed")</a></div>
+      <div class="Code_Segment"><a name="940483">    {</a></div>
+      <div class="Code_Segment"><a name="940513">       ...</a></div>
+      <div class="Code_Segment"><a name="940519">    }</a></div>
+      <div class="Code_Segment"><a name="940522">    else if (in == "none")</a></div>
+      <div class="Code_Segment"><a name="940523">    {</a></div>
+      <div class="Code_Segment"><a name="940524">        ...</a></div>
+      <div class="Code_Segment"><a name="940532">    else</a></div>
+      <div class="Code_Segment"><a name="940533">    {</a></div>
+      <div class="Code_Segment"><a name="940534">        out = std::string("FAILURE -- Unknown mode \") + in +</a></div>
+      <div class="Code_Segment"><a name="942992">               ”\” (must be \"real-time\", \"time-managed\" or \"none\")");</a></div>
+      <div class="Code_Segment"><a name="940535">    }</a></div>
+      <div class="Code_Segment"><a name="940520">}</a></div>
+      <div class="Figure">FIGURE 7-4.&nbsp;&nbsp;<a name="940547">Action Function of a Dynamic Command</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

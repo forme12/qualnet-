@@ -1,0 +1,94 @@
+#Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+
+PURPOSE:
+--------
+
+To verify the operation of ARP timeout and ARP retries.
+
+
+
+TOPOLOGY CONVENTIONS:
+--------------------
+
+--------- means a wireless link.
+
+-----------
+|        |
+|        |    means a wireless subnet.
+|        |
+----------
+
+_________ means a static route.
+
+   
+
+TOPOLOGY:
+---------
+
+-----------
+ |   1   |
+ | 2   3 |
+ |   4   |
+----------
+
+
+
+KEY CONFIGURATION:
+------------------
+
+MAC-PROTOCOL    802.11
+ARP-ENABLED YES
+
+
+
+Application:
+------------
+
+CBR application is configured between node 1, node 2 and node 4, node 3.
+
+
+
+DESCRIPTION:
+------------
+
+This scenario is used to verify ARP timeout and ARP retry functionality.
+ARP timeout is manually configured to 10M and an interface fault is introduced at node 2 starting from 10M. Any attempt to resolve the 
+MAC address of node 2 between 10 and 20M will lead to ARP retries as node 2 is down.
+
+
+
+RUN:
+----
+
+Type '<QUALNET_HOME>/bin/qualnet wireless_Arp_timeout_retry.config'.
+
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+
+1. wireless_Arp_timeout_retry.app -  QualNet configuration file for application input.
+2. wireless_Arp_timeout_retry.config - QualNet configuration input file.
+3. wireless_Arp_timeout_retry.expected.stat - QualNet statistics collection
+4. wireless_Arp_timeout_retry.fault - Qualnet configuration file for faults.
+5. wireless_Arp_timeout_retry.nodes - QualNet node position file.
+6. wireless_Arp_timeout_retry.routes-default - Qualnet default route file.
+7. wireless_Arp_timeout_retry.routes-static - Qualnet static route file.
+8. README - this file.

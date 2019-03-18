@@ -1,0 +1,63 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+/* With PASSIVE CLUSTERING enabled  */
+
+PURPOSE:
+-------
+Passive clustering form stable cluster. It uses first declaration win rule.
+This means that a node which first declare itself as Cluster Head cannot
+be overwritten by another node.
+
+(Requires PASSIVE_CLUSTERING to be enabled.)
+
+
+SCENARIO:
+---------
+
+            2                       5
+            |                       |
+            1  -->                  4
+                                    |
+                                    3
+
+     Here, node 1 is sending data to multicast group in which the member is
+     only node 2. Similarly, node 5 is sending data to node 3.
+     Node 1 is moving towards node 4 (shown by arrow).
+
+
+APPLICATIONS:-
+------------
+
+MCBR 1 225.0.0.0 5 512 1S 0S 30S
+MCBR 5 225.0.0.1 10 512 1S 0S 30S
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet pc.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. pc.app -  QualNet configuration file for application input.
+2. pc.config - QualNet configuration input file.
+3. pc.expected.stat - QualNet statistics collection.
+4. pc.member  - Group Member File
+5. pc.node  - QualNet Node Placement file
+6. pc.mobility  - QualNet mobility file
+7. pc.routes-default- QualNet default route file
+8. README - This file.

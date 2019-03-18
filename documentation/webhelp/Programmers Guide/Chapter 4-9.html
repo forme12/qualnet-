@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Adding Trace Collection</title>
+    <link rel="StyleSheet" href="css/Chapter%204-9.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%204-1.05.1.html#975545">4	Developing Protocol Models in QualNet</a> &gt; 4.9  Adding Trace Collection</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">4.9  <a name="975545">Adding Trace Collection</a></div>
+      <div class="BodyAfterHead"><span class="Variable"><a name="975549">QualNet</a></span> provides tracing capabilities which enable a user to trace a packet as it traverses the protocol stack at each node in the network that the packet visits. The packet trace lists information such as the node identifier, the layer in the stack and the protocol, among other things. This section describes how to add tracing capability for a custom-built protocol. </div>
+      <div class="Body"><a name="935454">The following list summarizes the actions that need to be performed to add tracing capability to a user-developed protocol, MYPROTOCOL. Each of these steps is described in detail in subsequent sections.</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="935458">Add the protocol to the list of traceable protocols (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#941911', '');" title="Adding Trace Collection">Section&nbsp;4.9.2</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="936060">In the initialization function of the protocol enable or disable tracing for the protocol, as specified in the configuration file (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#920932', '');" title="Adding Trace Collection">Section&nbsp;4.9.3</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="935503">Write a function to print the new protocol’s header (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#936071', '');" title="Adding Trace Collection">Section&nbsp;4.9.4</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="935510">Make calls to the trace function TRACE_PrintTrace at appropriate places in the code to trace a packet (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#936652', '');" title="Adding Trace Collection">Section&nbsp;4.9.5</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">4.9.1  <a name="935536">Trace File Format</a></div>
+      <div class="BodyAfterHead"><a name="941915">This section describes the format of the trace file produced by Simulator. The trace file contains a header which describes parameters for the experiment, a protocol map which gives a mapping between the protocols being traced and their integer identifiers, and one or more records, where each record corresponds to a single packet trace. </a></div>
+      <div class="BodyAfterHead"><a name="941966">The format of a trace file is informally described below. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#942928', '');" title="Adding Trace Collection">Figure&nbsp;4-203</a></span> shows an example of a trace file generated by Simulator. The XML definition file shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#943935', '');" title="Adding Trace Collection">Figure&nbsp;4-204</a></span> describes the format of a trace file more formally.</div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="941924">&nbsp;</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="942987">&lt;trace-file&gt;</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="971250">&lt;head&gt;</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="971251">&lt;version&gt;  </a><span class="Variable" style="font-family: Arial; font-style: italic">QualNet</span><span style="font-family: Arial; font-style: italic">_Version</span> &lt;/version&gt;</div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="971252">&lt;scenario&gt; </a><span style="font-family: Arial; font-style: italic">Scenario_Name</span> &lt;/scenario&gt;</div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="941928">&lt;comments&gt; </a><span style="font-family: Arial; font-style: italic">Comments</span> &lt;/comments&gt;</div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="941929">&lt;/head&gt;</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="941930">&lt;body&gt;</a></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; margin-left: 36pt; text-indent: -0.750239999999998pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="941931">Protocol_Map</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; margin-left: 36pt; text-indent: -0.750239999999998pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="942019">Records</a></span></div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="942026">&lt;/body&gt;</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="942024">&lt;/trace_file&gt;</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 36pt; text-indent: -0.750239999999998pt"><a name="942363">&nbsp;</a></div>
+      <div class="BodyAfterHead"><a name="951406">The different elements used in the above format definition are described below.</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span class="Variable" style="font-style: italic"><a name="951407">QualNet</a></span><span style="font-style: italic">_Version</span>: String indicating the version of <span class="Variable">QualNet</span>, e.g., “<span class="Variable">QualNet</span> <span class="Variable">6.1</span>”</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-style: italic"><a name="951408">Scenario_Name</a></span>: String indicating the name of the scenario, e.g., “<span style="font-family: &quot;Courier New&quot;">trace-tcp</span>”</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-style: italic"><a name="942093">Comments</a></span>: String containing any user or system comments</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-style: italic"><a name="942098">Protocol_Map</a></span>: One or more occurrences of </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="942052">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="942110">&lt;protocol_map&gt; </a><span style="font-family: Arial; font-style: italic">Protocol_Id Protocol_Name</span> &lt;/protocol_map&gt;</div>
+      <div class="BulletedCont"><a name="942120">where</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 117.00072pt; margin-top: 3.0pt"><a name="942799">	</a><span style="font-style: italic">Protocol_Id	</span>: Integer identifier used for the protocol <span style="font-style: italic">Protocol_Name </span>in the trace. This is the same as the protocol’s integer value in the enumeration <span style="font-family: &quot;Courier New&quot;">TraceProtocolType</span> in <span class="Variable">QUALNET_HOME</span>/include/trace.h.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-top: 3.0pt"><a name="942147">	</a><span style="font-style: italic">Protocol_Name</span>	: Name of the protocol being traced</div>
+      <div class="Anchor"><a name="943638">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="943852">The following are examples of </a><span style="font-style: italic">Protocol_Map</span>:</div>
+      <div class="Code_Segment_Large"><a name="943810">&lt;protocol_map&gt;3 IPv4&lt;/protocol_map&gt;</a></div>
+      <div class="Code_Segment_Large"><a name="943659">&lt;protocol_map&gt;1 TCP&lt;/protocol_map&gt;</a></div>
+      <div class="Anchor"><a name="980335">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-style: italic"><a name="942165">Records</a></span>: One or more occurrences of </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="941941">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="942185">&lt;rec&gt;</a></div>
+      <div class="Code_Segment_Large"><a name="942177">&lt;rechdr&gt; </a><span style="font-family: Arial; font-style: italic">Record_Header</span> &lt;/rechdr&gt;</div>
+      <div class="Code_Segment_Large"><a name="942178">&lt;recbody&gt;</a></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="942179">Record_Body</a></span></div>
+      <div class="Code_Segment_Large"><a name="942180">&lt;/recbody&gt;</a></div>
+      <div class="Code_Segment_Large"><a name="942181">&lt;/rec&gt;</a></div>
+      <div class="Code_Segment_Large"><a name="950718">&nbsp;</a></div>
+      <div class="BulletedCont"><span style="font-style: italic"><a name="943302">Record_Header</a></span> and <span style="font-style: italic">Record_Body</span> are defined below.</div>
+      <div class="Anchor"><a name="950719">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-style: italic"><a name="942193">Record_Header</a></span>: Record header, which has the following format</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="942206">&nbsp;</a></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; margin-left: 72pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="942207">Originating_Node_Id Message_Seq_No Simulation_Time Originating_Protocol_Id Processing_Node_Id Tracing_Protocol_Id Action_Description</a></span></div>
+      <div class="Anchor"><a name="980345">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="943331">where</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.75048pt; margin-top: 3.0pt"><a name="943332">	</a><span style="font-style: italic">Originating_Node_Id	</span>: Identifier of the node where the packet originated</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.75048pt; margin-top: 3.0pt"><a name="943333">	</a><span style="font-style: italic">Message_Seq_No	</span>: Sequence number of the message</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.75048pt; margin-top: 3.0pt"><a name="942252">	</a><span style="font-style: italic">Simulation_Time</span>	: Current simulation time in seconds</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.75048pt; margin-top: 3.0pt"><a name="942257">	</a><span style="font-style: italic">Originating_Protocol_Id	</span>: Identifier of the protocol that created the packet, i.e., the integer value of the protocol in the enumeration <span style="font-family: &quot;Courier New&quot;">TraceProtocolType</span> in trace.h</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.75048pt; margin-top: 3.0pt"><a name="942262">	</a><span style="font-style: italic">Processing_Node_Id	</span>: Identifier of the current node, i.e., the node printing this record</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.75048pt; margin-top: 3.0pt"><a name="943592">	</a><span style="font-style: italic">Tracing_Protocol_Id	</span>: Identifier of the protocol that is generating this trace record</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 147.75048pt; margin-top: 3.0pt"><a name="942249">	</a><span style="font-style: italic">Action_Description	</span>: Description of the packet action that triggered the trace. This is described in detail below.</div>
+      <div class="Anchor"><a name="943792">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="943856">The following are examples of </a><span style="font-style: italic">Record_Header</span>:</div>
+      <div class="Code_Segment_Large"><a name="943793">3 0 0.033584881 7 3 2 &lt;action&gt; 1 0&lt;/action&gt;</a></div>
+      <div class="Code_Segment_Large"><a name="943794">3 0 0.033584881 7 3 3 &lt;action&gt; 4 &lt;queue&gt; 0 192&lt;/queue&gt;&lt;/action&gt;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-style: italic"><a name="942332">Action_Description</a></span>: Description of the action that triggered the trace. It has the following format:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="942385">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="942487">&lt;action&gt; </a><span style="font-family: Arial; font-style: italic">Action</span> &lt;/action&gt;</div>
+      <div class="Anchor"><a name="950723">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="942400">where </a><span style="font-style: italic">Action</span> is one of the following:</div>
+      <div class="BulletedLevel2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="BulletedLevel2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="BulletSymbol2">- </span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="BulletedLevel2_inner"><a name="942417">Send_Action Comment</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedLevel2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="BulletedLevel2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="BulletSymbol2">- </span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="BulletedLevel2_inner"><a name="942436">Receive_Action Comment</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedLevel2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="BulletedLevel2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="BulletSymbol2">- </span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="BulletedLevel2_inner"><a name="942437">Drop_Action Comment</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedLevel2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="BulletedLevel2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="BulletSymbol2">- </span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="BulletedLevel2_inner"><a name="942438">Enqueue_Action &lt;queue&gt; Queue_Interface_Id Queue_Priority &lt;/queue&gt;</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedLevel2_outer" style="margin-left: 13.536pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="BulletedLevel2_inner" style="width: 13.680000000000001pt; white-space: nowrap;">
+                <span class="BulletSymbol2">- </span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="BulletedLevel2_inner"><a name="942462">Dequeue_Action</a><span style="font-family: &quot;Courier New&quot;"> &lt;queue&gt; </span>Queue_Interface_Id Queue_Priority<span style="font-family: &quot;Courier New&quot;"> &lt;/queue&gt;</span></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="950730">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="942488">where</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 133.2pt; margin-top: 3.0pt"><a name="942502">	</a><span style="font-style: italic">Send_Action	</span>: Integer code for a packet send (“1”)</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 133.2pt; margin-top: 3.0pt"><a name="942518">	</a><span style="font-style: italic">Receive_Action	</span>: Integer code for a packet receive (“2”)</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 133.2pt; margin-top: 3.0pt"><a name="942522">	</a><span style="font-style: italic">Drop_Action	</span>: Integer code for a packet drop (“3”)</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 133.2pt; margin-top: 3.0pt"><a name="942526">	</a><span style="font-style: italic">Enqueue_Action	</span>: Integer code for a packet enqueue (“4”)</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 133.2pt; margin-top: 3.0pt"><a name="942530">	</a><span style="font-style: italic">Dequeue_Action	</span>: Integer code for a packet dequeue (“5”)</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 133.2pt; margin-top: 3.0pt"><a name="942584">	</a><span style="font-style: italic">Comment	</span>: Integer code for the comment explaining the send, receive or drop action. The possible comments are listed in the enumeration <span style="font-family: &quot;Courier New&quot;">PacketActionCommentType</span> in trace.h. </div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 133.2pt; margin-top: 3.0pt"><a name="942592">	</a><span style="font-style: italic">Queue_Interface_Id	</span>: Interface index for the queue</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 133.2pt; margin-top: 3.0pt"><a name="942596">	</a><span style="font-style: italic">Queue_Priority	</span>: Queue priority</div>
+      <div class="Anchor"><a name="943828">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="943851">The following are examples of </a><span style="font-style: italic">Action_Description</span>:</div>
+      <div class="Code_Segment_Large"><a name="943829">&lt;action&gt; 2 0&lt;/action&gt;</a></div>
+      <div class="Code_Segment_Large"><a name="943830">&lt;action&gt; 5 &lt;queue&gt; 0 2&lt;/queue&gt;&lt;/action&gt;</a></div>
+      <div class="Anchor"><a name="950782">&nbsp;</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-style: italic"><a name="942679">Record_Body</a></span>: One or more occurrences of </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="942680">&nbsp;</a></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="942681">Header_Start_Delimiter Header_Fields Header_End_Delimiter </a></span></div>
+      <div class="Anchor"><a name="950738">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="942682">where</a></div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 151.2pt; margin-top: 3.0pt"><a name="942695">	</a><span style="font-style: italic">Header_Start_Delimiter	</span>: String indicating the start of a header, which is the protocol name enclosed between “<span style="font-family: &quot;Courier New&quot;">&lt;</span>“ and “<span style="font-family: &quot;Courier New&quot;">&gt;</span>”. Examples are “<span style="font-family: &quot;Courier New&quot;">&lt;udp&gt;</span>” and “<span style="font-family: &quot;Courier New&quot;">&lt;ipv4&gt;</span>”.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 151.2pt; margin-top: 3.0pt"><a name="944821">	</a><span style="font-style: italic">Header_End_Delimiter	</span>: String indicating the end of a header, which is the protocol name enclosed between “<span style="font-family: &quot;Courier New&quot;">&lt;/</span>“ and “<span style="font-family: &quot;Courier New&quot;">&gt;</span>”. Examples are “<span style="font-family: &quot;Courier New&quot;">&lt;/udp&gt;</span>” and<br /> “<span style="font-family: &quot;Courier New&quot;">&lt;/ipv4&gt;</span>”.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 151.2pt; margin-top: 3.0pt"><a name="942755">	</a><span style="font-style: italic">Header_Fields	</span>: List of the values of the header fields. The fields are separated by spaces. The list of flags in a header is enclosed between the delimiters “<span style="font-family: &quot;Courier New&quot;">&lt;flags&gt;</span>” and “<span style="font-family: &quot;Courier New&quot;">&lt;/flags&gt;</span>”.</div>
+      <div class="Anchor"><a name="943881">&nbsp;</a></div>
+      <div class="BulletedCont"><a name="950748">The following are examples of </a><span style="font-style: italic">Record_Body</span>:</div>
+      <div class="Code_Segment_Large"><a name="943877">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="950745">&lt;udp&gt;519 519 36 0&lt;/udp&gt;</a></div>
+      <div class="Code_Segment_Large"><a name="943867">&lt;ipv4&gt;4 5 48 0 0 56 0 &lt;flags&gt;0 0 0&lt;/flags&gt; 0 64 17 0 255.255.255.255 192.0.1.255&lt;/ipv4&gt;</a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#942928', '');" title="Adding Trace Collection" name="950775">Figure&nbsp;4-203</a></span> shows an example trace file generated by Simulator.</div>
+      <div class="Code_Segment"><a name="942932">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="950763">&lt;trace_file&gt;</a></div>
+      <div class="Code_Segment"><a name="942933">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="942934">&lt;head&gt;</a></div>
+      <div class="Code_Segment"><a name="942935">&lt;version&gt;</a><span class="Variable">QualNet</span> <span class="Variable">6.1</span>&lt;/version&gt;</div>
+      <div class="Code_Segment"><a name="942936">&lt;scenario&gt;trace-tcp&lt;/scenario&gt;</a></div>
+      <div class="Code_Segment"><a name="942937">&lt;comments&gt;Any user or system free-form comments&lt;/comments&gt;</a></div>
+      <div class="Code_Segment"><a name="942938">&lt;/head&gt;</a></div>
+      <div class="Code_Segment"><a name="942939">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="942940">&lt;body&gt;</a></div>
+      <div class="Code_Segment"><a name="942941">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="942942">&lt;protocol_map&gt;3 IPv4&lt;/protocol_map&gt;</a></div>
+      <div class="Code_Segment"><a name="942943">&lt;protocol_map&gt;1 TCP&lt;/protocol_map&gt;</a></div>
+      <div class="Code_Segment"><a name="942944">&lt;protocol_map&gt;2 UDP&lt;/protocol_map&gt;</a></div>
+      <div class="Code_Segment"><a name="942945">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="942946">&lt;rec&gt;</a></div>
+      <div class="Code_Segment"><a name="942947">&lt;rechdr&gt; 3 0 0.033584881 7 3 2 &lt;action&gt; 1 0&lt;/action&gt;&lt;/rechdr&gt;</a></div>
+      <div class="Code_Segment"><a name="942948">&lt;recbody&gt;</a></div>
+      <div class="Code_Segment"><a name="942949">&lt;udp&gt;519 519 36 0&lt;/udp&gt;</a></div>
+      <div class="Code_Segment"><a name="942950">&lt;/recbody&gt;</a></div>
+      <div class="Code_Segment"><a name="942951">&lt;/rec&gt;</a></div>
+      <div class="Code_Segment"><a name="942952">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="942953">&lt;rec&gt;</a></div>
+      <div class="Code_Segment"><a name="942954">&lt;rechdr&gt; 3 0 0.033584881 7 3 3 &lt;action&gt; 4 &lt;queue&gt; 0 192&lt;/queue&gt;&lt;/action&gt;&lt;/rechdr&gt;</a></div>
+      <div class="Code_Segment"><a name="942955">&lt;recbody&gt;</a></div>
+      <div class="Code_Segment"><a name="942956">&lt;udp&gt;519 519 36 0&lt;/udp&gt;</a></div>
+      <div class="Code_Segment"><a name="942957">&lt;ipv4&gt;4 5 48 0 0 56 0 &lt;flags&gt;0 0 0&lt;/flags&gt; 0 64 17 0 255.255.255.255 192.0.1.255&lt;/ipv4&gt;</a></div>
+      <div class="Code_Segment"><a name="942958">&lt;/recbody&gt;</a></div>
+      <div class="Code_Segment"><a name="942959">&lt;/rec&gt;</a></div>
+      <div class="Code_Segment"><a name="942960">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="942961">&lt;rec&gt;</a></div>
+      <div class="Code_Segment"><a name="942962">&lt;rechdr&gt; 3 0 0.033584881 7 3 3 &lt;action&gt; 5 &lt;queue&gt; 0 2&lt;/queue&gt;&lt;/action&gt;&lt;/rechdr&gt;</a></div>
+      <div class="Code_Segment"><a name="942963">&lt;recbody&gt;</a></div>
+      <div class="Code_Segment"><a name="942964">&lt;udp&gt;519 519 36 0&lt;/udp&gt;</a></div>
+      <div class="Code_Segment"><a name="942965">&lt;ipv4&gt;4 5 48 0 0 56 0 &lt;flags&gt;0 0 0&lt;/flags&gt; 0 64 17 0 255.255.255.255 192.0.1.255&lt;/ipv4&gt;</a></div>
+      <div class="Code_Segment"><a name="942966">&lt;/recbody&gt;</a></div>
+      <div class="Code_Segment"><a name="942967">&lt;/rec&gt;</a></div>
+      <div class="Code_Segment"><a name="942968">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="944562">...</a></div>
+      <div class="Code_Segment"><a name="944563">&lt;/body&gt;</a></div>
+      <div class="Code_Segment"><a name="944574">...</a></div>
+      <div class="Code_Segment"><a name="944564">&lt;/trace_file&gt;</a></div>
+      <div class="Figure">FIGURE 4-203.&nbsp;&nbsp;<a name="942928">Example of a Trace File</a></div>
+      <div class="Code_Segment"><a name="943889">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943952">&lt;!ELEMENT trace_file (head, body) &gt;</a></div>
+      <div class="Code_Segment"><a name="943953">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943954">&lt;!ELEMENT head (version, scenario, comments) &gt;</a></div>
+      <div class="Code_Segment"><a name="943955">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943956">&lt;!ELEMENT body (protocol_map*, rec*) &gt;</a></div>
+      <div class="Code_Segment"><a name="943957">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943958">&lt;!ELEMENT version (#PCDATA) &gt;</a></div>
+      <div class="Code_Segment"><a name="943959">&lt;!ELEMENT scenario (#PCDATA) &gt;</a></div>
+      <div class="Code_Segment"><a name="943960">&lt;!ELEMENT comments (#PCDATA) &gt;</a></div>
+      <div class="Code_Segment"><a name="943961">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943962">&lt;!ELEMENT protocol_map (#PCDATA) &gt;</a></div>
+      <div class="Code_Segment"><a name="943963">&lt;!-- A protocol_map consists of the following two fields</a></div>
+      <div class="Code_Segment"><a name="943964">     1) Integer corresponding to the protocol's enumeration</a></div>
+      <div class="Code_Segment"><a name="943965">     2) String denoting the protocol's name </a></div>
+      <div class="Code_Segment"><a name="943966">--&gt;</a></div>
+      <div class="Code_Segment"><a name="943967">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943968">&lt;!ELEMENT rec (rechdr, recbody) &gt;</a></div>
+      <div class="Code_Segment"><a name="943969">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943970">&lt;!ELEMENT rechdr (#PCDATA, action) &gt;</a></div>
+      <div class="Code_Segment"><a name="943971">&lt;!-- The record header consists of the following six fields and </a></div>
+      <div class="Code_Segment"><a name="943972">     an action element. Record header fields are: </a></div>
+      <div class="Code_Segment"><a name="943973">     1) Originating node id</a></div>
+      <div class="Code_Segment"><a name="943974">     2) Message sequence number </a></div>
+      <div class="Code_Segment"><a name="943975">     3) Simulation time </a></div>
+      <div class="Code_Segment"><a name="943976">     4) Originating protocol id</a></div>
+      <div class="Code_Segment"><a name="943977">     5) Processing node id </a></div>
+      <div class="Code_Segment"><a name="943978">     6) Tracing protocol id </a></div>
+      <div class="Code_Segment"><a name="943979">--&gt;</a></div>
+      <div class="Code_Segment"><a name="943980">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943981">&lt;!ELEMENT action (#PCDATA, queue) &gt;</a></div>
+      <div class="Code_Segment"><a name="943982">&lt;!-- Action can have one of the following two forms</a></div>
+      <div class="Code_Segment"><a name="943983">     1) Pair of integers, corresponding to action code and comment code</a></div>
+      <div class="Code_Segment"><a name="943984">     2) Action code (integer) followed by a queue element</a></div>
+      <div class="Code_Segment"><a name="943985">--&gt;</a></div>
+      <div class="Code_Segment"><a name="943986">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943987">&lt;!ELEMENT queue (#PCDATA) &gt;</a></div>
+      <div class="Code_Segment"><a name="943988">(!-- Queue consists of the following two integer fields</a></div>
+      <div class="Code_Segment"><a name="943989">     1) Interface id  2) Queue priority </a></div>
+      <div class="Code_Segment"><a name="943990">--&gt;</a></div>
+      <div class="Code_Segment"><a name="943991">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943992">&lt;!ELEMENT recbody (udp | tcp | ipv4 | ...)* &gt;</a></div>
+      <div class="Code_Segment"><a name="943993">&lt;!-- The recbody element consists of protocol header elements. </a></div>
+      <div class="Code_Segment"><a name="943994">     Only some of the traceable protocols are listed above. </a></div>
+      <div class="Code_Segment"><a name="943995">     To add tracing for a new protocol, add it to the above list and</a></div>
+      <div class="Code_Segment"><a name="943996">     define the header element corresponding to the new protocol.</a></div>
+      <div class="Code_Segment"><a name="943997"> --&gt;</a></div>
+      <div class="Code_Segment"><a name="943998"> </a></div>
+      <div class="Code_Segment"><a name="943999">&lt;!ELEMENT udp (#PCDATA) &gt;</a></div>
+      <div class="Code_Segment"><a name="944001">&lt;!ELEMENT ipv4 (#PCDATA | flags)* &gt;</a></div>
+      <div class="Code_Segment"><a name="944003">&lt;!ELEMENT tcp (#PCDATA | flags)* &gt;</a></div>
+      <div class="Code_Segment"><a name="944005">&lt;!ELEMENT flags (#PCDATA) &gt;</a></div>
+      <div class="Figure">FIGURE 4-204.&nbsp;&nbsp;<a name="943935">Definition File for Trace File Syntax</a></div>
+      <div class="Heading2Numbered">4.9.2  <a name="941911">Including MYPPROTOCOL in List of Traceable Protocols</a></div>
+      <div class="BodyAfterHead"><a name="935537">When a new traceable protocol is added to </a><span class="Variable">QualNet</span>, it needs to be included in the list of traceable protocols. To do this, add the protocol’s name to the enumeration <span style="font-family: &quot;Courier New&quot;">TraceProtocolType</span> defined in trace.h. </div>
+      <div class="Body"><a name="935543">For our example protocol, add the entry </a><span style="font-family: &quot;Courier New&quot;">TRACE_MYPROTOCOL</span><span style="font-weight: bold"> </span>to <span style="font-family: &quot;Courier New&quot;">TraceProtocolType</span>, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#935558', '');" title="Adding Trace Collection">Figure&nbsp;4-205</a></span>.</div>
+      <div class="Code_Segment"><a name="935545">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="935597">typedef enum</a></div>
+      <div class="Code_Segment"><a name="935598">{</a></div>
+      <div class="Code_Segment"><a name="943363">    TRACE_UNDEFINED = 0,</a></div>
+      <div class="Code_Segment"><a name="943364">    TRACE_TCP,                // 1</a></div>
+      <div class="Code_Segment"><a name="943365">    TRACE_UDP,                // 2</a></div>
+      <div class="Code_Segment"><a name="943366">    TRACE_IP,                 // 3</a></div>
+      <div class="Code_Segment"><a name="943367">    TRACE_CBR,                // 4</a></div>
+      <div class="Code_Segment"><a name="935546">    TRACE_FTP,                // 5</a></div>
+      <div class="Code_Segment"><a name="935640">    ...</a></div>
+      <div class="Code_Segment"><a name="935622">    // Must be last one!!!</a></div>
+      <div class="Code_New"><a name="935645">    TRACE_MYPROTOCOL,</a></div>
+      <div class="Code_Segment"><a name="935623">    TRACE_ANY_PROTOCOL</a></div>
+      <div class="Code_Segment"><a name="935609">}TraceProtocolType;</a></div>
+      <div class="Figure">FIGURE 4-205.&nbsp;&nbsp;<a name="935558">Adding MYPROTOCOL to List of Traceable Protocols</a></div>
+      <div class="Note_Indented"><a name="935507">Always add to the end of lists in header files (just before the item </a><span style="font-family: &quot;Courier New&quot;">TRACE_ANYPROTCOL</span>).<img class="Default" src="images/Chapter%204-9.13.1.1.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></div>
+      <div class="Heading2Numbered">4.9.3  <a name="920932">Enabling/Disabling Tracing in Protocol's Initialization Function</a></div>
+      <div class="BodyAfterHead"><a name="969103">Tracing for a protocol is enabled or disabled depending on the configuration parameters read from the input file. Parameter </a><span style="font-family: &quot;Courier New&quot;">TRACE-ALL</span> specifies whether tracing is enabled for all protocols. <span style="font-family: &quot;Courier New&quot;">TRACE-ALL</span> is read in the trace initialization function, TRACE_Initialize, which is called by the function PARTITION_InitializeNodes at the start of simulation. TRACE_Initialize is implemented in <span class="Variable">QUALNET_HOME</span>/main/trace.cpp and PARTITION_InitializeNodes is implemented in <span class="Variable">QUALNET_HOME</span>/main/partition.cpp. </div>
+      <div class="Body"><a name="935717">The default value for </a><span style="font-family: &quot;Courier New&quot;">TRACE-ALL</span> is NO. If <span style="font-family: &quot;Courier New&quot;">TRACE-ALL</span> is not included in the configuration file or is included and set to NO, then tracing is disabled for all traceable protocols (unless tracing for a specific protocol is explicitly enabled, as explained below). If <span style="font-family: &quot;Courier New&quot;">TRACE-ALL</span> is included in the configuration file and is set to YES, then tracing is enabled for all traceable protocols (unless tracing for a specific protocol is explicitly disabled).</div>
+      <div class="Body"><a name="936022">Apart from the parameter </a><span style="font-family: &quot;Courier New&quot;">TRACE-ALL</span>, the configuration file can specify whether tracing is enabled for a specific protocol. For example, the parameter <span style="font-family: &quot;Courier New&quot;">TRACE-UDP</span> determines whether tracing is enabled or disabled for the UDP protocol. <span style="font-family: &quot;Courier New&quot;">TRACE-UDP</span> takes precedence over <span style="font-family: &quot;Courier New&quot;">TRACE-ALL</span>, and is read in the UDP function TransportUdpInitTrace, shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#935943', '');" title="Adding Trace Collection">Figure&nbsp;4-206</a></span>. TransportUdpInitTrace is called by the UDP initialization function TransportUdpInit. TransportUdpInitTrace and TransportUdpInit are implemented <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/transport_udp.cpp.</div>
+      <div class="Body"><a name="936023">The following APIs are used enable or disable tracing for a protocol:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="936024">TRACE_IsTraceAll: This function determines if tracing is enabled for all protocols.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="936025">TRACE_EnableTraceXML: This function enables tracing for a specific protocol. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="936026">TRACE_DisableTraceXML: This function disables tracing for a specific protocol.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="936020">TRACE_IsTraceAll, Trace_EnableTraceXML and TRACE_DisableTraceXML are implemented in </a><span class="Variable">QUALNET_HOME</span>/main/trace.cpp.</div>
+      <div class="Body"><a name="936429">For MYPROTOCOL, define an input parameter, </a><span style="font-family: &quot;Courier New&quot;">TRACE-MYPROTOCOL</span>, which is set to YES or NO in the configuration file. In the initialization function of MYPROTOCOL, read the value of <span style="font-family: &quot;Courier New&quot;">TRACE-MYPROTOCOL</span> and enable or disable trace for MYPROTOCOL depending on the value of <span style="font-family: &quot;Courier New&quot;">TRACE-MYPROTOCOL</span> and <span style="font-family: &quot;Courier New&quot;">TRACE-ALL</span>. For example, function TransportUdpInitTrace calls function TRACE_EnableTraceXML if trace collection is enabled for UDP and calls function TRACE_DisableTraceXML if trace collection is disabled for UDP. The UDP function to print the UDP header, TransportUdpPrintTrace, is passed as a parameter to TRACE_EnableTraceXML. TransportUdpPrintTrace is implemented in transport_udp.cpp.</div>
+      <div class="Note_Indented"><a name="940876">For Application Layer protocols, the trace initialization function should be called from the function APP_TraceInitialize, which is implemented in </a><span class="Variable">QUALNET_HOME</span>/main/application.cpp.  <img class="Default" src="images/Chapter%204-9.13.1.2.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /> </div>
+      <div class="Code_Segment"><a name="935951">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940761">static</a></div>
+      <div class="Code_Segment"><a name="940762">void TransportUdpInitTrace(Node* node, const NodeInput* nodeInput)</a></div>
+      <div class="Code_Segment"><a name="940763">{</a></div>
+      <div class="Code_Segment"><a name="940764">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="940765">    BOOL retVal;</a></div>
+      <div class="Code_Segment"><a name="940766">    BOOL traceAll = TRACE_IsTraceAll(node);</a></div>
+      <div class="Code_Segment"><a name="940767">    BOOL trace = FALSE;</a></div>
+      <div class="Code_Segment"><a name="940768">    static BOOL writeMap = TRUE;</a></div>
+      <div class="Code_Segment"><a name="940769">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940770">    IO_ReadString(</a></div>
+      <div class="Code_Segment"><a name="940771">        node-&gt;nodeId,</a></div>
+      <div class="Code_Segment"><a name="940772">        ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="940773">        nodeInput,</a></div>
+      <div class="Code_Segment"><a name="940774">        "TRACE-UDP",</a></div>
+      <div class="Code_Segment"><a name="940775">        &amp;retVal,</a></div>
+      <div class="Code_Segment"><a name="940776">        buf);</a></div>
+      <div class="Code_Segment"><a name="940777">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940778">    if (retVal)</a></div>
+      <div class="Code_Segment"><a name="940779">    {</a></div>
+      <div class="Code_Segment"><a name="940780">        if (strcmp(buf, "YES") == 0)</a></div>
+      <div class="Code_Segment"><a name="940781">        {</a></div>
+      <div class="Code_Segment"><a name="940782">            trace = TRUE;</a></div>
+      <div class="Code_Segment"><a name="940783">        }</a></div>
+      <div class="Code_Segment"><a name="940784">        else if (strcmp(buf, "NO") == 0)</a></div>
+      <div class="Code_Segment"><a name="940785">        {</a></div>
+      <div class="Code_Segment"><a name="940786">            trace = FALSE;</a></div>
+      <div class="Code_Segment"><a name="940787">        }</a></div>
+      <div class="Code_Segment"><a name="940788">        else</a></div>
+      <div class="Code_Segment"><a name="940789">        {</a></div>
+      <div class="Code_Segment"><a name="940790">            ERROR_ReportError(</a></div>
+      <div class="Code_Segment"><a name="940791">                "TRACE-UDP should be either \"YES\" or \"NO\".\n");</a></div>
+      <div class="Code_Segment"><a name="940792">        }</a></div>
+      <div class="Code_Segment"><a name="940793">    }</a></div>
+      <div class="Code_Segment"><a name="940794">    else</a></div>
+      <div class="Code_Segment"><a name="940795">    {</a></div>
+      <div class="Code_Segment"><a name="940797">        if (traceAll || node-&gt;traceData-&gt;layer[TRACE_TRANSPORT_LAYER])</a></div>
+      <div class="Code_Segment"><a name="979283">        {</a></div>
+      <div class="Code_Segment"><a name="940798">            trace = TRUE;</a></div>
+      <div class="Code_Segment"><a name="940799">        }</a></div>
+      <div class="Code_Segment"><a name="940800">    }</a></div>
+      <div class="Code_Segment"><a name="940802">    if (trace)</a></div>
+      <div class="Code_Segment"><a name="940803">    {</a></div>
+      <div class="Code_Segment"><a name="940804">        TRACE_EnableTraceXML(node, TRACE_UDP,</a></div>
+      <div class="Code_Segment"><a name="940805">            "UDP", TransportUdpPrintTrace, writeMap);</a></div>
+      <div class="Code_Segment"><a name="940806">    }</a></div>
+      <div class="Code_Segment"><a name="940807">    else</a></div>
+      <div class="Code_Segment"><a name="940808">    {</a></div>
+      <div class="Code_Segment"><a name="940809">        TRACE_DisableTraceXML(node, TRACE_UDP, "UDP", writeMap);</a></div>
+      <div class="Code_Segment"><a name="940810">    }</a></div>
+      <div class="Code_Segment"><a name="940811">    writeMap = FALSE;</a></div>
+      <div class="Code_Segment"><a name="940812">}</a></div>
+      <div class="Figure">FIGURE 4-206.&nbsp;&nbsp;<a name="935943">Enabling/Disabling Trace Collection for UDP</a></div>
+      <div class="Heading2Numbered">4.9.4  <a name="936071">Printing the Protocol Header</a></div>
+      <div class="BodyAfterHead"><a name="936072">Write a function, MyprotocolPrintTrace, to print the MYPROTOCOL header. This function is called by the trace function TRACE_PrintTraceXML. Use the UDP function TransportUdpPrintTrace that prints the UDP header as a template. TransportUdpPrintTrace is shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#936101', '');" title="Adding Trace Collection">Figure&nbsp;4-207</a></span> and is implemented in transport_udp.cpp.</div>
+      <div class="Code_Segment"><a name="936092">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940894">void TransportUdpPrintTrace(Node* node, Message* msg)</a></div>
+      <div class="Code_Segment"><a name="940895">{</a></div>
+      <div class="Code_Segment"><a name="940896">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="940897">    TransportUdpHeader* udpHdr = (TransportUdpHeader *)</a></div>
+      <div class="Code_Segment"><a name="940898">                                 MESSAGE_ReturnPacket(msg);</a></div>
+      <div class="Code_Segment"><a name="940899">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940900">    sprintf(buf, "&lt;udp&gt;%hu %hu %hu %hu&lt;/udp&gt;",</a></div>
+      <div class="Code_Segment"><a name="940901">        udpHdr-&gt;sourcePort,</a></div>
+      <div class="Code_Segment"><a name="940902">        udpHdr-&gt;destPort,</a></div>
+      <div class="Code_Segment"><a name="940903">        udpHdr-&gt;length,</a></div>
+      <div class="Code_Segment"><a name="940904">        udpHdr-&gt;checksum);</a></div>
+      <div class="Code_Segment"><a name="940905">    TRACE_WriteToBufferXML(node, buf);</a></div>
+      <div class="Code_Segment"><a name="936099">}</a></div>
+      <div class="Figure">FIGURE 4-207.&nbsp;&nbsp;<a name="936101">Function to Print the UDP Header</a></div>
+      <div class="Body"><a name="936090">TransportUdpPrintTrace uses the function TRACE_WriteToBufferXML to write the value of each header field to a buffer. The contents of the buffer are printed by the function TRACE_PrintTraceXML. TRACE_WriteToBufferXML and TRACE_PrintTraceXML are implemented in trace.cpp.</a></div>
+      <div class="Heading2Numbered">4.9.5  <a name="936652">Tracing a Packet</a></div>
+      <div class="BodyAfterHead"><a name="936522">To trace a packet, place calls to function TRACE_PrintTrace at the appropriate places in the protocol code. Usually, a trace is printed whenever a header is added or removed, a packet is dropped, or a packet is enqueued or dequeued.</a></div>
+      <div class="Body"><a name="940925">Function TRACE_PrintTrace is implemented in trace.cpp. The prototype for TRACE_PrintTrace is shown below. The enumerations and </a><span style="font-family: &quot;Courier New&quot;">struct</span> definitions used below can be found in trace.h.</div>
+      <div class="Code_Segment_Large"><a name="940932">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="980377">void TRACE_PrintTrace(Node* node,</a></div>
+      <div class="Code_Segment_Large"><a name="940933">                      Message* message,</a></div>
+      <div class="Code_Segment_Large"><a name="940934">                      TraceLayerType layerType,</a></div>
+      <div class="Code_Segment_Large"><a name="940935">                      PacketDirection pktDirection,</a></div>
+      <div class="Code_Segment_Large"><a name="940926">                      ActionData* actionData)</a></div>
+      <div class="Body"><a name="936673">The parameters of TRACE_PrintTrace are:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940946">node</a></span>: Pointer to the node</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940951">message</a></span>: Pointer to the message</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940952">layerType</a></span>: Layer at which the packet is being traced</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940957">pktDirection</a></span>: Direction of the packet: <span style="font-family: &quot;Courier New&quot;">PACKET_IN</span> for incoming packets, <span style="font-family: &quot;Courier New&quot;">PACKET_OUT</span> for outgoing packets. The direction is relative to the node, not to a specific layer.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="940960">actionData</a></span>: Description of the action that triggered the trace. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#941013', '');" title="Adding Trace Collection">Section&nbsp;4.9.5.1</a></span> for details.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">4.9.5.1  <a name="941013">Trace Actions</a></div>
+      <div class="BodyAfterHead"><a name="941014">When a call to TRACE_PrintTrace is made, trace information is printed to the trace file in the form of a record (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#935536', '');" title="Adding Trace Collection">Section&nbsp;4.9.1</a></span>). Each record contains information such as node and packet identifiers, simulation time, the action that triggered the trace, and the protocol headers in the packet. The data structure <span style="font-family: &quot;Courier New&quot;">ActionData</span>, shown below, is used to store information about the trace actions. <span style="font-family: &quot;Courier New&quot;">ActionData</span> and the other types that it uses are declared in trace.h.</div>
+      <div class="Code_Segment_Large"><a name="941035">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="980390">typedef struct</a></div>
+      <div class="Code_Segment_Large"><a name="941036">{</a></div>
+      <div class="Code_Segment_Large"><a name="941037">    PacketActionType   actionType;</a></div>
+      <div class="Code_Segment_Large"><a name="941038">    PacketActionCommentType actionComment;</a></div>
+      <div class="Code_Segment_Large"><a name="941039">    PktQueue pktQueue;</a></div>
+      <div class="Code_Segment_Large"><a name="941033">} ActionData;</a></div>
+      <div class="Body"><a name="941015">The fields of </a><span style="font-family: &quot;Courier New&quot;">ActionData</span> are:</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="941058">actionType</a></span>: Action that triggered the trace. It can be one of <span style="font-family: &quot;Courier New&quot;">SEND</span>, <span style="font-family: &quot;Courier New&quot;">RECV</span>, <span style="font-family: &quot;Courier New&quot;">DROP</span>, <span style="font-family: &quot;Courier New&quot;">ENQUEUE</span> or <span style="font-family: &quot;Courier New&quot;">DEQUEUE</span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="941056">actionComment</a></span>: Comment giving information about the trace action. The possible comments are enumerated in <span style="font-family: &quot;Courier New&quot;">PacketActionCommentType</span>. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont"><a name="941116">If a new action comment is needed, add it to the enumeration </a><span style="font-family: &quot;Courier New&quot;">PacketActionCommentType</span> in trace.h.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-family: &quot;Courier New&quot;"><a name="941078">pktQueue</a></span>: Details of the packet queue. The details that are printed are the interface index and priority of the queue.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">4.9.5.2  <a name="941057">Trace of a Packet Send</a></div>
+      <div class="BodyAfterHead"><a name="941128">To trace a packet when it is sent from the node, call TRACE_PrintTrace with the appropriate parameters. An outgoing packet is usually traced after a header is added. For example, </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#941209', '');" title="Adding Trace Collection">Figure&nbsp;4-208</a></span> shows how an outgoing packet is traced in the UDP function TransportUdpSendToNetwork, which is implemented in transport_udp.cpp. </div>
+      <div class="Code_Segment"><a name="941213">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941278">void</a></div>
+      <div class="Code_Segment"><a name="941214">TransportUdpSendToNetwork(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="941215">{</a></div>
+      <div class="Code_Segment"><a name="941216">    TransportDataUdp *udp = (TransportDataUdp *) node-&gt;transportData.udp;</a></div>
+      <div class="Code_Segment"><a name="941217">    TransportUdpHeader *udpHdr;</a></div>
+      <div class="Code_Segment"><a name="941218">    AppToUdpSend *info;</a></div>
+      <div class="Code_Segment"><a name="941219">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941220">    ...</a></div>
+      <div class="Code_Segment"><a name="941225">    MESSAGE_AddHeader(node, msg, sizeof(TransportUdpHeader), TRACE_UDP);</a></div>
+      <div class="Code_Segment"><a name="941227">    udpHdr = (TransportUdpHeader *) msg-&gt;packet;</a></div>
+      <div class="Code_Segment"><a name="941228">    info = (AppToUdpSend *) MESSAGE_ReturnInfo(msg);</a></div>
+      <div class="Code_Segment"><a name="941230">    udpHdr-&gt;sourcePort = info-&gt;sourcePort;</a></div>
+      <div class="Code_Segment"><a name="941231">    udpHdr-&gt;destPort = info-&gt;destPort;</a></div>
+      <div class="Code_Segment"><a name="941232">    udpHdr-&gt;length = (unsigned short) MESSAGE_ReturnPacketSize(msg);</a></div>
+      <div class="Code_Segment"><a name="941233">    udpHdr-&gt;checksum = 0;  /* checksum not calculated */</a></div>
+      <div class="Code_Segment"><a name="941235">    ActionData acnData;</a></div>
+      <div class="Code_Segment"><a name="941236">    acnData.actionType = SEND;</a></div>
+      <div class="Code_Segment"><a name="941237">    acnData.actionComment = NO_COMMENT;</a></div>
+      <div class="Code_Segment"><a name="941238">    TRACE_PrintTrace(node,</a></div>
+      <div class="Code_Segment"><a name="941239">                     msg,</a></div>
+      <div class="Code_Segment"><a name="941240">                     TRACE_TRANSPORT_LAYER,</a></div>
+      <div class="Code_Segment"><a name="941241">                     PACKET_OUT,</a></div>
+      <div class="Code_Segment"><a name="941242">                     &amp;acnData);</a></div>
+      <div class="Code_Segment"><a name="941244">    NetworkIpReceivePacketFromTransportLayer(</a></div>
+      <div class="Code_Segment"><a name="941245">        node,</a></div>
+      <div class="Code_Segment"><a name="941246">        msg,</a></div>
+      <div class="Code_Segment"><a name="941247">        info-&gt;sourceAddr,</a></div>
+      <div class="Code_Segment"><a name="941248">        info-&gt;destAddr,</a></div>
+      <div class="Code_Segment"><a name="941249">        info-&gt;outgoingInterface,</a></div>
+      <div class="Code_Segment"><a name="941250">        info-&gt;priority,</a></div>
+      <div class="Code_Segment"><a name="941251">        IPPROTO_UDP,</a></div>
+      <div class="Code_Segment"><a name="941252">        FALSE,</a></div>
+      <div class="Code_Segment"><a name="951426">        info-&gt;ttl);</a></div>
+      <div class="Code_Segment"><a name="941253">}</a></div>
+      <div class="Figure">FIGURE 4-208.&nbsp;&nbsp;<a name="941209">Tracing an Outgoing Packet</a></div>
+      <div class="Heading3Numbered">4.9.5.3  <a name="941286">Trace of a Packet Receive</a></div>
+      <div class="BodyAfterHead"><a name="941287">To trace a packet when it is received at the node, call TRACE_PrintTrace with the appropriate parameters. An incoming packet is usually traced before a header is removed. For example, </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#941351', '');" title="Adding Trace Collection">Figure&nbsp;4-209</a></span> shows how an incoming packet is traced in the UDP function TransportUdpSendToApp, which is implemented in transport_udp.cpp. </div>
+      <div class="Code_Segment"><a name="941316">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941366">void</a></div>
+      <div class="Code_Segment"><a name="941367">TransportUdpSendToApp(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="941368">{</a></div>
+      <div class="Code_Segment"><a name="941369">    TransportDataUdp *udpLayer =</a></div>
+      <div class="Code_Segment"><a name="941370">        (TransportDataUdp *) node-&gt;transportData.udp;</a></div>
+      <div class="Code_Segment"><a name="941371">    TransportUdpHeader* udpHdr = (TransportUdpHeader *)</a></div>
+      <div class="Code_Segment"><a name="941372">                                 MESSAGE_ReturnPacket(msg);</a></div>
+      <div class="Code_Segment"><a name="941378">    ...</a></div>
+      <div class="Code_Segment"><a name="941408">    ActionData acnData;</a></div>
+      <div class="Code_Segment"><a name="941409">    acnData.actionType = RECV;</a></div>
+      <div class="Code_Segment"><a name="941410">    acnData.actionComment = NO_COMMENT;</a></div>
+      <div class="Code_Segment"><a name="941411">    TRACE_PrintTrace(node,</a></div>
+      <div class="Code_Segment"><a name="941412">                     msg,</a></div>
+      <div class="Code_Segment"><a name="941413">                     TRACE_TRANSPORT_LAYER,</a></div>
+      <div class="Code_Segment"><a name="941414">                     PACKET_IN,</a></div>
+      <div class="Code_Segment"><a name="941415">                     &amp;acnData);</a></div>
+      <div class="Code_Segment"><a name="941417">    /* Remove UDP header. */</a></div>
+      <div class="Code_Segment"><a name="941418">    MESSAGE_RemoveHeader(node, msg, sizeof(TransportUdpHeader), TRACE_UDP);</a></div>
+      <div class="Code_Segment"><a name="941420">    /* Send packet to application layer. */</a></div>
+      <div class="Code_Segment"><a name="941422">    MESSAGE_Send(node, msg, TRANSPORT_DELAY);</a></div>
+      <div class="Code_Segment"><a name="941423">}</a></div>
+      <div class="Figure">FIGURE 4-209.&nbsp;&nbsp;<a name="941351">Tracing an Incoming Packet</a></div>
+      <div class="Heading3Numbered">4.9.5.4  <a name="941445">Trace of a Packet Drop</a></div>
+      <div class="BodyAfterHead"><a name="951134">To trace a packet when it is dropped at a node, call TRACE_PrintTrace with the appropriate parameters. When a packet is dropped, the trace should contain a reason for the packet drop. The reason is specified in the </a><span style="font-family: &quot;Courier New&quot;">actionComment</span> field of <span style="font-family: &quot;Courier New&quot;">actionData</span> (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#941013', '');" title="Adding Trace Collection">Section&nbsp;4.9.5.1</a></span>). For example, <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#941473', '');" title="Adding Trace Collection">Figure&nbsp;4-210</a></span> shows how a packet is traced in the IP function RouteThePacketUsingLookupTable before it is dropped because no route was found. RouteThePacketUsingLookupTable is implemented in <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/network_ip.cpp. </div>
+      <div class="Code_Segment"><a name="941450">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941506">void</a></div>
+      <div class="Code_Segment"><a name="941507">RouteThePacketUsingLookupTable(Node *node, Message *msg, </a></div>
+      <div class="Code_Segment"><a name="941570">                               int incomingInterface)</a></div>
+      <div class="Code_Segment"><a name="941508">{</a></div>
+      <div class="Code_Segment"><a name="941509">    NetworkDataIp *ip = (NetworkDataIp *) node-&gt;networkData.networkVar;</a></div>
+      <div class="Code_Segment"><a name="941510">    IpHeaderType *ipHeader = (IpHeaderType *) msg-&gt;packet;</a></div>
+      <div class="Code_Segment"><a name="941512">    int outgoingInterface;</a></div>
+      <div class="Code_Segment"><a name="941454">    NodeAddress nextHop;</a></div>
+      <div class="Code_Segment"><a name="941520">    ...</a></div>
+      <div class="Code_Segment"><a name="941530">    if (nextHop == (unsigned) NETWORK_UNREACHABLE)</a></div>
+      <div class="Code_Segment"><a name="941531">    {</a></div>
+      <div class="Code_Segment"><a name="941521">        ...</a></div>
+      <div class="Code_Segment"><a name="941538">        ip-&gt;stats.ipOutNoRoutes++;</a></div>
+      <div class="Code_Segment"><a name="941540">        //Trace drop</a></div>
+      <div class="Code_Segment"><a name="941541">        ActionData acnData;</a></div>
+      <div class="Code_Segment"><a name="941542">        acnData.actionType = DROP;</a></div>
+      <div class="Code_Segment"><a name="941543">        acnData.actionComment = DROP_NO_ROUTE;</a></div>
+      <div class="Code_Segment"><a name="941544">        TRACE_PrintTrace(node,</a></div>
+      <div class="Code_Segment"><a name="941545">                         msg,</a></div>
+      <div class="Code_Segment"><a name="941546">                         TRACE_NETWORK_LAYER,</a></div>
+      <div class="Code_Segment"><a name="941547">                         PACKET_OUT,</a></div>
+      <div class="Code_Segment"><a name="979298">                         &amp;acnData,</a></div>
+      <div class="Code_Segment"><a name="941548">                         NETWORK_IPV4);</a></div>
+      <div class="Code_Segment"><a name="941551">        // Free message.</a></div>
+      <div class="Code_Segment"><a name="941553">        MESSAGE_Free(node, msg);</a></div>
+      <div class="Code_Segment"><a name="941555">        return;</a></div>
+      <div class="Code_Segment"><a name="941536">    }</a></div>
+      <div class="Code_Segment"><a name="941522">    ...</a></div>
+      <div class="Code_Segment"><a name="941559">}</a></div>
+      <div class="Figure">FIGURE 4-210.&nbsp;&nbsp;<a name="941473">Tracing a Packet Drop</a></div>
+      <div class="Heading3Numbered">4.9.5.5  <a name="941599">Trace of a Packet Enqueuing</a></div>
+      <div class="BodyAfterHead"><a name="941600">To trace a packet when it is added to a queue, call TRACE_PrintTrace with the appropriate parameters. When a packet is enqueued, the trace should contain the interface index and the priority of the queue. For example, </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#941473', '');" title="Adding Trace Collection">Figure&nbsp;4-210</a></span> shows how a packet is traced in the IP function NetworkIpQueueInsert when it is added to the IP queue. NetworkIpQueueInsert is implemented in network_ip.cpp. </div>
+      <div class="Code_Segment"><a name="941607">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="951388">void</a></div>
+      <div class="Code_Segment"><a name="951389">NetworkIpQueueInsert(</a></div>
+      <div class="Code_Segment"><a name="951390">    Node *node,</a></div>
+      <div class="Code_Segment"><a name="951391">    Scheduler *scheduler,</a></div>
+      <div class="Code_Segment"><a name="951392">    Message *msg,</a></div>
+      <div class="Code_Segment"><a name="951393">    NodeAddress nextHopAddress,</a></div>
+      <div class="Code_Segment"><a name="951394">    NodeAddress destinationAddress,</a></div>
+      <div class="Code_Segment"><a name="951395">    int outgoingInterface,</a></div>
+      <div class="Code_Segment"><a name="951396">    int networkType,</a></div>
+      <div class="Code_Segment"><a name="951397">    BOOL *queueIsFull,</a></div>
+      <div class="Code_Segment"><a name="941663">    int incomingInterface,</a></div>
+      <div class="Code_Segment"><a name="951429">    BOOL isOutputQueue)</a></div>
+      <div class="Code_Segment"><a name="941664">{</a></div>
+      <div class="Code_Segment"><a name="941665">    int queueIndex = ALL_PRIORITIES;</a></div>
+      <div class="Code_Segment"><a name="941666">    IpHeaderType *ipHeader = NULL;</a></div>
+      <div class="Code_Segment"><a name="941667">    ...</a></div>
+      <div class="Code_Segment"><a name="941692">    //Trace Enqueue</a></div>
+      <div class="Code_Segment"><a name="941693">    ActionData acn;</a></div>
+      <div class="Code_Segment"><a name="941694">    acn.actionType = ENQUEUE;</a></div>
+      <div class="Code_Segment"><a name="941695">    acn.actionComment = NO_COMMENT;</a></div>
+      <div class="Code_Segment"><a name="951430">    NetworkType netType = NETWORK_IPV4</a></div>
+      <div class="Code_Segment"><a name="941696">    acn.pktQueue.interfaceID = (unsigned short) outgoingInterface;</a></div>
+      <div class="Code_Segment"><a name="941697">    acn.pktQueue.queuePriority = (</a></div>
+      <div class="Code_Segment"><a name="951435">                        unsigned char) IpHeaderGetTOS(ipHeader-&gt;ip_v_hl_tos_len);</a></div>
+      <div class="Code_Segment"><a name="941698">    if (outgoingInterface != CPU_INTERFACE)</a></div>
+      <div class="Code_Segment"><a name="941699">    {</a></div>
+      <div class="Code_Segment"><a name="941700">        TRACE_PrintTrace(node, msg, TRACE_NETWORK_LAYER, PACKET_OUT, </a></div>
+      <div class="Code_Segment"><a name="951466">                           &amp;acn, netType);</a></div>
+      <div class="Code_Segment"><a name="941701">    }</a></div>
+      <div class="Code_Segment"><a name="941702">    else</a></div>
+      <div class="Code_Segment"><a name="941703">    {</a></div>
+      <div class="Code_Segment"><a name="941704">        TRACE_PrintTrace(node, msg, TRACE_NETWORK_LAYER, PACKET_IN, </a></div>
+      <div class="Code_Segment"><a name="951465">                         &amp;acn, netType);</a></div>
+      <div class="Code_Segment"><a name="941705">    }</a></div>
+      <div class="Code_Segment"><a name="951436">    ...</a></div>
+      <div class="Code_Segment"><a name="941706">}</a></div>
+      <div class="Figure">FIGURE 4-211.&nbsp;&nbsp;<a name="941637">Tracing a Packet Enqueue</a></div>
+      <div class="Heading3Numbered">4.9.5.6  <a name="941855">Trace of a Packet Dequeuing</a></div>
+      <div class="BodyAfterHead"><a name="941890">To trace a packet when it is removed from a queue, call TRACE_PrintTrace with the appropriate parameters. When a packet is dequeued, the trace should contain the interface index and the priority of the queue. For example, </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-9.html#941473', '');" title="Adding Trace Collection">Figure&nbsp;4-210</a></span> shows how a packet is traced in the IP function NetworkIpOutputQueueDequeuePacket when it is dequeued from the IP queue. NetworkIpOutputQueueDequeuePacket is implemented in network_ip.cpp.</div>
+      <div class="Code_Segment"><a name="941721">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941766">BOOL NetworkIpOutputQueueDequeuePacket(</a></div>
+      <div class="Code_Segment"><a name="941767">    Node *node,</a></div>
+      <div class="Code_Segment"><a name="941768">    int interfaceIndex,</a></div>
+      <div class="Code_Segment"><a name="941769">    Message **msg,</a></div>
+      <div class="Code_Segment"><a name="941770">    NodeAddress *nextHopAddress,</a></div>
+      <div class="Code_Segment"><a name="951439">    macHWAddress *nexthopmacAddr</a></div>
+      <div class="Code_Segment"><a name="941771">    int *networkType,</a></div>
+      <div class="Code_Segment"><a name="941772">    QueuePriorityType *userPriority,</a></div>
+      <div class="Code_Segment"><a name="951442">    int posInQueue)</a></div>
+      <div class="Code_Segment"><a name="941774">{</a></div>
+      <div class="Code_Segment"><a name="941775">    BOOL dequeued = FALSE;</a></div>
+      <div class="Code_Segment"><a name="941776">    NetworkDataIp *ip = (NetworkDataIp *) node-&gt;networkData.networkVar;</a></div>
+      <div class="Code_Segment"><a name="941777">    Scheduler *scheduler = NULL;</a></div>
+      <div class="Code_Segment"><a name="941778">    TosType userTos = ALL_PRIORITIES;</a></div>
+      <div class="Code_Segment"><a name="941779">    int outgoingInterface;</a></div>
+      <div class="Code_Segment"><a name="941780">    ...</a></div>
+      <div class="Code_Segment"><a name="941781">    scheduler = ip-&gt;interfaceInfo[interfaceIndex]-&gt;scheduler;</a></div>
+      <div class="Code_Segment"><a name="941787">    dequeued = NetworkIpQueueDequeuePacket(node,</a></div>
+      <div class="Code_Segment"><a name="941788">                                           scheduler,</a></div>
+      <div class="Code_Segment"><a name="941789">                                           msg,</a></div>
+      <div class="Code_Segment"><a name="941790">                                           nextHopAddress,</a></div>
+      <div class="Code_Segment"><a name="951443">                                           nexthopmacAddr,</a></div>
+      <div class="Code_Segment"><a name="941791">                                           &amp;outgoingInterface,</a></div>
+      <div class="Code_Segment"><a name="941792">                                           networkType,</a></div>
+      <div class="Code_Segment"><a name="941793">                                           &amp;userTos,</a></div>
+      <div class="Code_Segment"><a name="951444">                                           posInQueue);</a></div>
+      <div class="Code_Segment"><a name="941795">    if (dequeued)</a></div>
+      <div class="Code_Segment"><a name="941796">    {</a></div>
+      <div class="Code_Segment"><a name="941797">        ...</a></div>
+      <div class="Code_Segment"><a name="941807">        //Trace dequeue</a></div>
+      <div class="Code_Segment"><a name="941808">        ActionData acn;</a></div>
+      <div class="Code_Segment"><a name="941809">        acn.actionType = DEQUEUE;</a></div>
+      <div class="Code_Segment"><a name="941810">        acn.actionComment = NO_COMMENT;</a></div>
+      <div class="Code_Segment"><a name="941811">        acn.pktQueue.interfaceID = (unsigned short) interfaceIndex;</a></div>
+      <div class="Code_Segment"><a name="941812">        acn.pktQueue.queuePriority = (unsigned char) queuePriority;</a></div>
+      <div class="Code_Segment"><a name="941813">        TRACE_PrintTrace(node, *msg, TRACE_NETWORK_LAYER, PACKET_OUT, &amp;acn,</a></div>
+      <div class="Code_Segment"><a name="951459">                         NetworkIpGetInterfaceType(node, interfaceIndex));</a></div>
+      <div class="Code_Segment"><a name="951149">        ...</a></div>
+      <div class="Code_Segment"><a name="941826">    }</a></div>
+      <div class="Code_Segment"><a name="941828">    return dequeued;</a></div>
+      <div class="Code_Segment"><a name="941829">}</a></div>
+      <div class="Figure">FIGURE 4-212.&nbsp;&nbsp;<a name="941751">Tracing a Packet Dequeue</a></div>
+      <div class="Body"><a name="936835">&nbsp;</a></div>
+      <div class="Body"><a name="950698">&nbsp;</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

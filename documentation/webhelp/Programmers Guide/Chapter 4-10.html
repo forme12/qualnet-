@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Creating an Addon, Interface or Model Library</title>
+    <link rel="StyleSheet" href="css/Chapter%204-10.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%204-1.05.1.html#954568">4	Developing Protocol Models in QualNet</a> &gt; 4.10  Creating an Addon, Interface or Model Library</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">4.10  <a name="954568">Creating an Addon, Interface or Model Library</a></div>
+      <div class="BodyAfterHead"><a name="954572">Libraries, Interfaces, Addons, and contributed models are different types of optional features in </a><span class="Variable">QualNet</span>. All are organized in a virtually identical way. </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="940401">Libraries: A library is a set of network protocols and other models for </a><span class="Variable">QualNet</span>. Most of the models developed by Scalable Network Technologies are organized in pre-packaged libraries. Source code and other files for libraries are located in <span class="Variable">QUALNET_HOME</span>/libraries.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="940402">Interfaces: An interface typically implements an instance of </a><span class="Variable">QualNet</span>’s external interface API to allow <span class="Variable">QualNet</span> to inter-operate with some third party software. An interface module typically requires third party software for compilation and use. For example, use of the HLA interface requires the user to install an HLA RTI. Source code and other files for interfaces are located in <span class="Variable">QUALNET_HOME</span>/interfaces.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="940403">Contributed Models: These models are often individual protocols or models developed and contributed by a </a><span class="Variable">QualNet</span> user for distribution within the user community. Source code and other files for contributed models are located in <span class="Variable">QUALNET_HOME</span>/contributed.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="940397">Addons: These are special-purpose custom modules or prototypes of models under development. Source code and other files for addons are located in </a><span class="Variable">QUALNET_HOME</span>/addons.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Body"><a name="940464">For the sake of brevity, we will use the term “library” in the remainder of this section to refer to all four classes of optional features.</a></div>
+      <div class="Body"><a name="928723">We illustrate the process of adding a library to </a><span class="Variable">QualNet</span> by creating a sample library, the user_models library. For simplicity, the user_models library adds an Application Layer protocol, HELLO, but a programmer can develop a library that adds functionality at any other layer or at multiple layers.</div>
+      <div class="Body"><a name="928725">The following list summarizes the actions that need to be performed for adding a traffic-generating Application Layer protocol, HELLO, to the user-created library, user_models. Each of these steps is described in detail in subsequent sections. Although a traffic-generating Application Layer protocol typically has two components, a client and a server, for simplicity, we describe the process for only one component for HELLO, instead of for both client and server.</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="928729">Create a directory and header and source files (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#958921', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.1</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="928753">Include the protocol in the list of Application Layer protocols (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#928922', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.2</a></span>). </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="928748">Develop components of the protocol (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929053', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.3</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="928912">Modify the file application.cpp to include the protocol’s header file (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929084', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.4</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="928746">Make calls to the model’s functions from the Application Layer functions (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929084', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.4</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">6.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="928747">Integrate the library into </a><span class="Variable">QualNet</span> (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929473', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.5</a></span>).</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Note_Indented"><a name="959558"><img class="Default" src="images/Chapter%204-10.14.1.1.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />It is desirable to make libraries modular so that individual libraries can be included or excluded from </a><span class="Variable">QualNet</span> easily and without changes to code external to the library. To enable this, all changes made to code not in your library should be made conditional on a compilation switch. For the user_models library, the compilation switch is USER_MODELS_LIB. This switch is defined as the value of the variable USER_MODELS_OPTIONS in <span class="Variable">QUALNET_HOME</span>/libraries/user_models/Makefile-common (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#940783', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.5.1</a></span>).</div>
+      <div class="Heading2Numbered">4.10.1  <a name="958921">Creating Directory and Files</a></div>
+      <div class="BodyAfterHead"><a name="958925">Create a directory in </a><span class="Variable">QUALNET_HOME</span>/libraries called user_models. Create a subdirectory in <span class="Variable">QUALNET_HOME</span>/libraries/user_models called src. The Makefiles for the library will be placed in the top directory, <span class="Variable">QUALNET_HOME</span>/libraries/user_models. The code for the application model will be put in <span class="Variable">QUALNET_HOME</span>/libraries/user_models/src.</div>
+      <div class="Body"><a name="928849">Create header and source files for the application model in the directory </a><span class="Variable">QUALNET_HOME</span>/libraries/user_models/src. The example application model, HELLO, has only one header and one source file. But a model can have multiple header files and multiple source files. If the model adds functionality at multiple layers, it is recommended to have separate header and source files for each layer. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#988764', '');" title="Application Layer">Section&nbsp;4.2.5.2</a></span> for details of contents of the header and source files for a traffic-generating Application Layer protocol. </div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#928790', '');" title="Creating an Addon, Interface or Model Library" name="928861">Figure&nbsp;4-213</a></span> shows an example of the header file for the HELLO application, app_hello.h.</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928812">&nbsp;</a></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928817">#ifndef HELLO_H</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928785">#define HELLO_H</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928839">...</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928786">void AppHelloInit(Node *node, NodeInput *nodeInput);</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928787">void AppHelloProcessEvent(Node *node, Message *packet);</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928788">void AppHelloFinalize(Node *node);</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928789">#endif</a></span></div>
+      <div class="Figure">FIGURE 4-213.&nbsp;&nbsp;<a name="928790">Header File for HELLO Application</a></div>
+      <div class="Body"><a name="928780">In the above example, AppHelloInit, AppHelloProcessEvent and AppHelloFinalize are the initialization, event handler and finalization functions for HELLO, respectively.</a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929033', '');" title="Creating an Addon, Interface or Model Library" name="928864">Figure&nbsp;4-214</a></span> shows an example of the source file for the HELLO application, app_hello.cpp.</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="920130">&nbsp;</a></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928239">#include &lt;stdlib.h&gt;</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928262">#include "api.h"</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928263">#include "app_hello.h"</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="920134">void AppHelloInit(Node *node, const NodeInput *nodeInput)</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928264">{</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928275">	     	printf("AppHelloInit called.\n");</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928276">}</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928277">void AppHelloProcessEvent(Node *node, Message *packet) </a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928283">{</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928278">     	printf("AppHelloProcessEvent called.\n");</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928279">}<br />void AppHelloFinalize(Node *node) </a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928281">{</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928280">     	printf("AppHelloFinalize called.\n");</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="928282">}</a></span></div>
+      <div class="Figure">FIGURE 4-214.&nbsp;&nbsp;<a name="929033">Source File for HELLO Application</a></div>
+      <div class="Heading2Numbered">4.10.2  <a name="928922">Including HELLO in List of Application Layer Protocols</a></div>
+      <div class="BodyAfterHead"><a name="928923">This step is identical to including an Application Layer protocol as discussed in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#987028', '');" title="Application Layer">Section&nbsp;4.2.5.3</a></span>.</div>
+      <div class="Body"><a name="928928">For our example protocol, add the entry </a><span style="font-family: &quot;Courier New&quot;">APP_HELLO</span><span style="font-size: 9.0pt; font-weight: bold"> </span>to <span style="font-family: &quot;Courier New&quot;">AppType</span>, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#928951', '');" title="Creating an Addon, Interface or Model Library">Figure&nbsp;4-215</a></span>.</div>
+      <div class="Note_Indented"><a name="959502"><img class="Default" src="images/Chapter%204-10.14.1.2.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />Add the new application at the end of the list because the items in this enumeration are used to initialize random variables, which must not depend on the inclusion of this addon.</a></div>
+      <div class="Code_Segment"><a name="928932">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="928933">typedef enum</a></div>
+      <div class="Code_Segment"><a name="928934">{</a></div>
+      <div class="Code_Segment"><a name="958525">    APP_FTP_SERVER_DATA = 20,</a></div>
+      <div class="Code_Segment"><a name="928935">    APP_FTP_SERVER = 21,</a></div>
+      <div class="Code_Segment"><a name="928936">    APP_FTP_CLIENT,</a></div>
+      <div class="Code_Segment"><a name="928980">    ...</a></div>
+      <div class="Code_New"><a name="959000"> #ifdef USER_MODELS_LIB</a></div>
+      <div class="Code_New"><a name="941203">    APP_HELLO,</a></div>
+      <div class="Code_New"><a name="941204">#endif USER_MODELS_LIB</a></div>
+      <div class="Code_Segment"><a name="928937">    APP_PLACEHOLDER</a></div>
+      <div class="Code_Segment"><a name="928949">} AppType;</a></div>
+      <div class="Figure">FIGURE 4-215.&nbsp;&nbsp;<a name="928951">Adding HELLO to List of Application Layer Protocols</a></div>
+      <div class="Heading2Numbered">4.10.3  <a name="929053">Developing Protocol Components</a></div>
+      <div class="BodyAfterHead"><a name="959402">The following list summarizes the actions that need to be performed for developing components of an Application Layer protocol.</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="929062">Declare data structures for the protocol, as described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#987769', '');" title="Application Layer">Section&nbsp;4.2.5.4</a></span>, in the header file app_hello.h.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929066">Write the initialization function for the protocol, as described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#917217', '');" title="Application Layer">Section&nbsp;4.2.5.5</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929072">Write the event dispatcher function for the protocol, as described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#987147', '');" title="Application Layer">Section&nbsp;4.2.5.6.2</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929076">Write the finalization function for the protocol, as described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#932772', '');" title="Application Layer">Section&nbsp;4.2.5.8.2</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929080">Write the other implementation functions for the protocol.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">6.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929085">Implement code for collecting and printing statistics for the protocol, as described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#932624', '');" title="Application Layer">Section&nbsp;4.2.5.7</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">7.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929081">Include all functions in the source file, app_hello.cpp. Include the prototypes of all interface functions in the header file, app_hello.h.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">4.10.4  <a name="929084">Calling Protocol Functions from Application Layer Functions</a></div>
+      <div class="BodyAfterHead"><a name="929092">The initialization, event dispatcher, and finalization functions for the HELLO application are called from the Application Layer initialization, event dispatcher, and finalization functions, in a manner similar to adding an Application Layer protocol, described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#986903', '');" title="Application Layer">Section&nbsp;4.2.5</a></span>, except that for HELLO, these calls are conditional on the user_models library being activated.</div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="929113"> Include the header file, app_hello.h, in </a><span class="Variable">QUALNET_HOME</span>/main/application.cpp, as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929119', '');" title="Creating an Addon, Interface or Model Library">Figure&nbsp;4-216</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment"><a name="929115">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="940525">...</a></div>
+      <div class="Code_Segment"><a name="940529">#ifdef ADDON_LINK16</a></div>
+      <div class="Code_Segment"><a name="931031">#include "link16_cbr.h"</a></div>
+      <div class="Code_Segment"><a name="931032">#endif // ADDON_LINK16</a></div>
+      <div class="Code_Segment"><a name="931033">&nbsp;</a></div>
+      <div class="Code_New"><a name="931057">#ifdef ADDON_USER_MODELS</a></div>
+      <div class="Code_New"><a name="931058">#include "app_hello.h"</a></div>
+      <div class="Code_New"><a name="931059">#endif /* ADDON_USER_MODELS */</a></div>
+      <div class="Code_New"><a name="931055">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="931051">...</a></div>
+      <div class="Figure">FIGURE 4-216.&nbsp;&nbsp;<a name="929119">Including HELLO Header File in application.cpp</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929120">Call the protocol’s initialization function, AppHelloInit, from the Application Layer initialization function APP_InitializeApplications, as shown in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929201', '');" title="Creating an Addon, Interface or Model Library">Figure&nbsp;4-217</a>. Function APP_InitializeApplications is defined in <span class="Variable">QUALNET_HOME</span>/main/application.cpp. Read and store the configuration parameters for HELLO in APP_InitializeApplications. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#931704', '');" title="Application Layer">Section&nbsp;4.2.5.5.2</a></span> for details of reading configuration parameters from an input file.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment"><a name="929167">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="965565">void APP_InitializeApplications(Node *firstnode, const NodeInput *nodeInput)</a></div>
+      <div class="Code_Segment"><a name="929169">{</a></div>
+      <div class="Code_Segment"><a name="958692">    ...</a></div>
+      <div class="Code_Segment"><a name="958543">    for (i = 0; i &lt; appInput.numLines; i++)</a></div>
+      <div class="Code_Segment"><a name="958544">    {</a></div>
+      <div class="Code_Segment"><a name="958545">        sscanf(appInput.inputStrings[i], "%s", appStr);</a></div>
+      <div class="Code_Segment"><a name="958557">        ...</a></div>
+      <div class="Code_Segment"><a name="958564">        if (strcmp(appStr, "FTP") == 0)</a></div>
+      <div class="Code_Segment"><a name="958583">        {</a></div>
+      <div class="Code_Segment"><a name="958590">           ...</a></div>
+      <div class="Code_Segment"><a name="958597">        }</a></div>
+      <div class="Code_Segment"><a name="958604">        ...</a></div>
+      <div class="Code_Segment"><a name="929873">        else</a></div>
+      <div class="Code_Segment"><a name="929874">        if (strcmp(appStr, "mgen") == 0)</a></div>
+      <div class="Code_Segment"><a name="929170">        {</a></div>
+      <div class="Code_Segment"><a name="958614">		#ifdef ADDON_MGEN4</a></div>
+      <div class="Code_Segment"><a name="929878">            ...</a></div>
+      <div class="Code_Segment"><a name="958633">#endif // ADDON_MGEN4</a></div>
+      <div class="Code_Segment"><a name="929879">        }</a></div>
+      <div class="Code_New"><a name="940719">			      else</a></div>
+      <div class="Code_New"><a name="940720">         if (strmcp(appStr, “HELLO”) == 0)</a></div>
+      <div class="Code_New"><a name="940721">			      {</a></div>
+      <div class="Code_New"><a name="958651">		#ifdef USER_MODELS_LIB</a></div>
+      <div class="Code_New"><a name="929175">					  ...</a></div>
+      <div class="Code_New"><a name="929176">				     /*Read user input into appropriate variables */</a></div>
+      <div class="Code_New"><a name="929187">				     /* Call HELLO initialization function */</a></div>
+      <div class="Code_New"><a name="929188">				     AppHelloInit (node, nodeInput);</a></div>
+      <div class="Code_New"><a name="958665">		#endif // USER_MODELS_LIB </a></div>
+      <div class="Code_New"><a name="929197">			      }</a></div>
+      <div class="Code_Segment"><a name="929199">         else</a></div>
+      <div class="Code_Segment"><a name="929906">         ...</a></div>
+      <div class="Code_Segment"><a name="958678">    }</a></div>
+      <div class="Code_Segment"><a name="958685">    ...</a></div>
+      <div class="Code_Segment"><a name="929238">	}</a></div>
+      <div class="Figure">FIGURE 4-217.&nbsp;&nbsp;<a name="929201">Calling HELLO Initialization Function</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929161">Call the protocol’s event handler function from the Application Layer event handler function, APP_ProcessEvent, as shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929324', '');" title="Creating an Addon, Interface or Model Library">Figure&nbsp;4-218</a></span>. Function APP_ProcessEvent is defined in <span class="Variable">QUALNET_HOME</span>/main/application.cpp.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment"><a name="929287">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="929288">void APP_ProcessEvent(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="929289">{</a></div>
+      <div class="Code_Segment"><a name="929290">    short protocolType;</a></div>
+      <div class="Code_Segment"><a name="929291">    protocolType = APP_GetProtocolType(node,msg);</a></div>
+      <div class="Code_Segment"><a name="929292">    switch(protocolType)</a></div>
+      <div class="Code_Segment"><a name="929293">    {</a></div>
+      <div class="Code_Segment"><a name="929294">        case APP_ROUTING_BELLMANFORD:</a></div>
+      <div class="Code_Segment"><a name="929295">        {</a></div>
+      <div class="Code_Segment"><a name="929296">            RoutingBellmanfordLayer(node, msg);</a></div>
+      <div class="Code_Segment"><a name="929297">            break;</a></div>
+      <div class="Code_Segment"><a name="929298">        }</a></div>
+      <div class="Code_Segment"><a name="929299">        ...</a></div>
+      <div class="Code_New"><a name="929315"> #ifdef USER_MODELS_LIB</a></div>
+      <div class="Code_New"><a name="929356">        case APP_HELLO:</a></div>
+      <div class="Code_New"><a name="929316">        {</a></div>
+      <div class="Code_New"><a name="929317">            AppHelloProcessEvent(node, msg);</a></div>
+      <div class="Code_New"><a name="929318">            break;</a></div>
+      <div class="Code_New"><a name="929319">        }</a></div>
+      <div class="Code_New"><a name="929357"> #endif /* USER_MODELS_LIB */</a></div>
+      <div class="Code_Segment"><a name="929320">        ...</a></div>
+      <div class="Code_Segment"><a name="929321"> }//switch//</a></div>
+      <div class="Code_Segment"><a name="929322">}</a></div>
+      <div class="Figure">FIGURE 4-218.&nbsp;&nbsp;<a name="929324">Calling HELLO Event Dispatcher Function</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="929359">Call the protocol’s finalization function from the Application Layer finalization function, APP_Finalize, as shown in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#929419', '');" title="Creating an Addon, Interface or Model Library">Figure&nbsp;4-219</a>. Function APP_Finalize is defined in <span class="Variable">QUALNET_HOME</span>/main/application.cpp.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment"><a name="929381">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="929382">void App_Finalize (Node *node)</a></div>
+      <div class="Code_Segment"><a name="929383">{</a></div>
+      <div class="Code_Segment"><a name="929384">  ...</a></div>
+      <div class="Code_Segment"><a name="929385">  AppInfo *applist = NULL;</a></div>
+      <div class="Code_Segment"><a name="929386">  AppInfo *nextApp = Null;</a></div>
+      <div class="Code_Segment"><a name="929387">  ...</a></div>
+      <div class="Code_Segment"><a name="929388">  for (appList = node-&gt;appData.appPtr; appList != NULL;<br />       appList = nextApp)</a></div>
+      <div class="Code_Segment"><a name="929389">    {</a></div>
+      <div class="Code_Segment"><a name="929390">        switch (appList-&gt;appType)</a></div>
+      <div class="Code_Segment"><a name="929391">        {</a></div>
+      <div class="Code_Segment"><a name="929392">         ...</a></div>
+      <div class="Code_Segment"><a name="929393">         case APP_CBR_CLIENT:</a></div>
+      <div class="Code_Segment"><a name="929394">            {</a></div>
+      <div class="Code_Segment"><a name="929395">                AppCbrClientFinalize(node, appList);</a></div>
+      <div class="Code_Segment"><a name="929396">                break;</a></div>
+      <div class="Code_Segment"><a name="929397">            }</a></div>
+      <div class="Code_New"><a name="929403">          ...</a></div>
+      <div class="Code_New"><a name="929433"> #ifdef USER_MODELS_LIB</a></div>
+      <div class="Code_New"><a name="929430">          case APP_HELLO</a></div>
+      <div class="Code_New"><a name="929404">            {</a></div>
+      <div class="Code_New"><a name="929405">                AppHelloFinalize(node, appList);</a></div>
+      <div class="Code_New"><a name="929406">                break;</a></div>
+      <div class="Code_New"><a name="929407">            }</a></div>
+      <div class="Code_New"><a name="929443"> #endif /* USER_MODELS_LIB */</a></div>
+      <div class="Code_Segment"><a name="929408">             ...</a></div>
+      <div class="Code_Segment"><a name="929414">         nextApp = appList-&gt;appNext;</a></div>
+      <div class="Code_Segment"><a name="929415">    }</a></div>
+      <div class="Code_Segment"><a name="929416">  ...</a></div>
+      <div class="Code_Segment"><a name="929417">}</a></div>
+      <div class="Figure">FIGURE 4-219.&nbsp;&nbsp;<a name="929419">Calling HELLO Finalization Function</a></div>
+      <div class="Heading2Numbered">4.10.5  <a name="929473">Integrating a New Library into </a><span class="Variable">QualNet</span></div>
+      <div class="BodyAfterHead"><a name="940784">To integrate your library into </a><span class="Variable">QualNet</span>, create Makefiles for your library, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#940783', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.5.1</a></span>, and include the library Makefile for your platform in the main Makefile, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#920443', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.5.2</a></span>. Recompile <span class="Variable">QualNet</span>, as described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-10.html#928354', '');" title="Creating an Addon, Interface or Model Library">Section&nbsp;4.10.5.3</a></span>.</div>
+      <div class="Heading3Numbered">4.10.5.1  <a name="940783">Creating Makefiles</a></div>
+      <div class="BodyAfterHead"><a name="958144">In the directory </a><span class="Variable">QUALNET_HOME</span>/libraries/user_models, create a file Makefile-common that specifies the source files to be included and any other platform-independent information required for compilation. Create a file Makefile-windows (for Windows platforms) or Makefile-unix (used for Linux platforms). Platform-specific information is included in these two files. The files to be added are shown below.</div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="920205">File </a><span class="Variable">QUALNET_HOME</span>/libraries/user_models/Makefile-common:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="931117">&nbsp;</a></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="958717">USER_MODELS_OPTIONS = -DUSER_MODELS_LIB</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="958726">USER_MODELS_DIR = ../libraries/user_models/src</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="958718">USER_MODELS_SRCS = \</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="958719">$(USER_MODELS_DIR)/app_hello.cpp</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="931123">USER_MODELS_INCLUDES = \</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="931124">-I$(USER_MODELS_DIR)</a></span></div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="931125">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="966520">File </a><span class="Variable">QUALNET_HOME</span>/libraries/user_models/Makefile-windows:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="966521">&nbsp;</a></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="966522">include ../libraries/user_models/Makefile-common</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="966523">ADDON_OPTIONS   = $(ADDON_OPTIONS) $(USER_MODELS_OPTIONS)</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="966524">ADDON_SRCS      = $(ADDON_SRCS) $(USER_MODELS_SRCS)</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="966525">ADDON_INCLUDES  = $(ADDON_INCLUDES) $(USER_MODELS_INCLUDES)</a></span></div>
+      <div class="Code_Segment_Large"><a name="966526">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="920227">File </a><span class="Variable">QUALNET_HOME</span>/libraries/user_models/Makefile-unix:		</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Code_Segment_Large"><a name="920229">&nbsp;</a></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="928291">include ../libraries/user_models/Makefile-common</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="920231">ADDON_OPTIONS   += $(USER_MODELS_OPTIONS)</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="929613">ADDON_SRCS      += $(USER_MODELS_SRCS)</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="929614">ADDON_INCLUDES  += $(USER_MODELS_INCLUDES)</a></span></div>
+      <div class="Heading3Numbered">4.10.5.2  <a name="920443">Include Library Makefile in Main Makefile</a></div>
+      <div class="BodyAfterHead"><a name="929495">Enable the library by including its Makefile in the addons Makefile</a> for your platform (Makefile-addons-windows or Makefile-addons-unix).</div>
+      <div class="Body"><a name="966544">For Windows, make the following entry in the file</a><span style="font-weight: bold"> </span><span class="Variable" style="font-weight: normal">QUALNET_HOME</span>/main/Makefile-addons-windows:</div>
+      <div class="Code_Segment_Large"><a name="966545">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="966546">...</a></div>
+      <div class="Code_Segment_Large"><a name="966547"># INSERT LIBRARIES HERE...</a></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="966548"># USER_MODELS library</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="966549">include ../libraries/user_models/Makefile-windows</a></span></div>
+      <div class="Code_Segment_Large"><a name="966550">#</a></div>
+      <div class="Code_Segment_Large"><a name="966551">...</a></div>
+      <div class="Code_Segment_Large"><a name="966552">&nbsp;</a></div>
+      <div class="Body"><a name="948292">For Linux, m</a>ake the following entry in the file<span style="font-weight: bold"> </span><span class="Variable" style="font-weight: normal">QUALNET_HOME</span>/main/Makefile-addons-unix:</div>
+      <div class="Code_Segment_Large"><a name="948293">&nbsp;</a></div>
+      <div class="Code_Segment_Large"><a name="929592">...</a></div>
+      <div class="Code_Segment" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="931151"># INSERT LIBRARIES HERE...</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="958860"># USER_MODELS library</a></span></div>
+      <div class="Code_New" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="958861">include ../libraries/user_models/Makefile-unix</a></span></div>
+      <div class="Code_Segment_Large"><a name="929582">#</a></div>
+      <div class="Code_Segment_Large"><a name="929593">...</a></div>
+      <div class="Heading3Numbered">4.10.5.3  <a name="928354">Recompiling </a><span class="Variable">QualNet</span></div>
+      <div class="BodyAfterHead"><a name="940820">After creating and modifying the Makefiles, recompile </a><span class="Variable">QualNet</span>.</div>
+      <div class="Note_Indented"><a name="940829"><img class="Default" src="images/Chapter%204-10.14.1.3.jpg" width="48" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" />To correctly integrate a library into </a><span class="Variable">QualNet</span>, you must delete all object files before recompiling.</div>
+      <div class="Body"><a name="959674">&nbsp;</a></div>
+      <div class="Anchor"><a name="959675">&nbsp;</a></div>
+      <div class="Heading4"><a name="966558">Windows</a></div>
+      <div class="BodyAfterHead"><a name="966559">Use the following commands to remove all object (.obj) files and recompile:</a></div>
+      <div class="Command_Input"><a name="966560">&nbsp;</a></div>
+      <div class="Command_Input"><a name="966561">nmake clean</a></div>
+      <div class="Command_Input"><a name="966562">nmake</a></div>
+      <div class="Body"><a name="966569">See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%202%20(QN+EX+EC).03.3.html#981335', '');" title="Compiling QualNet on Windows">Section&nbsp;2.2</a></span> for detailed instructions for recompiling <span class="Variable">QualNet</span> on Windows.</div>
+      <div class="Anchor"><a name="966570">&nbsp;</a></div>
+      <div class="Heading4"><a name="966571">Linux</a></div>
+      <div class="BodyAfterHead"><a name="959689">Use the following commands to remove all object (.o) files and recompile:</a></div>
+      <div class="Command_Input"><a name="959690">&nbsp;</a></div>
+      <div class="Command_Input"><a name="959691">make clean</a></div>
+      <div class="Command_Input"><a name="966640">make</a></div>
+      <div class="Body"><a name="959821">See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%202%20(QN+EX+EC).03.4.html#982865', '');" title="Compiling QualNet on Linux">Section&nbsp;2.3</a></span> for detailed instructions for recompiling <span class="Variable">QualNet</span> on Linux.</div>
+      <div class="Body"><a name="940054">&nbsp;</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

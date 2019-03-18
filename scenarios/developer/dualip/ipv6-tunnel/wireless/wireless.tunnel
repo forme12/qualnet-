@@ -1,0 +1,69 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+#
+# ***** QualNet Tunnel Configuration File *****
+#
+#
+# A tunnel can be specified by the following way
+#
+# <node-id> <tunnel-type>  <tunnel-id>
+# <tunnel-start-address> <[optional-address for tunnel start]>
+# <tunnel-end-address> <[optional-address for tunnel end]>
+#
+# where
+#      <node-id>              is the Dual-Ip enabled node on which tunnel is
+#                             to be configured.
+#      <tunnel-type>          can either be v4-tunnel or v6-tunnel.
+#      <tunnel-id>            is an integer to uniquely specify a tunnel for
+#                             an interface of the Dual-IP enabled node.
+#      <tunnel-start-address> specifies the address of the tunnel-connected
+#                             interface of the Dual-Ip enabled node.
+#      <[optional-address for tunnel start]> provides an option to specify
+#                             IPv4 address for the IPv6-tunnel connected
+#                             interface of the Dual-Ip enabled node.
+#      <tunnel-end-address>   specifies the address of the tunnel-connected
+#                             interface of the Dual-Ip enabled node located
+#                             at the other end of the tunnel.
+#      <[optional-address for tunnel end]> provides an option to specify
+#                             IPv4 address for the IPv6-tunnel connected
+#                             interface of the Dual-Ip enabled node located
+#                             at the other end of the tunnel.
+#
+# Note: In Dual-IP, every tunnel-connected interface of a Dual-IP enabled
+# node requires both the IPv6 as well as IPv4 addresses. By default, the
+# IPv6-tunnel connected interface will be internally assigned with a
+# unique IPv4 address from the address block starting from 240.0.0.1
+# whereas the IPv4-tunnel end-point will be assigned with the IPv4
+# compatible IPv6 address of the end-point interface. Users might also use
+# the optional-address fields while configuring a tunnel to specify a
+# unique IPv4 address for an IPv6-tunnel connected interface or a unique
+# IPv4 compatible IPv6 address for an IPv4-tunnel connected interface.
+# However, while assigning address to the IPv4-tunnel ending or starting
+# interface, only IPv4-compatible IPv6 address of the tunnel-end or
+# tunnel-start interface can be specified in the optional-address field.
+# For static route configuration, user can specify these optional-addresses
+# as next hop.
+
+# IPv4 Bi-directional Tunnel specification:
+
+# 2    v4-tunnel    1    192.168.1.1    192.168.2.2
+# 5    v4-tunnel    1    192.168.2.2    192.168.1.1
+
+# IPv6 Bi-directional Tunnel specification:
+
+3    v6-tunnel    1    2000:0:0:1::1     2000:0:0:2::2
+5    v6-tunnel    1    2000:0:0:2::2     2000:0:0:1::1

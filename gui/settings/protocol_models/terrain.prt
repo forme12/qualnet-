@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="Terrain" help="The size of the physical terrain in which the nodes are being simulated.">
+        <variable name="Coordinate System" key="COORDINATE-SYSTEM" type="Selection" default="CARTESIAN">
+            <option value="CARTESIAN" name="Cartesian">
+                <variable name="Scenario Dimensions (meters)" key="TERRAIN-DIMENSIONS" type="Coordinates" default="(1500, 1500)" help="The size of the terrain in meters." min="0,0" max="1000000,1000000"/>
+            </option>
+            <option value="LATLONALT" name="Latitude-Longitude">
+                <variable name="SW Corner" key="TERRAIN-SOUTH-WEST-CORNER" type="Coordinates" default="(34.0, -120)" min="-90.0,-180.0" max="90.0,180.0"/>
+                <variable name="NE Corner" key="TERRAIN-NORTH-EAST-CORNER" type="Coordinates" default="(35.00, -119.0)" min="-90.0,-180.0" max="90.0,180.0"/>
+            </option>
+        </variable>
+        <variable key="DUMMY-ALTITUDES" type="Coordinates" name="Altitude Range (meters)" default="(1500, 0)" help="Terrain altitude in meters." min="0,0" max="40000000,40000000"/>
+        <variable name="Terrain Data Format" key="TERRAIN-DATA-TYPE" type="Selection" default="N/A">
+            <option value="N/A" name="None" help="No terrain data will be used for this experiment." />
+            <option value="CARTESIAN" name="Cartesian"  requires="[COORDINATE-SYSTEM] == 'CARTESIAN'" help="Terrain will be specified in CARTESIAN format.">
+                <variable name="Cartesian Terrain File" key="CARTESIAN-FILENAME" type="File" default="[Required]" help="Check ../data/terrain/ for samples." requires="[COORDINATE-SYSTEM] == 'CARTESIAN'"/>
+                <variable name="Check Terrain Data Boundary" key="TERRAIN-DATA-BOUNDARY-CHECK" type="Checkbox" default="YES" addon="wireless" help="If this is set to YES, the simulation terminates when &lt;br&gt;it attempts to use an elevation not included in the terrain data files. &lt;br&gt;If it is NO, the execution simply assumes that such elevations are 0.0."/>
+            </option>
+            <option value="DEM" name="USGS DEM" help="Terrain will be specified in USGS Digital Elevation Model format." requires="[COORDINATE-SYSTEM] == 'LATLONALT'">
+                <variable name="Number of DEM Files" key="DUMMY-NUM-DEM-FILES" keyvisible="true" default="1" type="Array" embeddedarray="true">
+                    <variable name="DEM Terrain File" key="DEM-FILENAME" type="File" default="[Required]" help="Check ../data/terrain/ for samples." format="List" />
+                </variable>
+                <variable name="Check Terrain Data Boundary" key="TERRAIN-DATA-BOUNDARY-CHECK" type="Checkbox" default="YES" addon="wireless" help="If this is set to YES, the simulation terminates when &lt;br&gt;it attempts to use an elevation not included in the terrain data files. &lt;br&gt;If it is NO, the execution simply assumes that such elevations are 0.0."/>
+            </option>
+            <option value="DTED" name="DTED" requires="[COORDINATE-SYSTEM] == 'LATLONALT'">
+                <variable name="Number of DTED Files" key="DUMMY-NUM-DTED-FILES" keyvisible="true" default="1" type="Array" embeddedarray="true">
+                    <variable name="DTED Terrain File" key="DTED-FILENAME" type="File" default="[Required]" help="Check ../data/terrain/ for samples." format="List" />
+                </variable>
+                <variable name="Check Terrain Data Boundary" key="TERRAIN-DATA-BOUNDARY-CHECK" type="Checkbox" default="YES" addon="wireless" help="If this is set to YES, the simulation terminates when &lt;br&gt;it attempts to use an elevation not included in the terrain data files. &lt;br&gt;If it is NO, the execution simply assumes that such elevations are 0.0."/>
+            </option>
+            <option value="CTDB7" name="CTDB7"  requires="[COORDINATE-SYSTEM] == 'LATLONALT'" help="Be sure to specify a CTDB7 database! Terrain will be specified in Compact Terrain Database format 7.  Works only on Linux.  Not available in all distributions." addon="military">
+                <variable name="Database Type" key="CTDB7-DATABASE-TYPE" type="Selection" default="NOCELL">
+                    <option value="NOCELL" name="Nocell"/>
+                    <option value="SINGLECELL" name="Single Cell"/>
+                    <option value="MULTICELL" name="Multiple Cell"/>
+                    <option value="GTRS" name="GTRS"/>
+                </variable>
+                <variable name="Database Path" key="CTDB7-DATABASE-PATH" type="File" default="[Required]" />
+                <variable name="Database Name" key="CTDB7-DATABASE-NAME" type="Text" default="[Required]" />
+                <variable name="Number of Building Regions" key="GUI-NUM-CTDB7-REGIONS" default="0" type="Array" embeddedarray="true">
+                    <variable name="Building Region SW Corner" key="CTDB7-BUILDING-REGION-SOUTH-WEST-CORNER" type="Coordinates" default="[Required]" />
+                    <variable name="Building Region NE Corner" key="CTDB7-BUILDING-REGION-NORTH-EAST-CORNER" type="Coordinates" default="[Required]" />                
+                </variable>
+                <variable name="Maximum Number of Objects per XML File" key="CTDB7-MAX-OBJECTS-PER-XML" type="Integer" default="1000" />                  
+                <variable name="Check Terrain Data Boundary" key="TERRAIN-DATA-BOUNDARY-CHECK" type="Checkbox" default="YES" addon="wireless" help="If this is set to YES, the simulation terminates when &lt;br&gt;it attempts to use an elevation not included in the terrain data files. &lt;br&gt;If it is NO, the execution simply assumes that such elevations are 0.0."/>
+            </option>
+            <option value="CTDB8" name="CTDB8"  requires="[COORDINATE-SYSTEM] == 'LATLONALT'" help="Be sure to specify a CTDB8 database! Terrain will be specified in Compact Terrain Database format 8.  Works only on Linux.  Not available in all distributions." addon="military">
+                <variable name="Database Type" key="CTDB8-DATABASE-TYPE" type="Selection" default="NOCELL">
+                    <option value="NOCELL" name="No Cell"/>
+                    <option value="SINGLECELL" name="Single Cell"/>
+                    <option value="MULTICELL" name="Multiple Cell"/>
+                    <option value="GTRS" name="GTRS"/>
+                </variable>
+                <variable name="Database Path" key="CTDB8-DATABASE-PATH" type="File" default="[Required]" />
+                <variable name="Database Name" key="CTDB8-DATABASE-NAME" type="Text" default="[Required]" />
+                <variable name="Number of Building Regions" key="GUI-NUM-CTDB8-REGIONS" default="0" type="Array" embeddedarray="true">
+                    <variable name="Building Region SW Corner" key="CTDB8-BUILDING-REGION-SOUTH-WEST-CORNER" type="Coordinates" default="[Required]" />
+                    <variable name="Building Region NE Corner" key="CTDB8-BUILDING-REGION-NORTH-EAST-CORNER" type="Coordinates" default="[Required]" />                
+                </variable>
+                <variable name="Maximum Number of Objects per XML File" key="CTDB8-MAX-OBJECTS-PER-XML" type="Integer" default="1000" />                   
+                <variable name="Check Terrain Data Boundary" key="TERRAIN-DATA-BOUNDARY-CHECK" type="Checkbox" default="YES" addon="wireless" help="If this is set to YES, the simulation terminates when &lt;br&gt;it attempts to use an elevation not included in the terrain data files. &lt;br&gt;If it is NO, the execution simply assumes that such elevations are 0.0."/>
+            </option>
+        </variable>
+        <variable name="Urban Terrain Format" key="URBAN-TERRAIN-TYPE" type="Selection" default="NONE" optional="true">
+            <option name="None" value="NONE"/>
+            <option name="QualNet Format" value="QUALNET-URBAN-TERRAIN">
+                <variable name="Urban Terrain Features Format" key="TERRAIN-FEATURES-SOURCE" type="Selection" default="FILE" refreshtable="true">
+                    <option value="CTDB7" name="CTDB7" help="Urban Terrain Features will be specified using the CTDB7 database." addon="military">
+                        <variable name="Subtract Terrain Elevation" key="TERRAIN-FEATURES-SUBTRACT-TERRAIN-ELEVATION" type="Checkbox" default="NO" help="Subtract terrain elevation (ground level) from the altitude for all terrain features." />
+                    </option>
+                    <option value="CTDB8" name="CTDB8" help="Urban Terrain Features will be specified using the CTDB8 database." addon="military">
+                        <variable name="Subtract Terrain Elevation" key="TERRAIN-FEATURES-SUBTRACT-TERRAIN-ELEVATION" type="Checkbox" default="NO" help="Subtract terrain elevation (ground level) from the altitude for all terrain features." />
+                    </option>
+                    <option value="FILE" name="QualNet Terrain File" addon="wireless">
+                        <variable name="Number of Terrain Files" key="DUMMY-NUM-TERRAIN-FEATURES-FILENAME" default="1" type="Array">
+                            <variable name="Urban Terrain Features File" key="TERRAIN-FEATURES-FILENAME" type="File" default="[Optional]" help="Specifies files containing XML terrain features data for urban environments" format="List" filetype="xml"/>
+                        </variable>
+                        <variable name="Subtract Terrain Elevation" key="TERRAIN-FEATURES-SUBTRACT-TERRAIN-ELEVATION" type="Checkbox" default="NO" help="Subtract terrain elevation (ground level) from the altitude for all terrain features." />
+                    </option>
+            
+                    <option value="SHAPEFILE" name="Shapefile" help="Urban terrain and foliage will be specified using ESRI Shapefiles.">
+                        <variable name="Number of Shape Files" key="DUMMY-NUM-SHAPEFILE" default="1" type="Array" embeddedarray="true">
+                            <variable name="Shapefile Path" key="SHAPEFILE-PATH" type="File" default="[Required]" help="The shapefiles" />
+                            <variable name="Default Shape Type" key="SHAPEFILE-DEFAULT-SHAPE-TYPE" type="Selection" default="BUILDING" help="Specifies whether this shapefile contains buildings or foliage" format="List">
+                                <option value="BUILDING" name="Building"/>
+                                <option value="FOLIAGE" name="Foliage"/>
+                            </variable>
+                            <variable name="Default Units" key="SHAPEFILE-DEFAULT-MSMT-UNIT" type="Selection" default="FEET" help="Units used to define heights in the shapefile." format="List">
+                                <option value="METERS" name="Meters"/>
+                                <option value="FEET" name="Feet"/>
+                            </variable>
+                            <variable name="Default Building Height" key="SHAPEFILE-DEFAULT-BLDG-HEIGHT" type="Integer" default="35" format="List" />
+                            <variable name="Default Foliage Height" key="SHAPEFILE-DEFAULT-FOLIAGE-HEIGHT" type="Integer" default="35" format="List" />
+                            <variable name="Default Foliage Density" key="SHAPEFILE-DEFAULT-FOLIAGE-DENSITY" format="List" type="Fixed" default="0.15" help="" min="0" max="1.0" />
+                            <variable name="DBF File Units" key="SHAPEFILE-DBF-FILE-MSMT-UNIT" type="Selection" default="FEET" format="List" >
+                                <option value="METERS" name="Meters"/>
+                                <option value="FEET" name="Feet"/>
+                            </variable>
+                            <variable name="DBF File Building Height Tag" key="SHAPEFILE-DBF-BLDG-HEIGHT-TAG-NAME" type="String" default="LV" help="Key in DBF file for this attribute"  format="List" />
+                            <variable name="DBF File Foliage Height Tag" key="SHAPEFILE-DBF-FOLIAGE-HEIGHT-TAG-NAME" type="String" default="LV" help="Key in DBF file for this attribute" format="List" />
+                            <variable name="DBF File Foliage Density Tag" key="SHAPEFILE-DBF-FOLIAGE-DENSITY-TAG-NAME" type="String" default="DENSITY" help="Key in DBF file for this attribute" format="List" />
+                        </variable>
+                        <variable name="Foliage Foliated State" key="FOLIAGE-FOLIATED-STATE" type="Selection" default="IN-LEAF" help="" >
+                            <option name="In-leaf" value="IN-LEAF"></option>
+                            <option name="Out-of-leaf" value="OUT-OF-LEAF"></option>
+                        </variable>
+                        <variable name="Set Features to Ground" key="TERRAIN-FEATURES-SET-FEATURES-TO-GROUND" type="Selection" default="YES" help="" >
+                            <option name="Yes" value="YES"></option>
+                            <option name="No" value="NO"></option>
+                        </variable>
+                    </option>            
+				</variable>
+            </option>
+        </variable>
+        <variable name="Weather Mobility Interval" key="WEATHER-MOBILITY-INTERVAL" type="Time" default="10S"/>
+    </subcategory>
+</category>
+

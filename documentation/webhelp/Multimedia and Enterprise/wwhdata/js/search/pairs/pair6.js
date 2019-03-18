@@ -1,0 +1,25 @@
+function FileData_Pairs(x)
+{
+x.t("2008","2012");
+x.t("scalable","network");
+x.t("describes","features");
+x.t("mobile","ipv4");
+x.t("consists","following");
+x.t("network","technologies");
+x.t("network","protocol");
+x.t("features","configuration");
+x.t("requirements","parameters");
+x.t("ipv4","2008");
+x.t("parameters","statistics");
+x.t("2012","scalable");
+x.t("chapter","describes");
+x.t("section","mobile");
+x.t("scenarios","network");
+x.t("configuration","requirements");
+x.t("models","consists");
+x.t("models","network");
+x.t("models","chapter");
+x.t("protocol","models");
+x.t("following","section");
+x.t("statistics","scenarios");
+}

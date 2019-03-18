@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Object Description</title>
+    <link rel="StyleSheet" href="css/Appendix%20A%20-%20NativeTerrain%20Format.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Appendix%20A%20-%20NativeTerrain%20Format.62.1.html#1002514">A	QualNet Terrain Format</a> &gt; A.3  Object Description</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">A.3  <a name="1002514">Object Description</a></div>
+      <div class="BodyAfterHead"><a name="1002515">All objects covered in this section are described in terms of their attributes and the elements included in that object. The elements of an object must occur in the order in which they are described in this section.</a></div>
+      <div class="Heading2Numbered">A.3.1  <a name="1002516">Object IDs and References</a></div>
+      <div class="BodyAfterHead"><a name="1002517">The Site object, all region objects and all terrain feature objects are uniquely identified by character string IDs that are to be specified by the user. In addition, these objects can also have names. The ID of an object is used to maintain uniqueness of all objects.</a></div>
+      <div class="Body"><a name="1002518">Furthermore, it is also used by other objects as a reference. For example, intersections include references to all terrain feature objects that exist at the intersection. So, if three street segments meet at an intersection, the intersection will include the IDs of the three street segments as references to the street segment objects themselves. Since objects can be distributed across multiple files, objects in one file can reference objects in another. But, the user must make sure that all objects referenced by an object must themselves be described in one of the files. No hanging references are allowed.</a></div>
+      <div class="Heading2Numbered">A.3.2  <a name="1002519">Site Object</a></div>
+      <div class="BodyAfterHead"><a name="1002520">Each terrain format file includes one Site object. The attributes of the Site object must be identical across all terrain format files that pertain to a scenario. </a></div>
+      <div class="Heading3Numbered">A.3.2.1  <a name="1002546">Site attributes</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1002523">Name:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1002525">Name of the site (character string). This is an optional attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002527">id:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002529">Site ID (character string). This is a required attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002531">ReferencePoint:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002533">Global reference coordinates specified in geodetic coordinates. This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002535">CoordinateType:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002537">Global coordinate system type. The possible values are “cartesian” or “geodetic”. This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002539">totalParts:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002541">Number of files that the terrain features for this site are distributed over. This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002543">Part:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002545">File number corresponding to the file. This is a required attribute.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading3Numbered">A.3.2.2  <a name="1002548">Site elements</a></div>
+      <table class="NoLine" style="text-align: center; width: 386.5716pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 105.7716pt">
+            <div class="CellName"><a name="1002669">Region Object:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1002671">Region specified by the file. This is a required attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002677">Sequence of terrain Feature Objects:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002679">At most 1000 terrain feature objects (described in section 4.5). The different terrain feature objects can be listed in any order. </a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading2Numbered">A.3.3  <a name="1002552">Base Object Types</a></div>
+      <div class="BodyAfterHead"><a name="1002553">All terrain feature objects are based on a set of base object types. Therefore, while the terrain feature objects can be changed by extension or inclusion of the base object types, the primary base objects will not change as they preserve the common elements between various terrain feature types. </a></div>
+      <div class="Heading4"><a name="1002554">refCollection type</a></div>
+      <div class="BodyAfterHead"><a name="1002555">This type is meant to hold a set of reference points such as the reference to street segments made by the intersection object. </a></div>
+      <div class="Heading4"><a name="1002556">refCollection type attributes</a></div>
+      <table class="NoLine" style="text-align: center; width: 386.5716pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 105.7716pt">
+            <div class="CellName"><a name="1002722">Name:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1002724">Name of the collection (character string). This is an optional attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002726">id:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002728">Object ID (character string). This is a required attribute.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1002559">refCollection type elements</a></div>
+      <table class="NoLine" style="text-align: center; width: 386.5716pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 105.7716pt">
+            <div class="CellName"><a name="1002764">reference sequence:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1002766">Set of ID references each enclosed in “reference” tags. </a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="BodyAfterHead"><a name="1006809">&nbsp;</a></div>
+      <div class="Heading3Numbered">A.3.3.1  <a name="1002561">coordinate3D type</a></div>
+      <div class="BodyAfterHead"><a name="1002562">This type is used to specify any position or location coordinates. It is a list of three numbers. The interpretation of these numbers is described in section 3.1.</a></div>
+      <div class="Heading3Numbered">A.3.3.2  <a name="1002563">linear type</a></div>
+      <div class="BodyAfterHead"><a name="1002865">This type is used to describe any linear terrain features like street segments and railroads. The elements of this type must occur in the order specified below. Note that all linear objects must lie between two objects of the intersection type.</a></div>
+      <div class="Heading4"><a name="1002883">linear type attributes</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1002868">Name:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1002870">Name of the linear object (character string). This is an optional attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002872">id:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002874">Site ID (character string). This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002876">ReferencePoint:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002878">Global reference coordinates specified in geodetic coordinates. This is an optional attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002880">CoordinateType:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004304">Global coordinate system type. The possible values are “cartesian” or “geodetic”. This is a required attribute.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="BodyAfterHead"><a name="1006743">&nbsp;</a></div>
+      <div class="Heading4"><a name="1002571">linear type elements</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1002890">firstNode:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1002892">An object of type coordinate3D with a “objectRef” attribute. This element specifies the location of the first node of the linear object. The objectRef attribute is a reference to the intersection that the firstNode is part of. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002898">node sequence: </a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002900">An optional sequence of objects of type coordinate3D, each with an optional “objectRef” attribute. A node element specifies the location of any intermediary nodes of the linear object. The optional objectRef attribute is a reference to the intersection that the node may be a part of.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002902">lastNode:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002904">An object of type coordinate3D with a “objectRef” attribute. This element specifies the location of the last node of the linear object. The objectRef attribute is a reference to the intersection that the lastNode is part of.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="BodyAfterHead"><a name="1006742">&nbsp;</a></div>
+      <div class="Heading3Numbered">A.3.3.3  <a name="1002576">enclosure type</a></div>
+      <div class="BodyAfterHead"><a name="1002577">Enclosure type objects are relevant geographical areas in the scenario such as parks, stations. The region object is also an enclosure.</a></div>
+      <div class="Heading4"><a name="1002578">enclosure type attributes</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1002941">Name:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1004318">Name of the linear object (character string). This is an optional attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002945">id:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004320">Site ID (character string). This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002949">ReferencePoint:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002951">Global reference coordinates specified in geodetic coordinates. It is optional.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002953">CoordinateType:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004328">Global coordinate system type. The possible values are “cartesian” or “geodetic”. This is a required attribute.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1002584">enclosure type elements</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1002968">position sequence:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1002970">A sequence of at least three objects of type coordinate3D, each with an optional exitIntersectionID attribute. A position object signifies the coordinates of a single vertex of the two dimensional structure. The sequence of positions make up the structure. The exitIntersectionID is a reference to the intersection the enclosure may be a part of.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1002972">representative sequence:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1002974">A sequence of objects of type coordinate3D. It indicates the position of a representative (such as station or park information booth) at the enclosure.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading3Numbered">A.3.3.4  <a name="1002589">intersection type</a></div>
+      <div class="BodyAfterHead"><a name="1002590">This is the base object for street intersections.</a></div>
+      <div class="Heading4"><a name="1002591">intersection type attributes</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1003014">Name:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1003016">Name of the linear object (character string). This is an optional attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003018">id:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004421">Site ID (character string). This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003022">ReferencePoint:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004423">Global reference coordinates specified in geodetic coordinates. This is an optional attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003026">CoordinateType:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004425">Global coordinate system type. The possible values are “cartesian” or “geodetic”. This is a required attribute.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1002597">intersection type elements</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1003049">location:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1003051">An object type coordinate3D. It indicates the location of the intersection.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003053">synchronized signals sequence:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1003055">A sequence of objects of type refCollection. Each synchronizedSignals object 			includes references to a subset of the IDs of street segments that meet at that 			intersection. The subset of street segments that are referenced by a 					synchronizedSignals object are the street segments for which the traffic signals 			are synchronized.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003057">objects:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1003059">An object of type refCollection. This is the list of ID references to all the 				objects that meet at the intersection.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="BodyAfterHead"><a name="1006747">&nbsp;</a></div>
+      <div class="Heading3Numbered">A.3.3.5  <a name="1002603">structure2D type</a></div>
+      <div class="BodyAfterHead"><a name="1003134">This object type is used to describe two-dimensional structures. This includes building faces and clouds.</a></div>
+      <div class="Heading4"><a name="1003152">structure2D type attributes</a></div>
+      <table class="NoLine" style="text-align: center; width: 412.28568pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1003137">Name:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 315.08568pt">
+            <div class="CellBody"><a name="1003139">Name of the structure2D object (character string). This is an optional attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003141">id:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004431">Site ID (character string). This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003145">ReferencePoint:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004433">Global reference coordinates specified in geodetic coordinates. This is an optional attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003149">CoordinateType:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004435">Global coordinate system type. The possible values are “cartesian” or “geodetic”. This is a required attribute.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1002611">structure2D type elements</a></div>
+      <table class="NoLine" style="text-align: center; width: 401.03567999999995pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 105.7716pt">
+            <div class="CellName"><a name="1003159">position sequence:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 295.26408pt">
+            <div class="CellBody"><a name="1003161">A sequence of at least three objects of type coordinate3D. A position object signifies the coordinates of a single vertex of the two dimensional structure. The sequence of positions makeup the structure.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003163">thickness:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1003165">A decimal value indicating the thickness of the structure.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="BodyAfterHead"><a name="1006754">&nbsp;</a></div>
+      <div class="Heading3Numbered">A.3.3.6  <a name="1002615">structure3D type</a></div>
+      <div class="BodyAfterHead"><a name="1002616">This object type is used to describe three-dimensional structures. This includes buildings.</a></div>
+      <div class="Heading4"><a name="1002617">structure3D type attributes</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1003211">Name:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1003213">Name of the structure3D object (character string). This is an optional attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003215">id:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004437">Site ID (character string). This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003219">ReferencePoint:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004439">Global reference coordinates specified in geodetic coordinates. This is an optional attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003223">CoordinateType:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004441">Global coordinate system type. The possible values are “cartesian” or “geodetic”. This is a required attribute.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1002623">Structure3D type elements</a></div>
+      <table class="NoLine" style="text-align: center; width: 386.5716pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 105.7716pt">
+            <div class="CellName"><a name="1003242">face sequence:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1003244">A sequence of at least four objects of type structure2D. Each face is a facet of the three dimensional structure. In the case of a building the faces would be the outside walls and the roof.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading3Numbered">A.3.3.7  <a name="1002625">points type</a></div>
+      <div class="BodyAfterHead"><a name="1002626">This object type is used to describe any collection of points, indicating a collection of locations or positions in the scenario.</a></div>
+      <div class="Heading4"><a name="1002628">points type attributes</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1003270">Name:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1003272">Name of the points object. It is an optional character string.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003274">id:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004443">Site ID (character string). This is a required attribute.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003278">ReferencePoint:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004445">Global reference coordinates specified in geodetic coordinates. This is an optional attribute. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellName"><a name="1003282">CoordinateType:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004447">Global coordinate system type. The possible values are “cartesian” or “geodetic”. This is a required attribute.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="1002634">points type elements</a></div>
+      <table class="NoLine" style="text-align: center; width: 378pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 97.2pt">
+            <div class="CellName"><a name="1003303">point sequence:</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 280.8pt">
+            <div class="CellBody"><a name="1003305"> Sequence of at objects of type coordinate3D.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="BodyAfterHead"><a name="1006816">&nbsp;</a></div>
+      <div class="Heading2Numbered">A.3.4  <a name="1002637">Region Object</a></div>
+      <div class="BodyAfterHead"><a name="1002638">Each file includes a distinct region object within which all the terrain features described in the file lie. It is an object of type enclosure (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Appendix%20A%20-%20NativeTerrain%20Format.62.4.html#1002576', '');" title="Object Description">section A.3.3.3 &nbsp;on page&nbsp;414.</a></span>)</div>
+      <div class="Heading2Numbered">A.3.5  <a name="1002639">Terrain Feature Objects</a></div>
+      <div class="Heading3Numbered">A.3.5.1  <a name="1002640">Street_Segment object</a></div>
+      <div class="BodyAfterHead"><a name="1002641">This is an object of type linear.</a></div>
+      <div class="Heading3Numbered">A.3.5.2  <a name="1002642">Park object</a></div>
+      <div class="BodyAfterHead"><a name="1002643">This is an object of type enclosure.</a></div>
+      <div class="Heading3Numbered">A.3.5.3  <a name="1002644">Cloud object</a></div>
+      <div class="BodyAfterHead"><a name="1002645">This is an object of type structure2D.</a></div>
+      <div class="Heading3Numbered">A.3.5.4  <a name="1002646">Station object</a></div>
+      <div class="BodyAfterHead"><a name="1002647">This is an object of type enclosure.</a></div>
+      <div class="Heading3Numbered">A.3.5.5  <a name="1002648">Building object</a></div>
+      <div class="BodyAfterHead"><a name="1002649">This is an object of type structure3D. In addition, the position elements of the building faces must be specified in the order they appear when traversed counter-clockwise around the outward pointing normal of the face.</a></div>
+      <div class="Heading3Numbered">A.3.5.6  <a name="1002650">Railroad object</a></div>
+      <div class="BodyAfterHead"><a name="1002651">This is an object of type linear.</a></div>
+      <div class="Heading3Numbered">A.3.5.7  <a name="1002652">Intersection object</a></div>
+      <div class="BodyAfterHead"><a name="1002653">This is an object of type intersection. Note that the objects elements could include references to parks, stations, buildings or any other terrain feature objects. </a></div>
+      <div class="Heading2Numbered">A.3.6  <a name="1002654">Distribution of Objects</a></div>
+      <div class="BodyAfterHead"><a name="1008820">In the interest of performance of the XML file parsing tool to be used load the terrain feature objects into the simulator, each file is allowed to include at most 1000 terrain feature objects. But each scenario can include multiple terrain feature files.</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

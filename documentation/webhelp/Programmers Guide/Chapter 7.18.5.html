@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Defining New Dynamic Data Types</title>
+    <link rel="StyleSheet" href="css/Chapter%207.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%207.18.1.html#939112">7	Dynamic API</a> &gt; 7.4  Defining New Dynamic Data Types</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">7.4  <a name="939112">Defining New Dynamic Data Types</a></div>
+      <div class="BodyAfterHead"><a name="939114">New dynamic data types may be defined by the user. This is accomplished by creating a new class that inherits from the most appropriate base class. Defining a new data type comprises two steps: defining the data component (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.5.html#941841', '');" title="Defining New Dynamic Data Types">Section&nbsp;7.4.1</a></span>) and defining the object component (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.5.html#939145', '');" title="Defining New Dynamic Data Types">Section&nbsp;7.4.2</a></span>). We illustrate these steps by studying the implementation of the dynamic data type <span style="font-family: &quot;Courier New&quot;">D_Int32</span>.</div>
+      <div class="Heading2Numbered">7.4.1  <a name="941841">Defining the Data Component</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.5.html#941743', '');" title="Defining New Dynamic Data Types" name="941842">Figure&nbsp;7-9</a></span> shows the definition of the data component of <span style="font-family: &quot;Courier New&quot;">D_Int32</span>. If listening is disabled, i.e., <span style="font-family: &quot;Courier New&quot;">D_LISTENING_ENABLED</span> is not defined, then <span style="font-family: &quot;Courier New&quot;">D_Int32</span> is equivalent to the type <span style="font-family: &quot;Courier New&quot;">int</span>. If listening is enabled, then <span style="font-family: &quot;Courier New&quot;">D_Int32</span> is derived from the class <span style="font-family: &quot;Courier New&quot;">D_SimpleObject</span>. <span style="font-family: &quot;Courier New&quot;">D_SimpleObject</span> is a small class that is used to link the data of an object to the object that is stored in the hierarchy. <span style="font-family: &quot;Courier New&quot;">D_SimpleObjec</span>t implements the changed function that notifies the dynamic API when the object’s value changes.</div>
+      <div class="Body"><span style="font-family: &quot;Courier New&quot;"><a name="941920">D_Int32</a></span> and <span style="font-family: &quot;Courier New&quot;">D_SimpleObject</span> are declared in <span class="Variable">QUALNET_HOME</span>/include/dynamic_vars.h.</div>
+      <div class="Code_Segment"><a name="941702">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943747">ifdef D_LISTENING_ENABLED</a></div>
+      <div class="Code_Segment"><a name="941703">class D_Int32 : public D_SimpleObject</a></div>
+      <div class="Code_Segment"><a name="941704">{</a></div>
+      <div class="Code_Segment"><a name="941705">    private:</a></div>
+      <div class="Code_Segment"><a name="941706">        Int32 value;</a></div>
+      <div class="Code_Segment"><a name="941707">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941708">    public:</a></div>
+      <div class="Code_Segment"><a name="941709">        Int32&amp; operator = (Int32 newValue)</a></div>
+      <div class="Code_Segment"><a name="941710">        {</a></div>
+      <div class="Code_Segment"><a name="941711">            value = newValue;</a></div>
+      <div class="Code_Segment"><a name="941712">            Changed();</a></div>
+      <div class="Code_Segment"><a name="941713">            return value;</a></div>
+      <div class="Code_Segment"><a name="941714">        }</a></div>
+      <div class="Code_Segment"><a name="941715">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941716">        Int32&amp; operator ++(Int32)</a></div>
+      <div class="Code_Segment"><a name="941717">        {</a></div>
+      <div class="Code_Segment"><a name="941718">            value++;</a></div>
+      <div class="Code_Segment"><a name="941719">            Changed();</a></div>
+      <div class="Code_Segment"><a name="941720">            return value;</a></div>
+      <div class="Code_Segment"><a name="941721">        }</a></div>
+      <div class="Code_Segment"><a name="941722">        operator Int32()</a></div>
+      <div class="Code_Segment"><a name="941723">        {</a></div>
+      <div class="Code_Segment"><a name="941724">            return value;</a></div>
+      <div class="Code_Segment"><a name="941725">        } </a></div>
+      <div class="Code_Segment"><a name="941726">        operator Int32() const</a></div>
+      <div class="Code_Segment"><a name="941727">        {</a></div>
+      <div class="Code_Segment"><a name="941728">            return value;</a></div>
+      <div class="Code_Segment"><a name="941729">        } </a></div>
+      <div class="Code_Segment"><a name="941730">};</a></div>
+      <div class="Code_Segment"><a name="941731">#else // D_LISTENING_ENABLED</a></div>
+      <div class="Code_Segment"><a name="941732">typedef Int32 D_Int32;</a></div>
+      <div class="Code_Segment"><a name="941733">#endif // D_LISTENING_ENABLED</a></div>
+      <div class="Figure">FIGURE 7-9.&nbsp;&nbsp;<a name="941743">Data Component of </a><span style="font-family: &quot;Courier New&quot;">D_Int32</span></div>
+      <div class="Heading2Numbered">7.4.2  <a name="939145">Defining the Object Component</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%207.18.5.html#941812', '');" title="Defining New Dynamic Data Types" name="941567">Figure&nbsp;7-10</a></span> shows the definition of the object component corresponding to <span style="font-family: &quot;Courier New&quot;">D_Int32</span>, which is called <span style="font-family: &quot;Courier New&quot;">D_Int32Obj</span>. The object contains a pointer to the data component that is named <span style="font-family: &quot;Courier New&quot;">value</span>. The constructor function links this object to the data component. If listening is enabled, the data component is linked back to this object. The functions IsNumeric and GetDouble over-ride virtual <span style="font-family: &quot;Courier New&quot;">D_Variable</span> functions. Function IsNumeric states that this variable is numeric and function GetDouble provides a numeric value for this variable. The final two functions ReadAsString and WriteAsString also over-ride virtual <span style="font-family: &quot;Courier New&quot;">D_Object</span> functions. They are the <span style="font-style: italic">action functions</span> for this object that determine this object’s behavior. In this case they simply convert the object’s value to and from a string.</div>
+      <div class="Body"><span style="font-family: &quot;Courier New&quot;"><a name="942020">D_Int32Obj</a></span> is declared in <span class="Variable">QUALNET_HOME</span>/include/dynamic_vars.h. <span style="font-family: &quot;Courier New&quot;">D_Variable</span> and <span style="font-family: &quot;Courier New&quot;">D_Object</span> are declared in <span class="Variable">QUALNET_HOME</span>/include/dynamic.h.</div>
+      <div class="Code_Segment"><a name="941752">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941761">class D_Int32Obj : public D_Variable</a></div>
+      <div class="Code_Segment"><a name="941762">{</a></div>
+      <div class="Code_Segment"><a name="941763">    private:</a></div>
+      <div class="Code_Segment"><a name="941764">        D_Int32* value;</a></div>
+      <div class="Code_Segment"><a name="941765">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941766">    public:</a></div>
+      <div class="Code_Segment"><a name="941767">        D_Int32Obj(D_Int32* newValue)</a></div>
+      <div class="Code_Segment"><a name="941768">        {</a></div>
+      <div class="Code_Segment"><a name="941769">            value = newValue;</a></div>
+      <div class="Code_Segment"><a name="941770">#ifdef D_LISTENING_ENABLED</a></div>
+      <div class="Code_Segment"><a name="941771">            value-&gt;SetObject(this);</a></div>
+      <div class="Code_Segment"><a name="941772">#endif // D_LISTENING_ENABLED</a></div>
+      <div class="Code_Segment"><a name="941773">        }</a></div>
+      <div class="Code_Segment"><a name="941774">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941775">        virtual BOOL IsNumeric()</a></div>
+      <div class="Code_Segment"><a name="941776">        {</a></div>
+      <div class="Code_Segment"><a name="941777">            return TRUE;</a></div>
+      <div class="Code_Segment"><a name="941778">        }</a></div>
+      <div class="Code_Segment"><a name="941779">        virtual double GetDouble()</a></div>
+      <div class="Code_Segment"><a name="941780">        {</a></div>
+      <div class="Code_Segment"><a name="941781">            return (double) *value;</a></div>
+      <div class="Code_Segment"><a name="941782">        }</a></div>
+      <div class="Code_Segment"><a name="941783">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941784">        void ReadAsString(std::string&amp; out)</a></div>
+      <div class="Code_Segment"><a name="943177">        {</a></div>
+      <div class="Normal" style="color: #000000; font-family: Verdana; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="943183">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="943184">            std::ostringstream oss;</a></div>
+      <div class="Code_Segment"><a name="943185">            oss &lt;&lt; (Int32) *value;</a></div>
+      <div class="Code_Segment"><a name="943178">            out = oss.str();</a></div>
+      <div class="Code_Segment"><a name="943189">        }</a></div>
+      <div class="Code_Segment"><a name="941788">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="941789">        void WriteAsString(const std::string&amp; in)</a></div>
+      <div class="Code_Segment"><a name="941790">        {</a></div>
+      <div class="Normal" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="943197">           </a></span></div>
+      <div class="Code_Segment"><a name="943198">            std::istringstream iss(in);</a></div>
+      <div class="Code_Segment"><a name="943199">            Int32 intVal;</a></div>
+      <div class="Code_Segment"><a name="943200">            iss &gt;&gt; intVal;</a></div>
+      <div class="Code_Segment"><a name="941791">            *valu</a><span style="font-size: 10.0pt">e = intVal;</span> </div>
+      <div class="Code_Segment"><a name="941792">        }</a></div>
+      <div class="Code_Segment"><a name="941753">};</a></div>
+      <div class="Figure">FIGURE 7-10.&nbsp;&nbsp;<a name="941812">Object Component </a><span style="font-family: &quot;Courier New&quot;">D_Int32Obj</span></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

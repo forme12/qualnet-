@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="Mobility" invisible="ScenarioLevel">
+        <variable name="Node Placement Strategy" key="NODE-PLACEMENT" type="Selection" default="UNIFORM" help="The node placement strategy." disable="true" visibilityrequires="false"  invisible="ScenarioLevel">
+            <option value="FILE" name="File">
+                <variable name="Position File" key="NODE-POSITION-FILE" type="File" default="[Optional]" filetype="nodes"  disable="true"  />
+            </option>
+            <option value="GRID" name="Grid">
+                <variable name="Grid Unit (meters)" key="GRID-UNIT" type="Fixed" default="120" />
+            </option>
+            <option value="RANDOM" name="Random" />
+            <option value="UNIFORM" name="Uniform" />
+            <option value="EXTERNAL" name="External" />
+            <!--<option value="PEDESTRIAN" name="Pedestrian" addon="wireless"/>-->
+        </variable>
+        <variable name="Mobility Model" key="MOBILITY" type="Selection" default="NONE" invisible="Switch,ScenarioLevel" >
+            <option value="NONE" name="None" />
+            <option value="FILE" name="File" addon="wireless">
+            <variable name="Position Granularity (meters)" key="MOBILITY-POSITION-GRANULARITY" type="Fixed" default="1.0" help="Specify mobility granularity for the device to move"/>
+            </option>
+            <option value="GROUP-MOBILITY" name="Group Mobility" addon="wireless" requires = "[NODE-PLACEMENT] == 'GROUP'">
+                <variable name="Group Node Placement" key="GROUP-NODE-PLACEMENT" type="String" default="FILE" help="Specifies how nodes in each group are initially placed." disable="true"/>
+                <variable name="Group Area Origin" key="GROUP-AREA-ORIGIN" type="Coordinates" default="" help="Specifies the origin of the initial group area of the group indicated."/>
+                <variable name="Group Area Dimension" key="GROUP-AREA-DIMENSION" type="Coordinates" default="" help="Specifies the dimension of the initial group area of the group indicated."/>
+
+                <variable name="Group Terrain Constraint Lower Left Corner" key="GROUP-TERRAIN-CONSTRAINT-LOWER-LEFT-CORNER" visibilityrequires="[COORDINATE-SYSTEM] == 'CARTESIAN'" type="Coordinates" default="(0, 0)" help="Specifies the movement area of the group indicated for CARTESIAN coordinate system."/>
+                <variable name="Group Terrain Constraint Upper Right Corner" key="GROUP-TERRAIN-CONSTRAINT-UPPER-RIGHT-CORNER" visibilityrequires="[COORDINATE-SYSTEM] == 'CARTESIAN'" type="Coordinates" default="$TERRAIN-DIMENSIONS" help="Specifies the movement area of the group indicated for CARTESIAN coordinate system."/>
+                <variable name="Group Terrain Constraint South West Corner" key="GROUP-TERRAIN-CONSTRAINT-SOUTH-WEST-CORNER" visibilityrequires="[COORDINATE-SYSTEM] == 'LATLONALT'" type="Coordinates" default="$TERRAIN-SOUTH-WEST-CORNER" help="Specifies the movement area of the group indicated for LATLON coordinate system."/>
+                <variable name="Group Terrain Constraint North East Corner" key="GROUP-TERRAIN-CONSTRAINT-NORTH-EAST-CORNER" visibilityrequires="[COORDINATE-SYSTEM] == 'LATLONALT'" type="Coordinates" default="$TERRAIN-NORTH-EAST-CORNER" help="Specifies the movement area of the group indicated for LATLON coordinate system."/>
+
+                <variable name="Group Mobility Pause" key="MOBILITY-GROUP-PAUSE" type="Time" default="1000S" help="Specifies pause interval for the group" />
+                <variable name="Group Mobility Minimum Speed" key="MOBILITY-GROUP-MIN-SPEED" type="Fixed multiplier" default="0 mps" help="Specifies minimum speed of the group" unit="mps" maxunit="kmps" minunit="mps"  />
+                <variable name="Group Mobility Maximum Speed" key="MOBILITY-GROUP-MAX-SPEED" type="Fixed multiplier" default="0 mps" help="Specifies maximum speed of the group" unit="mps" maxunit="kmps" minunit="mps"  />
+                <variable name="Group Mobility Internal Pause" key="MOBILITY-GROUP-INTERNAL-PAUSE" type="Time" default="0S" help="Specifies pause interval for individual nodes within the group" />
+                <variable name="Group Mobility Internal Minimum Speed" key="MOBILITY-GROUP-INTERNAL-MIN-SPEED" type="Fixed multiplier" default="10 mps" help="Specifies minimum speed of individual nodes within the group" unit="mps" maxunit="kmps" minunit="mps" />
+                <variable name="Group Mobility Internal Maximum Speed" key="MOBILITY-GROUP-INTERNAL-MAX-SPEED" type="Fixed multiplier" default="10 mps" help="Specifies maximum speed of individual nodes within the group" unit="mps" maxunit="kmps" minunit="mps" />
+                <variable name="Position Granularity (meters)" key="MOBILITY-POSITION-GRANULARITY" type="Fixed" default="1.0" help="Specify mobility granularity for the device to move"/>
+            </option>
+            <!--
+            <option value="PEDESTRIAN-MOBILITY" name="Pedestrian Mobility" addon="wireless" >
+                <variable name="Position Granularity (meters)" key="MOBILITY-POSITION-GRANULARITY" type="Fixed" default="1.0" help="Specify mobility granularity for the device to move"/>
+                <variable name="Enable Random Traffic Lights" key="DUMMY-ENABLE-RANDOM-TRAFFIC-LIGHT" type="Selection" default="NO">
+                    <option value="NO" name="No"/>
+                    <option value="YES" name="Yes">
+                        <variable name="Traffic Light Probability" key="TERRAIN-FEATURES-TRAFFIC-LIGHT-PROBABILITY" type="Fixed" default="0.0" min="0.0" max="1.0" help="Specify the probability of getting a traffic light. Range[0.0 - 1.0]"/>
+                        <variable name="Traffic Light Seed" key="TERRAIN-FEATURES-TRAFFIC-LIGHT-SEED" type="Integer" default="1" min="0" max="65535" visibilityrequires="[TERRAIN-FEATURES-TRAFFIC-LIGHT-PROBABILITY] > 0" help="Random seed used for random traffic light generation" />
+                    </option>
+                </variable>
+                <variable name="Default Pedestrian Speed" key="PEDESTRIAN-MOBILITY-DEFAULT-SPEED" type="Fixed multiplier" default="1.3 mps" help="Pedestrians move between the default speed and the minimum speed &lt;br&gt;depending on how crowded the streets or parks are" unit="mps" maxunit="kmps" minunit="mps" />
+                <variable name="Minimum Pedestrian Speed" key="PEDESTRIAN-MOBILITY-MINIMUM-SPEED" type="Fixed multiplier" default="0.01 mps" help="Pedestrians move between the default speed and the minimum speed &lt;br&gt;depending on how crowded the streets or parks are" unit="mps" maxunit="kmps" minunit="mps" />
+                <variable name="Exit Station Start Time" key="PEDESTRIAN-MOBILITY-EXIT-STATION-START" type="Time" default="5S" />
+                <variable name="Exit Station End Time" key="PEDESTRIAN-MOBILITY-EXIT-STATION-END" type="Time" default="10S" />
+                <variable name="Move to Park Start Time" key="PEDESTRIAN-MOBILITY-MOVE-TO-PARK-START" type="Time" default="11S" />
+                <variable name="Move to Park End Time" key="PEDESTRIAN-MOBILITY-MOVE-TO-PARK-END" type="Time" default="15S" />
+                <variable name="Stop for Fireworks Time" key="PEDESTRIAN-MOBILITY-STOP-FOR-FIREWORKS" type="Time" default="16S" />
+                <variable name="Move after Fireworks Time" key="PEDESTRIAN-MOBILITY-MOVE-AFTER-FIREWORKS" type="Time" default="20S" />
+                <variable name="Swap Park Timer" key="PEDESTRIAN-MOBILITY-SWAP-PARK-TIMER" type="Time" default="300S" help="Pedestrians sometimes have trouble reaching the park they have selected. If they have &lt;br&gt;not reached a park within this time limit, they pick a new park as their destination."/>
+                <variable name="Swap Station Timer" key="PEDESTRIAN-MOBILITY-SWAP-STATION-TIMER" type="Time" default="300S" help="Pedestrians sometimes have trouble reaching the station they have selected. If they &lt;br&gt;have not reached a station within this time limit, they pick a new station as their destination."/>
+                <variable name="Position Granularity (meters)" key="MOBILITY-POSITION-GRANULARITY" type="Fixed" default="1.0" help="Specify mobility granularity for the device to move"/>
+            </option>
+            -->
+            <option value="RANDOM-WAYPOINT" name="Random Waypoint" addon="wireless">
+                <variable name="Pause Time" key="MOBILITY-WP-PAUSE" type="Time" default="30S" />
+                <variable name="Minimum Speed" key="MOBILITY-WP-MIN-SPEED" type="Fixed multiplier" default="0 mps" help="meters per second" unit="mps" maxunit="kmps" minunit="mps" />
+                <variable name="Maximum Speed" key="MOBILITY-WP-MAX-SPEED" type="Fixed multiplier" default="10 mps" help="meters per second" unit="mps" maxunit="kmps" minunit="mps" />
+                <variable name="Position Granularity (meters)" key="MOBILITY-POSITION-GRANULARITY" type="Fixed" default="1.0" help="Specify mobility granularity for the device to move"/>
+            </option>
+        </variable>
+        <variable name="Use Altitudes from Terrain File" key="MOBILITY-GROUND-NODE" type="Checkbox" default="NO"/>
+        <variable name="Specify Node Orientation" key="DUMMY-NODE-ORIENTATION" type="Selection" default="NO" invisible="ScenarioLevel" class="device,atmdevice">
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+               <variable name="Azimuth (angle)" key="AZIMUTH" type="Fixed" default="0" min="0" max="360" optional="true" help="Angle between vertical axis and node's direction, range(0.0 to 360.0)"/>
+               <variable name="Elevation (angle)" key="ELEVATION" type="Fixed" default="0" min="-90" max="90" optional="true" help="Angle between the horizontal plane and node's direction, range(-90.0 to 90.0)"/>
+            </option>
+        </variable>
+    </subcategory>
+</category>

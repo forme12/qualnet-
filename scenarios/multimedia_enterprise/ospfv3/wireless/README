@@ -1,0 +1,78 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+
+PURPOSE:-
+--------
+To show:
+The behavior of OSPFv3 implementation in a simple IPv6 wireless network.
+
+
+SCENARIO:-
+---------
+In this scenario: 
+Area-1 contains a Wireless subnet with Nodes 1 thru 3. Area-0 contains Nodes 3 thru 5 
+connected using Wireless links. Area-2 contains Wireless subnet with Nodes 5 thru 8 
+as shown in the below network topology.
+
+        
+        
+<<   Area-1  -->>|<<-----       Area-0         ---->>|<<--  Area-2   -->>
+
+                 |                                   |
+         (1)                                             (6)
+                 |                                   |
+         
+         ...    (3)...............(4)...............(5)  ...  (7)
+         
+                 |                                   |
+         (2)                                             (8)
+                 |                                   |
+         
+                 |                                   |
+         
+ 
+
+         
+
+APPLICATIONS:-
+------------
+CBR 1 6 0 512 1S 300S 0S PRECEDENCE 0
+FTP/GENERIC 7 1 10000 512 300S 0S PRECEDENCE 0
+
+CBR is used to transfer continuous data segments of 512 bytes each at
+1 second interval, starting from 300 seconds till the end of the 
+simulation between Node-1 to Node-6.
+
+Node-7 initiates an FTP/GENERIC session with Node-1.
+  
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet wireless.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. wireless.app                 - QualNet configuration file for application input.
+2. wireless.config              - QualNet configuration input file.
+3. wireless.expected.stat       - QualNet statistics collection.
+4. wireless.nodes               - QualNet node position file.
+5. wireless.ospfv3              - QualNet OSPFv3 configuration input file.
+6. README                       - This file.
+

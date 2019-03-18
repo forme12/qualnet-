@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>External Interface Issues</title>
+    <link rel="StyleSheet" href="css/Appendix%20B.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Appendix%20B.20.1.html#1003804">B	Coding Guidelines for Multi-Processor Platforms</a> &gt; B.2  External Interface Issues</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">B.2  <a name="1003804">External Interface Issues</a></div>
+      <div class="BodyAfterHead"><a name="1002380">This section lists some issues which often arise when developing parallel-safe code for use with external interfaces.</a></div>
+      <div class="Heading2Numbered">B.2.1  <a name="1002381">Node Lists</a></div>
+      <div class="BodyAfterHead"><a name="1002382">If a program uses code that iterates among all nodes (e.g., by using the field </a><span style="font-family: &quot;Courier New&quot;">firstNode</span> of <span style="font-family: &quot;Courier New&quot;">partitionData</span>), then in a sequential run the code will iterate through all nodes in sequence (assuming default partitioning). In parallel execution, each partition has a subset of the complete list of nodes. So, if the code acquires nodes by examining or iterating through the list of nodes, the results from a sequential run may be very different from results from a parallel run.</div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="1003890">&nbsp;</a></div>
+      <div class="Heading2Numbered">B.2.2  <a name="1003891">Loose Events</a></div>
+      <div class="BodyAfterHead"><a name="1003912">Certain events to be scheduled for a node (which may be on a different partition) can be scheduled with a best-effort time delay.</a></div>
+      <div class="Body"><a name="1003925">We illustrate this by taking as an example the implementation of the Forward application. A Forward application instance at both the source node and the destination node needs to be created before the real TCP packets arrive at the destination. To accomplish this, the Forward application at the source node sends an application instantiation message to the destination node before sending any real TCP packets. This message is not real network traffic and serves to trigger the destination node to create a Forward application instance. This instantiation message is sent with a 0 delay value and a loose, or best-effort, scheduling requirement. The Forward application is implemented in files app_forward.h and app_forward.cpp in /libraries/developer/src.</a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Appendix%20B.20.3.html#1003993', '');" title="External Interface Issues" name="1003961">Figure&nbsp;B-6</a></span> shows an example of how the instantiation message is sent in function AppLayerForwardBeginExternalDataTCP, which is implemented in file app_forward.cpp. </div>
+      <div class="Code_Segment"><a name="1003967">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1004032">void AppLayerForwardBeginExternalDataTCP(</a></div>
+      <div class="Code_Segment"><a name="1003968">    NodeAddress from,</a></div>
+      <div class="Code_Segment"><a name="1003969">    Node * nodeA,</a></div>
+      <div class="Code_Segment"><a name="1003970">    NodeAddress nodeIdA,</a></div>
+      <div class="Code_Segment"><a name="1003971">    NodeAddress addressA,</a></div>
+      <div class="Code_Segment"><a name="1003972">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1003973">    NodeAddress to,</a></div>
+      <div class="Code_Segment"><a name="1003974">    Node * nodeB,</a></div>
+      <div class="Code_Segment"><a name="1003975">    NodeAddress nodeIdB,</a></div>
+      <div class="Code_Segment"><a name="1003976">    NodeAddress addressB,</a></div>
+      <div class="Code_Segment"><a name="1003977">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="1003978">    char *data,</a></div>
+      <div class="Code_Segment"><a name="1003979">    int dataSize,</a></div>
+      <div class="Code_Segment"><a name="1003980">    int interfaceId,</a></div>
+      <div class="Code_Segment"><a name="1003981">    char * interfaceName</a></div>
+      <div class="Code_Segment"><a name="1003982">    )</a></div>
+      <div class="Code_Segment"><a name="1003983">{</a></div>
+      <div class="Code_Segment"><a name="1003962">    AppDataForward *forward;</a></div>
+      <div class="Code_Segment"><a name="1003991">    ...</a></div>
+      <div class="Code_Segment"><a name="1003998">    forward = AppLayerGetForward(</a></div>
+      <div class="Code_Segment"><a name="1003999">        nodeA,</a></div>
+      <div class="Code_Segment"><a name="1004000">        addressA,</a></div>
+      <div class="Code_Segment"><a name="1004001">        addressB,</a></div>
+      <div class="Code_Segment"><a name="1004002">        interfaceId);</a></div>
+      <div class="Code_Segment"><a name="1004003">    if (forward == NULL)</a></div>
+      <div class="Code_Segment"><a name="1004004">    {</a></div>
+      <div class="Code_Segment"><a name="1004005">        Message* instantiateMessage;</a></div>
+      <div class="Code_Segment"><a name="1004006">        EXTERNAL_ForwardInstantiate *instantiate;</a></div>
+      <div class="Code_Segment"><a name="1003996">        ...</a></div>
+      <div class="Code_Segment"><a name="1004012">        instantiateMessage = MESSAGE_Alloc(</a></div>
+      <div class="Code_Segment"><a name="1004013">            nodeB,</a></div>
+      <div class="Code_Segment"><a name="1004014">            APP_LAYER,</a></div>
+      <div class="Code_Segment"><a name="1004015">            APP_FORWARD,</a></div>
+      <div class="Code_Segment"><a name="1004010">            MSG_EXTERNAL_ForwardInstantiate);</a></div>
+      <div class="Code_Segment"><a name="1004019">        ...</a></div>
+      <div class="Code_Segment"><a name="1004022">        // Send the message with no delay</a></div>
+      <div class="Code_Segment"><a name="1004023">        EXTERNAL_MESSAGE_SendAnyNode (nodeB-&gt;partitionData, nodeB,</a></div>
+      <div class="Code_Segment"><a name="1004024">            instantiateMessage, 0, EXTERNAL_SCHEDULE_LOOSELY);</a></div>
+      <div class="Code_Segment"><a name="1004020">    }</a></div>
+      <div class="Code_Segment"><a name="1003992">    ...</a></div>
+      <div class="Code_Segment"><a name="1004028">}</a></div>
+      <div class="Figure">FIGURE B-6.&nbsp;&nbsp;<a name="1003993">Scheduling Loose Events</a></div>
+      <div class="Heading2Numbered">B.2.3  <a name="1004062">Partition Communication</a></div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="1004085">&nbsp;</a></div>
+      <div class="BodyAfterHead"><a name="1004063">Partition communication allows one partition to send a message to a different partition. To use partition communication, the external interface code registers a communication handle as part of its initialization work. A name and a function that will be called for processing communication messages are provided when the registration function is called by the external interface. In contrast to a normal message, these partition communication messages can then be sent to the function that was registered.</a></div>
+      <div class="Body"><a name="1004118">The partition communication functions that programmers can use are listed in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Appendix%20B.20.3.html#1004121', '');" title="External Interface Issues">Table&nbsp;B-2</a></span>. The prototypes for these functions are contained in /include/partition.h.</div>
+      <table class="Format_A" style="text-align: left; width: 453.6pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE B-2.&nbsp;&nbsp;<a name="1004121">Partition Communication Functions</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 252pt">
+            <div class="CellHeading"><a name="1004125">Function</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 201.6pt">
+            <div class="CellHeading"><a name="1004127">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004129">PARTITION_COMMUNICATION_RegisterCommunicator</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004166">This function allocates a message identifier and registers the handler that is invoked to receive callbacks when messages with that identifier are sent.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004133">PARTITION_COMMUNICATION_FindCommunicator</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004135">This function locates an already registered communicator.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004137">PARTITION_COMMUNICATION_SendToPartition</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004139">This function transmits a message to a specific partition.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004141">PARTITION_COMMUNICATION_SendToAllPartitions</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1004216">This function transmits a message to all partitions.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading2Numbered">B.2.4  <a name="1004234">Forwarding Packets to External Interfaces</a></div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 2.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 0.0pt; margin-top: 0.0pt; text-align: justify; text-transform: none; vertical-align: baseline"><a name="1004241">&nbsp;</a></div>
+      <div class="BodyAfterHead"><a name="1004235">Function EXTERNAL_RemoteForwardData is similar to the function EXTERNAL_ForwardData, except that it forwards the message to an external interface that is on a remote partition. Each partition has its own set of interfaces and a message can be forwarded back to an external interface on a different partition. In this case, the message to be forwarded is copied to the specified partition and then the interface’s forward function is invoked on that partition. The message to be forwarded must be </a><span style="font-style: italic">flat</span>, i.e., it can not contain pointers because those areas of memory are only present on the original partition.</div>
+      <div class="Body"><a name="1004514">Functions EXTERNAL_ForwardData and EXTERNAL_RemoteForwardData are implemented in files /include/external.h and /main/external.cpp.</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

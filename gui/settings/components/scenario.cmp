@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root whatsThis="Scenario Properties Editor">
+    <category name="Scenario Properties" propertytype="ScenarioLevel">
+        <subcategory name="General">
+            <subcategory name="General Settings">
+                <variable name="Version" key="VERSION" type="Text" default="6.1" disable="true"/>
+                <variable name="Experiment Name" key="EXPERIMENT-NAME" type="Text" default="qualnet" />
+                <variable name="Experiment Comment" key="EXPERIMENT-COMMENT" type="Text" default="NONE" />
+                <variable name="Simulation Time" key="SIMULATION-TIME" type="Time" default="30S" min="1NS" />
+                <variable name="Seed" key="SEED" type="Integer" default="1" min="0" max="65535" help="The random number seed is used to initialize part of the seed of various randomly generated numbers in the simulation. Use different seeds to see the consistency of the results of the simulation." />
+                <variable name="Scenario Background Image File" key="GUI-BACKGROUND-IMAGE-FILENAME" type="File" default="[Optional]" help="Select any background image" filetype="png, jpg, jpeg, bmp"/>
+            </subcategory> 
+            <subcategory name="Parallel Settings">
+                <variable name="Parallel Partition Scheme" key="PARTITION-SCHEME" type="Selection" default="AUTO" help="Method for assigning nodes to parallel partitions. If Manual partition scheme is selected, Use device property editor to specify partition for each individual device.">
+                    <option value="AUTO" name="Automatic" />
+                    <option value="MANUAL" name="Manual" />
+                </variable>
+                <variable name="Prefer Shared Memory" key="GESTALT-PREFER-SHARED-MEMORY" type="Selection" default="YES" help="Indicates the instantiation preference for DMA or Universal memory Architecture (UMA). DMA is used for High performance Computing (HPC) platforms and clusters. UMA is used for sequential systems and parallel configurations.">
+                    <option value="YES" name="Yes" />
+                    <option value="NO" name="No" />
+                </variable>
+            </subcategory>
+            <subcategory name="ATM Configuration">
+                <variable name="Configure ATM Logical Subnet" key="DUMMY-ATM-LOGICAL-SUBNET-CONFIGURED" type="Selection" default="NO">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="ATM Logical Subnet" key="ATM-LOGICAL-SUBNET" type="Text" default="N8-192.168.1.0 {}" help="Please provide IP network address and a list of ATM end system nodes." />
+                    </option>
+                </variable>
+                <variable name="Specify ATM Static Routes" key="ATM-STATIC-ROUTE" type="Selection" default="NO">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="ATM Static Route File" key="ATM-STATIC-ROUTE-FILE" type="File" default="[Required]" filetype="routes-static"/>
+                    </option>
+                </variable>
+            </subcategory>
+            <subcategory name="LTE Configuration" refpath="NODE CONFIGURATION+LTE Properties" icon="protocol.gif" addon="lte" />   
+            <subcategory name="Advanced Settings">
+                 <variable name="Enable Dynamic Parameters" key="DYNAMIC-ENABLED" type="Selection" default="NO">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Enable for the Partition" key="DYNAMIC-PARTITION-ENABLED" type="Checkbox" default="YES"/>
+                        <variable name="Enable for the Nodes" key="DYNAMIC-NODE-ENABLED" type="Checkbox" default="YES"/>
+                        <variable name="Enable for the Physical Layer" key="DYNAMIC-PHY-ENABLED" type="Checkbox" default="YES"/>
+                        <variable name="Enable for the MAC Layer" key="DYNAMIC-MAC-ENABLED" type="Checkbox" default="YES"/>
+                        <variable name="Enable for the Network Layer" key="DYNAMIC-NETWORK-ENABLED" type="Checkbox" default="YES"/>
+                        <variable name="Enable for the Transport Layer" key="DYNAMIC-TRANSPORT-ENABLED" type="Checkbox" default="YES"/>
+                        <variable name="Enable for the Application Layer" key="DYNAMIC-APP-ENABLED" type="Checkbox" default="YES"/>
+                    </option>
+                </variable>
+                <variable name="Event Queue Type" key="SCHEDULER-QUEUE-TYPE" type="Selection" default="CALENDAR" optional="true" help="Data structure type for the event queue used by the simulator">    
+                       <option value="CALENDAR" name="Calendar" />    
+                       <option value="STDLIB" name="stdlib" />
+                       <option value="SPLAYTREE" name="Splaytree" />
+                </variable>                      
+            </subcategory>
+            <subcategory name="Application Settings" addon="ces">
+                <variable name="Super-App Start Time Offset" key="APP-START-TIME-OFFSET" type="Time" optional="true" default="0S" />
+            </subcategory>           
+        </subcategory>
+        <subcategory name="Terrain" refpath="NODE CONFIGURATION+Terrain" icon="protocol.gif" />
+            <subcategory name="Channel Properties" refpath="NODE CONFIGURATION+Channel Properties" icon="protocol.gif" />
+        <subcategory name="Mobility">
+            <subcategory name="Mobility and Placement">
+                <variable name="Node Placement Strategy" key="NODE-PLACEMENT" type="Selection" default="UNIFORM" help="The node placement strategy." disable="true" >
+                    <option value="FILE" name="File">
+                        <variable name="Position File" key="NODE-POSITION-FILE" type="File" default="[Optional]" filetype="nodes"  disable="true"  />
+                    </option>
+                    <option value="GRID" name="Grid">
+                        <variable name="Grid Unit (meters)" key="GRID-UNIT" type="Fixed" default="150" />
+                    </option>
+                    <option value="RANDOM" name="Random" />
+                    <option value="UNIFORM" name="Uniform" />
+                    <option value="GROUP" name="Group" addon="wireless" />
+                </variable>
+                <variable name="Mobility Model" key="MOBILITY" type="Selection" default="NONE" invisible="Switch" disable="true">
+                    <option value="NONE" name="None" />
+                    <option value="FILE" name="File" addon="wireless">
+                        <variable name="Mobility File" key="DUMMY-MOBILITY-FILE" type="File" default="[Required]" filetype="nodes" />
+                        <variable name="Position Granularity (meters)" key="MOBILITY-POSITION-GRANULARITY" type="Fixed" default="1.0" help="Specify mobility granularity for the device to move"/>
+                    </option>
+                    <option value="GROUP-MOBILITY" name="Group Mobility" addon="wireless" requires ="[NODE-PLACEMENT] == 'GROUP'">
+                        <variable name="Position Granularity (meters)" key="MOBILITY-POSITION-GRANULARITY" type="Fixed" default="1.0" help="Specify mobility granularity for the device to move" invisible="Device,Switch,ATM"/>
+                    </option>
+                    <option value="RANDOM-WAYPOINT" name="Random Waypoint" addon="wireless">
+                        <variable name="Pause Time" key="MOBILITY-WP-PAUSE" type="Time" default="30S" />
+                        <variable name="Minimum Speed" key="MOBILITY-WP-MIN-SPEED" type="Fixed multiplier" default="0 mps" help="meters per second" unit="mps" maxunit="kmps" minunit="mps" />
+                        <variable name="Maximum Speed" key="MOBILITY-WP-MAX-SPEED" type="Fixed multiplier" default="10 mps" help="meters per second" unit="mps" maxunit="kmps" minunit="mps" />
+                        <variable name="Position Granularity (meters)" key="MOBILITY-POSITION-GRANULARITY" type="Fixed" default="1.0" help="Specify mobility granularity for the device to move"/>
+                    </option>
+                </variable>
+                <variable name="Use Altitudes from Terrain File" key="MOBILITY-GROUND-NODE" type="Checkbox" default="NO" visibilityrequires="[TERRAIN-DATA-TYPE] != 'N/A'" help="If yes, nodes get their altitude coordinate from the terrain file, if one is specified."/>
+                <variable name="Specify Node Orientation" key="DUMMY-NODE-ORIENTATION" type="Selection" default="NO" invisible="ScenarioLevel" class="device,atmdevice">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Azimuth (angle)" key="AZIMUTH" type="Fixed" default="0" min="0" max="360" optional="true" help="Angle between vertical axis and node's direction, range(0.0 to 360.0)" />
+                        <variable name="Elevation (angle)" key="ELEVATION" type="Fixed" default="0" min="-90" max="90" optional="true" help="Angle between the horizontal plane and node's direction, range(-90.0 to 90.0)" />
+                    </option>
+                </variable>
+            </subcategory>
+            <!--
+            <subcategory name="Pedestrian Mobility">
+                <variable name="Default Pedestrian Speed" key="PEDESTRIAN-MOBILITY-DEFAULT-SPEED" type="Fixed multiplier" default="1.3 mps" help="Pedestrians move between the default speed and the minimum speed &lt;br&gt;depending on how crowded the streets or parks are" unit="mps" maxunit="kmps" minunit="mps" />
+                <variable name="Minimum Pedestrian Speed" key="PEDESTRIAN-MOBILITY-MINIMUM-SPEED" type="Fixed multiplier" default="0.01 mps" help="Pedestrians move between the default speed and the minimum speed &lt;br&gt;depending on how crowded the streets or parks are" unit="mps" maxunit="kmps" minunit="mps" />
+                <variable name="Exit Station Start Time" key="PEDESTRIAN-MOBILITY-EXIT-STATION-START" type="Time" default="5S" />
+                <variable name="Exit Station End Time" key="PEDESTRIAN-MOBILITY-EXIT-STATION-END" type="Time" default="10S" />
+                <variable name="Move to Park Start Time" key="PEDESTRIAN-MOBILITY-MOVE-TO-PARK-START" type="Time" default="11S" />
+                <variable name="Move to Park End Time" key="PEDESTRIAN-MOBILITY-MOVE-TO-PARK-END" type="Time" default="15S" />
+                <variable name="Stop for Fireworks Time" key="PEDESTRIAN-MOBILITY-STOP-FOR-FIREWORKS" type="Time" default="16S" />
+                <variable name="Move after Fireworks Time" key="PEDESTRIAN-MOBILITY-MOVE-AFTER-FIREWORKS" type="Time" default="20S" />
+                <variable name="Swap Park Timer" key="PEDESTRIAN-MOBILITY-SWAP-PARK-TIMER" type="Time" default="300S" help="Pedestrians sometimes have trouble reaching the park they have selected. If they have &lt;br&gt;not reached a park within this time limit, they pick a new park as their destination."/>
+                <variable name="Swap Station Timer" key="PEDESTRIAN-MOBILITY-SWAP-STATION-TIMER" type="Time" default="300S" help="Pedestrians sometimes have trouble reaching the station they have selected. If they &lt;br&gt;have not reached a station within this time limit, they pick a new station as their destination."/>
+                <variable name="Enable Random Traffic Lights" key="DUMMY-ENABLE-RANDOM-TRAFFIC-LIGHT" type="Selection" default="YES">
+                    <option value="NO" name="No"/>
+                    <option value="YES" name="Yes">
+                        <variable name="Traffic Light Probability" key="TERRAIN-FEATURES-TRAFFIC-LIGHT-PROBABILITY" type="Fixed" default="0.0" min="0.0" max="1.0" help="Specify the probability of getting a traffic light. Range[0.0 - 1.0]"/>
+                        <variable name="Traffic Light Seed" key="TERRAIN-FEATURES-TRAFFIC-LIGHT-SEED" type="Integer" default="1" min="0" max="65535" help="Random seed used for random traffic light generation" />
+                    </option>
+                </variable>
+            </subcategory>
+            -->
+        </subcategory>
+        <subcategory name="Statistics and Tracing">
+            <subcategory name="File Statistics" refpath="NODE CONFIGURATION+STATISTICS" icon="protocol.gif" />
+            <subcategory name="Packet Tracing" refpath="NODE CONFIGURATION+Packet Tracing" icon="protocol.gif" />
+            <subcategory name="Statistics Database" refpath="NODE CONFIGURATION+Statistics Database" icon="protocol.gif" />            			
+        </subcategory>
+        <subcategory name="Supplemental Files" refpath="NODE CONFIGURATION+Supplemental Files" icon="protocol.gif" />
+        <subcategory name="External Interfaces" icon="protocol.gif" >
+                <subcategory name="HLA Interface" refpath="NODE CONFIGURATION+External Interfaces+HLA Interface" icon="protocol.gif"/>
+                <subcategory name="DIS Interface" refpath="NODE CONFIGURATION+External Interfaces+DIS Interface" icon="protocol.gif"/>
+                <subcategory name="AGI Interface" refpath="NODE CONFIGURATION+External Interfaces+AGI Interface" icon="protocol.gif"/>
+                <subcategory name="EXata Interface" refpath="NODE CONFIGURATION+External Interfaces+EXata Interface" icon="protocol.gif" />
+                <subcategory name="Socket Interface" refpath="NODE CONFIGURATION+External Interfaces+Socket Interface" icon="protocol.gif"/>
+                <subcategory name="Warm-up Phase" refpath="NODE CONFIGURATION+External Interfaces+Warm-up Phase" icon="protocol.gif"/>
+       </subcategory>
+
+    </category>
+</root>

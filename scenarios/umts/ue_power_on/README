@@ -1,0 +1,55 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+--------
+This scenario shows how to use the parameter "UMTS-UE-POWER-ON-TIME".
+
+
+SCENARIO:-
+---------
+
+There is a CBR flow between node 18 and node 29 and between node 27 and 
+node 34. Here we use routing protocol OSPFv2.
+It consists of one HLR (node 1), one GGSN (node 2), one SGSN (node 3), 
+two RNCs (node 4 and 5), two NodeBs (node 6 and 7)  and 
+6 UEs (node 8 to 41) which forms a simple PLMN. Routing protocol OSPFv2 
+takes around 40s to create routing table. UE normally send location 
+update to HLR during 1st second itself. Since no forwarding table is 
+available at that time, SGSN will not be able to forward location update 
+to HLR. So no location entries will be formed in HLR. Since no location 
+entries for UEs are available from HLR, GGSN will not be able to forward 
+packets to UE.
+
+This behaviour can be fixed by configuring the Power ON time of UEs as 
+40S using parameter "UMTS-UE-POWER-ON-TIME", so that forwarding table will 
+be created by that time.
+
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet ue_power_on.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. ue_power_on.app -  QualNet configuration file for application input.
+2. ue_power_on.config - QualNet configuration input file.
+3. ue_power_on.expected.stat - QualNet statistics collection.
+4. ue_power_on.nodes - QualNet node position file.
+5. README - This file.

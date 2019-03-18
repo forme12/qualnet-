@@ -1,0 +1,90 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+
+PURPOSE:-
+--------
+To show:
+OSPFv3 interaction with the external AS when configured with Stub area, 
+AS External LSA origination along with other OSPF packets.
+
+
+SCENARIO:-
+---------
+In this scenario: 
+AS-1 contains Node-1 thru Node-3, and Node-6 within the respective areas.
+Area-1 is configured to be a Stub Area. Node-4 and Node-5 within AS-2, 
+use default and static routes for communication. The external routes of
+AS-2 are injected into the OSPFv3 network on Node-3 as shown in the below
+network topology.
+
+
+
+
+====================================================                            
+=                               AS-1               =
+=                                                  =
+=       """"""""""""                               =
+=       " Area-1   "                               =
+=       "       (6)"                               =
+=       "        | "                               =
+=       " (Stub) | "                               =
+=       "        | """"""""""""""""""""""""""""""" =
+=       "        | "                             " =
+=       """""""""|""                             " =
+=               (1)--------------(2)--------------(3)--------------(4)
+=                  "          Area-0             " =            ====|========
+=                  "                             " =            =   |       =
+=                  """"""""""""""""""""""""""""""" =            =   |AS-2   =
+=                                                  =            =   |       =
+=                                                  =            =   |       =
+=                                                  =            =  (5)      =
+====================================================            =           =
+                                                                =============
+                                                                        
+                                                                              
+                                                                      
+APPLICATIONS:-
+------------
+CBR 6 5 0 512 1S 300S 0S PRECEDENCE 0
+FTP/GENERIC 5 1 1000 512 300S 0S PRECEDENCE 0
+CBR 4 6 0 512 1S 300S 0S PRECEDENCE 0
+  
+CBR is used to transfer continuous data segments of 512 bytes each at
+1 second interval, starting from 300 seconds till the end of the 
+simulation between Node-6 to Node-5 and Node-4 to Node-6.
+
+Node-5 initiates an FTP/GENERIC session with Node-1.
+ 
+  
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet stub-area.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. stub-area.app                - QualNet configuration file for application input.
+2. stub-area.config             - QualNet configuration input file.
+3. stub-area.expected.stat      - QualNet statistics collection.
+4. stub-area.nodes              - QualNet node position file.
+5. stub-area.ospfv3             - QualNet OSPFv3 configuration input file.
+6. stub-area.ospfv3-external    - QualNet OSPFv3 external route configuration input file.
+7. stub-area.routes-static      - QualNet static route configuration input file.
+8. README                       - This file.

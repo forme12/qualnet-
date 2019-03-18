@@ -1,0 +1,71 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+-------
+To test the Admission control scheme procedure for 802.16 network.
+
+SCENARIO:-
+---------
+One subnet is present in the scenario, having one base station (BS) and four
+subscriber stations (SS). Nodes 2 thru 4 are SS and  Node 1 is BS.
+
+TOPOLOGY:
+---------
+
+
+                1 (BS)
+            2               5
+                 3        4
+
+
+                                                  
+                         
+CBR flows are.
+
+
+- CBR 2 5 2000 2000 5MS 12.0S 0S PRECEDENCE 7 // Application accept
+- CBR 4 3 2000 2000 10MS 13S 0S PRECEDENCE 7 // Application accept
+- CBR 4 3 1 2000 1MS 13.5S 0S PRECEDENCE 7 // Application reject for
+Admission-Control-Basic.config due to limited range of bandwidth availability.
+- CBR 4 3 40 40 1S 18S 0S PRECEDENCE 7 // Application accept
+
+
+There are two config files one is Admission-Control with Basic option and the other
+is Admission-Control with None option.
+
+
+For Admission-Control-Basic.config 1 CBR application is rejected due to limited range
+of bandwidth availability, whereas for Admission-Control-None.config, all the
+applications are accepted.
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet Admission-Control-Basic.config'.
+Run '<QUALNET_HOME>/bin/qualnet Admission-Control-None.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+------------------------
+1.Admission-Control-Basic.config - QualNet configuration input file with ARQ Enabled.
+2.Admission-Control-None.config - QualNet configuration input file with ARQ Disabled.
+3.Admission-Control.app    - QualNet configuration file for application input.
+4.Admission-Control.nodes  - QualNet node placement file for the simulation run.
+5.Admission-Control-Basic.expected.stat - QualNet statistics collection.
+6.Admission-Control-None.expected.stat - QualNet statistics collection.
+7.README - This file

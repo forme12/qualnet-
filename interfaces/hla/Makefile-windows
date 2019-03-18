@@ -1,0 +1,74 @@
+include ../interfaces/hla/Makefile-common
+
+!IFNDEF RTI_HOME
+!ERROR You must set the environment variable RTI_HOME to the RTI installation directory.
+!ENDIF
+
+!IFNDEF RTI_INCLUDE_DIR
+RTI_INCLUDE_DIR = $(RTI_HOME)\include
+!ENDIF
+
+!IF !EXISTS( $(RTI_INCLUDE_DIR) )
+!ERROR Could not find the directory containing the RTI include files. Please \
+set the environment variable RTI_INCLUDE_DIR to the directory containing the \
+RTI include files.
+!ENDIF
+
+!IFNDEF RTI_LIB_DIR
+RTI_LIB_DIR = $(RTI_HOME)\lib
+!ENDIF
+
+!IF !EXISTS( $(RTI_LIB_DIR) )
+!ERROR Could not find the directory containing the RTI library files. Please \
+edit Makefile-windows in the interfaces/hla directory to set RTI_LIB_DIR to \
+the directory containing the RTI library files.
+!ENDIF
+
+#
+# Look for the MaK 64 bit RTI
+!IF !DEFINED( RTI_LIBRARY ) && "$(ARCH)" == "windows-x64" && EXISTS( $(RTI_LIB_DIR)\libRTI-NG_64.lib )
+RTI_LIBRARY = libRTI-NG_64.lib libFedTime_64.lib
+#
+# Look for the MaK 32 bit RTI
+!ELSEIF !DEFINED( RTI_LIBRARY ) &&  EXISTS( $(RTI_LIB_DIR)\libRTI-NG.lib )
+RTI_LIBRARY = libRTI-NG.lib libFedTime.lib
+#
+# Some other RTI
+!ELSEIF !DEFINED( RTI_LIBRARY )
+!ERROR Could not find the RTI library in $(RTI_LIB_DIR). Please set the \
+environment variable RTI_LIBRARY to the name of the RTI library and the \
+environment variable RTI_LIB_DIR to the directory containing the RTI library \
+files.
+!ENDIF
+
+!IFNDEF RTI_DEFINES
+RTI_DEFINES = -DRTI_USES_STD_FSTREAM
+!ENDIF
+
+HLA_INTERFACE_OPTIONS = $(HLA_INTERFACE_OPTIONS) $(RTI_DEFINES)
+
+HLA_INTERFACE_INCLUDES = \
+-I$(HLA_INTERFACE_SRC_DIR) \
+-I"$(RTI_INCLUDE_DIR)"
+
+HLA_INTERFACE_LIBRARIES = \
+/libpath:"$(RTI_LIB_DIR)" $(RTI_LIBRARY) $(RTI_ADDITIONAL_LIBRARIES)
+
+ADDON_OPTIONS   = $(ADDON_OPTIONS) $(HLA_INTERFACE_OPTIONS)
+ADDON_HDRS      = $(ADDON_HDRS) $(HLA_INTERFACE_HDRS)
+ADDON_SRCS      = $(ADDON_SRCS) $(HLA_INTERFACE_SRCS)
+ADDON_INCLUDES  = $(ADDON_INCLUDES) $(HLA_INTERFACE_INCLUDES)
+ADDON_LIBRARIES = $(ADDON_LIBRARIES) $(HLA_INTERFACE_LIBRARIES)
+
+HLA_INTERFACE_OBJS = $(HLA_INTERFACE_SRCS:.cpp=.obj)
+HLA_INTERFACE_OBJS = $(HLA_INTERFACE_OBJS:.c=.obj)
+HLA_INTERFACE_OBJS = $(HLA_INTERFACE_OBJS:/=\)
+
+clean-hla:
+	-del $(HLA_INTERFACE_OBJS) > NUL 2>&1
+
+clean-hla-all: clean-hla
+	-del ..\main\external.obj > NUL 2>&1
+	-del ..\main\gui.obj > NUL 2>&1
+	-del ..\libraries\military\src\mac_link11.obj > NUL 2>&1
+	-del ..\libraries\military\src\mac_link16.obj > NUL 2>&1

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root version="1.0" whatsThis="Satellite Properties Editor">
+    <category icon="" name="Satellite Properties" propertytype="Satellite">
+        <variable default="Host" help="" key="HOSTNAME" name="Satellite Name" type="Text" unique="true"/>
+        <variable default="satellite.png" filetype="xpm,bmp,jpg,jpeg,png" help="" key="GUI-NODE-2D-ICON" name="2D Icon" type="Icon"/>
+        <variable default="satellite.3ds" filetype="3ds,mao" help="" key="GUI-NODE-3D-ICON" name="3D Icon" type="Icon"/>
+        <variable default="100" help="Scales the icon in 3D view relative to the original size." key="GUI-SCALE-FACTOR-3D" name="Scale Factor for 3D Icon (percent)" type="Fixed"/>
+        <variable default="0" help="Parallel partition to which to assign node." key="PARTITION" name="Partition" type="Integer"/>
+        <subcategory name="Satellite Configuration">
+        <!--<variable default="IP" interfaceindex="true" key="NETWORK-PROTOCOL" name="Network Protocol" type="Selection">
+				<option name="IPv4" value="IP"/>
+				<option addon="developer,IPv6" name="IPv6" value="IPv6"/>
+				<option name="Dual-IP" value="DUAL-IP"/>
+				<option addon="cellular" name="GSM Layer3" value="GSM-LAYER3">
+					<variable default="Specify GSM Configuration File in Supplemental Files Tab in Scenario Properties Window." disable="true" key="DUMMY-HELP-MSG-SAT-GSM-FILE" keyvisible="false" name="GSM Node Configuration File" type="text"/>
+			</option>
+		</variable>-->
+		<variable name="Network Protocol" key="NETWORK-PROTOCOL" type="Selection" default="IP" interfaceindex="true">
+		    <option value="IP" name="IPv4">
+			<variable name="IPv4 Network Address" key="SUBNET-IP-ADDRESS" type="Dotted decimal" help="" unique="true" keyvisible="false" />
+			<variable name="IPv4 Subnet Mask" key="IP-SUBNET-MASK" type="Dotted decimal" help="" unique="true" keyvisible="false" dontWriteToConfig="true"/>
+                        <variable name="Enable Fixed Communications" key="DUMMY-FIXED-COMMS" type="Selection" default="NO">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable name="Packet Drop Probability" key="FIXED-COMMS-DROP-PROBABILITY" type="Fixed" default="0.0" />
+                                <variable name="Specify Packet Delay" key="DUMMY-FIXED-COMMS-DELAY" type="Selection" default="NO">
+                                    <option value="NO" name="No" />
+                                    <option value="YES" name="Yes">
+                                        <variable name="Packet Delay" key="FIXED-COMMS-DELAY" type="Time" default="0S" />
+                                    </option>
+                                </variable>
+                            </option>
+                        </variable>
+		    </option>
+		    <option value="IPv6" name="IPv6" addon="developer,IPv6" >
+			<variable name="IPv6 Network Address" key="SUBNET-IP-V6-ADDRESS" type="Text" help="" unique="true" keyvisible="false"/>
+            <variable name="Enable Fixed Communications" key="DUMMY-FIXED-COMMS" type="Selection" default="NO">
+                <option value="NO" name="No" />
+                <option value="YES" name="Yes">
+                    <variable name="Packet Drop Probability" key="FIXED-COMMS-DROP-PROBABILITY" type="Fixed" default="0.0" />
+                    <variable name="Specify Packet Delay" key="DUMMY-FIXED-COMMS-DELAY" type="Selection" default="NO">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                            <variable name="Packet Delay" key="FIXED-COMMS-DELAY" type="Time" default="0S" />
+                        </option>
+                    </variable>
+                </option>
+             </variable>
+		    </option>
+		    <option value="DUAL-IP" name="Dual-IP">
+			<variable name="IPv4 Network Address" key="SUBNET-IP-ADDRESS" type="Dotted decimal" help="" unique="true" keyvisible="false" />
+			<variable name="IPv4 Subnet Mask" key="IP-SUBNET-MASK" type="Dotted decimal" help="" unique="true" keyvisible="false" dontWriteToConfig="true"/>
+			<variable name="IPv6 Network Address" key="SUBNET-IP-V6-ADDRESS" type="Text" help="" unique="true" keyvisible="false"/>
+            <variable name="Enable Fixed Communications" key="DUMMY-FIXED-COMMS" type="Selection" default="NO">
+                <option value="NO" name="No" />
+                <option value="YES" name="Yes">
+                    <variable name="Packet Drop Probability" key="FIXED-COMMS-DROP-PROBABILITY" type="Fixed" default="0.0" />
+                    <variable name="Specify Packet Delay" key="DUMMY-FIXED-COMMS-DELAY" type="Selection" default="NO">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                            <variable name="Packet Delay" key="FIXED-COMMS-DELAY" type="Time" default="0S" />
+                        </option>
+                    </variable>
+                </option>
+            </variable>
+		    </option>
+		    <option value="GSM-LAYER3" name="GSM Layer3" addon="cellular">
+			<variable name="GSM Node Configuration File" key="DUMMY-HELP-MSG-SUBNET-GSM-FILE" type="text" default="Specify GSM Configuration File in Supplemental Files Tab in Scenario Properties Window." keyvisible="false" disable="true"/>
+            <variable name="Enable Fixed Communications" key="DUMMY-FIXED-COMMS" type="Selection" default="NO">
+                <option value="NO" name="No" />
+                <option value="YES" name="Yes">
+                    <variable name="Packet Drop Probability" key="FIXED-COMMS-DROP-PROBABILITY" type="Fixed" default="0.0" />
+                    <variable name="Specify Packet Delay" key="DUMMY-FIXED-COMMS-DELAY" type="Selection" default="NO">
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes">
+                            <variable name="Packet Delay" key="FIXED-COMMS-DELAY" type="Time" default="0S" />
+                        </option>
+                    </variable>
+                </option>
+            </variable>
+		    </option>
+		</variable>		
+        <variable default="SATCOM" key="MAC-PROTOCOL" name="MAC Protocol" type="Selection">
+            <option addon="developer" name="Abstract Satellite (SATCOM) MAC" value="SATCOM">
+                    <variable default="0" issatellitekey="yes" key="SATCOM-SATELLITE-NODE" name="Satellite Node" type="Integer" visibilityrequires="false"/>
+                    <variable default="BENT-PIPE" key="SATCOM-TYPE" name="SATCOM Type" type="Selection" visibilityrequires="false">
+                        <option name="Bent Pipe" value="BENT-PIPE"/>
+                </variable>
+                    <variable default="1 Mbps" key="SATCOM-BANDWIDTH" maxunit="Ebps" minunit="bps" name="Bandwidth" type="Fixed multiplier" unit="bps"/>
+                    <variable default="270MS" key="SATCOM-PROPAGATION-DELAY" name="Propagation Delay" type="Time"/>
+                </option>
+            </variable>
+        </subcategory>
+        <subcategory icon="protocol.gif" name="Router Properties" refpath="NODE CONFIGURATION+ROUTER MODEL"/>
+    </category>
+</root>

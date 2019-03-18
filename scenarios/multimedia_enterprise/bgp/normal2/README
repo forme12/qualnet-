@@ -1,0 +1,54 @@
+PURPOSE:-
+--------
+Normal BGP operation with topological loop.
+
+
+SCENARIO:-
+---------
+
+   N8-2.0                      N8-3.0
++-----------+              +-----------+
+|           |              |           |
+|  1    2   |              |  6     7  |
+|     +---+ |   N2-1.0     | +---+     |
+|     |   |-+--------------+-|   |     |
+|  3  | 4 | |              | | 5 |  8  |
+|     |   |-+--------------+-|   |     |
+|     +---+ |   BGPLink    | +---+     |
++------|-|--+              +--|-|------+
+AS-ID 1| |                    | |   AS-ID 2
+       | |                    | |
+       | |BGPLink      BGPLink| |
+       | |                    | |
+       | |                    | |
+ N2-6.0| |      N8-4.0        | |N2-5.0
+       | |  +-----------+     | |
+       | |  |   +---+   |     | |
+       | +--+---|   |---+-----+ |
+       |    |   | 9 |   |       |
+       +----+---|   |---+-------+
+            |   +---+   |
+            |10   11  12|
+            |           |
+            +-----------+
+               AS-ID 3
+
+
+CBR is used to send 10 data segments of 1000B from node 1 to node 12
+and from node 11 to node 7.
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.bgp - QualNet BGP router configuration file.
+4. default.expected.stat - QualNet statistics file for BGP and application.
+5. default.routes-default - QualNet default routes specification file.
+6. README - This file.
+

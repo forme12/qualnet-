@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>QualNet Simulator Architecture</title>
+    <link rel="StyleSheet" href="css/Chapter%203.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%203.04.1.html#934317">3	Simulator Basics</a> &gt; 3.4  QualNet Simulator Architecture</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">3.4  <span class="Variable"><a name="934317">QualNet</a></span> Simulator Architecture</div>
+      <div class="BodyAfterHead"><a name="934995">As discussed in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.3.html#943741', '');" title="Modeling Protocols in QualNet">Section&nbsp;3.2</a></span>, a protocol model in <span class="Variable">QualNet</span> has three components: Initialization, Event Handling, and Finalization. Each of these functions is performed hierarchically: first at the node level, then at the layer level, and finally at the protocol level. The following sections describe the hierarchy of these three functions.</div>
+      <div class="Heading2Numbered">3.4.1  <a name="919750">Initialization Hierarchy</a></div>
+      <div class="BodyAfterHead"><a name="933638">At the start of simulation, each node in the network is initialized. Function PARTITION_InitializeNodes, defined in </a><span class="Variable">QUALNET_HOME</span>/main/partition.cpp and shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#933750', '');" title="QualNet Simulator Architecture">Figure&nbsp;3-9</a></span>, is the function which initializes nodes. Function PARTITION_InitializeNodes initializes the layers of the protocol stack running at every node by calling the initialization function for each layer. The layers are initialized in a bottom-up order, starting from the bottom-most layer. Some layers, such as the MAC Layer, are initialized globally, while the other layers are initialized one node at a time. For example, function MAC_Initialize initializes the MAC Layer for all nodes, while function TRANSPORT_Initialize initializes the Transport Layer at a given node. There are two initialization functions for the Application Layer: one for traffic-generating protocols and the other for routing protocols running at the Application Layer (these are discussed in detail in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%204-2.html#964883', '');" title="Application Layer">Section&nbsp;4.2</a></span>). Function APP_Initialize initializes the Application Layer routing protocols for a given node, and function APP_InitializeApplications initializes the Application Layer traffic-generating protocols at all nodes.</div>
+      <div class="Code_Segment"><a name="933665">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="937673">void PARTITION_InitializeNodes(PartitionData* partitionData)                            {</a></div>
+      <div class="Code_Segment"><a name="933666">    int            i, j;</a></div>
+      <div class="Code_Segment"><a name="933649">    Node*          nextNode  = NULL;</a></div>
+      <div class="Code_Segment"><a name="961263">    ...</a></div>
+      <div class="Code_Segment"><a name="961385">    // Initalize global antenna model</a></div>
+      <div class="Code_Segment"><a name="961386">    ANTENNA_GlobalAntennaModelPreInitialize(partitionData);</a></div>
+      <div class="Code_Segment"><a name="933676">    ANTENNA_GlobalAntennaPatternPreInitialize(partitionData);</a></div>
+      <div class="Code_Segment"><a name="961394">    ...</a></div>
+      <div class="Code_Segment"><a name="961383">    nextNode = partitionData-&gt;firstNode;</a></div>
+      <div class="Code_Segment"><a name="933736">    while (nextNode != NULL) {</a></div>
+      <div class="Code_Segment"><a name="933678">        ...</a></div>
+      <div class="Code_Segment"><a name="933687">        NETWORK_PreInit(nextNode, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933689">        PHY_Init(nextNode, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933691">        ...</a></div>
+      <div class="Code_Segment"><a name="937695">        nextNode = nextNode-&gt;nextNodeData;</a></div>
+      <div class="Code_Segment"><a name="933696">    }</a></div>
+      <div class="Code_Segment"><a name="933697">    ...</a></div>
+      <div class="Code_Segment"><a name="933698">    // Initialize globally, rather than a node at a time.</a></div>
+      <div class="Code_Segment"><a name="933699">    MAC_Initialize(partitionData-&gt;firstNode, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933700">    ...</a></div>
+      <div class="Code_Segment"><a name="933701">    nextNode = partitionData-&gt;firstNode;</a></div>
+      <div class="Code_Segment"><a name="987878">    BOOL wasFound;</a></div>
+      <div class="Code_Segment"><a name="933702">    char name[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="987894">    while (nextNode != NULL) </a></div>
+      <div class="Code_Segment"><a name="937696">    {</a></div>
+      <div class="Code_Segment"><a name="933703">        ...</a></div>
+      <div class="Code_Segment"><a name="961266">        NETWORK_Initialize(nextNode, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933704">        TRANSPORT_Initialize(nextNode, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933705">        APP_Initialize(nextNode, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933707">        ...</a></div>
+      <div class="Code_Segment"><a name="961267">        nextNode = nextNode-&gt;nextNodeData;</a></div>
+      <div class="Code_Segment"><a name="933708">    }</a></div>
+      <div class="Code_Segment"><a name="933709">    </a></div>
+      <div class="Code_Segment"><a name="933710">    // Initialize globally, rather than a node at a time.</a></div>
+      <div class="Code_Segment"><a name="933711">    APP_InitializeApplications(partitionData-&gt;firstNode,</a></div>
+      <div class="Code_Segment"><a name="937699">                                nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933674">    ...</a></div>
+      <div class="Code_Segment"><a name="933748">}</a></div>
+      <div class="Figure">FIGURE 3-9.&nbsp;&nbsp;<a name="933750">Node Initialization Function</a></div>
+      <div class="Body"><a name="933754">Each layer initialization function, in turn, calls an initialization function for each protocol running at that layer. For example, function TRANSPORT_Initialize, defined in </a><span class="Variable">QUALNET_HOME</span>/main/transport.cpp and shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#933865', '');" title="QualNet Simulator Architecture">Figure&nbsp;3-10</a></span>, calls the initialization functions for the TCP and UDP protocols, TransportTcpInit and TransportUdpInit, respectively. Function TransportTcpInit is defined in <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/transport_tcp.cpp and function TransportUdpInit is defined in <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/transport_udp.cpp. </div>
+      <div class="Code_Segment"><a name="933790">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936235">void TRANSPORT_Initialize(Node * node, <br />                           const NodeInput * nodeInput)</a></div>
+      <div class="Code_Segment"><a name="933792">{</a></div>
+      <div class="Code_Segment"><a name="933793">    ...</a></div>
+      <div class="Code_Segment"><a name="933795">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="933796">    node-&gt;transportData.tcp = NULL;</a></div>
+      <div class="Code_Segment"><a name="933797">    node-&gt;transportData.udp = NULL;</a></div>
+      <div class="Code_Segment"><a name="933798">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="933799">    TransportTcpInit(node, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933800">    TransportUdpInit(node, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933819">    ...</a></div>
+      <div class="Code_Segment"><a name="933843"> }</a></div>
+      <div class="Figure">FIGURE 3-10.&nbsp;&nbsp;<a name="933865">Layer Initialization Function</a></div>
+      <div class="Body"><a name="977714">The initialization function of a protocol creates and initializes the protocol state variables, as well as the protocol statistics variables. For example, </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#933972', '');" title="QualNet Simulator Architecture">Figure&nbsp;3-11</a></span> shows the initialization function for the UDP protocol, TransportUdpInit. Function TransportUdpInit creates the UDP state variable <span style="font-family: &quot;Courier New&quot;">udp</span>, which is a data structure of type <span style="font-family: &quot;Courier New&quot;">TransportDataUdp</span>. If UDP statistics collection is enabled, TransportUdpInit also creates and initializes the UDP statistics variable, which is a data structure of type <span style="font-family: &quot;Courier New&quot;">TransportUdpStat</span>. <span style="font-family: &quot;Courier New&quot;">TransportDataUdp</span> and <span style="font-family: &quot;Courier New&quot;">TransportUdpStat</span> are defined in <span class="Variable">QUALNET_HOME</span>/include/transport.h and <span class="Variable">QUALNET_HOME</span>libraries/developer/src/transport_udp.h, respectively.</div>
+      <div class="Code_Segment"><a name="977721">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="937653">void TransportUdpInit(Node *node, const NodeInput *nodeInput)</a></div>
+      <div class="Code_Segment"><a name="933899">{</a></div>
+      <div class="Code_Segment"><a name="933900">    char buf[MAX_STRING_LENGTH];</a></div>
+      <div class="Code_Segment"><a name="933901">    BOOL retVal;</a></div>
+      <div class="Code_Segment"><a name="933902">    TransportDataUdp* udp =<br />                   (TransportDataUdp*)<br />                    MEM_malloc(sizeof(TransportDataUdp));</a></div>
+      <div class="Code_Segment"><a name="933905">    node-&gt;transportData.udp = udp;</a></div>
+      <div class="Code_Segment"><a name="933907">    TransportUdpInitTrace(node, nodeInput);</a></div>
+      <div class="Code_Segment"><a name="933909">    IO_ReadString(</a></div>
+      <div class="Code_Segment"><a name="933910">        node-&gt;nodeId,</a></div>
+      <div class="Code_Segment"><a name="933911">        ANY_ADDRESS,</a></div>
+      <div class="Code_Segment"><a name="933912">        nodeInput,</a></div>
+      <div class="Code_Segment"><a name="933913">        "UDP-STATISTICS",</a></div>
+      <div class="Code_Segment"><a name="933914">        &amp;retVal,</a></div>
+      <div class="Code_Segment"><a name="933915">        buf);</a></div>
+      <div class="Code_Segment"><a name="969075">  </a></div>
+      <div class="Code_Segment"><a name="969152">  if (retVal == FALSE || strcmp(buf, "NO") == 0)</a></div>
+      <div class="Code_Segment"><a name="969076">    {</a></div>
+      <div class="Code_Segment"><a name="969077">        udp-&gt;udpStatsEnabled = FALSE;</a></div>
+      <div class="Code_Segment"><a name="969078">    }</a></div>
+      <div class="Code_Segment"><a name="969079">    else if (strcmp(buf, "YES") == 0)</a></div>
+      <div class="Code_Segment"><a name="969080">    {</a></div>
+      <div class="Code_Segment"><a name="969081">        udp-&gt;udpStatsEnabled = TRUE;</a></div>
+      <div class="Code_Segment"><a name="969082">    }</a></div>
+      <div class="Code_Segment"><a name="969083">    else</a></div>
+      <div class="Code_Segment"><a name="969084">    {</a></div>
+      <div class="Code_Segment"><a name="969085">        ...</a></div>
+      <div class="Code_Segment"><a name="933934">    }</a></div>
+      <div class="Code_Segment"><a name="969090">    if (udp-&gt;udpStatsEnabled == TRUE)</a></div>
+      <div class="Code_Segment"><a name="933935">    {</a></div>
+      <div class="Code_Segment"><a name="933936">        udp-&gt;statistics = (TransportUdpStat *)</a></div>
+      <div class="Code_Segment"><a name="933937">                          MEM_malloc(sizeof(TransportUdpStat));</a></div>
+      <div class="Code_Segment"><a name="933938">        ...</a></div>
+      <div class="Code_Segment"><a name="933939">        memset(udp-&gt;statistics, 0, sizeof(TransportUdpStat));</a></div>
+      <div class="Code_Segment"><a name="969100">        ...;</a></div>
+      <div class="Code_Segment"><a name="933944">    }</a></div>
+      <div class="Code_Segment"><a name="933945">}</a></div>
+      <div class="Figure">FIGURE 3-11.&nbsp;&nbsp;<a name="933972">Protocol Initialization Function</a></div>
+      <div class="Heading2Numbered">3.4.2  <a name="933631">Event Handling Hierarchy</a></div>
+      <div class="BodyAfterHead"><a name="920489">When an event occurs, the </a><span class="Variable">QualNet</span> kernel gets a handle to the node for which the event is scheduled. It then calls a dispatcher function, NODE_ProcessEvent, defined in <span class="Variable">QUALNET_HOME</span>/main/node.cpp and shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#934084', '');" title="QualNet Simulator Architecture">Figure&nbsp;3-12</a></span>. This function determines the layer for which the event has occurred and calls the event dispatcher function for the appropriate layer, e.g., if the event is for the Application Layer, NODE_ProcessEvent calls the Application Layer event dispatcher function, APP_ProcessEvent.</div>
+      <div class="Code_Segment"><a name="937641">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="937642">void NODE_ProcessEvent(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="933985">{</a></div>
+      <div class="Code_Segment"><a name="933986">    ...</a></div>
+      <div class="Code_Segment"><a name="934005">    switch (MESSAGE_GetLayer(msg))</a></div>
+      <div class="Code_Segment"><a name="934006">    {</a></div>
+      <div class="Code_Segment"><a name="934007">        case PROP_LAYER:</a></div>
+      <div class="Code_Segment"><a name="934008">        {</a></div>
+      <div class="Code_Segment"><a name="934009">            ...</a></div>
+      <div class="Code_Segment"><a name="961268">            PROP_ProcessEvent(node, msg);</a></div>
+      <div class="Code_Segment"><a name="961269">            ...</a></div>
+      <div class="Code_Segment"><a name="934010">            break;</a></div>
+      <div class="Code_Segment"><a name="934011">        }</a></div>
+      <div class="Code_Segment"><a name="934012">        case PHY_LAYER:</a></div>
+      <div class="Code_Segment"><a name="934013">        {</a></div>
+      <div class="Code_Segment"><a name="934014">            PHY_ProcessEvent(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934015">            break;</a></div>
+      <div class="Code_Segment"><a name="934016">        }</a></div>
+      <div class="Code_Segment"><a name="934017">        case MAC_LAYER:</a></div>
+      <div class="Code_Segment"><a name="934018">        {</a></div>
+      <div class="Code_Segment"><a name="934019">            MAC_ProcessEvent(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934020">            break;</a></div>
+      <div class="Code_Segment"><a name="934021">        }</a></div>
+      <div class="Code_Segment"><a name="934022">        case NETWORK_LAYER:</a></div>
+      <div class="Code_Segment"><a name="934023">        {</a></div>
+      <div class="Code_Segment"><a name="934024">            NETWORK_ProcessEvent(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934025">            break;</a></div>
+      <div class="Code_Segment"><a name="934026">        }</a></div>
+      <div class="Code_Segment"><a name="934027">        case TRANSPORT_LAYER:</a></div>
+      <div class="Code_Segment"><a name="934028">        {</a></div>
+      <div class="Code_Segment"><a name="934029">            TRANSPORT_ProcessEvent(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934030">            break;</a></div>
+      <div class="Code_Segment"><a name="934031">        }</a></div>
+      <div class="Code_Segment"><a name="934032">        case APP_LAYER:</a></div>
+      <div class="Code_Segment"><a name="934033">        {</a></div>
+      <div class="Code_Segment"><a name="934034">            APP_ProcessEvent(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934035">            break;</a></div>
+      <div class="Code_Segment"><a name="934036">        }</a></div>
+      <div class="Code_Segment"><a name="934037">        ...</a></div>
+      <div class="Code_Segment"><a name="934042">    }</a></div>
+      <div class="Code_Segment"><a name="934048">}</a></div>
+      <div class="Figure">FIGURE 3-12.&nbsp;&nbsp;<a name="934084">Node Event Handler Function</a></div>
+      <div class="Body"><a name="933981">The event dispatcher function for a layer determines the protocol for which the event has occurred, and calls the event handler for that protocol. For example, when an event for the Bellman-Ford protocol occurs, the Application Layer dispatcher function, APP_ProcessEvent, calls function RoutingBellmanfordLayer, which is the event handler for the Bellman-Ford protocol. This is illustrated in </a><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#934151', '');" title="QualNet Simulator Architecture">Figure&nbsp;3-13</a>. Function APP_ProcessEvent is defined in <span class="Variable">QUALNET_HOME</span>/main/application.cpp.</div>
+      <div class="Code_Segment"><a name="934091">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="937630">void APP_ProcessEvent(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="934092">{</a></div>
+      <div class="Code_Segment"><a name="934093">    short protocolType;</a></div>
+      <div class="Code_Segment"><a name="934094">    protocolType = APP_GetProtocolType(node,msg);</a></div>
+      <div class="Code_Segment"><a name="934095">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="934096">    switch(protocolType)</a></div>
+      <div class="Code_Segment"><a name="934097">    {</a></div>
+      <div class="Code_Segment"><a name="934098">        case APP_ROUTING_BELLMANFORD:</a></div>
+      <div class="Code_Segment"><a name="934099">        {</a></div>
+      <div class="Code_Segment"><a name="934100">            RoutingBellmanfordLayer(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934101">            break;</a></div>
+      <div class="Code_Segment"><a name="934102">        }</a></div>
+      <div class="Code_Segment"><a name="934103">        case APP_ROUTING_FISHEYE:</a></div>
+      <div class="Code_Segment"><a name="934104">        {</a></div>
+      <div class="Code_Segment"><a name="934105">            RoutingFisheyeLayer(node,msg);</a></div>
+      <div class="Code_Segment"><a name="934106">            break;</a></div>
+      <div class="Code_Segment"><a name="920495">        }</a></div>
+      <div class="Code_Segment"><a name="934110">        ..</a></div>
+      <div class="Code_Segment"><a name="934114">        case APP_FTP_CLIENT:</a></div>
+      <div class="Code_Segment"><a name="934125">        {</a></div>
+      <div class="Code_Segment"><a name="934126">            AppLayerFtpClient(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934127">            break;</a></div>
+      <div class="Code_Segment"><a name="934128">        }</a></div>
+      <div class="Code_Segment"><a name="934129">        case APP_FTP_SERVER:</a></div>
+      <div class="Code_Segment"><a name="934130">        {</a></div>
+      <div class="Code_Segment"><a name="934131">            AppLayerFtpServer(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934132">            break;</a></div>
+      <div class="Code_Segment"><a name="934112">        }</a></div>
+      <div class="Code_Segment"><a name="934136">       ...</a></div>
+      <div class="Code_Segment"><a name="934139">    }//switch//</a></div>
+      <div class="Code_Segment"><a name="934137">}</a></div>
+      <div class="Figure">FIGURE 3-13.&nbsp;&nbsp;<a name="934151">Layer Event Dispatcher Function</a></div>
+      <div class="Body"><a name="934111">The protocol event dispatcher, like the other dispatcher functions, consists of a switch statement. It calls the event handler function for the event that has occurred. An event handler is specific to an event and performs the required actions on the occurrence of that event. For example, the Bellman-Ford dispatcher function, RoutingBellmanfordLayer, shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#934298', '');" title="QualNet Simulator Architecture">Figure&nbsp;3-14</a></span>, calls function HandleFromTransport when an event of type <span style="font-family: &quot;Courier New&quot;">MSG_APP_FromTranspor</span>t occurs. <span style="font-family: &quot;Courier New&quot;">MSG_APP_FromTransport</span> indicates that a packet has been received from the Transport Layer, and function HandleFromTransport performs the actions required to handle the received packet. Functions RoutingBellmanfordLayer and HandleFromTransport are defined in <span class="Variable">QUALNET_HOME</span>/libraries/developer/src/routing_bellmanford.cpp.</div>
+      <div class="Code_Segment"><a name="934206">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="937619">void RoutingBellmanfordLayer(Node *node, Message *msg)</a></div>
+      <div class="Code_Segment"><a name="934208">{</a></div>
+      <div class="Code_Segment"><a name="961272">    if (node-&gt;networkData.networkProtocol == IPV6_ONLY)</a></div>
+      <div class="Code_Segment"><a name="961273">    {</a></div>
+      <div class="Code_Segment"><a name="961274">        // Bellmanford is an IPv4 Network based routing protocol,</a></div>
+      <div class="Code_Segment"><a name="961275">        // it can not be run on this node</a></div>
+      <div class="Code_Segment"><a name="961276">        ...</a></div>
+      <div class="Code_Segment"><a name="961277">        MESSAGE_Free(node, msg);</a></div>
+      <div class="Code_Segment"><a name="961278">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="961279">        return;</a></div>
+      <div class="Code_Segment"><a name="934209">    } </a></div>
+      <div class="Code_Segment"><a name="961270">    switch(msg-&gt;eventType)</a></div>
+      <div class="Code_Segment"><a name="934210">    {</a></div>
+      <div class="Code_Segment"><a name="934211">        case MSG_APP_PeriodicUpdateAlarm:</a></div>
+      <div class="Code_Segment"><a name="934214">        {</a></div>
+      <div class="Code_Segment"><a name="934215">            HandlePeriodicUpdateAlarm(node);</a></div>
+      <div class="Code_Segment"><a name="934216">            break;</a></div>
+      <div class="Code_Segment"><a name="934217">        }</a></div>
+      <div class="Code_Segment"><a name="934218">        case MSG_APP_CheckRouteTimeoutAlarm:</a></div>
+      <div class="Code_Segment"><a name="934219">        {</a></div>
+      <div class="Code_Segment"><a name="934220">            HandleCheckRouteTimeoutAlarm(node);</a></div>
+      <div class="Code_Segment"><a name="934221">            break;</a></div>
+      <div class="Code_Segment"><a name="934222">        }</a></div>
+      <div class="Code_Segment"><a name="934223">        case MSG_APP_TriggeredUpdateAlarm:</a></div>
+      <div class="Code_Segment"><a name="934224">        {</a></div>
+      <div class="Code_Segment"><a name="934225">            HandleTriggeredUpdateAlarm(node);</a></div>
+      <div class="Code_Segment"><a name="934226">            break;</a></div>
+      <div class="Code_Segment"><a name="934227">        }</a></div>
+      <div class="Code_Segment"><a name="934228">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="934229">        // Messages sent by UDP to Bellman-Ford.</a></div>
+      <div class="Code_Segment"><a name="934230">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="934231">        case MSG_APP_FromTransport:</a></div>
+      <div class="Code_Segment"><a name="934232">        {</a></div>
+      <div class="Code_Segment"><a name="934233">            HandleFromTransport(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934234">            break;</a></div>
+      <div class="Code_Segment"><a name="934235">        }</a></div>
+      <div class="Code_Segment"><a name="934236">        default:</a></div>
+      <div class="Code_Segment"><a name="934237">            ERROR_ReportError("Invalid switch value");</a></div>
+      <div class="Code_Segment"><a name="934238">    }</a></div>
+      <div class="Code_Segment"><a name="934239">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="934240">    // Done with the message, so free it.</a></div>
+      <div class="Code_Segment"><a name="934241">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="934242">    MESSAGE_Free(node, msg);</a></div>
+      <div class="Code_Segment"><a name="934173">}      </a></div>
+      <div class="Figure">FIGURE 3-14.&nbsp;&nbsp;<a name="934298">Protocol Event Dispatcher Function</a></div>
+      <div class="Heading2Numbered">3.4.3  <a name="934306">Finalization Hierarchy</a></div>
+      <div class="BodyAfterHead"><a name="934303">At the end of simulation, the finalization function for each protocol is called to print the protocol statistics. Like the initialization and event handling functions, the finalization function is called hierarchically.</a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#934426', '');" title="QualNet Simulator Architecture" name="934424">Figure&nbsp;3-15</a></span> shows the node finalization function, PARTITION_Finalize, which is defined in <span class="Variable">QUALNET_HOME</span>/main/partition.cpp. PARTITION_Finalize calls the finalization function for each layer in the protocol stack running at each node. For example, MAC_Finalize is the finalization function for the MAC Layer.</div>
+      <div class="Code_Segment"><a name="934368"> </a></div>
+      <div class="Code_Segment"><a name="936217">void PARTITION_Finalize(PartitionData* partitionData) </a></div>
+      <div class="Code_Segment"><a name="937616">{</a></div>
+      <div class="Code_Segment"><a name="934370">    if (partitionData-&gt;firstNode != NULL)</a></div>
+      <div class="Code_Segment"><a name="934371">    {</a></div>
+      <div class="Code_Segment"><a name="934372">        Node *nextNode = partitionData-&gt;firstNode;</a></div>
+      <div class="Code_Segment"><a name="934374">        while (nextNode != NULL)</a></div>
+      <div class="Code_Segment"><a name="934375">        {</a></div>
+      <div class="Code_Segment"><a name="934376">            PHY_Finalize(nextNode);</a></div>
+      <div class="Code_Segment"><a name="934377">            MAC_Finalize(nextNode);</a></div>
+      <div class="Code_Segment"><a name="961287">            ...</a></div>
+      <div class="Code_Segment"><a name="969113">            if ((nextNode-&gt;adaptationData.adaptationProtocol</a></div>
+      <div class="Code_Segment"><a name="969114">                == ADAPTATION_PROTOCOL_NONE)</a></div>
+      <div class="Code_Segment"><a name="969115">                || (nextNode-&gt;adaptationData.endSystem))</a></div>
+      <div class="Code_Segment"><a name="969116">            {</a></div>
+      <div class="Code_Segment"><a name="969117">                NETWORK_Finalize(nextNode);</a></div>
+      <div class="Code_Segment"><a name="969118">                TRANSPORT_Finalize(nextNode);</a></div>
+      <div class="Code_Segment"><a name="969119">                APP_Finalize(nextNode);</a></div>
+      <div class="Code_Segment"><a name="969120">                USER_Finalize(nextNode);</a></div>
+      <div class="Code_Segment"><a name="969121">                MOBILITY_Finalize(nextNode);</a></div>
+      <div class="Code_Segment"><a name="934382">            }</a></div>
+      <div class="Code_Segment"><a name="969125">            nextNode = nextNode-&gt;nextNodeData;</a></div>
+      <div class="Code_Segment"><a name="934383">        }</a></div>
+      <div class="Code_Segment"><a name="934384">    }</a></div>
+      <div class="Code_Segment"><a name="934386">    ...</a></div>
+      <div class="Code_Segment"><a name="934423">}</a></div>
+      <div class="Figure">FIGURE 3-15.&nbsp;&nbsp;<a name="934426">Node Finalization Function</a></div>
+      <div class="Body"><a name="934510">The finalization function for a layer calls the finalization function for each protocol running at that layer. For example, consider the MAC Layer finalization function, MAC_Finalize, defined in </a><span class="Variable">QUALNET_HOME</span>/main/mac.cpp and shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#934488', '');" title="QualNet Simulator Architecture">Figure&nbsp;3-16</a></span>. For each interface of a node, MAC_Finalize calls the finalization function for the MAC protocol running at that interface, e.g., if the CSMA protocol is running at an interface, MAC_Finalize calls the CSMA finalization function MacCsmaFinalize. </div>
+      <div class="Code_Segment"><a name="934746">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936224">void MAC_Finalize(Node *node)</a></div>
+      <div class="Code_Segment"><a name="934512">{</a></div>
+      <div class="Code_Segment"><a name="934513">    int interfaceIndex;</a></div>
+      <div class="Code_Segment"><a name="934514">    ...</a></div>
+      <div class="Code_Segment"><a name="934515">    for (interfaceIndex = 0;</a></div>
+      <div class="Code_Segment"><a name="934516">         interfaceIndex &lt; node-&gt;numberInterfaces;</a></div>
+      <div class="Code_Segment"><a name="934517">         interfaceIndex++)</a></div>
+      <div class="Code_Segment"><a name="934518">    {</a></div>
+      <div class="Code_Segment"><a name="934519">        /* Select the MAC protocol model and finalize it. */</a></div>
+      <div class="Code_Segment"><a name="934520">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="934521">        if (node-&gt;macData[interfaceIndex])</a></div>
+      <div class="Code_Segment"><a name="934522">        {</a></div>
+      <div class="Code_Segment"><a name="934523">            switch <br />                (node-&gt;macData[interfaceIndex]-&gt;macProtocol)</a></div>
+      <div class="Code_Segment"><a name="934524">            {</a></div>
+      <div class="Code_Segment"><a name="934525">                case MAC_PROTOCOL_DOT11:</a></div>
+      <div class="Code_Segment"><a name="934526">                {</a></div>
+      <div class="Code_Segment"><a name="934527">                    MacDot11Finalize(node, interfaceIndex);</a></div>
+      <div class="Code_Segment"><a name="934528">                    break;</a></div>
+      <div class="Code_Segment"><a name="934529">                }</a></div>
+      <div class="Code_Segment"><a name="934530">                case MAC_PROTOCOL_CSMA:</a></div>
+      <div class="Code_Segment"><a name="934531">                {</a></div>
+      <div class="Code_Segment"><a name="934532">                    MacCsmaFinalize(node, interfaceIndex);</a></div>
+      <div class="Code_Segment"><a name="934533">                    break;</a></div>
+      <div class="Code_Segment"><a name="934508">                }</a></div>
+      <div class="Code_Segment"><a name="934537">                ...</a></div>
+      <div class="Code_Segment"><a name="934538">             }</a></div>
+      <div class="Code_Segment"><a name="934539">             ...</a></div>
+      <div class="Code_Segment"><a name="934540">       }</a></div>
+      <div class="Code_Segment"><a name="934541">       ...</a></div>
+      <div class="Code_Segment"><a name="934545">}</a></div>
+      <div class="Figure">FIGURE 3-16.&nbsp;&nbsp;<a name="934488">Layer Finalization Function</a></div>
+      <div class="Body"><a name="977758">The finalization function for a protocol prints the statistics for the protocol if statistics collection is enabled for the layer in which the protocol resides. For example, function MacCsmaFinalize, shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.5.html#934554', '');" title="QualNet Simulator Architecture">Figure&nbsp;3-17</a></span>, calls the function to print CSMA statistics, MacCsmaPrintStats, if statistics collection is enabled for the MAC Layer. Functions MacCsmaFinalize and MacCsmaPrintStats are defined in <span class="Variable">QUALNET_HOME</span>/libraries/wireless/src/mac_csma.cpp. </div>
+      <div class="Code_Segment"><a name="934495">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="936228">void MacCsmaFinalize(Node *node, int interfaceIndex)</a></div>
+      <div class="Code_Segment"><a name="934496">{</a></div>
+      <div class="Code_Segment"><a name="934497">    MacDataCsma* csma = (MacDataCsma *)<br />                      node-&gt;macData[interfaceIndex]-&gt;macVar;</a></div>
+      <div class="Code_Segment"><a name="934498">&nbsp;</a></div>
+      <div class="Code_Segment"><a name="934499">    if (node-&gt;macData[interfaceIndex]-&gt;macStats == TRUE) {</a></div>
+      <div class="Code_Segment"><a name="934500">        MacCsmaPrintStats(node, csma, interfaceIndex);</a></div>
+      <div class="Code_Segment"><a name="934501">    }</a></div>
+      <div class="Code_Segment"><a name="934493">}</a></div>
+      <div class="Figure">FIGURE 3-17.&nbsp;&nbsp;<a name="934554">Protocol Finalization Function</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

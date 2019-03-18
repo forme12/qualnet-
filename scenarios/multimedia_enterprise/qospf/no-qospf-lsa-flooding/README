@@ -1,0 +1,46 @@
+PURPOSE:-
+--------
+This scenario shows the QOSPF behavior when it depends upon OSPF for 
+periodic flooding and no periodic message is required to send.
+
+
+SCENARIO:-
+---------
+In this scenario two possible paths exist between the source (node 1) and
+destination (node 4). QOSPF receives three simultaneous connection requests
+at node 1,though the best shortest path can accommodate only two connections
+(with the given QoS requirements) simultaneously.
+
+
+               (1)
+                |
+                |
+                |
+               (2)
+               / \
+             /     \
+           /         \
+         (3)---------(4)
+
+
+APPLICATION:-
+------------
+
+TRAFFIC-GEN 1 4 DET 100 DET 900 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 150000 40MS 1
+TRAFFIC-GEN 1 4 DET 200 DET 700 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 150000 40MS 1
+TRAFFIC-GEN 1 4 DET 300 DET 900 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 150000 40MS 1
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet no-qospf-lsa-flooding.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. no-qospf-lsa-flooding.app -  QualNet application input file.
+2. no-qospf-lsa-flooding.config - QualNet configuration input file.
+3. no-qospf-lsa-flooding.expected.stat - QualNet statistics collection for QOSPF.
+4. README - This file.
+

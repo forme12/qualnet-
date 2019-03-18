@@ -1,0 +1,211 @@
+QualNet HLA RPR-FOM 1.0 Synchronizer CHANGES file
+
+===============================================================================
+Version 8 Oct 2004
+===============================================================================
+
+Users no longer have to use the -n flag to specify the base filename of the
+scenario.  E.g.,
+Before:  rprsynch -n iitsec
+Now:     rprsynch iitsec
+
+Synchronizer can now add HLA-discovered entities and radios to a pre-existing
+QualNet scenario.  Use the "-m" flag.  The original .config and .nodes files
+will not be overwritten; new files will be created ending in -merged.config
+and -merged.nodes.
+
+- E.g., rprsynch -m iitsec will read the iitsec.config file, and create new
+iitsec-merged.config.  If iitsec.nodes was specified as the NODE-POSITION-FILE,
+then iitsec-merged.nodes is created.
+
+- The original .config file must use COORDINATE-SYSTEM LATLONALT, and must
+also specify a NODE-POSITION-FILE.
+
+- The original scenario should NOT contain any HLA parameters.  If it does,
+duplicate HLA parameters will be generated in the -merged.config file.  The
+user can just delete the undesired parameters after rprsynch has completed.
+
+- The merge feature will not work with existing .hla-entities, .hla-radios, or
+.hla-networks files.  Old values will not be used, and the existing files will
+be overwritten in this case.
+
+- Terrain boundaries will be expanded to accommodate new entities.
+Channels masks will be updated appropriately to accommodate new channels.
+The top-level COMPONENT 0 tag will be updated appropriately, if present.
+
+Synchronizer now creates a hierarchy for every entity.  Radios hosted by the
+entity are QualNet nodes inside the hierarchy.  Such hierarchies are called
+"entity hierarchies".
+
+The default hierarchy dimensions are 0.0002 degrees of latitude and longitude
+(which correspond to ~ 20 meters x ~ 20 meters in temperate latitudes).  Change
+the appropriate fields in the desired COMPONENT tag for different dimensions.
+
+Synchronizer now supports reading in an .hla-icons file.  This file consists of
+eight fields, separated by commas.  The first seven fields are the EntityType
+record.  The last field is the path to an icon to use.  The * character can
+be used in any field.  Each line in the file is checked sequentially for each
+entity until a match is found.  If there is no match, no icon is assigned.  The
+user can create their own .hla-icons file.  Example:  synch.hla-icons.
+
+Synchronizer now supports reading in an .hla-backgrounds file.  This is the
+same as the .hla-icons file, except the last field is a path to a background
+image.  This background image is shown when an entity hierarchy is opened.
+Example:  synch.hla-backgrounds.
+
+Synchronizer reads any HLA-DEVICE-ICON-PATH parameters from the .router-models
+file.  Each parameter specifies a path to an icon to be used for a given
+device model.  These icons are shown when an entity hierarchy is opened.  The
+synch.router-models file was updated to include this field.
+
+Please note that the .hla-icons and .hla-backgrounds files, and the HLA-DEVICE-
+ICON-PATH parameter are only used by Synchronizer.  They are NOT used during
+QualNet execution.  Synchronizer will create the relevant entries in the
+QualNet scenario files.
+
+Miscellaneous bug fixes and improvements.
+
+Minor changes:
+
+hla_shared.h now #include's many header files, so many .cpp files will only
+need to include the hla_shared.h file.
+
+===============================================================================
+hlapatch5a.zip (sent to Boeing Australia to test, not CAE yet)
+===============================================================================
+
+The generated .config file now contains any custom values for the
+HLA-FEDERATION-NAME and HLA-FED-FILE-PATH parameters, as defined using the -F
+and -f flags, respectively.
+
+===============================================================================
+hlapatch5.zip
+===============================================================================
+
+Synchronizer now supports creating an entire QualNet scenario from scratch.
+The default scenario name is "synch", so all created files will have this as
+the base filename.  Use the -n flag to change the scenario name.
+
+The extensions for the files generated are:  .config, .nodes, .app,
+.hla-entities, .hla-radios, .hla-networks.  The user can also provide a
+.router-models, which Synchronizer will use.
+
+Synchronizer does not yet support outputing GUI-specific parameters: such as
+for entity-level hierarchies containing hosted devices; and automatic output
+of icons for each hierarchy and device.  (The scenario can still be run in the
+GUI, but each device will show up as a green square.  Multiple devices do move
+together with the single host entity, of course.)
+
+** Please note that Synchronizer will overwrite existing scenario files! **
+   (except the .app file)
+
+Synchronizer now reads the .router-models file.  A sample synch.router-models
+file -- with the new HLA-RADIO-SYSTEM-TYPE parameter -- is provided in the
+synchronizer/ directory.
+
+Synchronizer searches for a HLA-RADIO-SYSTEM-TYPE parameter for each
+ROUTER-MODEL defined.  This parameter is a comma-separated string of six
+integers representing the RadioSystemType attribute of a RadioTransmitter
+object.  One or more integers may be wild-carded.
+
+If a RadioTransmitter object is discovered with a RadioSystemType matching a
+HLA-RADIO-SYSTEM-TYPE value, the corresponding ROUTER-MODEL will be assigned in
+the .config file to the QualNet node representing the RadioTransmitter.
+
+If no match can be found, then the first ROUTER-MODEL with an
+HLA-RADIO-SYSTEM-TYPE in the .router-models file is used as the default device
+for a node, and this fact is noted as a comment in the generated .config file.
+
+If Sychronizer cannot find a .router-models file, it will output placeholders
+for the ROUTER-MODEL parameter in the .config file for each node.  The user
+must define device characteristics manually, in this case (by assigning a
+ROUTER-MODEL or defining all the MAC and PHY characteristics for the node).
+
+The .nodes file (containing the initial positions and orientations of QualNet
+nodes) is now created.
+
+A blank .app file is now created.  The user can insert custom non-HLA-generated
+background traffic here.  This file will not be overwritten by Synchronizer if
+it already exists.
+
+The overall minimum and maximum latitude and longitude is recorded for
+all discovered entites.  The nearest integer is used for the latitude/longitude
+borders.  (The current approach doen't work for values which cross the poles
+or the international date line; but it does work across the prime meridian and
+equator.)
+
+User can now set the starting nodeId via the -N flag.
+
+Settings are now printed to screen.
+
+Minor changes:
+
+Moved most declarations into hla_shared.h.
+Other various code changes.
+
+===============================================================================
+hlapatch4.zip
+===============================================================================
+
+Outputs both reflected and missing required attributes for those PhysicalEntity
+and RadioTransmitter objects not written to file.
+
+Reverted to recording all PhysicalEntity objects regardless of ForceID.
+Reverted to recording PhysicalEntity objects even if they don't host a
+RadioTransmitter object.
+Still monitor only for platform and life-forms.
+(May be changed later to monitor munition entities with comms capability.)
+
+Synchronizer can now be launched before or after PhysicalEntity and 
+RadioTransmitter objects have been registered by other federates (previously,
+Synchronizer only supported before).
+
+Synchronizer uses the requestObjectAttributeValueUpdate() service for every
+PhysicalEntity and RadioTransmitter object for which not all required
+attributes have been received.  This is done once, two seconds after the first
+object is discovered.  (Note that testfed does not respond to the subsequent
+federate callback, but other federates may.)
+
+Minor changes:
+
+Updated GCC <-> lat/lon/alt functions:  renamed functions to follow existing
+convention, now uses references instead of pointers, moved ellipsoid constants
+from arguments into function body.
+
+===============================================================================
+hlapatch3.zip
+===============================================================================
+
+Receives Frequency attribute for RadioTransmitter objects, creating an
+.hla-networks file.  The file is sorted by increasing frequency.
+
+Prints a descriptive warning whenever there is more than one entity with the
+same Marking.
+
+Now records only PhysicalEntity objects with EntityType.EntityKind indicating
+a platform or life-form (not munition, etc.).
+
+Now records only PhysicalEntity objects with ForceID of Friendly.
+
+No longer writes to the .hla-entities file PhysicalEntity objects which don't
+host at least one RadioTransmitter.
+
+A RadioTransmitter object is mapped to its host PhysicalEntity object only when
+all required attributes are received for the radio object; previously, radio
+was mapped to a host entity when the radio's EntityID attribute was received
+(all other required attributes may not have been received).
+
+===============================================================================
+hlapatch2.zip
+===============================================================================
+
+Initial release.  Please use the -h flag to see command-line options.
+
+Monitors for PhysicalEntity and RadioTransmitter objects (entities and radios),
+creating .hla-entities and .hla-radios files.  In the .hla-radios file:
+(1) nodeId 1 is used first, and nodeId increases consecutively;
+(2) If an entity possesses multiple radios, those radios are listed together.
+
+No capability to detect a situation where there is more than one entity with
+the same Marking (currently only detects more than one entity with the same
+EntityID).

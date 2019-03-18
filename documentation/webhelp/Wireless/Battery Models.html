@@ -1,0 +1,1643 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Battery Models</title>
+    <link rel="StyleSheet" href="css/Battery%20Models.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Ch9%20-%20Miscellaneous%20Models.html#998293">9	Miscellaneous Models</a> &gt; 9.1  Battery Models</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">9.1  <a name="998293">Battery Models</a></div>
+      <div class="Heading2Numbered">9.1.1  <a name="1007165">Description</a></div>
+      <div class="BodyAfterHead"><a name="998294">Battery models capture the characteristics of real-life batteries, and can be used to predict their behavior under various conditions of charge/discharge. Battery models are useful tools for a battery-driven system design approach, because they enable analysis of the discharge behavior of the battery under different design choices (for example, system architectures, power management policies, and transmission power control), without resorting to time consuming (and expensive) prototyping and measurement for each alternative.</a></div>
+      <div class="Heading3Numbered">9.1.1.1  <a name="998295">Energy and System Model</a></div>
+      <div class="BodyAfterHead"><a name="998296">Battery provides voltage and current for the components attached to the battery such as radio interfaces, CPU, Memory blocks, sensing core, etc. A DC-DC converter regulates voltage for different components (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#998311', '');" title="Battery Models">Figure&nbsp;9-1</a></span>). Battery is a repository of electrical charges which losses its charge when a load (electrical current) is taken off from it. The loss rate is a function of the load.</div>
+      <div class="Body"><a name="998300">The total energy consumed by the system per cycle is the sum of energies consumed by the radio transceivers (</a><span style="font-family: &quot;Times New Roman&quot;; font-style: italic">E</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">Trans</span>) protocol processor (<span style="font-family: &quot;Times New Roman&quot;; font-style: italic">E</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">CPU</span>), the DC-DC converter (<span style="font-family: &quot;Times New Roman&quot;; font-style: italic">E</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">DC</span>) and the efficiency losses in the battery (<span style="font-family: &quot;Times New Roman&quot;; font-style: italic">E</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">Bat</span>).</div>
+      <div class="BulletedCont"><span style="font-size: 12.0pt; vertical-align: super"><a name="998301">                                                   </a></span>E<span style="vertical-align: sub">Cycle</span> = E<span style="vertical-align: sub">Trans</span> + E<span style="vertical-align: sub">CPU</span> +<span style="font-size: 12.0pt; vertical-align: super"> </span>E<span style="vertical-align: sub">DC</span> + E<span style="vertical-align: sub">Bat</span>			            (1)</div>
+      <div class="Body"><a name="998302">The total energy consumed during the execution of the software on a given hardware architecture is the sum of the energies consumed during each cycle. Models for energy consumption and performance estimation of each system component are described in the following sections.</a></div>
+      <div class="Anchor"><a name="998309"><img class="Default" src="images/Battery%20Models.60.1.01.jpg" width="624" height="250" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 9-1.&nbsp;&nbsp;<a name="998311">System Level Block of Smart Batteries</a></div>
+      <div class="Heading3Numbered">9.1.1.2  <a name="998312">Derived Battery Model</a></div>
+      <div class="BodyAfterHead"><a name="998313">Based on the above discussion, we can draw the following conclusions regarding the various battery models: In terms of flexibility, the electro-chemical models are the least flexible, making it difficult to use them for modeling any given battery. On the other hand, configuring the circuit level models, analytical models and the stochastic models for different types of batteries is relatively easy. Additionally, the electro-chemical models being principally targeted to designers and manufacturers of batteries rather than systems, make use of many proprietary parameters which are typically unavailable to a system designer. In terms of accuracy and efficiency, the electro-chemical models are the most accurate and also the most computation intensive. </a></div>
+      <div class="Body"><a name="998314">Analytical models are at the other extreme, being computationally efficient, but limited in the discharge effects that they model. Electrical circuit models can be simulated with high efficiency, ignoring the effects of recovery of charge during idle periods.</a></div>
+      <div class="Body"><a name="998315">The stochastic model can be efficiently used in a simulation framework and is capable of modeling rate capacity as well as recovery effects.</a></div>
+      <div class="Heading3Numbered">9.1.1.3  <span class="Variable"><a name="998316">QualNet</a></span> Battery Models</div>
+      <div class="BodyAfterHead"><a name="1010557">This section describes the battery models implemented in </a><span class="Variable">QualNet</span>.</div>
+      <div class="Heading4Numbered">9.1.1.3.1  <a name="1010553">Service Life Battery Model</a></div>
+      <div class="BodyAfterHead"><a name="1009970">This model estimates the total service life of the battery (i.e., the time it takes the battery charge to reach zero from the start of simulation).</a></div>
+      <div class="BodyAfterHead"><a name="998317">The employed battery model is a modular approach for enhancing event-driven simulator with precise high battery level which can accurately estimate service life of a battery-operated device with a given -time-varying load. Moreover, the methodology used here has tightly coupled component models, thus making the approach more accurate. Performance and energy computed by the simulator are within a few percent tolerance of hardware measurements on the SmartBadge. The battery model used here is developed by Sarma and Rakhmatov in [1]. Rakhmatov model was selected because it is the most accurate analytical model. The other models required solving Partial Differential Equations (PDEs) etc., which are difficult to optimize.</a></div>
+      <div class="Heading4"><a name="998318">Parameter Estimation</a></div>
+      <div class="BodyAfterHead"><a name="998319">Rakhmatov's model is an abstraction of a real battery. For the model to adequately mimic real behavior of the batteries, it is recommended to choose the appropriate parameters so that the predicted and observed lifetimes match closely. Thus, before one can use the proposed model, the parameters need to be estimated from experimental data for the modeled battery. Simple experiments with constant loads are sufficient for estimation purposes and one can utilize the following equation:</a></div>
+      <table class="Format_A" style="text-align: left; width: 288pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 216pt">
+            <div class="CellBody"><a name="998325"><img class="Default" src="images/Battery%20Models.60.1.02.jpg" width="187" height="64" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 72pt">
+            <div class="CellBody"><a name="998327">&nbsp;</a></div>
+            <div class="CellBody"><a name="998328">&nbsp;</a></div>
+            <div class="CellBody"><a name="998329">(2)</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="998330">For a given battery under a given load, the battery voltage changes over time from the open-circuit value, </a><span style="font-family: &quot;Times New Roman&quot;; font-size: 12.0pt; font-style: italic">V</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">open</span>, to some cutoff value, <span style="font-family: &quot;Times New Roman&quot;; font-size: 12.0pt; font-style: italic">V</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">cutoff</span>. The observed lifetime is defined as the time when the battery voltage reaches<span style="vertical-align: super"> </span><span style="font-family: &quot;Times New Roman&quot;; font-size: 12.0pt; font-style: italic">V</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">cutoff</span>. The predicted lifetime is defined as the time for which the equality (2) holds. For a given set of constant loads {<span style="font-family: &quot;Times New Roman&quot;; font-style: italic">I</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">(1)</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic">,I</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">(2)</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic">,…,I</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">(M)</span>}, the corresponding set of observed lifetimes is {<span style="font-family: &quot;Times New Roman&quot;; font-style: italic">L</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">(1)</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic">,L</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">(2)</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic">,…,L</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: sub">(M)</span>}. The objective is to find and such that the predicted lifetimes match the observed lifetimes as closely as possible. However, this objective is hard to pursue directly, since (2) is hard to solve for the unknown<span style="font-family: &quot;Times New Roman&quot;; font-style: italic"> L</span>. Alternatively, one can estimate parameters by fitting the load values for a given set of observed lifetimes. Let<span style="font-family: &quot;Times New Roman&quot;; font-style: italic"> <img class="Default" src="images/Battery%20Models.60.1.03.jpg" width="25" height="23" style="display: inline; float: none; left: 0.0; top: 0.0" alt="" /> </span>denote the fitted value of<span style="font-style: italic"> I</span><span style="font-size: 12.0pt; font-style: italic; vertical-align: sub">(</span><span style="font-size: 12.0pt; vertical-align: sub">k)</span>. According to [1]:</div>
+      <div class="BodyAfterHead"><a name="998344">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 288pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 216pt">
+            <div class="CellBody"><a name="998339"><img class="Default" src="images/Battery%20Models.60.1.04.jpg" width="215" height="74" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 72pt">
+            <div class="CellBody"><a name="998341">&nbsp;</a></div>
+            <div class="CellBody"><a name="998342">&nbsp;</a></div>
+            <div class="CellBody"><a name="998343">(3)</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="998354">The objective now is to estimate the parameters <img class="Default" src="images/Battery%20Models.60.1.05.jpg" width="52" height="17" style="display: inline; float: none; left: 0.0; top: 0.0" alt="" /> such that <img class="Default" src="images/Battery%20Models.60.1.06.jpg" width="28" height="20" style="display: inline; float: none; left: 0.0; top: 0.0" alt="" />   matches I</a><span style="vertical-align: sub">(k)</span> as closely as possible for all 1 ≤ <span style="font-style: italic">k </span>≤ <span style="font-style: italic">M</span>. A standard least-squares estimator is employed for this purpose and the model parameters are selected so that  <img class="Default" src="images/Battery%20Models.60.1.07.jpg" width="115" height="49" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></div>
+      <div class="Body"><a name="1012800">is minimized.</a></div>
+      <div class="Body"><a name="1012801">To implement this model you need to use the following steps:</a></div>
+      <div class="Numbered1_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered1_inner" style="width: 13.7448pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered1_inner"><a name="1012802">Get the data sheet of a battery that models rated capacity (in Ahr) vs. discharge current (in hour).</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="998364">Do the curve fitting to get <img class="Default" src="images/Battery%20Models.60.1.08.jpg" width="14" height="17" style="display: inline; float: none; left: 0.0; top: 0.0" alt="" /> parameters for Rakhmatov's model.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="998365">Use the optimized model to generate a </a><span style="font-style: italic">.pcm</span> file.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="998366">The semantics of </a><span style="font-style: italic">pcm</span> file is excess consumption versus time, and each entry represents time interval of one second. The first line means that after one second, if a unit load is applied the battery will be drained by X amount. Notice that the excess amount decreases as time increases and asymptotically<span style="font-weight: bold"> </span>reaches 1.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading4Numbered">9.1.1.3.2  <a name="998367">Residual Life Battery Model</a></div>
+      <div class="BodyAfterHead"><a name="1009987">This model estimates the remaining service life of the battery at any time in the simulation.</a></div>
+      <div class="Heading4"><a name="1009992">Battery Capacity and Efficiency</a></div>
+      <div class="BodyAfterHead"><a name="998369">One important characteristic of the battery is that some amount of energy will be wasted when the battery is delivering the energy required by the circuit. In analytical form, given a fixed battery output voltage, if the circuit current requirement for the battery is 1, the actual current that is taken out of the battery is</a></div>
+      <table class="Format_A" style="text-align: left; width: 288pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 216pt">
+            <div class="CellBody"><a name="998375"><img class="Default" src="images/Battery%20Models.60.1.09.jpg" width="152" height="59" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 72pt">
+            <div class="CellBody"><a name="998377">&nbsp;</a></div>
+            <div class="CellBody"><a name="998378">&nbsp;</a></div>
+            <div class="CellBody"><a name="998379">(4)</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="998383">where<img class="Default" src="images/Battery%20Models.60.1.10.jpg" width="16" height="22" style="display: inline; float: none; left: 0.0; top: 0.0" alt="" /> is called the battery efficiency (or utilization) factor. </a><span style="font-style: italic">I</span><span style="font-style: italic; vertical-align: super">act</span> is always larger than or equal to<span style="font-family: &quot;Times New Roman&quot;; font-style: italic"> I </span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: super">bat</span>.</div>
+      <div class="Body"><a name="998384">Defining </a><span style="font-family: &quot;Times New Roman&quot;; font-style: italic">CAP </span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: super">0</span> as the amount of energy that is stored in a new (or fully charged) battery and <span style="font-family: &quot;Times New Roman&quot;; font-style: italic">CAP </span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: super">act</span> as the actual energy that can be used by the circuit, (4) is equivalent to:</div>
+      <table class="Format_A" style="text-align: left; width: 288pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 216pt">
+            <div class="CellBody"><a name="998390"><img class="Default" src="images/equation_5.png" width="138" height="22" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 72pt">
+            <div class="CellBody"><a name="998392">&nbsp;</a></div>
+            <div class="CellBody"><a name="998393">(5)</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="998400">The efficiency factor <img class="Default" src="images/Battery%20Models.60.1.12.jpg" width="14" height="22" style="display: inline; float: none; left: 0.0; top: 0.0" alt="" /> is a function of discharge current</a><span style="font-family: &quot;Times New Roman&quot;; font-style: italic"> I</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: super">bat</span>:<img class="Default" src="images/equation_6.png" width="96" height="24" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></div>
+      <div class="Body"><a name="998401">where,</a><span style="font-style: italic"> f</span>(.) is a monotonically decreasing function. Only the low-frequency part of the current is relevant to changing the battery efficiency. Therefore, <span style="font-family: &quot;Times New Roman&quot;; font-style: italic">I</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: super">bat</span> must be the average output current of the battery (denoted by <span style="font-style: italic">i</span>(t) ) over certain amount of time, which can be represented as <span style="font-style: italic">N</span><span style="color: #ff0000; font-style: italic">.</span><span style="font-style: italic">T</span>, where <span style="font-style: italic">N</span> is some positive integer and <span style="font-style: italic">T</span> is the clock cycle, as shown in the equation below. <span style="font-style: italic">N</span><span style="color: #ff0000; font-style: italic">.</span><span style="font-style: italic">T</span> may be as large as a few seconds.</div>
+      <table class="Format_A" style="text-align: left; width: 288pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 216pt">
+            <div class="CellBody"><a name="998407"><img class="Default" src="images/Battery%20Models.60.1.14.jpg" width="155" height="67" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 72pt">
+            <div class="CellBody"><a name="998409">&nbsp;</a></div>
+            <div class="CellBody"><a name="998410">&nbsp;</a></div>
+            <div class="CellBody"><a name="998411">(5)</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Anchor"><a name="998415"><img class="Default" src="images/battery_efficiency.gif" width="626" height="332" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 9-2.&nbsp;&nbsp;<a name="998417">Battery Efficiency</a></div>
+      <div class="Body"><a name="998418"> The actual capacity of the battery decreases when the discharge current increases. With discharge current ratio, the battery efficiency is estimated using the battery efficiency plot such as the one shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#998417', '');" title="Battery Models">Figure&nbsp;9-2</a></span>.The Y-axis is efficiency or utilization, whereas the X-axis is the output current of battery, <span style="font-family: &quot;Times New Roman&quot;; font-style: italic">I</span><span style="font-family: &quot;Times New Roman&quot;; font-style: italic; vertical-align: super">bat</span>.</div>
+      <div class="Body"><a name="998422">Given the battery capacity model described above, battery estimation is performed as follows. First, the designer characterizes the battery with its rated capacity, the time constant and the table of points describing the discharge plot similar to the one shown in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#998417', '');" title="Battery Models">Figure&nbsp;9-2</a></span>. During each simulation cycle (i.e.,<span style="font-style: italic"> N.T</span>) discharge current ratio is computed from the rated battery current. Efficiency is calculated using linear interpolation between the points from the discharge plot. Lower efficiency means that less battery energy remains and thus the battery lifetime is proportionally lower. For example, if battery efficiency is 60% and its rated capacity is 100 mAhr at 1 V, then the battery would be drained in 12 min at an average DC-DC current of 300 mA. With efficiency of 100% the battery would last 1 h.</div>
+      <div class="Heading4Numbered">9.1.1.3.3  <a name="998426">Linear Battery Model</a></div>
+      <div class="BodyAfterHead"><a name="998427">This model is a simple linear model which is based on the coulomb counting technique. The coulomb counting technique accumulates the dissipated coulombs from the beginning of the discharge cycle and estimates the remaining capacity based on the difference between the accumulated value and a pre-recorded full-charge capacity. This method can lose some of its accuracy under variable load condition because it ignores the non-linear discharge effect during the coulomb counting process. </a></div>
+      <div class="Body"><a name="998428">The battery is discharged linearly as a function of discharge current load.</a></div>
+      <div class="Heading2Numbered">9.1.2  <a name="1009755">Features and Assumptions</a></div>
+      <div class="BodyAfterHead"><a name="1009756">This section describes the implemented features, omitted features, assumptions and limitations of the Battery models.</a></div>
+      <div class="Heading3Numbered">9.1.2.1  <a name="1009757">Implemented Features</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998430">Implementation of a model for accurate estimation of service life of a battery. This model captures the following contributing factors:</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Sub1_inner"><span style="font-style: italic"><a name="998431">Battery rate capacity effect</a></span>: the model which precisely estimates non-linearity effect of rated capacity versus discharge current load.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Sub1_inner"><span style="font-style: italic"><a name="998432">Charge recovery effect</a></span>: the model takes into account the actual phenomenon that battery charge increases when no discharge current load is drawn from the battery for a given period of time.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998433">Implementation of a model for fairly good prediction of remaining residual life of the battery. The model captures non-linearity of rated capacity versus discharge current load (i.e. </a><span style="font-style: italic">Battery rate capacity effect</span>) by introducing utilization function.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998434">Implementation of a simple linear model based on the Columbus Count method. In this method the battery is discharged linearly over its service life and the rate of discharge at any time is the current which is drawn from battery.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998435">Battery charge level monitoring: The state of charge of the charge of the batteries attached to a battery-operated node is periodically checked and if the battery is out of charge the node is shut down (currently inserting permanent faults on all network interfaces attached to the node.)</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998436">User configurable battery type: The battery models are generic and parametric models. For the model specification the input parameters must be configured initially for a given battery type from a battery manufacturer.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Sub1_inner"><span style="font-style: italic"><a name="998437">Service Life Battery Model</a></span>: We have precomputed and stored parameters and specifications for several types of batteries including DURACELL(AA and AAA) and ITSY. Therefore, for DURACELL (AA and AAA) and ITSY battery types the specification can be loaded from battery library. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Sub1_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Sub1_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">-	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Sub1_inner"><span style="font-style: italic"><a name="1018329">Residual Life Battery Model</a></span>: A lookup table of which specifies efficiency as a function of output current of battery (in mA) is computed from data sheet of any given battery. We have computed and stored the specifications for several types of batteries including DURACELL (AA and AAA) and PANASONIC. Therefore, for DURACELL (AA and AAA) and PANASONIC battery types the specification can be loaded from battery library. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading3Numbered">9.1.2.2  <a name="1018345">Omitted Features</a></div>
+      <div class="BodyAfterHead"><a name="1018358">None.</a></div>
+      <div class="Heading3Numbered">9.1.2.3  <a name="1018331">Assumptions and Limitations</a></div>
+      <div class="BodyAfterHead"><a name="1018332">The following assumptions are made in the implementation of the battery models:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998441">The output voltage of the battery is considered to be constant during the operation of the battery. Note that in data sheet of a battery the rated capacity versus load has different plots for different output voltages of a battery. Furthermore, note that output voltage of a battery decreases as depth of discharge (ratio of remaining charge to full charge) increases. Fore more accurate modeling, it’s suggested to derive the model parameters from the capacity-load curve measured at average output voltage during service life of the battery.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998442">The effects of temperature and cycle-aging have not been captured in any of the model which has been currently implemented in the simulator. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="998443">DC-DC model which estimates energy or power lost in DC-DC converter. The converter adjusts output voltage for different components (i.e. to enable different wireless radio interfaces to operate at different voltages.) </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">9.1.3  <a name="998444">Command Line Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1009883">To specify the Service Life battery model, include the following parameter in the scenario configuration (.config) file:</a></div>
+      <div class="Declaration"><a name="1009884">&nbsp;</a></div>
+      <div class="Declaration"><a name="1009885">[&lt;Qualifier&gt;]  BATTERY-MODEL        SERVICE-LIFE-ACCURATE</a></div>
+      <div class="Body"><a name="1009893">To specify the Residual Life battery model, include the following parameter in the scenario configuration (.config) file:</a></div>
+      <div class="Declaration"><a name="1009894">&nbsp;</a></div>
+      <div class="Declaration"><a name="1009895">[&lt;Qualifier&gt;]  BATTERY-MODEL        RESIDUAL-LIFE-ACCURATE</a></div>
+      <div class="Body"><a name="1009801">To specify the Linear battery model, include the following parameter in the scenario configuration (.config) file:</a></div>
+      <div class="Declaration"><a name="1009802">&nbsp;</a></div>
+      <div class="Declaration"><a name="1009803">[&lt;Qualifier&gt;]  BATTERY-MODEL        LINEAR</a></div>
+      <div class="Body"><a name="1009807">The scope of the parameter </a><span style="font-family: &quot;Courier New&quot;">BATTERY-MODEL</span> can be Global and Node. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Ch1%20-%20Overview.01.2.html#1064427', '');" title="Conventions Used">Section&nbsp;1.2.1.1</a></span> for a description of <span style="font-family: &quot;Courier New&quot;">&lt;Qualifier&gt;</span> for each scope.</div>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Note_003a">
+              <span class="Bold">Note:</span><a name="1009927">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="Body"><a name="1009935">The default value of the parameter </a><span style="font-family: &quot;Courier New&quot;">BATTERY-MODEL</span> is <span style="font-family: &quot;Courier New&quot;">NONE</span>. If the battery model is not defined or defined as <span style="font-family: &quot;Courier New&quot;">NONE</span>, no battery model is employed.</div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1010637', '');" title="Battery Models" name="1010029">Table&nbsp;9-1</a></span> describes the general parameters for battery models. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1010700', '');" title="Battery Models">Table&nbsp;9-2</a></span> describes the parameters for the Service Life battery model. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#998600', '');" title="Battery Models">Table&nbsp;9-3</a></span> describes the parameters for the Residual Life battery model. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1010115', '');" title="Battery Models">Table&nbsp;9-4</a></span> describes the parameters for the Linear battery model.</div>
+      <div class="Body"><a name="1010174">See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Ch1%20-%20Overview.01.2.html#1058602', '');" title="Conventions Used">Section&nbsp;1.2.1.3</a></span> for a description of the format used for the parameter tables.</div>
+      <div class="Heading4"><a name="1007331">General Battery Model Parameters</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1010637', '');" title="Battery Models" name="1010688">Table&nbsp;9-1</a></span> shows the general parameters for battery models.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-1.&nbsp;&nbsp;<a name="1010637">General Battery Model Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1010643">Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1010645">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 216pt">
+            <div class="CellHeading"><a name="1010647">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1010649">BATTERY-TYPE</a></div>
+            <div class="Cell_2nd_Line"><a name="1010650">Optional</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1010651">Scope</a></span></div>
+            <div class="CellBody"><a name="1012813">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010654">List: </a></div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010655">DURACELL-AA</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010656">DURACELL-AAA</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010657">ITSY</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010658">DURACELL-AAA-MN-2400</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010659">DURACELL-AAA-MX-2400</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010660">DURACELL-AA-MX-1500</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010661">PANASONIC-AA</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010662">PANASONIC-AAA</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010666">This parameter specifies the type of the battery which is used. </a></div>
+            <div class="CellBody"><a name="1010667">For the </a><span class="Courier">SERVICE-LIFE-ACCURATE</span> battery model, battery type can be one of the following:</div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010668">DURACELL-AA</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010669">DURACELL-AAA</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010670">ITSY</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBody"><a name="1010671">&nbsp;</a></div>
+            <div class="CellBody"><a name="1010672">For the </a><span class="Courier">RESIDUAL-LIFE-ACCURATE</span> battery model, battery type can be one of the following:</div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010673">DURACELL-AAA-MN-2400</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010674">DURACELL-AAA-MX-2400</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010675">DURACELL-AA-MX-1500</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010676">PANASONIC-AA</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010677">PANASONIC-AAA</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1010679">BATTERY-MODEL-STATISTICS  </a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1012830">Scope</a></span></div>
+            <div class="Parameter_Name" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 2.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1012822">Global, Node</a></span></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010681">List:</a></div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010682">YES</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1010683">NO</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1010684">Default</a></span>:</div>
+            <div class="CellBody_Courier_Indented"><a name="1010685">NO</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010687">This parameter enables collection of statistics for the battery model.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Anchor"><a name="1010740">&nbsp;</a></div>
+      <div class="BodyAfterHead"><a name="1018375">Service Life Battery Model Parameters</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1010700', '');" title="Battery Models" name="1010737">Table&nbsp;9-2</a></span> describes the parameters to configure the Service Life battery model.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-2.&nbsp;&nbsp;<a name="1010700">Service Life Battery Model Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1010706">Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1010708">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 216pt">
+            <div class="CellHeading"><a name="1010710">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1010712">BATTERY-CHARGE-MONITORING-INTERVAL</a></div>
+            <div class="Cell_2nd_Line"><a name="1010713">Optional</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1010714">Scope</a></span></div>
+            <div class="CellBody"><a name="1010715">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1013580">Time</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1013581">Range</a></span>:</div>
+            <div class="CellBody_Courier"><a name="1013582">≥ 0S</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1013583">Default</a></span>:</div>
+            <div class="CellBody_Courier_Indented"><a name="1010721">1M</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1013432">&nbsp;</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010723">This parameter specifies the interval in which the state of charge of the battery is monitored once. In case the battery is out of charge, the node is shut down. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1010725">BATTERY-PRECOMPUTE-TABLE-FILE</a></div>
+            <div class="Cell_2nd_Line"><a name="1010726">Required</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1010727">Scope</a></span></div>
+            <div class="CellBody"><a name="1010728">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010730">Filename</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010732">This parameter specifies the file that contains the pre-computed table for the specified battery type.</a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1010733">A pre-computed table file for each of the battery types can be found in </a><span class="Variable">QUALNET_HOME</span>/data/battery. The names of the files for the different battery models are:</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBody" style="text-indent: 28.8pt"><span style="font-family: &quot;Courier New&quot;"><a name="1010734">DURACELL-AA</a></span>	: duracell-aa.pcml</div>
+            <div class="CellBody" style="text-indent: 28.8pt"><span style="font-family: &quot;Courier New&quot;"><a name="1010735">DURACELL-AAA</a></span>	: duracell-aaa.pcm</div>
+            <div class="CellBody" style="text-indent: 28.8pt"><span style="font-family: &quot;Courier New&quot;"><a name="1010736">ITSY</a></span>	: itsy.pcm</div>
+          </td>
+        </tr>
+      </table>
+      <div class="Anchor"><a name="998590">&nbsp;</a></div>
+      <div class="Heading4"><a name="1010746">Residual LIfe Battery Model Parameters</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#998600', '');" title="Battery Models" name="998622">Table&nbsp;9-3</a></span> describes the parameters to configure the Residual Life battery model.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-3.&nbsp;&nbsp;<a name="998600">Residual Life Battery Model Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="998604">Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1003336">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 216pt">
+            <div class="CellHeading"><a name="998606">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="998608">BATTERY-CHARGE-MONITORING-INTERVAL</a></div>
+            <div class="Cell_2nd_Line"><a name="1003414">Optional</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1003415">Scope</a></span></div>
+            <div class="CellBody"><a name="1003416">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1003367">Time</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1003368">Range</a></span>:</div>
+            <div class="CellBody_Courier"><a name="1003369">≥ 0S</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1003370">Default</a></span>:</div>
+            <div class="CellBody_Courier_Indented"><a name="1003371">1M</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="998610">This parameter specifies the interval in which the state of charge of the battery is monitored once. In case the battery is out of charge, the node is shut down. </a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="998613">BATTERY-LOAD-UTILITY-TABLE-FILE</a></div>
+            <div class="Cell_2nd_Line"><a name="1003433">Required</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1003434">Scope</a></span></div>
+            <div class="CellBody"><a name="1003435">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1003361">Filename</a></div>
+            <div class="CellBody"><a name="1003340">&nbsp;</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="998615">This parameter specifies the file that contains battery utilization versus current load for the specified battery type.</a></div>
+            <div class="CellBody"><a name="1010407">See note below.</a></div>
+          </td>
+        </tr>
+      </table>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Note_003a">
+              <span class="Bold">Note:</span><a name="1010369">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="Body"><a name="1010373">A load utility table file for each of the battery types can be found in </a><span class="Variable">QUALNET_HOME</span>/data/battery. The names of the files for the different battery models are:</div>
+            <div class="CellBody" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-indent: 28.8pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="1010374">DURACELL-AAA-MN-2400</a></span>	: DURACELL-MN2400.utl</div>
+            <div class="CellBody" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-indent: 28.8pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="1010375">DURACELL-AAA-MX-2400</a></span>	: DURACELL-MX2400.utl</div>
+            <div class="CellBody" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-indent: 28.8pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="1010376">DURACELL-AA-MX-1500</a></span>	: DURACELL-MX2400.utl</div>
+            <div class="CellBody" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-indent: 28.8pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="1010377">PANASONIC-AA</a></span>	: PANASONIC-AA.utl</div>
+            <div class="CellBody" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-indent: 28.8pt; text-transform: none; vertical-align: baseline"><span style="font-family: &quot;Courier New&quot;"><a name="1010378">PANASONIC-AAA</a></span>	: PANASONIC-AAA.utl</div>
+          </td>
+        </tr>
+      </table>
+      <div class="Anchor"><a name="1010623">&nbsp;</a></div>
+      <div class="Heading4"><a name="1018365">Linear Battery Model Parameters</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1010115', '');" title="Battery Models" name="1010159">Table&nbsp;9-4</a></span> describes the parameters to configure the Linear battery model.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-4.&nbsp;&nbsp;<a name="1010115">Linear Battery Model Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1010121">Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1010123">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 216pt">
+            <div class="CellHeading"><a name="1010125">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1010127">BATTERY-CHARGE-MONITORING-INTERVAL</a></div>
+            <div class="Cell_2nd_Line"><a name="1010128">Optional</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1010129">Scope</a></span></div>
+            <div class="CellBody"><a name="1010130">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010134">Time</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1010135">Range</a></span>:</div>
+            <div class="CellBody_Courier"><a name="1010136">≥ 0S</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1010137">Default</a></span>:</div>
+            <div class="CellBody_Courier_Indented"><a name="1010138">1M</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010140">This parameter specifies the interval in which the state of charge of the battery is monitored once. In case the battery is out of charge, the node is shut down. </a></div>
+            <div class="CellBody"><a name="1010141">&nbsp;</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1010143">BATTERY-INITIAL-CHARGE</a></div>
+            <div class="Cell_2nd_Line"><a name="1010144">Optional</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1010145">Scope</a></span></div>
+            <div class="CellBody"><a name="1010146">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010150">Real</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1019406">Range</a></span>:</div>
+            <div class="CellBody_Courier"><a name="1019407">≥ 0.0</a></div>
+            <div class="CellRun-In_Courier"><span class="Emphasis"><a name="1010153">Default</a></span>:</div>
+            <div class="CellBody_Courier_Indented"><a name="1010154">1200</a></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1010155">Unit</a></span>:</div>
+            <div class="CellBody"><a name="1010156">mAhr</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1010158">This parameter specifies the value of full battery capacity in mAhr for the Linear Model.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading2Numbered">9.1.4  <a name="998623">GUI Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1015626">This section describes how to configure Battery Model in the GUI.</a></div>
+      <div class="Anchor"><a name="1018475">&nbsp;</a></div>
+      <div class="Heading4"><a name="1015627">Configuring Battery model Parameters</a></div>
+      <div class="BodyAfterHead"><a name="1015628">To configure the battery Model parameters, perform the following steps:</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="1015629">Go to </a><span class="Menu_Item">Default Device Properties Editor </span><span class="Bold" style="font-size: 10pt">&gt;</span><span class="Menu_Item" style="color: #000000"> Node Configuration </span><span class="Bold" style="font-size: 10pt">&gt;</span><span class="Menu_Item" style="color: #000000"> Battery Model</span>. </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><span class="Style_Numbered__002b_Character_scale_003a_100_0025_Char"><a name="1015633">Set </a></span><span class="Field" style="font-family: Arial; font-size: 10pt">Battery Model</span><span class="Style_Numbered__002b_Character_scale_003a_100_0025_Char"> to the desired model as shown in </span><span class="Cross-Ref" style="font-size: 10pt"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1015939', '');" title="Battery Models">Figure&nbsp;9-3</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1018387"><img class="Default" src="images/battery-1.png" width="567" height="298" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 9-3.&nbsp;&nbsp;<a name="1015939">Setting Battery Model </a></div>
+      <div class="Body"><a name="1025047">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 467.99928pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-5.&nbsp;&nbsp;<a name="1016069">Command Line Equivalent of Battery Model Parameters</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 121.19976pt">
+            <div class="CellHeading"><a name="1016101">GUI Parameter </a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 200.54952pt">
+            <div class="CellHeading"><a name="1016103">Scope of GUI Parameter</a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 146.25pt">
+            <div class="CellHeading"><a name="1016105">Command Line Parameter</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016107">Battery Model</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016109">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1016111">BATTERY-MODEL</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1015669">If </a><span class="Field">Battery Model </span>is set to be <span class="Value">Linear Model</span><span style="font-style: italic">,</span> set the dependent parameters listed in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1016292', '');" title="Battery Models">Table&nbsp;9-6</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1016252"><img class="Default" src="images/battery-2.png" width="591" height="282" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 9-4.&nbsp;&nbsp;<a name="1016315">Setting Linear Model Parameters</a></div>
+      <div class="Anchor"><a name="1017705">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468.00072pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-6.&nbsp;&nbsp;<a name="1016292">Command Line Equivalent of Linear Model Parameters</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 154.95048pt">
+            <div class="CellHeading"><a name="1016298">GUI Parameter </a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 142.79976pt">
+            <div class="CellHeading"><a name="1016300">Scope of GUI Parameter</a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 170.25048pt">
+            <div class="CellHeading"><a name="1016302">Command Line Parameter</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016304">Battery Charge Monitoring Interval</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016306">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1016308">BATTERY-CHARGE-MONITORING-INTERVAL</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016310">Full Battery Capacity </a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016312">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1016314">BATTERY-INITIAL-CHARGE</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1016317">If </a><span class="Field">Battery Model </span>is set to be <span class="Value">Residual Life Estimator</span>, set the dependent parameters listed in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1016361', '');" title="Battery Models">Table&nbsp;9-7</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1015713"><img class="Default" src="images/battery-3.png" width="591" height="282" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 9-5.&nbsp;&nbsp;<a name="1015714">Setting Residual Life Estimator Model Parameters</a></div>
+      <div class="Body" style="color: #000000; font-family: &quot;Times New Roman&quot;; font-size: 12.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-bottom: 7.0pt; margin-top: 14.0pt; text-transform: none; vertical-align: baseline"><a name="1025077">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468.00072pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-7.&nbsp;&nbsp;<a name="1016361">Command Line Equivalent of Residual Life Estimator Model Parameters</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 154.95048pt">
+            <div class="CellHeading"><a name="1016367">GUI Parameter </a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 142.79976pt">
+            <div class="CellHeading"><a name="1016369">Scope of GUI Parameter</a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 170.25048pt">
+            <div class="CellHeading"><a name="1016371">Command Line Parameter</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016427">Battery Charge Monitoring Interval</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016429">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1016431">BATTERY-CHARGE-MONITORING-INTERVAL</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016415">Battery Type</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016417">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1016419">BATTERY-TYPE</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016409">Residual Life Estimator Table</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1016411">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1016413">BATTERY-LOAD-UTILITY-TABLE-FILE</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="1025068">&nbsp;</a></div>
+      <div class="NumberedCont" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="1018449">Setting Parameters</a></span></div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><a name="1015759">Select the desired </a><span class="Field">Battery Type </span>and set <span class="Field">Residual Life Estimator Table</span><span style="font-style: italic"> </span>to the name of the Load Utility Table file.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1018463">&nbsp;</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1015761">If the </a><span class="Field">Battery Model </span>is set to be <span class="Value">Service Life Estimator</span>, set the dependent parameters listed in <br /><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1018734', '');" title="Battery Models">Table&nbsp;9-8</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1016926"><img class="Default" src="images/battery-4.png" width="591" height="282" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 9-6.&nbsp;&nbsp;<a name="1018730">Setting Service Life Estimator Model Parameters</a></div>
+      <div class="Anchor"><a name="1018763">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468.00072pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-8.&nbsp;&nbsp;<a name="1018734">Command Line Equivalent of Service Life estimator Model Specific Parameters</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 154.95048pt">
+            <div class="CellHeading"><a name="1018740">GUI Parameter </a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 142.79976pt">
+            <div class="CellHeading"><a name="1018742">Scope of GUI Parameter</a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 170.25048pt">
+            <div class="CellHeading"><a name="1018744">Command Line Parameter</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1018746">Battery Charge Monitoring Interval</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1018748">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1018750">BATTERY-CHARGE-MONITORING-INTERVAL</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1018752">Battery Type</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1018754">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1018756">BATTERY-TYPE</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1018758">Service Life Estimator Table</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1018760">Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1018762">BATTERY-PRECOMPUTE-TABLE-FILE</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="NumberedCont" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: bold; text-transform: none; vertical-align: baseline"><a name="1018764">Setting Parameters</a></span></div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><a name="1015811">Select the desired</a><span class="Field"> Battery Type</span><span style="font-style: italic"> </span>and set <span class="Field">Service Life Estimator Table </span>to the name of the Battery Precompute Table file.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1018883">&nbsp;</a></div>
+      <div class="Heading4"><a name="1015813">Configuring Statistics Parameters</a></div>
+      <div class="BodyAfterHead"><a name="1015814">Statistics for Battery Model can be collected at the global and node levels. See </a><span class="Variable">Section 4.2.9 of </span><span class="Variable" style="font-style: italic">QualNet User’s Guide </span> for details of configuring statistics parameters.</div>
+      <div class="Body"><a name="1017067">To enable statistics collection for Battery models, check the box labeled </a><span class="Field">Battery Model</span><span style="font-style: italic"> </span>in the appropriate properties editor.</div>
+      <table class="Format_A" style="text-align: left; width: 467.99928pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-9.&nbsp;&nbsp;<a name="1017070">Command Line Equivalent of Statistics Parameters</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 121.19976pt">
+            <div class="CellHeading"><a name="1017076">GUI Parameter </a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 200.54952pt">
+            <div class="CellHeading"><a name="1017078">Scope of GUI Parameter</a></div>
+          </td>
+          <td style="background-color: #B2B2B2; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 146.25pt">
+            <div class="CellHeading"><a name="1017080">Command Line Parameter</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1017082">Battery Model</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1017084">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1017086">BATTERY-MODEL-STATISTICS</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading2Numbered">9.1.5  <a name="998676">Statistics</a></div>
+      <div class="BodyAfterHead"><a name="1021949">This section describes the file and dynamic statistics of the Battery model.</a></div>
+      <div class="Heading3Numbered">9.1.5.1  <a name="1021950">File Statistics</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#998686', '');" title="Battery Models" name="1009510">Table&nbsp;9-10</a></span> shows the Battery model statistics that are output to the statistics (.stat) file at the end of simulation.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-10.&nbsp;&nbsp;<a name="998686">Battery Model Statistics&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="998690">Statistic</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 306pt">
+            <div class="CellHeading"><a name="998692">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="998694">Residual battery capacity (in mAhr)</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1009616">Specifies the remaining charge of the battery attached to the node at the end of simulation. </a></div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="998696">If no battery model is defined for a node, the total charge consumed (in mAhr) by a node is reported in the statistics file. </a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1012875">Total charge consumed (in mAhr)</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1012877">Specifies the total charge consumed by a node.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="998699">Battery is dead at time (Sec)</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="998701">If during simulation run, the battery of a node is completely discharged, this statistic shows the time (in seconds) in which the battery charge of a node reaches zero.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading3Numbered">9.1.5.2  <a name="1024869">Dynamic Statistics</a></div>
+      <div class="BodyAfterHead"><a name="1024872">The following dynamic statistics are enabled for the Battery model (refer to </a><span class="Variable">Chapter 5 of </span><span class="Variable" style="font-style: italic">QualNet User’s Guide</span> for details of viewing dynamic statistics in the GUI during the simulation):</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1024874">Battery Charge (mAhr)</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="1024875">Electrical Load (mA)</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Heading2Numbered">9.1.6  <a name="1017197">Scenarios Included in </a><span class="Variable">QualNet</span></div>
+      <div class="BodyAfterHead"><a name="1017198">The </a><span class="Variable">QualNet</span> distribution includes several sample scenarios for the Battery model. All scenarios are located in the directory <span class="Variable">QUALNET_HOME</span>/scenarios/wireless/battery-models. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Battery%20Models.html#1017214', '');" title="Battery Models">Table&nbsp;9-11</a></span> lists the sub-directory where each scenario is located. </div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 9-11.&nbsp;&nbsp;<a name="1017214">Battery Model Scenarios Included in </a><span class="Variable">QualNet</span>&nbsp;</div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 144pt">
+            <div class="CellHeading"><a name="1017218">Scenario Sub-directory</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 324pt">
+            <div class="CellHeading"><a name="1017220">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017222">battery-dieout\Linear-model-case</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017224">To test the case that simple linear battery model is configured for the nodes in the network. The batteries of few nodes are depleted and those nodes die out during simulation time. The death times for those nodes are reported in .stat file.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017226">battery-dieout\RLA-model-case</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017228">To verify Residual Life Accurate (RLA) battery model with the battery type configured as Panasonic AAA size. The batteries of few nodes are depleted and those nodes die out during simulation time. The death times for those nodes are reported in .stat file.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017230">battery-dieout\SLA-model-case</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017232">To verify Service Life Accurate (SLA) battery model with the battery type configured as ITSY battery type.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017234">battery-linear-model</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017236">To test the case that simple linear battery model is configured for the nodes in the network.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017238">battery-no-model</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017240">	To test the case that no battery model is configured for the nodes in the network. Cumulative consumed charge is printed in the .stat file when no battery model is selected</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017242">battery-RLA-model\Case-1	</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017244">To verify Residual Life Accurate (RLA) battery model with the battery type configured as Panasonic AAA size.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017246">battery-RLA-model\Case-2</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017248">To verify Residual Life Accurate (RLA) battery model with the battery type configured as DURACELL MX1500 AAA size.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017250">battery-SLA-model\Case-1</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017252">To verify Service Life Accurate (SLA) battery model with the battery type configured as ITSY battery type.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017254">battery-SLA-model\Case-2</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017256">To verify Service Life Accurate (SLA) battery model with the battery type configured as DURACELL AA battery type.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 2.0pt"><a name="1017258">mixed-models</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1017260">To verify all supported battery models.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading2Numbered">9.1.7  <a name="1007198">References</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="998704">D. Rakhmatov, S. Vrudhula, and D. Wallach. “A model for battery lifetime analysis for organizing applications on a pocket computer.” IEEE Transactions on VLSI. Vol. 11, 2003, 1019-1030. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="998705">K. Lahiri, A. Raghunathan, S. Dey, and D. Panigrahi. “Battery Driven System Design: A New Frontier in Low Power Design.” ASPDAC/Int. Conf. VLSI Design. January 2002, 261-267.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013302">L. Benini, G. Castelli, A. Macii, E. Macii, M. Poncino, and R. Scarsi. “Discrete time battery model for high level power estimation.” Proc. Design Automation &amp; Test Europe (DATE) Conf. Ma ch 2000, 35-39.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013304">S. Gold. “A PSPICE macro model for lithium-ion batteries.” Annual Battery Conference on Applications and Advances. January 1997, 215 -222.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013306">T. Simunic, L. Benini, and G. De Micheli. “Energy-efficient design of battery-powered embedded systems.” IEEE Trans. VLSI. Vol. 9, February 2001, 15 -28.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">6.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013308">K. C. Syracuse and W. D. K. Clark. “A statistical approach to domain performance modeling for oxyhalide primary lithium batteries.” Annual Battery Conference on Applications and Advances. Jan. 1997, 163-177.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">7.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013310">D. Linden and T. Reddy. Handbook of Batteries. 3rd edition New York: McGraw-Hill, 2001.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">8.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013312">Steve Pietkiewicz. “The LT1304: Micropower DC/DC Converter with Independent Low-Battery Detector.”  Linear Technology.Design. Vol V Number 3, August 1995.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">9.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013314">M. Pedram and Q. Wu. “Design considerations for battery-powered electronics.” 36th Design Automation Conf. (DAC 99). June 1999, 861–866.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">10.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013316">D. Rakhmatov and S. B. K. Vrudhula. “Time to failure estimation for batteries in portable systems.” Int. Symp. Low Power Electronics &amp; Design. Aug. 2001, 88–91.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">11.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013318">S. Hageman. “Simple PSPICE models let you simulate common battery types.” Electronic Design News. Vol. 38, Oct. 1993, 117–132.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">12.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013320">M. Glass. “Battery electrochemical non-linear dynamic SPICE model,” Energy Conversion Engineering Conference, Vol. 1, Aug. 1996, 292–297.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">13.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013322">C. F. Chiasserini and R. R. Rao. “Importance of a pulsed battery discharge in portable radio devices.” ACM MOBICOM'99. Aug. 1999, 88-95.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">14.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013324">D. Panigrahi, C. F. Chiasserini, S. Dey, R. R. Rao, A. Raghunathan, and K. Lahiri. “Battery life estimation for mobile embedded systems.” Int. Conf. VLSI Design. Jan. 2001, 55–63.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">15.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013326">M. Doyle, T. F. Fuller, and J. S. Newman. “Modeling of galvanostatic charge and discharge of lithium/polymer/insertion cell.” J. Electrochem. Soc. Vol. 140, June 1993, 1526–1533.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">16.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013328">T. F. Fuller, M. Doyle, and J. S. Newman. “Relaxation phenomena in lithium-ion insertion cells,” J. Electro-chem. Soc. Vol. 141, no. 4, Apr. 1994, 982–990.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">17.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013330">T. I. Evans, T. V. Nguyen, and R. E. White. “A mathematical model of a lithium/thionyle chloride primary cell.” J. Electrochem. Soc. Vol. 136, Feb. 1989, 328–329.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">18.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="998290">K. Tsaur and R. Pollard. “Mathematical modeling of the lithium/thiony chloride static cell.” J. Electro-chem. Soc. Vol. 131, May 1984, 975–984.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">19.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1013382">M. Pedram and Q. Wu. "Design considerations for battery-powered electronics”, IEEE Trans. on VLSI Systems, Vol. 10, No. 5, Oct. 2002, pp. 601-607.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

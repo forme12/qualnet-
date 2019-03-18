@@ -1,0 +1,42 @@
+PURPOSE:-
+--------
+To show IGP route injection into BGP.
+
+
+SCENARIO:-
+---------
+
++------------+            +------------+
+|BellmanFord |            |BellmanFord |
+|            |            |            |
+|  N2-1.0    |            |    N2-5.0  |
+| 1------2   |            |   5------6 |
+|        |   |            |   |        |
+|  N2-2.0|   |            |   |N2-4.0  |
+|      +---+ |   BGPv4    | +---+      |
+|      |   |-+------------+-|   |      |
+|      | 3 | |  BGPLink   | | 4 |      |
+|      |   |-+------------+-|   |      |
+|      +---+ |   N2-3.0   | +---+      |
++------------+            +------------+
+   AS1                         AS2
+
+
+AS1 and AS2 are both running Bellmanford routing protocol.
+CBR is used to send 10 data segments of 1000B from node 1 to node 6.
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.bgp- QualNet BGP router configuration file.
+4. default.expected.stat - QualNet statistics file for BGP and the application.
+5. default.routes-default - QualNet default routes specification file.
+6. README - This file.
+

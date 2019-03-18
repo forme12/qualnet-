@@ -1,0 +1,53 @@
+PURPOSE:
+-------
+To show the operation of MOSPF in an interarea topology with link fault.
+In this scenario, after the existing link is fault into the backbone
+packet flow chosen the alternative path
+
+
+SCENARIO:
+---------
+In this scenario, there is one MCBR session, with node 5 being the multicast
+source and nodes 2, 6, 7 and 9 being the multicast group members.
+The multicast group members join the group before the source sends data.
+Nodes 4, 8, 12 and 13 are the IGMP routers. Nodes 4, 8, and 12 are
+the Inter Area Multicast Forwarder.
+Fault the link between node 4 and 8.
+
+
+             1     2      3
+             |     |      |
+             +-----++-----+
+                    |
+            ........4........
+            :      / \      :
+            :    /     \    :
+   10 --+   :  /         \  :   +-- 6
+        |   :/             \:   |
+        +-- 12   Backbone   8 --+
+   11 --+   :\             /:   +-- 7
+        |   :  \         /  :   |
+    9 --+   :    \     /    :   +-- 5
+            :......\ /......:
+                    13
+
+MCBR is used to transfer data segments of 512B each at 30 second intervals
+until the end of the simulation. Starting at 10 minutes into the simulation.
+
+
+
+RUN:
+-------
+
+Run '<QUALNET_HOME>/bin/qualnet inter-area-fault.config'.
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+1. inter-area-fault.app -  specifies the application being used.
+2. inter-area-fault.config - the QualNet configuration input file.
+3. inter-area-fault.member - specifies the multicast group.
+4. inter-area-fault.stat - QualNet statistics collection for MCBR and MOSPF.
+5. inter-area-fault.ospf - specifies the different type of area with range.
+6. inter-area-fault.fault - specifies the description of interface fault.
+7. README - this file.

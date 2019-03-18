@@ -1,0 +1,76 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+#
+#--------------------------------------------------------------------------
+# PBR usage:-
+#
+# route-map map-tag [permit | deny][sequence-number]
+# match length min max and/or match ip address {access-list-number | name}
+#   [...access-list-number | name]
+# set ip precedence [number | name]
+# set ip next-hop ip-address [... ip-address]
+# set interface interface-type interface-number [... type number]
+# set ip default next-hop ip-address [... ip-address]
+# set default interface interface-typeinterface-number [... type ...number]
+# interface interface-type interface-number
+# ip policy route-map map-tag
+# ip local policy route-map map-tag
+#
+#--------------------------------------------------------------------------
+#
+# SCENARIO:-
+#
+#     -                                  -
+#     |             6.0       7.0        |
+# (1)-|        -(6)-------(7)------(8)---|-(9)
+#     |   3.0/                     /     |
+#     |    /                     /       |
+# (2)-|--(3)----(4)-------(5)--- 5.0     |-(10)
+#     |     2.0     4.0                  |
+#     -                                  -
+#    1.0                                8.0
+#
+# SUBNET N8-192.168.1.0 { 1 thru 3 }
+#
+# LINK N2-192.168.2.0 { 3, 4 }
+# LINK N2-192.168.3.0 { 3, 6 }
+#
+# LINK N2-192.168.4.0 { 4, 5 }
+# LINK N2-192.168.5.0 { 5, 8 }
+#
+# LINK N2-192.168.6.0 { 6, 7 }
+# LINK N2-192.168.7.0 { 7, 8 }
+#
+# SUBNET N8-192.168.8.0 { 8 thru 10 }
+#
+# 1 -> 9, 2 -> 10
+
+#
+node-identifier 3
+  interface 0
+  ip policy route-map src-route-3if0
+#
+# Immediate = Precedence 2
+#
+route-map src-route-3if0 permit 9
+    match length 500 600
+    set ip precedence 4
+route-map src-route-3if0 permit 10
+    match length 600 700
+    set ip precedence Immediate
+#
+

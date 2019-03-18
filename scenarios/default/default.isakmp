@@ -1,0 +1,172 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+#
+# ISAKMP configuration file
+# 
+# default values are defiend in isakmp.h file.
+#
+#
+# To configure  a node with ISAKMP parameters
+#
+# NODE  node-interface-ipv4-address
+# PEER  peer-ipv4-address <node-peer configuration>
+
+NODE *
+PEER * Common-Config
+
+# To Configure <node-peer configuration> .
+# <node-peer configuration>
+# NOTE: Parameter should be given in the order specified below
+
+# PHASE 1       
+# DOI                   Domain-of-Interpretation
+# EXCHANGE_TYPE         exchange-type
+# FLAGS                 flags e.g. ACE ,CE ,AE,AC, A ,C ,E ,NONE        
+# TRANSFORMS            <transform 1> ,[<transform 2>]...
+
+#
+# PHASE 2       
+# LOCAL-ID-TYPE         Local-id-type given by RFC      
+# LOCAL-NETWORK         Local-network-address
+# LOCAL-NETMASK         Local-network-mask
+# REMOTE-ID-TYPE        Remote-id-type given by RFC     
+# REMOTE-NETWORK        Remote-network-address
+# REMOTE-NETMASK        Remote-network-mask
+# DOI                   Domain-of-Interpretation
+# EXCHANGE_TYPE         exchange-type   
+# FLAGS                 flags e.g. ACE ,CE ,AE,AC, A ,C ,E ,NONE
+# PROPOSALS             <Proposal-1> [Proposal-2>]...
+
+
+Common-Config
+
+PHASE 1                 
+DOI ISAKMP_DOI                                  
+EXCHANGE_TYPE EXCH_BASE
+FLAGS ACE                               
+TRANSFORMS 3DES-SHA     
+
+PHASE 2
+LOCAL-ID-TYPE IPV4_ADDR_SUBNET
+LOCAL-NETWORK *
+LOCAL-NETMASK *
+REMOTE-ID-TYPE IPV4_ADDR_SUBNET
+REMOTE-NETWORK *
+REMOTE-NETMASK *
+UPPER-LAYER-PROTOCOL UDP
+DOI IPSEC_DOI
+EXCHANGE_TYPE EXCH_IDENT
+FLAGS ACE
+PROPOSALS ESP-DES-MD5-PFS AH-MD5-PFS    
+        
+
+#***************************************************************************
+# To Configure <Proposals > for phase 2
+#
+# <Proposal >
+# name of sections describing List of Protocols proposed
+# PROTOCOLS <Protocol 1> [<Protocol 2>],....
+#***************************************************************************
+
+
+ESP-DES-MD5-PFS
+PROTOCOLS ESP-DES-MD5-PFS               
+
+AH-MD5-PFS
+PROTOCOLS AH-MD5-PFS
+
+#***************************************************************************
+# To Configure <Protocol >  for phase 2
+#
+# <Protocol >
+# PROTOCOL_ID protocol-id
+# name of section describing List of Transforms for a  protocol proposed
+# TRANSFORMS <Transform 1> [<Transform 1>],....
+#***************************************************************************
+
+
+ESP-DES-MD5-PFS
+PROTOCOL_ID ESP
+TRANSFORMS ESP-DES-MD5-PFS-XF   
+
+AH-MD5-PFS
+PROTOCOL_ID AH
+TRANSFORMS AH-MD5-PFS-XF
+
+                
+#***************************************************************************
+# To Configure transforms for phase 1
+#
+#  Phase-1-Transforms
+#  TRANSFORM_NAME           tranform as specified in PHASE 1 configuration
+#  TRANSFORM_ID             phase 1 transform id
+#  ENCRYPTION_ALGORITHM     encryption-algo  
+#  HASH_ALGORITHM           hash-algo
+#  AUTHENTICATION_METHOD    auth-method
+#  GROUP_DESCRIPTION        grp-description
+#  LIFE                     Life of this transform
+#***************************************************************************  
+ 
+
+Phase-1-Transforms
+
+TRANSFORM_NAME 3DES-SHA
+TRANSFORM_ID KEY_IKE
+ENCRYPTION_ALGORITHM DES-CBC
+HASH_ALGORITHM SHA
+AUTHENTICATION_METHOD RSA_SIG
+GROUP_DESCRIPTION MODP_1024
+LIFE 10
+ 
+TRANSFORM_NAME DES-MD5  
+TRANSFORM_ID KEY_IKE                 
+ENCRYPTION_ALGORITHM DES-CBC
+HASH_ALGORITHM MD5
+AUTHENTICATION_METHOD PRE_SHARED
+GROUP_DESCRIPTION MODP_1024
+LIFE 7
+
+#****************************************************************************
+# To Configure transforms for phase 2
+#
+#  Phase-2-Transforms
+#  TRANSFORM_NAME               as specified in PHASE 2 PROTOCOL configuration
+#  TRANSFORM_ID                 phase 2 transform id as specified by RFC 2407
+#  ENCAPSULATION_MODE           TUNNEL|TRANSPORT  
+#  GROUP_DESCRIPTION            grp-description
+#  AUTHENTICATION_ALGORITHM     auth-algo 
+#  LIFE                         Life of this transform
+#***************************************************************************** 
+
+
+Phase-2-Transforms
+
+TRANSFORM_NAME ESP-DES-MD5-PFS-XF
+TRANSFORM_ID ESP_DES
+ENCAPSULATION_MODE TUNNEL
+GROUP_DESCRIPTION MODP_1024
+AUTHENTICATION_ALGORITHM HMAC-SHA-1-96
+LIFE 10
+
+TRANSFORM_NAME AH-MD5-PFS-XF
+TRANSFORM_ID AH_MD5
+ENCAPSULATION_MODE TUNNEL
+GROUP_DESCRIPTION MODP_1024
+AUTHENTICATION_ALGORITHM HMAC-MD5
+LIFE 15
+

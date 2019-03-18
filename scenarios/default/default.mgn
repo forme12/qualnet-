@@ -1,0 +1,357 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+#
+# MGEN SCRIPT FILE FORMAT :
+#
+#   MGEN scripts are text files containing a sequence of commands and scheduled
+# events describing traffic generation patterns, ports and/or multicast groups
+# to be monitored, and other options. Each line in the script corresponds to
+# either a "Transmission Event", or "Reception Event", or "Global Command".  
+# Lengthy script lines can be continued to multiple lines by using a trailing 
+# backslash '\' character at the end of the line.  
+#
+#   Scheduled transmission and reception events in the script use 
+# lines in the format of:
+#   <eventTime> <eventType> <parameters ...> [<options ...>]
+# where,
+#     
+#   <eventTime> =  Time(in seconds) of the associated event relative to the
+#                 start of MGEN program expressed as a floating point number.
+#     
+#   <eventType> = Type of the scheduled event - Transmission or Reception
+#   
+#   <parameters ...> = Parameters associated with the specific schedule.
+#   
+#   [<options ...>]  = Other optional fields if any.
+#   
+# 
+# Global commands are generally used to define default behaviors for MGEN 
+# operation or other options independent of event scheduling. The format 
+# for global command script lines is:
+#   <commandType> [<command parameters ...>]
+# where,
+#     
+#    <commandType> = Global command
+#  
+#    [<command parameters ...>] = Additional paramters if any. 
+# 
+# 
+# TRANSMISSION EVENTS :
+# ---------------------
+# 
+# MGEN "Transmission Event" script lines are used to schedule and characterize
+# mgen traffic generation. An instance of mgen can simultaneously transmit 
+# traffic to multiple destinations with different patterns of transmission. 
+# The MGEN script format uses "flow identifiers" (<flowIds>) to tag specific 
+# "threads" of MGEN traffic generation. While the <flowIds> are placed in the
+# payload of associated MGEN messages, the primary purpose of the <flowId> is 
+# to simply put together a sequence of lines of "transmission events" as a 
+# single "flow" or "thread". The sequence of events pertaining to a "flow" of
+# MGEN traffic generation consist of ON, MOD, and OFF types. The script line 
+# syntax for these event types is:
+#  <eventTime> {ON|MOD|OFF} <flowId> [<options ...>]
+# The first scripted event for a given flow identified by a <flowId>
+# must be an ON event.  Subsequently, MOD events can be used to modify 
+# characteristics of the given flow until it is terminated with an OFF event.
+# After a flow has been terminated with the OFF command, a flow with the same 
+# <flowId> value may be initiated with another ON event.  The <options> fields 
+# are used to describe the characteristics of flows initiated with ON events 
+# and modified with subsequent MOD events. The OFF event uses no options.
+# 
+# ON Event
+# Script syntax:
+# 
+# <eventTime> ON <flowId> <protocol> DST <IP addr>/<port> \
+#           <pattern [params]> [<options ...>]
+# 
+# This transmission event type is used to initiate a new flow at the time 
+# given by the <eventTime>.  The <flowId> is used to identify the flow within
+# the script and can be used by subsequent MOD or OFF events to reference the 
+# flow initiated here. The <protocol> field indicates the transport protocol 
+# to be used for the generated MGEN test messages.  Currently, only UDP transport
+# is supported. The flow destination address and port must be specified for the 
+# ON event using the DST option and the <pattern> of message generation must be
+# given as well. Other flow <options> may be specified to further characterize 
+# the flow.
+# 
+# Example:
+# 
+# This script line will originate a "flow" of MGEN destined for the 
+# address 158.0.0.1, port number 5000 beginning immediately when the
+# script is executed.  The messages will consist of 1024 byte messages
+# at a regular rate of 1.0 per second:
+# 
+# 0.0 ON 1 UDP DST 158.0.0.1/5000 PERIODIC [1.0 1024]
+# 
+# MOD Event
+#
+# Script syntax:
+# <eventTime> MOD <flowId> [<options ...>]
+# 
+# This transmission event type is used to modify the characteristics of an 
+# existing flow identified by the <flowId> field.  The given transmission event
+# <options> determine which specific characteristics of the flow 
+# (e.g. PATTERN, TOS, destination (DST), etc) will be affected.  
+# Multiple options may be specified in the script line.  
+# Note that the protocol type and source port number (SRC) cannot be changed
+# with the MOD event type.  If no <options>are given, the flow will remain 
+# unaltered.  A script parse error will result if the identified flow was not
+# previously initiated with an ON event.
+# 
+# Example:
+# This script line will modify "flow 1" to change it packet transmission 
+# pattern 5.0 seconds after script execution.  The changed "flow 1" will then
+# generate messages 512 bytes in size at an average rate of 10.0 messages per
+# second following a Poisson (exponentially-distributed interval)
+# 
+# 5.0 MOD 1 POISSON [10.0 512]
+# 
+# OFF Event
+#
+# Script syntax:
+#   <EventTime> OFF <flowId>
+# This transmission event type terminates message transmission for the flow 
+# identified by the <flowId> field at the time given in the <eventTime> field.
+# There are no options applicable to this event type. A script parse error will
+# result if the identified flow was not previously initiated with an ON event.
+# Example:
+# This script line will terminate generation of MGEN message traffic for 
+# "flow 1" at  10.0 seconds after script execution.
+# 
+# 10.0 OFF 1
+#  
+# Transmission Event Options
+# --------------------------
+# 
+# This section describes options which may be applied to ON or MOD transmission 
+# events in MGEN script files. Note that ON event lines require specification of
+# at least the <protocol>, <destination>, and <pattern> options, while only the 
+# options to be changed need to be specified as part of MOD event lines.
+# 
+# Protocol (UDP)
+# Option syntax:
+# ... <protocolType> ...
+# The transport protocol for MGEN messages generated by a flow must be specified
+# as part of any ON events.  Currently, "UDP" is the only protocol type supported.
+# 
+# Example:
+# 0.0 ON 1 UDP DST 127.0.0.1/5000 PERIODIC [1.0 1024]
+# 
+# Destination (DST)
+# Option syntax:
+# ... DST <addr>/<port> ...
+# The destination address for a flow must be specified for ON events and may be
+# altered as part of MOD events.  The <addr> field specifies the destination IP
+# address (IPv4 or IPv6) and the <port> field specifies the destination host port
+# number.  The destination address may be a unicast (point-to-point) or multicast
+# address.
+# Examples:
+# 
+# Start a flow to loopback address port 5000
+# 0.0 ON 1 UDP DST 127.0.0.1/5000 PERIODIC [1.0 1024]
+# 
+# Modify flow 1 to a different destination port
+# 0.0 MOD 1 DST 127.0.0.1/5001
+# 
+# Source Port (SRC)
+# Option syntax:
+# ... SRC <port> ...
+# The source port number used for generated traffic may be optionally specified
+# as part of an ON event. The <port> field identifies the host port number to be
+# used.  When the SRC option is not specified, the flow will use a free port 
+# number picked by the operating system.
+# 
+# 
+# Traffic Patterns (PERIODIC, POISSON, BURST) :
+# -------------------------------------------
+#
+# Option syntax:
+# ... <patternType> [parameters ...] ...
+# (Note: The '[' and ']' characters are explicitly required at the beginning 
+# and end of the pattern parameter set. Different pattern types may use 
+# different parameter sets.) Traffic generated by MGEN consists of a series of
+# sequence-numbered messages. The messaging generated by MGEN may vary in size
+# and frequency of transmission to stress the network in a controlled fashion
+# or possibly emulate other network applications. The "Pattern" of message 
+# generation must be specified in ON events and may be altered as part of 
+# subsequent MOD events. Currently MGEN supports three pattern types, 
+# "PERIODIC", POISSON", and "BURST".  Complex traffic patterns can be created
+# by using a compound of multiple "flows" (with the same SRC/DST) with different
+# pattern types and parameters.
+# 
+# PERIODIC Pattern:
+# Option syntax:
+# 
+# ... PERIODIC [<rate> <size>] ...
+# 
+# This pattern type generates messages of a fixed <size> (in bytes) at a very 
+# regular <rate> (in messages/second).  The <size> field must be greater or equal
+# to the minimum MGEN message size and less than or equal to the maximum UDP 
+# message size of 8192 bytes.  When other transport support is added (e.g. TCP),
+# the message <rate> and <size> parameters will have additional flexibility as 
+# appropriate.  Note the <rate> must be greater than or equal to 
+# 0.0 messages/second.
+# 
+# Example:
+# Start an MGEN flow sending 1024 byte messages at a rate of 10.0 per second
+# 0.0 ON 1 UDP DST 127.0.0.1/5000 PERIODIC [10.0 1024]
+# 
+# Reduce the flow rate to one 512 byte message every 2.0 seconds
+# 0.0 MOD 1 PERIODIC [0.5 512]
+# 
+# POISSON Pattern:
+#
+# Option syntax:
+# ... POISSON [<aveRate (msg/sec)> <size (bytes)>] ...
+# 
+# This pattern type generates messages of a fixed <size> (in bytes) at 
+# statistically varying intervals at an average <rate> (in messages/second).
+# The <size> field must be greater or equal to the minimum MGEN message size and
+# less than or equal to the maximum UDP message size of 8192 bytes. When other
+# transport support is added (e.g. TCP), the message <aveRate> and <size> 
+# parameters will have additional flexibility as appropriate.  Note the <rate> 
+# must be greater than or equal to 0.0 messages/second.
+# 
+# Example:
+# Start an MGEN flow sending 1024 byte messages 
+# at an average rate of 10.0 per second
+# 0.0 ON 1 UDP DST 127.0.0.1/5000 POISSON [10.0 1024]
+# 
+# Reduce the flow rate to an average of one 
+# 512 byte message every 2.0 seconds
+# 0.0 MOD 1 POISSON [0.5 512]
+# 
+# BURST Pattern:
+#
+# Option syntax:
+# ... BURST [REGULAR|RANDOM <aveInterval (sec)> <patternType> [<patternParams>] 
+#                                   FIXED|EXPONENTIAL <aveDuration (sec)>] ...
+#
+# The BURST pattern generates bursts of other MGEN pattern types at a specified
+# average interval. The first parameter of the BURST pattern is either "REGULAR"
+# resulting in periodic burst uniformly distributed in time by the <aveInterval>
+# value, or "RANDOM" which exponentially distributes the traffic generation 
+# bursts in time with an average burst interval as specified by the <aveInterval>
+# parameter value. The characteristics of the MGEN messages generated during a 
+# burst is given by the <patternType> and associated <patternParams> parameters.
+# The <patternType> may any MGEN pattern type including PERIODIC, POISSON, or,
+# even BURST.  The <patternParams> must be appropriate for the given <patternType>.
+# When a traffic generation burst occurs, its duration is either of a FIXED value
+# as given by the <aveDuration> or a randomly varying duration with EXPONENTIAL 
+# statistics and an average duration as given by the <aveDuration> parameter.
+# 
+# Example:
+# 
+# Start a bursty MGEN flow with bursts of 1024 byte messages with a periodic 
+# rate of 10.0 messages per second.  The #bursts will occur at random intervals 
+# with an average interval from the start of one burst until the start of the
+# next of 10.0 seconds.  The duration of each burst is of exponential 
+# statistics with an average burst duration of 5.0 seconds.
+# 0.0 ON 1 UDP DST 127.0.0.1/5000 BURST [RANDOM 10.0 PERIODIC [10.0 1024] EXP 5.0]
+# 
+# 
+# RECEPTION EVENTS :
+# ------------------
+#
+# For simple reception and logging of unicast traffic, it is generally sufficient 
+# just to launch mgen with the port command line option specifying the port 
+# numbers to monitor. However, for IP multicast operation or more complex behavior,
+# an MGEN script with "Reception Events" is required. "Reception Events" 
+# implemented here are JOIN and LEAVE types to dynamically control IP group 
+# membership. 
+# 
+# JOIN
+# 
+# Script syntax:
+# <eventTime> JOIN <groupAddress> [INTERFACE <interfaceName>] [PORT <portNumber>]
+# 
+# The JOIN event is used to prompt mgen to "join" the specific IP multicast group
+# indicated by the <groupAddress> field.  The INTERFACE option forces the 
+# membership join request on the network interface identified by the 
+# <interfaceName> field. If no INTERFACE option is given, the operating system's
+# default behavior is observed.  
+# The PORT option is provided principally for operation on WIN32 systems where 
+# the IP multicast join must be performed on the same socket bound to a specific 
+# <portNumber>.  Note that a corresponding LISTEN event for the indicated 
+# <portNumber> is required in order to receive traffic.  Unix-based operating 
+# systems generally allow for IP multicast group membership to be independent of 
+# specific socket port bindings.  
+# As many IP group memberships as the operating system will support is permitted 
+# by mgen. 
+# 
+# Examples:
+# JOIN group 224.1.2.3 at time 0.0
+# 0.0 JOIN 224.1.2.3
+# 
+# JOIN group 224.1.2.4 on interface "eth1"
+# 0.0 JOIN 224.1.2.4 INTERFACE eth1
+# 
+# LEAVE
+# 
+# Script syntax:
+# <eventTime> LEAVE <groupAddress> [INTERFACE <interfaceName>] [PORT <portNumber]
+# 
+# The LEAVE event is used to prompt mgen to "leave" the specific IP multicast 
+# group indicated by the <groupAddress> field.  The <groupAddress> must have been
+# joined with a prior JOIN event.  The INTERFACE and/or PORT options must be used
+# if they were used with the corresponding JOIN event.
+# 
+# Examples:
+# 
+# LEAVE group 224.1.2.3 at time 10.0
+# 10.0 LEAVE 224.1.2.3
+# 
+# LEAVE group 224.1.2.4 on interface "eth1" at time 10.0
+# 10.0 LEAVE 224.1.2.4 INTERFACE eth1
+# 
+# GLOBAL COMMANDS :
+# ---------------
+#
+# Format of global commands is:
+# <command> <parameters>
+# In general, a script file should contain only one occurrence of each global
+# command type.  If there are multiple occurrences of a command type, 
+# the last occurrence will determine mgen's behavior.  These commands can also
+# be given on the mgen command-line.  Global commands given on the mgen 
+# command-line will override any corresponding global commands in the script 
+# file(s).
+# 
+# The MGEN "Global Command" set includes:
+# 
+# INPUT = Specifies the name of a script file to be loaded and parsed.
+# 
+# OUTPUT = Specifies the name of the log file to record logged events.
+#           If the named log file pre-exists, it is overwritten.
+#
+#
+# Example(typical script file) :
+# 
+
+# MGEN RECEPTION EVENTS SCRIPT LINES
+# 
+# 0.0 JOIN  224.1.2.3 
+# 100.0 LEAVE 224.1.2.3 
+# 
+
+
+# MGEN TRANSMISSION EVENTS SCRIPT LINES
+# 
+# 20.0 ON  1 UDP SRC 5000 DST 0.0.3.2/5001 PERIODIC [1 500]
+# 70.0 MOD 1 PERIODIC [1 1000]
+# 120.0 OFF 1
+# 

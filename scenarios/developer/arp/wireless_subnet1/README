@@ -1,0 +1,98 @@
+#Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+PURPOSE:
+--------
+
+To verify the operation of ARP with two wireless subnets connected via common node.
+
+
+
+TOPOLOGY CONVENTIONS:
+--------------------
+
+--------- means a wireless link.
+
+-----------
+|        |
+|        |    means a wireless subnet.
+|        |
+----------
+
+_________ means a static route.
+
+
+
+TOPOLOGY:
+---------
+
+           ---------------------                
+------------|----             |
+ |    1 5   |  |   10 11      |
+ |  2     8 |  | 9       12   |
+ | 3        |18|           13 | 
+ |  4     7 |  | 17      14   |
+ |    5 6   |  |   16 15      |
+------------|----             |
+           ---------------------
+
+
+
+KEY CONFIGURATION:
+------------------
+
+MAC-PROTOCOL    CSMA
+ARP-ENABLED YES
+MAC-ADDRESS-CONFIG-FILE     ./wireless_subnet1.mac-address
+
+
+
+Application:
+------------
+
+CBR application is configured between node 1 and node 9.
+
+
+
+DESCRIPTION:
+------------
+
+The scenario is used to verify ARP functionality with custom MAC addresses and two wireless subnets connected via common node.
+Node 18 serves as a common node connecting two subnets. Application packets from node 1 towards node 9 are routed via node 18 
+which maintains ARP entries for both the interfaces connected to it.
+
+
+
+RUN:
+----
+
+Type '<QUALNET_HOME>/bin/qualnet wireless_subnet1.config'.
+
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+
+1. wireless_subnet1.app -  specifies the application being used.
+2. wireless_subnet1.config - the QualNet configuration input file.
+3. wireless_subnet1.expected.stat - QualNet statistics collection
+4. wireless_subnet1.nodes - QualNet node position file.
+5. wireless_subnet1.routes-default - Qualnet default route file.
+6. wireless_subnet1.routes-static - Qualnet static route file.
+7. wireless_subnet1.mac-address - Mac Address configuration file
+8. README - this file.

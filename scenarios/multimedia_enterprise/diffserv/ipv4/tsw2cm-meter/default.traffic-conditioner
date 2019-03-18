@@ -1,0 +1,157 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+#
+# The DiffServ Multi-Field Traffic Conditioner is composed of Four parts:
+#      - Traffic Classifier
+#      - Traffic Meter
+#      - Traffic Conditioner
+#      - Traffic Service
+#
+
+#
+# The Traffic Classifier takes the following parameters, which define a
+# class of traffic by certain parameters:
+#
+# TRAFFIC-CLASSIFIER <src> <dest> <ds> <protocol-id>
+#                    <sourcePort> <destPort> <incoming interface IP>
+#                    <conditionClass> 
+#
+# where <src>            is the source nodeId or IP address of the packet,
+#
+#       <dest>           is the destination IP address of the packet,
+#
+#       <ds>             is the value of the ds field in the IP header,
+#
+#       <protocol-id>    is the value of the protocol id in the IP header,
+#
+#       <sourcePort>     is the source port of the packet,
+#
+#       <destPort>       is the destination port of the packet,
+#
+#       <incoming interface> is the IP address of the interface on
+#                            which this packet was received (if applicable),
+#
+#       <conditionClass> is a unique positive integer value which uniquely
+#                        identifies the class of traffic which matches the
+#                        above criteria.
+# 
+# Use ANY for any fields for which you do not require an exact match for the
+# condition class definition.
+#
+
+TRAFFIC-CLASSIFIER 1 6 10 ANY ANY ANY ANY  1
+TRAFFIC-CLASSIFIER 1 6 12 ANY ANY ANY ANY  1
+
+TRAFFIC-CLASSIFIER 2 6 10 ANY ANY ANY ANY  2
+TRAFFIC-CLASSIFIER 2 6 12 ANY ANY ANY ANY  2
+
+#
+# The Traffic Meter takes the following parameters, which define the
+# bandwidth and burstiness characters that are "allowed" for the given
+# class of traffic.  "Allowed" traffic is characterized as In-Profile,
+# while additional traffic is characterized as Out-Profile or Part-Profile,
+# depending on the Meter used ("srTCM", "trTCM", "TSW3CM"), and is subject
+# to the Traffic Conditioner, which can mark or drop them.
+#
+# TRAFFIC-METER <conditionClass> <meterType> <rate> [argument4] [argument5]
+#               [argument6]
+#
+# where <conditionClass> the unique identifier for this class of traffic,
+#                        as specified in the corresponding
+#                        TRAFFIC-CLASSIFIER line,
+#
+#       <meterType> is the meter type, one of:
+#                       TokenBucket
+#                       srTCM
+#                       trTCM
+#                       TSW2CM
+#                       TSW3CM
+#   
+#       <rate>      is the data rate, in bps, of In-Profile packets,
+#
+#       [argument4] "TokenBucket", "srTCM", "trTCM" specify
+#                   <committedBurstSize> in bytes, the largest
+#                   burst that can be accepted as In-Profile, in this
+#                   argument.
+#
+#                   "TSW3CM" specifies
+#                   <peakInformationRate> in bps, in this argument.
+#
+#       [argument5] "srTCM" specifies
+#                   <excessBurstSize> in bytes, the largest burst
+#                   that can be accepted as Part-Profile, in this argument.
+#
+#                   "trTCM" specifies
+#                   <peakInformationRate> in bps, in this argument.
+#
+#       [argument6] "srTCM" specifies
+#                   whether or not it is color aware, in this argument.
+#                   It takes either YES or NO
+#
+#                   "trTCM" specifies
+#                   <excessBurstSize> in bytes, the largest burst
+#                   that can be accepted as Part-Profile, in this argument. 
+#
+#TRAFFIC-METER <conditionClass> TokenBucket CIR CBS     
+#TRAFFIC-METER <conditionClass> srTCM CIR CBS EBS [YES/NO]   
+#TRAFFIC-METER <conditionClass> trTCM CIR CBS PIR PBS 
+#TRAFFIC-METER <conditionClass> TSW2CM CIR       
+#TRAFFIC-METER <conditionClass> TSW3CM CIR PIR     
+#
+
+TRAFFIC-METER 1 TSW2CM 1000000
+TRAFFIC-METER 2 TSW2CM 1000000
+
+#
+# The Traffic Conditioner takes the following parameters, which define the
+# action taken when packets are determined to be Out-Profile.
+#
+# TRAFFIC-CONDITIONER <conditionClass> <action> [dscp]
+#
+# where <conditionClass> the unique identifier for this class of traffic,
+#                        as specified in the corresponding
+#                        TRAFFIC-CLASSIFIER line,
+#
+#       <action>         the action to take for Out-Profile Packets,
+#                        either "DROP" or "MARK",
+#
+#       [dscp]           if the action is "MARK", the new value to assign
+#                        to the dscp field in the IP header of the Out-Profile
+#                        packet.
+# 
+
+#TRAFFIC-CONDITIONER 1 MARK 14
+#TRAFFIC-CONDITIONER 2 MARK 14
+
+#
+# The Traffic Service takes the following parameters, which define the
+# Standard PHB Services on a particular condition class.
+#
+# where <conditionClass> the unique identifier for this class of traffic,
+#                        as specified in the corresponding
+#                        TRAFFIC-SERVICE line,
+#
+#       <ServiceClass>   is a string which provide the different type 
+#                        of PHB Service. Now it consider only these type
+#                        of services EF, AF1, AF2, AF3, AF4.
+#
+
+#TRAFFIC-SERVICE <conditionClass> <serviceClass>
+
+TRAFFIC-SERVICE 1 AF1
+TRAFFIC-SERVICE 2 AF1

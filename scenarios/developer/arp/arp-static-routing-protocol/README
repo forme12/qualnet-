@@ -1,0 +1,40 @@
+Purpose :
+---------
+To check the routing protocol OSPFv2 does work properly with static ARP.
+
+Topology:
+---------
+               (2)                       (4)
+                |                         |  192.0.1.0
+(1)------------ + ---------- (3)----------+
+    192.0.0.0                             |
+                                         (5)
+
+
+Description Of Scenario:
+
+ROUTING-PROTOCOL   OSPFv2
+
+MAC-PROTOCOL    802.3
+ARP-ENABLED YES
+ARP-USE-BUFFER       NO
+
+ARP-STATIC-CACHE-FILE arp-static-routing-protocol.arp-static
+MAC-ADDRESS-CONFIG-FILE     ./arp-static-routing-protocol.mac-address
+
+SUBNET N8-192.0.0.0 { 1 thru 3 }
+SUBNET N8-192.1.0.0 { 1 thru 5 }
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet arp-static-routing-protocol.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. arp-static-routing-protocol.app -  QualNet configuration file for application input.
+2. arp-static-routing-protocol.config - QualNet configuration input file.
+3. arp-static-routing-protocol.expected.stat - QualNet statistics collection.
+4. arp-static-routing-protocol.arp-static - QualNet static ARP entry.
+5. README - This file.

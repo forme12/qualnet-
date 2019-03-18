@@ -1,0 +1,74 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+PURPOSE:-
+--------
+To verify all supported battery models.
+
+
+
+
+SCENARIO:-
+---------
+
+Name:battery-mixed-model
+There is Octagon  topology with one node at each corner (1 thru 8) and one node(9) at the center.
+The following battery models have been configured:
+[ 1 thru 3 ] BATTERY-MODEL LINEAR
+[ 1 thru 3 ] BATTERY-INITIAL-CHARGE 400
+
+[ 4 ] BATTERY-MODEL NONE
+
+[ 5 thru 7 ] BATTERY-MODEL RESIDUAL-LIFE-ACCURATE
+[ 5 thru 7 ] BATTERY-TYPE DURACELL-AA-MX-1500
+[ 5 thru 7 ] BATTERY-LOAD-UTILITY-TABLE-FILE duracell-mx1500.utl
+
+[ 8 9 ] BATTERY-MODEL SERVICE-LIFE-ACCURATE
+[ 8 9 ] BATTERY-TYPE DURACELL-AA
+[ 8 9 ] BATTERY-PRECOMPUTE-TABLE-FILE duracell-aa.pcm
+
+
+
+The node at the center(node 9) relays higher traffic than the other node; hence it expects to dissipate energy higher than the other nodes and has shorter lifetime.
+All nodes have 802.11b wireless connections.
+The energy is consumed as specified follows:
+[ 1 thru 9 ] ENERGY-MODEL-SPECIFICATION USER-DEFINED
+[ 1 thru 9 ] ENERGY-TX-CURRENT-LOAD 220.0
+[ 1 thru 9 ] ENERGY-RX-CURRENT-LOAD 200.0
+[ 1 thru 9 ] ENERGY-IDLE-CURRENT-LOAD 100.0
+[ 1 thru 9 ] ENERGY-SLEEP-CURRENT-LOAD 0.0
+[ 1 thru 9 ] ENERGY-OPERATIONAL-VOLTAGE 3.0
+Routing protocol is AODV.
+
+
+
+RUN:-
+----
+Run "<QUALNET_HOME>/bin/qualnet battery-mixed-model.config".
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. README                               - this file.
+2. battery-mixed-model.config           - general configuration.
+3. battery-mixed-model.app              - application configuration.
+4. battery-mixed-model.nodes            - node positions.
+5. battery-mixed-model.expected.stat    - expected output statistics.
+6. DURACELL-MX1500.utl                  -battery load-utility table for DURACELL MX1500
+7. duracell-aa.pcm                      -battery precompute table for DURACELL AA
+
+
+

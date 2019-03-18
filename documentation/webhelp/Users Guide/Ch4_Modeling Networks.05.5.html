@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Performance Optimization Features</title>
+    <link rel="StyleSheet" href="css/Ch4_Modeling%20Networks.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Ch4_Modeling%20Networks.05.1.html#977416">4	Modeling Networks</a> &gt; 4.4  Performance Optimization Features</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">4.4  <a name="977416">Performance Optimization Features</a></div>
+      <div class="BodyAfterHead"><a name="1950128">This section describes features for improving the execution speed of scenarios. </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#1950050', '');" title="Performance Optimization Features">Section&nbsp;4.4.1</a></span> describes parameters that can be used to optimize the simulation's run-time performance by reducing the amount of wireless signal propagation computation. <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#1949422', '');" title="Performance Optimization Features">Section&nbsp;4.4.2</a></span> describes how to configure the simulator’s event queue to optimize performance.</div>
+      <div class="Heading2Numbered">4.4.1  <a name="1950050">Execution Speed and Accuracy Trade-off</a></div>
+      <div class="BodyAfterHead"><a name="977417">In simulation of wireless networks, calculation of pathloss between transmitters and receivers presents a significant computational overhead. Detailed pathloss calculations yield more accurate simulation results, but at the expense of simulation speed. Simulation performance can be improved if pathloss calculations are abstracted, but this typically results in the loss of accuracy. This section describes parameters that can be configured to achieve the desired trade-off between speed and accuracy.</a></div>
+      <div class="BodyAfterHead"><a name="977418">A common technique to improve the performance of a wireless network simulation is to limit the number of signal strength computations using some common assumptions. One such assumption is that nodes that are far away from each other cannot communicate directly and their signals do not interfere with each other. However, directionally transmitted signals with high EIRP (Effective Isotropic Radiated Power) do propagate over a long distance and may cause high interference at far sight. Further, even if a single signal does not cause noticeable interference, power from many weak signals can be accumulated enough to cause high interference. Therefore, failing to consider such signals could introduce high inaccuracy in the network performance prediction. </a></div>
+      <div class="Body"><a name="1105648">This section describes parameters that can be used to optimize the simulation's run-time performance by reducing the amount of wireless signal propagation computation. Appropriate values for these parameters depend on the scenario and the desired trade-off between speed and accuracy. </a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#1201926', '');" title="Performance Optimization Features" name="1202135">Section&nbsp;4.4.1.1</a></span>describes how to configure the speed and accuracy trade-off parameters and <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#1212684', '');" title="Performance Optimization Features">Section&nbsp;4.4.1.2</a></span> describes the parameters in detail.</div>
+      <div class="Heading3Numbered">4.4.1.1  <a name="1201926">Configuring Speed and Accuracy Trade-off Parameters</a></div>
+      <div class="BodyAfterHead"><a name="1202164">This section describes how to configure the speed and accuracy trade-off parameters for the command line interface and in the GUI.</a></div>
+      <div class="Heading4Numbered">4.4.1.1.1  <a name="1201933">Command Line Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1202173">To configure the speed and accuracy trade-off parameters for the command line interface, include the parameters listed in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#1201957', '');" title="Performance Optimization Features">Table&nbsp;4-102</a></span> in the scenario configuration (.config) file.</div>
+      <div class="Anchor"><a name="1202064">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-102.&nbsp;&nbsp;<a name="1201957">Simulation Speed and Accuracy Trade-off Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1201963">Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 108pt">
+            <div class="CellHeading"><a name="1201965">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 198pt">
+            <div class="CellHeading"><a name="1201967">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1201969">PROPAGATION-MAX-DISTANCE</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1201970">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><a name="1201971">Scope</a></div>
+            <div class="Cell_2nd_Line"><a name="1201972">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1201973">Instances</a></div>
+            <div class="Cell_2nd_Line"><a name="1201974">channel index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1201976">Real</a></div>
+            <div class="CellRun-In_Courier"><a name="1605057">Range</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1605058">&gt; 0.0</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1201977">Default</a></span>: <span style="font-family: &quot;Courier New&quot;">0.0</span> (see note)</div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1201978">Unit:</a></span> meters</div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1201980">Maximum distance for which a node’s transmission is considered for communication or interference (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#1201898', '');" title="Performance Optimization Features">Section&nbsp;4.4.1.2.1</a></span>).</div>
+            <div class="CellNote_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellNote_inner" style="width: 25.2pt; white-space: nowrap;">
+                      <span class="Bold">Note: 	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellNote_inner"><a name="1201984">If this parameter is set to </a><span style="font-family: &quot;Courier New&quot;">0.0</span>, then it is not considered in the estimation of a node’s propagation range, i.e., the maximum distance is effectively infinity. In this case, the propagation range is determined only by the parameter <span style="font-family: &quot;Courier New&quot;">PROPAGATION-LIMIT</span>.</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1201986">PROPAGATION-LIMIT</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1201987">Optional </a></span></div>
+            <div class="CellRun-In_Plain"><a name="1201988">Scope</a></div>
+            <div class="CellBody_Indented"><a name="1201989">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1201990">Instances</a></div>
+            <div class="CellBody_Indented"><a name="1201991">channel index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1201993">Real</a></div>
+            <div class="CellRun-In_Courier"><a name="1201994">Default</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1201995">-110.0</a></div>
+            <div class="CellRun-In_Plain"><a name="1201996">Unit</a></div>
+            <div class="CellBody_Indented"><a name="1201997">dBm</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1201999">Threshold for delivering signals to nodes.</a></div>
+            <div class="CellBody"><a name="1202000">Signals received with power below this limit (before accounting for antenna gain at the receiver) are not delivered to nodes. This parameter is meant for optimizing simulation performance. A lower value of the parameter results in a more accurate simulation but at the expense of longer execution time (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#977532', '');" title="Performance Optimization Features">Section&nbsp;4.4.1.2.2</a></span>).</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1202005">MOBILITY-POSITION-GRANULARITY</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1202006">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><a name="1202007">Scope</a></div>
+            <div class="Cell_2nd_Line"><a name="1202008">Global, Node</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1202010">Real</a></div>
+            <div class="CellRun-In_Courier"><a name="1272818">Range</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1272822">&gt; 0.0</a></div>
+            <div class="CellRun-In_Courier"><a name="1202011">Default</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1202012">1.0</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1202013">Unit</a></span>: meters</div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1202015">Distance by which a node moves in a single step.</a></div>
+            <div class="CellBody"><a name="1202016">The mobility position granularity also impacts the frequency of pathloss updates, and hence the accuracy and execution speed. See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#977537', '');" title="Performance Optimization Features">Section&nbsp;4.4.1.2.3</a></span>.</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1202021">PROPAGATION-COMMUNICATION-PROXIMITY</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1202022">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><a name="1202023">Scope</a></div>
+            <div class="CellBody_Indented"><a name="1202024">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1202025">Instances</a></div>
+            <div class="Cell_2nd_Line"><a name="1202026">channel index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1202028">Real</a></div>
+            <div class="CellRun-In_Courier"><a name="1272836">Range</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1272840">&gt; 0.0</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1202029">Default</a></span>: <span style="font-family: &quot;Courier New&quot;">400.0</span></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1202031">Unit:</a></span> meters</div>
+          </td>
+          <td style="background-color: #808080; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1202033">Communication proximity used to calculate the frequency of pathloss updates (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#977540', '');" title="Performance Optimization Features">Section&nbsp;4.4.1.2.4</a></span>).</div>
+            <div class="CellBody"><a name="1208335">This parameter should be set to the approximate optimistic radio range.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1202041">PROPAGATION-PROFILE-UPDATE-RATIO</a></div>
+            <div class="Cell_2nd_Line"><a name="1202042">Optional</a></div>
+            <div class="CellRun-In_Plain"><a name="1202043">Scope</a></div>
+            <div class="CellBody_Indented"><a name="1202044">Global</a></div>
+            <div class="CellRun-In_Plain"><a name="1202045">Instances</a></div>
+            <div class="Cell_2nd_Line"><a name="1202046">channel index</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1202048">Real</a></div>
+            <div class="CellRun-In_Courier"><a name="1202049">Range</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1202050">[0.0, 1.0]</a></div>
+            <div class="CellRun-In_Courier"><a name="1202051">Default</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1202052">0.0</a></div>
+          </td>
+          <td style="background-color: #808080; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1202054">Update ratio used to calculate the frequency of pathloss updates (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#977540', '');" title="Performance Optimization Features">Section&nbsp;4.4.1.2.4</a></span>).</div>
+            <div class="CellBody"><a name="1202058">A larger value of this parameter results in a more aggressive optimization.</a></div>
+          </td>
+        </tr>
+      </table>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Note_003a">
+              <span class="Bold">Note:</span><a name="1202061">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="Parameter_Name"><span style="font-family: Arial"><a name="1202063">Parameters </a></span>MOBILITY-POSITION-GRANULARITY<span style="font-family: Arial">, </span>PROPAGATION-COMMUNICATION-PROXIMITY<span style="font-family: Arial">, and </span>PROPAGATION-PROFILE-UPDATE-RATIO<span style="font-family: Arial"> do not work properly when certain external programs (such as HLA) control nodes’ mobility.</span></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4Numbered">4.4.1.1.2  <a name="1201503">GUI Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1212741">See </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.3.html#1017259', '');" title="Configuring Scenarios">Section&nbsp;4.2.6.2</a></span> and <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.3.html#1017586', '');" title="Configuring Scenarios">Section&nbsp;4.2.7.2</a></span> for configuring speed and accuracy trade-off parameters for the GUI.</div>
+      <div class="Heading3Numbered">4.4.1.2  <a name="1212684">Relationship between Speed and Accuracy Trade-off Parameters</a></div>
+      <div class="BodyAfterHead"><a name="1213830">This section describes the relationship between the execution speed and accuracy trade-off parameters.</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#1202100', '');" title="Performance Optimization Features" name="1212688">Figure&nbsp;4-60</a></span> gives a pictorial view of how the parameters should be set. <span style="font-family: &quot;Courier New&quot;">PROPAGATION-COMMUNICATION-PROXIMITY</span> should be somewhat larger than (perhaps 1.5 times) the effective radio range, and <span style="font-family: &quot;Courier New&quot;">PROPAGATION-MAX-DISTANCE</span> should be as close as possible to the distance where the <span style="font-family: &quot;Courier New&quot;">PROPAGATION-LIMIT</span> takes effect.</div>
+      <div class="Anchor"><a name="1202098"><img class="Default" src="images/Ch4_Modeling%20Networks.05.5.1.jpg" width="457" height="207" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 4-60.&nbsp;&nbsp;<a name="1202100">Relationship between Speed and Accuracy Trade-off Parameters</a></div>
+      <div class="Heading4Numbered">4.4.1.2.1  <a name="1201898">Maximum Propagation Distance Parameter</a></div>
+      <div class="BodyAfterHead"><a name="977529">The </a><span style="font-family: &quot;Courier New&quot;">PROPAGATION-MAX-DISTANCE</span> parameter is used to strictly prohibit communications between nodes that are far apart. Transmissions to nodes that are more than this distance away are ignored in signal strength calculations. By default, this optimization is disabled (the maximum propagation distance is assumed to be infinity), i.e., signal strength is calculated for all nodes listening to the transmit channel.</div>
+      <div class="Body"><a name="977530">Because out-of-range signals are still used to calculate interference, this value should be set to several times larger than the normal communication range of the radios in use: at least 5 times larger for ground based radios and 10 times for airborne radios. An ideal value would be the distance just outside the range projected by the </a><span style="font-family: &quot;Courier New&quot;">PROPAGATION-LIMIT</span> parameter.</div>
+      <div class="Heading4Numbered">4.4.1.2.2  <a name="977532">Propagation Limit Parameter</a></div>
+      <div class="BodyAfterHead"><a name="977533">The </a><span style="font-family: &quot;Courier New&quot;">PROPAGATION-LIMIT</span> parameter sets the propagation limit: signals calculated to have less receive power (before accounting for antenna gain at the receiver) than this limit will not be delivered.</div>
+      <div class="Body"><a name="977534">Most other discrete-event simulation tools limit the propagation of signals substantially in order to improve the runtime performance without examining the validity of the propagation limit. By setting an overly short propagation limit, the simulator can not only save the computation for propagation path profiling, but also the number of events to be scheduled for interference. However, the prediction of network performance becomes highly inaccurate as the amount of interference is significantly underestimated.</a></div>
+      <div class="Body"><a name="977535">An appropriate value for this variable depends on the capabilities of the radios being simulated. The limit should be lower for highly sensitive radios that can receive low power signals. A good value can be determined empirically by running a scenario repeatedly while raising the limit and keeping the highest value that doesn't significantly impact the network performance.</a></div>
+      <div class="Heading4Numbered">4.4.1.2.3  <a name="977537">Mobility Granularity Parameter</a></div>
+      <div class="BodyAfterHead"><a name="977538">The </a><span style="font-family: &quot;Courier New&quot;">MOBILITY-POSITION-GRANULARITY</span> parameter specifies the distance by which a node moves in each step, i.e., the minimum distance by which the node moves when its position is updated. Since signal strength between two nodes only needs to be recalculated when one of the nodes’ position is updated, mobility distance granularity affects the number of position updates as well as the number of signal strength calculations. Finer position granularity leads to more position updates, more pathloss updates, and generally greater accuracy. Courser granularity leads to fewer position and pathloss updates and less accuracy, but faster execution.</div>
+      <div class="Heading4Numbered">4.4.1.2.4  <a name="977540">Communication Proximity and Update Ratio Parameters</a></div>
+      <div class="BodyAfterHead"><a name="977542">The parameters </a><span style="font-family: &quot;Courier New&quot;">PROPAGATION-COMMUNICATION-PROXIMITY</span> and <span style="font-family: &quot;Courier New&quot;">PROPAGATION-PROFILE-UPDATE-RATIO</span> work together to limit the number of signal computations for nodes that are out of the normal communication range of the radios being used, but still within the propagation limit and the maximum communication distance, as described earlier:</div>
+      <div class="Body"><a name="977543">When nodes are within, or just outside the nominal communication range of their radio systems, the strength of signals between the two nodes should be calculated with the highest possible fidelity. But signals between nodes which are farther apart can be treated more abstractly. When this optimization is activated, i.e., when these two parameters are specified for a channel, the frequency of signal strength recomputations decreases as the distance between the transmitting and receiving nodes increases. </a></div>
+      <div class="Body"><a name="977544">The signal strength is recomputed only when the distance between the nodes changes by the larger of </a><span style="font-family: &quot;Courier New&quot;">MOBILITY-POSITION-GRANULARITY</span> and <span style="font-style: italic">min-distance</span>, where <span style="font-style: italic">min-distance</span> is calculated by the following formula:</div>
+      <div class="Declaration"><a name="977545">&nbsp;</a></div>
+      <div class="Declaration"><span style="font-family: Arial; font-style: italic"><a name="977546">min-distance = </a></span><span style="font-family: Arial">(</span><span style="font-family: Arial; font-style: italic">Current-Distance - </span>PROPAGATION-COMMUNICATION-PROXIMITY<span style="font-family: Arial">) </span>* PROPAGATION-PROFILE-UPDATE-RATIO</div>
+      <div class="Where"><a name="1016148">where </a></div>
+      <table class="ArgumentTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 90pt">
+            <div class="Body" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1016155">Current-Distance</a></span></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 342pt">
+            <div class="Body"><a name="1016157">Current distance between the nodes.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="1016150">The nodes’ positions continue to be updated according to the given mobility position granularity, but not all such moves cause a new computation of pathloss. Similar to propagation limit and mobility distance granularity optimizations, this optimization may affect the accuracy of the simulation and, therefore, the values must be carefully chosen.</a></div>
+      <div class="Heading2Numbered">4.4.2  <a name="1949422">Simulator Event Queue</a></div>
+      <div class="BodyAfterHead"><a name="1949434">The type of data structure used by the simulator to maintain its event queue can have a significant impact on its performance. This section describes how to configure the data structure type for the event queue.</a></div>
+      <div class="Anchor"><a name="1949757">&nbsp;</a></div>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Notes_003a">
+              <span class="Bold">Notes:</span><a name="1949764">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="Note_Numbered__0028first_0029_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Note_Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                      <span class="StepNumber">1.	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Note_Numbered__0028first_0029_inner"><a name="1949785">The choice of event queue data structure does not affect the simulation results but may impact the execution time of the scenario.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="Note_Numbered_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="Note_Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                      <span class="StepNumber">2.	</span>
+                    </div>
+                  </td>
+                  <td width="100%">
+                    <div class="Note_Numbered_inner"><a name="1949799">It is recommended that only users who are familiar with the details of discrete-event simulation modify the data structure type.</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading3Numbered">4.4.2.1  <a name="1949811">Command Line Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1949831">To configure the event queue data structure type for the command line interface, include the parameters listed in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Users_Guide', 'Ch4_Modeling%20Networks.05.5.html#1949462', '');" title="Performance Optimization Features">Table&nbsp;4-103</a></span> in the scenario configuration (.config) file.</div>
+      <div class="Anchor"><a name="1949506">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-103.&nbsp;&nbsp;<a name="1949462">Event Queue Type Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1949468">Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 108pt">
+            <div class="CellHeading"><a name="1949470">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 198pt">
+            <div class="CellHeading"><a name="1949472">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="1949474">SCHEDULER-QUEUE-TYPE</a></div>
+            <div class="Cell_2nd_Line"><span style="font-style: italic"><a name="1949475">Optional</a></span> </div>
+            <div class="CellRun-In_Plain"><a name="1949476">Scope</a></div>
+            <div class="Cell_2nd_Line"><a name="1949477">Global</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1949479">List:</a></div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1949480">CALENDAR</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1949481">SPLAYTREE</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellBulleted_Courier_outer" style="margin-left: 0pt">
+              <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+                <tr style="vertical-align: baseline;">
+                  <td>
+                    <div class="CellBulleted_Courier_inner" style="width: 9pt; white-space: nowrap;">•	</div>
+                  </td>
+                  <td width="100%">
+                    <div class="CellBulleted_Courier_inner"><a name="1949532">STDLIB</a></div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="CellRun-In_Courier"><a name="1949482">Default</a></div>
+            <div class="CellBody_Courier_Indented"><a name="1949483">CALENDAR</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1949485">Specifies the type of data structure used by the simulation kernel for the event queue.</a></div>
+            <div class="CellBody" style="margin-left: 58.84992pt"><span style="font-family: &quot;Courier New&quot;"><a name="1949626">CALENDAR	</a></span>: Uses a priority queue that organizes events into buckets.</div>
+            <div class="CellBody" style="margin-left: 58.84992pt"><a name="1949627"> </a><span style="font-family: &quot;Courier New&quot;">SPLAYTREE	</span>: Uses a separate priority queue for each node.</div>
+            <div class="CellBody" style="margin-left: 58.84992pt"><span style="font-family: &quot;Courier New&quot;"><a name="1949667">STDLIB	</a></span>: Uses a single global Standard Template Library (STL) queue.</div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading3Numbered">4.4.2.2  <a name="1949861">GUI Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1949862">To configure the event queue data structure type in the GUI, do the following:</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="1949869">Go to </a><span class="Menu_Item">Scenario Properties Editor </span><span class="Bold" style="font-size: 10pt">&gt;</span><span class="Menu_Item" style="color: #000000"> General </span><span class="Bold" style="font-size: 10pt">&gt;</span><span class="Menu_Item" style="color: #000000"> Advanced Settings</span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1949899">Set </a><span class="Field">Event Queue Type</span> to the desired value.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1949853"><img class="Default" src="images/EventQueueType.gif" width="585" height="192" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 4-61.&nbsp;&nbsp;<a name="1949927">Configuring Event Queue Type</a></div>
+      <div class="Anchor"><a name="1949967">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 4-104.&nbsp;&nbsp;<a name="1949950">Command Line Equivalent of Event Queue Type Parameters</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1949956">GUI Parameter </a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 144pt">
+            <div class="CellHeading"><a name="1949958">Scope of GUI Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="1949960">Command Line Parameter</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody" style="margin-bottom: 3.0pt"><a name="1949962">Event Queue Type</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1949964">Global</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1949966">SCHEDULER-QUEUE-TYPE</a></div>
+          </td>
+        </tr>
+      </table>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

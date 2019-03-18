@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="TRANSPORT" class="device,atmdevice">
+        <variable name="Enable RSVP" key="TRANSPORT-PROTOCOL-RSVP" type="Checkbox" default="YES" />
+        <variable name="Configure TCP" key="GUI_DUMMY_CONFIG_TCP" type="Selection" default="YES">
+            <option value="YES" name="Yes">
+                <variable name="TCP Variant" key="TCP" type="Selection" default="LITE">
+                    <option value="TAHOE" name="Tahoe">
+                        <variable name="Delay Acknowlegments of Short Packets" key="TCP-DELAY-SHORT-PACKETS-ACKS" type="Checkbox" default="NO" />
+                        <variable name="Use Nagle Algorithm" key="TCP-USE-NAGLE-ALGORITHM" type="Checkbox" default="YES" />
+                        <variable name="Use Keep-alive Probes" key="TCP-USE-KEEPALIVE-PROBES" type="Checkbox" default="YES" />
+                        <variable name="Use TCP Option" key="TCP-USE-OPTIONS" type="Checkbox" default="YES" />
+
+                    </option>
+                    <option value="RENO" name="Reno">
+                        <variable name="Delay Acknowlegements of Short Packets" key="TCP-DELAY-SHORT-PACKETS-ACKS" type="Checkbox" default="NO" />
+                        <variable name="Use Nagle Algorithm" key="TCP-USE-NAGLE-ALGORITHM" type="Checkbox" default="YES" />
+                        <variable name="Use Keep-alive Probes" key="TCP-USE-KEEPALIVE-PROBES" type="Checkbox" default="YES" />
+                        <variable name="Use TCP Option" key="TCP-USE-OPTIONS" type="Checkbox" default="YES" />
+                        <variable name="Use Push Bit" key="TCP-USE-PUSH" type="Checkbox" default="YES" />
+                    </option>
+                    <option value="LITE" name="Lite">
+                        <variable key="TCP-USE-RFC1323" type="Checkbox" name="Use RFC 1323" default="NO" />
+                        <variable name="Delay Acknowledgements of Short Packets" key="TCP-DELAY-SHORT-PACKETS-ACKS" type="Checkbox" default="NO" />
+                        <variable name="Use Nagle Algorithm" key="TCP-USE-NAGLE-ALGORITHM" type="Checkbox" default="YES" />
+                        <variable name="Use Keep-alive Probes" key="TCP-USE-KEEPALIVE-PROBES" type="Checkbox" default="YES" />
+                        <variable name="Use TCP Option" key="TCP-USE-OPTIONS" type="Checkbox" default="YES" />
+                    </option>
+                    <option value="SACK" name="SACK">
+                        <variable key="TCP-USE-RFC1323" type="Checkbox" name="Use RFC 1323" default="NO" />
+                        <variable name="Delay Acknowledgements of Short Packets" key="TCP-DELAY-SHORT-PACKETS-ACKS" type="Checkbox" default="NO" />
+                        <variable name="Use Nagle Algorithm" key="TCP-USE-NAGLE-ALGORITHM" type="Checkbox" default="YES" />
+                        <variable name="Use Keep-alive Probes" key="TCP-USE-KEEPALIVE-PROBES" type="Checkbox" default="YES" />
+                        <variable name="Use TCP Option" key="TCP-USE-OPTIONS" type="Checkbox" default="YES" />
+                    </option>
+                    <option value="NEWRENO" name="New Reno">
+                        <variable key="TCP-USE-RFC1323" type="Checkbox" name="Use RFC 1323" default="NO" />
+                        <variable name="Delay Acknowledgments of Short Packets" key="TCP-DELAY-SHORT-PACKETS-ACKS" type="Checkbox" default="NO" />
+                        <variable name="Use Nagle Algorithm" key="TCP-USE-NAGLE-ALGORITHM" type="Checkbox" default="YES" />
+                        <variable name="Use Keep-alive probes" key="TCP-USE-KEEPALIVE-PROBES" type="Checkbox" default="YES" />
+                        <variable name="Use TCP Option" key="TCP-USE-OPTIONS" type="Checkbox" default="YES" />
+                    </option>
+                    <option value="ABSTRACT-TCP" name="Abstract TCP" />
+                </variable>
+                <variable name="Delay Acknowlegement Packets" key="TCP-DELAY-ACKS" type="Checkbox" default="YES" />
+                <variable name="Maximum Segment Size (bytes)" key="TCP-MSS" type="Integer" default="512" min="64" />
+                <variable name="Sending Buffer Size (bytes)" key="TCP-SEND-BUFFER" type="Integer" default="16384" requires="this.value >= [TCP-MSS]" />
+                <variable name="Receiving Buffer Size (bytes)" key="TCP-RECEIVE-BUFFER" type="Integer" default="16384" requires="this.value >= [TCP-MSS]" />
+                <variable name="Enable TCP Trace" key="DUMMY-TCP-TRACE" type="Selection" default="N/A" help="Trace data will be written to tcptrace.out, tcptrace.dmp, or tcptrace.asc">
+                    <option value="YES" name="Yes">
+                        <variable name="Trace Format" key="TCP-TRACE" type="Selection" default="TCPPEEK" optional="true">
+                            <option value="TCPPEEK" name="TCP Peek" help="QualNet TcpPeek format">
+                                <variable name="Include Data" key="TCP-TRACE-WITH-DATA" type="Checkbox" default="NO" />
+                            </option>
+                            <option value="TCPDUMP" name="Tcpdump Binary" help="compatible with standard tcptrace utility" />
+                            <option value="TCPDUMP-ASCII" name="Tcpdump ASCII" help="ASCII form" />
+                        </variable>
+                        <variable key="TCP-TRACE-DIRECTION" type="Selection" name="Trace Direction" default="BOTH" optional="true">
+                            <option value="BOTH" name="Both" />
+                            <option value="OUTPUT" name="Output" help="traces packets output to the network" />
+                            <option value="INPUT" name="Input" help="traces packets received from the network" />
+                        </variable>
+                    </option>
+                    <option value="N/A" name="No" />
+                </variable>
+                <variable name="Configure Testing Parameters" key="Dummy-Key" type="Selection" default="NO" optional="true">
+                    <option value="NO" name="No"/>
+                    <option value="YES" name="Yes">
+                        <variable name="Random Drop Percent" key="TCP-RANDOM-DROP-PERCENT" type="Fixed" default="0.0" invisible="interface, ScenarioLevel, WiredSubnet, WirelessSubnet"/>
+                        <variable name="Verification Drop Count" key="TCP-VERIFICATION-DROP-COUNT" type="Integer" default="0" min="0" max="4" invisible="interface, WiredSubnet, WirelessSubnet, ScenarioLevel"/>
+                    </option>
+                </variable>
+            </option>
+            <option value="NO" name="No"/>
+        </variable>          
+    </subcategory>
+</category>

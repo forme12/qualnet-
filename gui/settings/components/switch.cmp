@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root version="1.0" whatsThis="Switch Properties Editor">
+<category name="Switch Properties" icon="switch.gif" propertytype="Switch">
+    <subcategory name="General">
+        <variable name="Node Name" key="HOSTNAME" type="Text" default="Switch" help="" unique="true" />
+        <variable name="2D Icon" key="GUI-NODE-2D-ICON" type="Icon" default="switch.png" help="" filetype="xpm,bmp,jpg,jpeg,png"/>
+        <variable name="3D Icon" key="GUI-NODE-3D-ICON" type="Icon" default="switch.3ds" help="" filetype="3ds,mao"/>
+        <variable name="Scale Factor for 3D Icon (percent)" key="GUI-SCALE-FACTOR-3D" type="Fixed" default="100" help="Scales the icon in 3D view relative to the original size." />
+      	<!--<variable name="Network Protocol" help="This is just a dummy variable added to support some feature" key="NETWORK-PROTOCOL" type="Selection" default="IP" interfaceindex="true" visibilityrequires="false">
+            <option value="IP" name="IPv4"/>
+            <option value="IPv6" name="IPv6"/>
+            <option value="DUAL-IP" name="Dual-IP"/>
+            <option value="GSM-LAYER3" name="GSM Layer3" addon="cellular"/>
+            <option value="CELLULAR-LAYER3" name="Cellular Layer3" addon="cellular"/>
+        </variable>-->
+        <variable name="Partition" key="PARTITION" type="Integer" default="0" help="Parallel partition to which to assign node." />
+    </subcategory>
+    <subcategory name="Switch" icon="switchprop.gif">
+        <subcategory name="General" icon="protocol.gif" >
+            <variable name="Run STP" key="SWITCH-RUN-STP" type="Selection" default="YES">
+                <option value="YES" name="Yes">
+                    <variable name="Priority" key="SWITCH-PRIORITY" type="Integer" default="32768" min="0" max="61440"/>
+                    <variable name="STP BPDU Hello Interval" key="SWITCH-HELLO-TIME" type="Time" default="2S" min="1S" max="10S"/>
+                    <variable name="Forward Delay" key="SWITCH-FORWARD-DELAY" type="Time" default="15S" min="4S" max="30S" requires="2 * ([SWITCH-FORWARD-DELAY] - 1000000000.0) >= [SWITCH-MAX-AGE]"/>
+                    <variable name="Maximum Age of STP BPDUs" key="SWITCH-MAX-AGE" type="Time" default="20S" min="0S" max="40S" requires="[SWITCH-MAX-AGE] >= 2 * ([SWITCH-HELLO-TIME] + 1000000000.0)"/>
+                    <variable name="STP BPDU Hold Counts" key="SWITCH-HOLD-COUNT" type="Integer" default="3" min="1" max="10"/>
+                </option>
+                <option value="NO" name="No"/>
+            </variable>
+            <variable name="Enable VLAN Support" key="SWITCH-VLAN-AWARE" type="Selection" default="NO">
+                <option value="YES" name="Yes">
+                    <variable name="VLAN Learning Type" key="SWITCH-VLAN-LEARNING" type="Selection" default="SHARED">
+                        <option value="SHARED" name="Shared"/>
+                        <option value="INDEPENDENT" name="Independent"/>
+                        <option value="COMBINED" name="Combined"/>
+                    </variable>
+                    <variable name="Run GVRP" key="SWITCH-RUN-GVRP" type="Selection" default="NO">
+                        <option value="YES" name="Yes">
+                                 <variable name="Maximum Number of VLANs" key="SWITCH-GVRP-MAXIMUM-VLANS" type="Integer" default="10" min="1" max="4090"/>
+                                 <variable name="Interval between GVRP Join Messages" key="SWITCH-GARP-JOIN-TIME" type="Time" default="200MS"/>
+                                 <variable name="Leave Time" key="SWITCH-GARP-LEAVE-TIME" type="Time" default="600MS" requires="this.value == 3 * [SWITCH-GARP-JOIN-TIME]"/>
+                                 <variable name="Interval between GVRP LeaveAll Messages" key="SWITCH-GARP-LEAVEALL-TIME" type="Time" default="10S" requires="this.value >= 10 * [SWITCH-GARP-LEAVE-TIME]"/>
+                                 <variable name="GVRP Statistics" key="SWITCH-GVRP-STATISTICS" type="Checkbox" default="NO"/>
+                             </option>
+                        <option value="NO" name="No"/>
+                    </variable>
+                    <variable name="Configure VLAN" key="VLAN-MEMBER-SET" keyvisible="false" type="VLANMemberSet" default="" />
+                </option>
+                <option value="NO" name="No"/>
+            </variable>
+            <variable name="Enable IP Forwarding" key="IP-FORWARDING" type="Checkbox" default="YES" invisible="interface" optional="true" help="Determines whether or not node(s) will forward packets"/>
+            <variable name="Enable Member Set Aware for Switch Forwarding" key="SWITCH-FORWARDING-IS-MEMBER-SET-AWARE" type="Checkbox" default="YES"/>
+            <variable name="Maximum Number of Database Entries" key="SWITCH-DATABASE-MAX-ENTRIES" type="Integer" default="500" max="32767"/>
+            <variable name="Database Entry Aging Time" key="SWITCH-DATABASE-AGING-TIME" type="Time" default="300S" min="10S" max="1000000S"/>
+            <variable name="Database Statistics" key="SWITCH-DATABASE-STATISTICS" type="Checkbox" default="NO"/>
+            <variable name="Backplane Throughput (bps)" key="SWITCH-BACKPLANE-THROUGHPUT" type="Fixed" default="0" min="0" help="0 means unlimited throughput"/>
+            <variable name="Backplane Statistics" key="SWITCH-BACKPLANE-STATISTICS" type="Checkbox" default="NO"/>
+            <variable name="CPU Queue Size (bytes)" key="SWITCH-CPU-QUEUE-SIZE" type="Integer" default="640000" min="1" max="2147483647"/>
+            <variable name="Input Queue Size (bytes)" key="SWITCH-INPUT-QUEUE-SIZE" type="Integer" default="150000" min="1" max="2147483647"/>
+            <variable name="Output Queue Size (bytes)" key="SWITCH-OUTPUT-QUEUE-SIZE" type="Integer" default="150000" min="1" max="2147483647"/>
+            <variable name="Node Placement Strategy" key="NODE-PLACEMENT" type="Selection" default="UNIFORM" help="The node placement strategy." visibilityrequires="false"/>
+        </subcategory>
+        <subcategory name="Faults" refpath="NODE CONFIGURATION+NODE FAULTS" icon="protocol.gif" />
+    </subcategory>
+    <subcategory name="Interfaces">
+        <subcategory name="Interface 0">
+            <variable name="Interface Name" key="INTERFACE-NAME" type="Text" default="interface" help="" interfaceindex="true" keyvisible="false" />
+            <variable name="IPv4 Address" key="IP-ADDRESS" type="Dotted decimal" help="" interfaceindex="true" optional="true" visibilityrequires="[NETWORK-PROTOCOL] == 'IP' || [NETWORK-PROTOCOL] == 'DUAL-IP'" keyvisible="false" />
+            <variable name="IPv4 Subnet Mask" key="IP-SUBNET-MASK" type="Dotted decimal" help="" interfaceindex="true" visibilityrequires="[NETWORK-PROTOCOL] == 'IP' || [NETWORK-PROTOCOL] == 'DUAL-IP'" keyvisible="false" />
+            <variable name="IPv6 Address" key="IPV6-ADDRESS" type="Text" help="" interfaceindex="true" visibilityrequires="[NETWORK-PROTOCOL] == 'IPv6' || [NETWORK-PROTOCOL] == 'DUAL-IP'"/>
+            <variable name="Interface Type" key="INTERFACE-TYPE" type="Selection" default="DEFAULT" help="" keyvisible="false" >
+                <option name="DEFAULT_TYPE" value="DEFAULT" />
+                <option name="ASYNC" value="ASYNC" />
+                <option name="BRI" value="BRI" />
+                <option name="BVI" value="BVI" />
+                <option name="CABLE" value="CABLE" />
+                <option name="CBR" value="CBR" />
+            </variable>
+            <subcategory name="Faults" refpath="NODE CONFIGURATION+INTERFACE FAULTS" icon="protocol.gif" />
+        </subcategory>
+    </subcategory>
+    <subcategory name="Ports" icon="ports.gif" >
+        <subcategory name="Port 0">
+            <variable name="Port Identifier" key="SWITCH-PORT-IDENTIFIER" type="Integer" default="0" hasdefault="false"/>    
+            <variable key="SWITCH-QUEUE-NUM-PRIORITIES" name="Number of Output Queues" type="Integer" default="3" min="1" max="8"/>
+            <variable key="SWITCH-OUTPUT-QUEUE-SIZE" name="Size of Output Queues" type="Fixed multiplier" default="150 kbyte" unit="byte"/>
+            <variable key="SWITCH-INPUT-QUEUE-SIZE" name="Size of Input Queue" type="Fixed multiplier" default="150 kbyte" unit="byte"/>
+            <variable key="SWITCH-PORT-STATISTICS" name="Port Statistics" type="Checkbox" default="NO"/>
+            <variable key="SWITCH-SCHEDULER-STATISTICS" name="Scheduler Statistics" type="Checkbox" default="NO"/>
+            <variable key="SWITCH-QUEUE-STATISTICS" name="Queue Statistics" type="Checkbox" default="NO"/>
+            <subcategory name="STP">
+            <variable key="SWITCH-PORT-PRIORITY" name="Port Priority" type="Integer" default="128" min="0" max="240"/>
+            <variable key="SWITCH-PORT-PATH-COST" name="Port Path Cost" type="Integer" default="2000001" min="1" max="2147483647" help="Leave unchanged for cost based on bandwidth"/>
+            <variable key="SWITCH-PORT-EDGE" name="Configure as an Edge Port" type="Checkbox" default="NO"/>
+            <variable key="SWITCH-PORT-POINT-TO-POINT" name="Ends a Point-To-Point Link" type="Selection" default="AUTO">
+                <option value="Auto" name="AUTO"/>
+                <option value="FORCE-TRUE" name="Force-True"/>
+                <option value="FORCE-FALSE" name="Force-False"/>
+            </variable>
+        </subcategory>
+        <subcategory name="VLAN">
+            <variable key="SWITCH-PORT-VLAN-ID" name="Port VLAN ID" type="Integer" default="1" min="1" max="4090"/>
+            <variable key="SWITCH-PORT-VLAN-ADMIT-FRAMES" name="VLAN Admit Frame Type" type="Selection" default="ALL">
+                <option value="ALL" name="All"/>
+                <option value="TAGGED" name="Tagged"/>
+            </variable>
+            <variable key="SWITCH-PORT-VLAN-INGRESS-FILTERING" name="VLAN Ingress Filter Type" type="Selection" default="NONE">
+                <option value="NONE" name="None"/>
+                <option value="VLAN" name="VLAN"/>
+            </variable>
+            <variable key="SWITCH-PORT-VLAN-STATISTICS" name="Port VLAN Statistics" type="Checkbox" default="NO"/>
+        </subcategory>
+    </subcategory>
+    </subcategory>
+</category>
+</root>
+

@@ -1,0 +1,61 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+PURPOSE:
+---------
+To demonstrate a WiMAX network that covers a metropolitan area and provides
+communication services to mobile users with high speed.
+
+
+
+SCENARIO:
+----------
+Four wireless subnets are created with 1 BS node in each subnet. The BSs
+(node 1 to node 4) are deployed along Freeway I-10 and I-405 to 
+cover the route that node 5 (SNTer) drives from the home (San Gabriel) 
+to the SNT headquarter (Los Angeles). The BSs are connected to a switch
+center (node 6) by wired links. When node 5 drives along the freeway, 
+node 5 communicates with node 7 and the communication is handovered from
+BS 1 to BS 2 to BS 3, and finally to BS 4.
+                                      
+          --------------I-10---------------5(SS, SNTer)
+          | 3(BS)        2(BS)          1(BS)      
+          |                           
+          |
+          |                 
+        I-405              6 (switch center)
+          |
+          | 4(BS)
+          |
+          | 7(SS, SNT headquarter)
+
+
+Only one CBR flow is defined between node 5 and node 7.
+
+CBR 5 7 0 512 0.01S 6S 0S PRECEDENCE 0
+
+RUN:
+-----
+Run '<QUALNET_HOME>/bin/qualnet WiMAXHomeToOffice.config'.
+
+
+DESCRIPTION OF THE FILES:
+--------------------------
+1. WiMAXHomeToOffice.app -  QualNet configuration file for application input.
+2. WiMAXHomeToOffice.config - QualNet configuration input file.
+3. WiMAXHomeToOffice.nodes - QualNet node placement file for the simulation run.
+4. WiMAXHomeToOffice.expected.stat - QualNet statistics collection.
+5. README - This file.

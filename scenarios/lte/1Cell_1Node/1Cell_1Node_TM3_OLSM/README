@@ -1,0 +1,59 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+-------
+To test OLSM(Open Loop Spatial Multiplexing) data transfer for LTE network.
+
+SCENARIO:-
+---------
+One subnet is present in the scenario, having one Serving Gateway/Mobility
+Management Entity (SGW/MME), one base station (eNodeB) and one user
+equipment (UE). Node 3 is SGW/MME. Node 2 is UE. Node 1 is eNodeB.
+
+TOPOLOGY:
+---------
+
+           3(SGW/MME)
+                |
+               HUB
+                |
+            1(eNodeB)            2(UE)
+
+
+CBR flows ares:
+
+- CBR 1 2 0 512 0.1S 1S 10S PRECEDENCE 0 
+- CBR 2 1 0 512 0.1S 1S 10S PRECEDENCE 0 
+
+No fading model is being used in the scenario.
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet 1Cell_1Node.TM3.OLSM.config'.
+
+
+DESCRIPTION OF THE FILES:-
+------------------------
+1.1Cell_1Node_TM3_OLSM.config - QualNet configuration input file.
+2.1Cell_1Node_TM3_OLSM.app    - QualNet configuration file for application input.
+3.1Cell_1Node_TM3_OLSM.nodes  - QualNet node placement file for the simulation run.
+4.1Cell_1Node_TM3_OLSM.expected.stat - QualNet statistics collection.
+5.default.fading - Fading File
+6.UL_BER_MCS*.ber - Bit error rate table for various MCS(modulation, coding systems) for Uplink.
+7.DL_BER_MCS*.ber - Bit error rate table for various MCS(modulation, coding systems) for Downlink.
+8.README - This file

@@ -1,0 +1,1131 @@
+QualNet HLA interface CHANGES file
+
+=============================================================================
+2008-02-15
+=============================================================================
+
+QualNet HLA interface now supported on QualNet 4.5.
+
+** Minor changes
+
+README files for all scenarios added.
+
+Updated all HLA scenarios with DYNAMIC-ENABLED YES setting for parallel
+modes.
+
+=============================================================================
+2007-09-18
+=============================================================================
+
+QualNet HLA interface now supports parallel shared-memory and distributed
+modes.  Requires DYNAMIC-ENABLED YES in the .config file.
+
+** Minor changes
+
+Added external utility functions to get/set transmit power and to get MAC
+type.
+
+=============================================================================
+2006-10-16
+=============================================================================
+
+From this point, this file will note all changes by source code check-in date
+instead of by file name of the source zip file (qualnet-...).
+
+The QualNet HLA interface is now officially supported on QualNet 4.0.
+- Synchronizer updated for new directory structure.
+- Synchronizer no longer outputs deprecated USE-NODE-ICON parameter.
+- Updated Windows Makefiles for support for MSVC8.
+- Fixed minor compiler warnings.
+- Removed (empty) deprecated HlaApp{Init,ProcessEvent,Finalize}() functions.
+
+=============================================================================
+qualnet-{3.8,3.9-3.9.5}-hla-2006-05-24
+=============================================================================
+
+When the user presses the "Pause" button in the GUI, the QualNet HLA
+interface will also stop tracking elapsed real time until the simulation is
+unpaused.  For example, previous to the change, if the simulation was paused
+for 10 minutes, and then unpaused, then both the simulation and GUI will
+attempt to model those 10 minutes as fast as possible until the internal
+simulation time reaches elapsed real time.  After the change, when the
+simulation is unpaused, the simulation and GUI will look "as if nothing had
+happened".
+
+=============================================================================
+qualnet-{3.8,3.9-3.9.5}-hla-2006-05-23
+=============================================================================
+
+The QualNet HLA interface is now officially supported on QualNet 3.9.5.
+
+There have been no changes to HLA source code since the previous release.
+
+=============================================================================
+qualnet-3.{8,9}-hla-2006-04-13
+=============================================================================
+
+By customer request, Synchronizer will no longer copy FED files to the
+current directory, as it did before.  Also, after searching for the FED file
+in the current directory (or using a relative or absolute path to the FED
+file specified by the user), Synchronizer will then search the RTI_CONFIG
+path for the FED file before searching in
+QUALNET_HOME/addons/hla/rprsynch/data.
+
+=============================================================================
+qualnet-3.{8,9}-hla-2006-04-06
+=============================================================================
+
+No longer printing "LATE" for simulated messages which are successfully
+received by a node but ignored because a Timeout interaction has already been
+sent out.  Detailed explanation below:
+
+- Timeout interactions are sent for one of two reasons:  (1) because not all
+  destinations indicated in the initial comm effects request have been
+  processed as success or failure, and the timeout duration has been reached,
+  or (2) all indicated destinations in the initial request have already been
+  processed before the timeout duration has elapsed.  The description "LATE"
+  makes sense for the first reason but not for the second (a node may have
+  received the simulated message within the timeout duration, but it was not
+  indicated as a destination in the initial request).
+
+- To re-enable, search in hla_main.cpp for "IGNR", re-enable the commented
+  out code, and re-compile.  "IGNR" (ignore) also makes more sense than
+  "LATE".
+
+There was a bug in (non-HLA parts of) QualNet 3.9 and previous versions,
+but fixed in QualNet 3.9.1, where antenna settings in the .router-models file
+were ignored.  When this occurred, default values (phy/antenna.h) were used
+if the antenna settings were not otherwise configured:
+1.5-m antenna height, 0-dBi gain, 0.8-dB efficiency, 0.3-dB mismatch loss,
+0.2-dB connection loss, and 0-dB cable loss.
+
+- If you are using QualNet 3.9 or earlier and have antenna settings defined
+  in a .router-models file which you would like to use, you will need to
+  workaround the bug.  Create an .antenna-models file (sample in
+  QUALNET_HOME/bin), reference it from the .config file using the
+  ANTENNA-MODEL-CONFIG-FILE parameter, and assign antennas to subnets and
+  nodes using the ANTENNA-MODEL setting in the same way it's done for
+  ROUTER-MODEL settings.
+
+Adjusted radio parameters for all scenarios except iitsec* (the iitsec*
+parameters were defined for a specific project) for more realism:  radio
+frequency, TX power, radio RX sensitivity/threshold values (to default
+values), antenna properties (to 5-dBi gain assuming a collinear antenna,
+other properties to default values), PHY data-rate, PHY noise factor
+(default).
+
+Updated addons/hla/rprsynch/data/rprsynch.router-models file as above.
+
+Workaround for federates sending non-standard RPR-FOM attribute updates:
+Previously, QualNet would exit if it received a non-standard Marking 
+attribute for entity objects (RPR FOM specifies it as 12 bytes); or a
+non-standard RPR FOM 1.0 RadioIndex or RPR FOM 0.5 RadioNumber attribute for
+RadioTransmitter objects (RPR FOM specifies it as 2 bytes).
+Now, for Marking, QualNet will use however many useful bytes there are,
+truncating any data past 12 bytes (and always leaving space for a null
+terminator as the 12th byte).
+For the RadioIndex / RadioNumber attribute, QualNet will parse 1, 2, and
+4 byte values (parsed as unsigned integers), but still exit for other sizes.
+
+** Minor changes
+
+In iitsec scenario directory, updated other .config files to match most
+settings in base iitsec.config.
+
+Removed some unused device types from some .router-models files.
+
+Updated HLA-RADIO-SYSTEM-TYPE settings in .router-models files to
+more realistic values (per DIS enumerations).
+
+** Documentation
+
+From this point, further changes to documentation will be logged in the PDF
+file.
+
+=============================================================================
+qualnet-3.{8,9}-hla-2006-02-01
+=============================================================================
+
+In binary distributions of QualNet (university and full commercial versions
+should be fine), mobility may not have been registered.  This should work
+now for binary distributions created after this date.
+
+=============================================================================
+qualnet-3.{8,9}-hla-2006-01-26
+=============================================================================
+
+Provided Makefiles for MATREX RTI 4.2 and 4.4 on Windows.
+
+** Documentation
+
+Added note describing how to compile QualNet with MATREX RTI on Windows in
+the Linux instructions.
+
+=============================================================================
+qualnet-3.{8,9}-hla-2006-01-25
+=============================================================================
+
+Provided Makefiles for MATREX RTI 4.2 and 4.4 on Linux.
+
+** Documentation
+
+Detailed instructions (provided in certain distributions) for compiling with
+the MATREX RTI software on Linux.
+
+=============================================================================
+qualnet-3.{8,9}-hla-2006-01-17
+=============================================================================
+
+Updated Synchronizer to assign ROUTER-MODEL settings by subnet address
+instead of nodeId.  Synchronizer now also outputs a MAC-PROTOCOL MAC-LINK-16
+global parameter in new-scenario mode if there were Link-16 networks
+detected.  These changes were made to work around limitations in the
+GUI's "Load" feature.  (NODE-ICON settings are still per nodeId for the same
+reason.)
+
+Updated scenarios according to above as well.  Previously the GUI would
+assign the wrong PHY and/or MAC models when using "Load".
+
+Updated scenarios:  Also removed most PHY and MAC global parameters,
+although this doesn't currently happen to affect the Load feature.
+
+Refreshed alternate scenarios in iitsec directory so they match more closely
+with main iitsec.config scenario.
+
+** Minor changes
+
+Changed PLATOON-RADIO-LINK-11 transmit power from 36.0 dBm (~ 4 watts) to
+43.0 dBm (~ 20 watts), so that the NCS can reach distant nodes in the
+hla-16-link-11.config scenario.
+
+** Documentation
+
+README-HLA-date.pdf
+- Updated for functionality changes in this release.
+
+=============================================================================
+qualnet-3.{8,9}-hla-2005-11-15
+=============================================================================
+
+QualNet HLA interface now supported for QualNet 3.9 as well as 3.8.
+- All sample scenarios still contain "VERSION 3.8" in their respective
+  .config files, but these scenario currently work fine with QualNet 3.9.
+- Synchronizer also outputs "VERSION 3.8" in new-scenario mode, but the
+  .config files are compatible with both QualNet 3.8 and 3.9.
+
+Added support for Link-16.  Mode of operation with respect to HLA
+interactions is analogous to Link-11.  Since Link-16 is a TDMA-based access
+protocol (versus Link-11's polling-based mechanism), RTSS interactions for a
+given source node are sent according to Link-16 timings.
+
+Added Link-11 and Link-16 support in Synchronizer.  To re-state how
+Synchronizer works, basically, the user should define in the
+addons/hla/rprsynch/data/rprsynch.router-models file one or more devices with
+MAC-PROTOCOL MAC-LINK-11 or MAC-LINK-16 (usually with other protocol-specific
+parameters).  The user also defines a HLA-RADIO-SYSTEM-TYPE value for each
+device.  In the client federate (STRIVE, OTB, testfed, etc.), the user
+creates in their scenario HLA RPR-FOM 1.0 RadioTransmitter objects with
+RadioSystemType attributes which match what was defined in the
+rprsynch.router-models file.  When the federation is started for this
+scenario, Synchronizer joins in as a federate, detects RadioTransmitter
+objects, and creates QualNet Link-11 and Link-16 networks depending on if
+RadioSystemType attributes match with those in the rprsynch.router-models
+file.  For more details, see the full HLA documentation.  The
+rprsynch.router-models file currently contains working example definitions.
+
+Added Link-11 and Link-16 device definitions to
+addons/hla/rprsynch/data/rprsynch.router-models.
+
+Synchronizer-generated .hla-radios file is now sorted in order of increasing
+Frequency attribute (so that radios in the same network are kept together,
+which also keeps nodeIds consecutively numbered).  Previously, the
+.hla-radios file was sorted by entity.
+
+Distribution now extracts a gui/settings/addons/hla ("enabled") file, which
+turns on certain HLA features in the IDE.  Previously, the user needed to
+create this file manually.
+
+Previously, for Link-11, always used the fast Link-11 data rate when
+computing the duration of voice messages (data messages were not affected).
+This has been fixed so that the correct data rate is always used.
+
+Had introduced (probably in 2005-05-31) a bug where QualNet would exit for
+empty hierarchies in the .config file (COMPONENT x {} ...).  This is fixed.
+
+Fixed bug in Synchronizer where it would exit when reading the .router-models
+file in certain situations.
+
+Fixed bug in Synchronizer merge-mode where if ROUTER-MODEL-CONFIG-FILE was
+specified in the initial .config file, Synchronizer would exit.
+
+Had introduced (unknown time) a bug in Synchronizer merge-mode where the
+HLA-NAWC-GATEWAY-COMPATIBILITY parameter would be output twice in the .config
+file.  This is fixed.
+
+Updated RadioSystemType values in .router-models and .hla-radios files so
+that they fall within commonly accepted ranges (e.g., radios should have
+EntityKind values of 7 indicating a radio, not 1, indicating a platform).
+
+** Minor changes
+
+Changed transmission power from 43.0 dBm (~ 20 Watts) to 50.0 dBm (100 Watts)
+for company radios for iitsec.config scenario.  (In QualNet 3.9, 43.0 dBm is
+insufficient for Lead4 to reach Lead1, Lead2, Lead3.)
+
+#include <climits> in hla_main.cpp to allow compilation on Linux.
+
+Added explicit output in Synchronizer indicating that only devices in the
+.router-models file where HLA-RADIO-SYSTEM-TYPE is defined are processed by
+Synchronizer.
+
+When HLA interface complained about bad COMPONENT lines in .config file,
+line numbers were erroneous.  Removed reporting of these line numbers.
+
+Source code is now more easily understandable as to when a data message vs.
+a voice message is being modeled.
+
+HlaGetToken() functions updated for clarity.  Futher additions to source code
+should use the new HlaGetToken(), HlaGetTokenOrEmptyField(), or
+HlaLocateToken() functions -- all of which call HlaGetTokenHelper().  To
+reduce the number of functions, delimiters must always be explicitly
+specified.  For existing code, not all HLA components have been updated to
+use the new functions (but it shouldn't matter).
+
+Updated namespace declarations for testfed and rprsynch.
+
+Updated all source code comments for copyright dates and SNT mailing address.
+
+** Documentation
+
+README-HLA-date.pdf:
+- Significant update to Synchronizer chapters, mainly for clarity.
+- Added chapter covering Link-11 and Link-16.
+
+README-HLA-STRIVE-date.pdf
+- Synchronizer notes.
+- FOM and FED file notes.
+
+HLA dynamics statistics ICD
+- Note about needing a new set of main/gui.o-* files to use the dynamic
+  statistics feature.  Please send an e-mail to support@scalable-networks.com
+  along with the specific version of QualNet you are using (the name of the
+  .zip or .exe file ideally) to obtain these files.
+
+Global changes:
+- Company address and copyright dates.
+- Other minor updates.
+
+=============================================================================
+qualnet-3.8-hla-2005-08-01
+=============================================================================
+
+Added support for Link-11, which adds the Ready To Send Signal (RTSS)
+interaction.  The RTSS interaction is sent by QualNet to the client federate,
+to indicate to the client federate that it should send an
+ApplicationSpecificRadioSignal (ASRS) interaction for injection into the
+QualNet Link-11 model.
+
+- To use Link-11, make sure you have the QualNet TADIL download, extracted it
+(populating addons/tadil), and have compiled it into QualNet (by modifying
+the Makefile and running (n)make clean followed by (n)make).
+
+- Sample scenarios in addons/hla/scenarios/hla-{4,16}-link-11.  These
+scenarios can be used with testfed to measure Link-11 behaviors such as:
+NCS polling order, domination of channel by a single node (arbitrary message
+length from PU), net cycle time, and basic RTSS behavior.
+
+- For all other radio types, QualNet HLA behavior remains the same (the
+client federate may send an ASRS interaction at any time).
+
+** Minor changes
+
+Added new event type in include/api.h to support RTSS.
+
+** Documentation
+
+Link-11, RTSS changes:
+- "ICD - Draft version 8.pdf" has replaced version 7.
+- The remaining documentation has not yet been updated for the new Link-11
+and RTSS features.
+
+===============================================================================
+qualnet-3.8-hla-2005-07-06
+===============================================================================
+
+Moved HLA scenarios from gui/scenarios to addons/hla/scenarios.
+Removed DIS scenario files (now in QualNet DIS interface download).
+Moved gui/scenarios/rprsynch to addons/hla/rprsynch/data.
+
+Synchronizer updated to reflect new directory structure.
+
+Removed HlaGetNextEventTime() since it was no longer used and out of date.
+
+** Documentation
+
+Documentation updated for new directory structure.
+
+Replaced runide.exe with runidew.exe to make sure Java GUI detaches from
+command line.
+
+===============================================================================
+qualnet-3.8-hla-2005-06-06
+===============================================================================
+
+Fixed Linux Synchronizer bug where it would crash when trying to read the
+rprsynch.router-models file.
+
+===============================================================================
+qualnet-3.8-hla-2005-05-31
+===============================================================================
+
+Synchronizer now accepts PhysicalEntity objects with an EntityType attribute
+indicating the entity is a "radio" or "sensor / emitter".
+
+Fixed cosmetic issue where QualNet would print duplicate damage reports for an
+entity with no radios that just sustained damage.
+
+General code cleanup (changes below do not affect interface operation):
+
+- Many variables moved out of federate ambassador object (pointed to by global
+variable g_hlaFedAmb) and into generic global variable (pointed to by g_hla).
+
+- Instead of sending HLA-generated events to the application layer, such events
+are now sent to the external interface "layer" to enhance modularity.
+
+- Moved other HLA-specific application-layer code to HLA directory.
+
+- Functions which hooked HLA interface into QualNet proper were renamed to be
+more consistent with other external interfaces.
+
+- HlaGetToken() family of functions updated. (testfed and Synchronizer not yet
+updated.  Calls to IO_GetToken() not yet updated.)
+
+- Other miscellaneous changes.
+
+** Updates to general QualNet 3.8 source code
+
+External interface: FIXED, UPDATED
+  HLA and IPNE external interfaces will now compile together.
+  Modified EXTERNAL_ConfigStringPresent() so that it only returns true if
+   the parameter value is YES. Previously this function returned true
+   regardless of the parameter value.
+  Fixed bug in external util mapping code.
+
+Cumulative list of updated QualNet 3.8 files:
+
+Same as previous release.
+
+===============================================================================
+qualnet-3.8-hla-2005-05-17
+===============================================================================
+
+(This is a GUI-related bug only -- the actual simulation was not affected.)
+A bug fix in the previous release exposed a previously hidden GUI bug.  This
+bug is visible when running iitsec-hier.config, or any scenario with mobile
+entity hierarchies (such as the scenarios generated by Synchronizer).  Links
+to the hierarchies start being drawn in the wrong places as entity hierarchy
+positions are updated.  This bug has been fixed.
+(via a workaround in the way the QualNet simulator calls the QualNet GUI)
+
+Added debugging messages to stdout in this form:
+
+  FED: Received ApplicationSpecificRadioSignal interaction
+  FED: size=100 bytes timeout=10.000 timestamp=0x57b14409
+  FED: 1 packet(s), 128 bytes per packet, 0.00102 sec interval
+  FED: CREQ, 1 (1.1.1, 0) 100A11 broadcast, send time 1.627738442
+
+where the new information is lines 2 and 3 above.  This output is active with
+HLA-DEBUG YES.
+
+** Updates to general QualNet 3.8 source code
+
+External interface: UPDATED
+  Hooks introduced to support QualNet DIS interface.
+
+Cumulative list of updated QualNet 3.8 files:
+
+Same as previous release.
+
+===============================================================================
+qualnet-3.8-hla-2005-03-28
+===============================================================================
+
+(This is a GUI-related bug only -- the actual simulation was not affected.)
+Fixed bug where the simulation time would jump backwards and forwards for
+scenarios with entity hierarchies.  (This occurred because the simulator code
+would command the GUI to update the hierarchy positions too early.)
+
+Synchronizer, for entity hierarchies, now labels each hierarchy with the
+Marking of each respective entity.
+
+Synchronizer would exit and print an error message if a RadioTransmitter was
+discovered for which there was no existing host entity.  Now, Synchronizer
+will just ignore such "host-less" RadioTranmitter objects.
+
+- If the RadioTransmitter really is bound to a host entity, other federates
+should create the host entity object and assign its EntityID attribute, before
+creating RadioTransmitter objects and assigning the (host) EntityID attribute
+(i.e., create and define attributes for a host entity before creating and
+defining attributes for hosted radios).
+
+Previous versions of Synchronizer did not copy the graphics files for entity
+icons (only the images for entity backgrounds and device icons).
+This is fixed.
+
+When the -o option is active, Synchronizer now prints to screen the correct
+number of radios and networks created in the .hla-radios and .hla-networks
+files.
+
+nawc_gw-patch.zip now included for those using NAWC Gateway.
+(See README-HLA-OTB-date.pdf for instructions.)
+
+** Minor updates
+
+Updated code to prevent Linux gcc 3.0.4 warnings (-Wall -Wno-unused-function).
+
+** Documentation
+
+README-HLA-OTB-date.pdf is now available, containing OTB and DIS/HLA gateway
+(NAWC Gateway) specific notes.
+
+README-HLA-STRIVE-date.pdf updated:
+- Note about STRIVE 1.8.9.3 crashing if QualNet is lagging behind real time.
+- Note about not all entities appearing in STRIVE exercise.
+
+README-HLA-date.pdf updated:
+- Better Linux installation instructions.
+- Notes on improving QualNet execution performance.
+- Note about entity hierarchies perhaps decreasing GUI performance.
+- Show all signal transmission circles when they don't seem to be visible by
+  using the Speed slider to slow down the GUI.
+
+** Updates to general QualNet 3.8 source code
+
+External interface: FIXED
+  With the new external interface introduced in QualNet 3.8, QualNet may stall
+   forever (e.g., stay at 0% progress) because of a bug in
+   GetNextInternalEventTime().  Simulation stalling only seemed to occur when
+   the user had defined their own external-interface time functions.  This bug
+   has been fixed.
+   This problem did not appear to occur when using synchronization with
+   wall-clock time (e.g., when EXTERNAL_SetTimeManagementRealTime() is called,
+   such as for the HLA and IPNE interfaces).
+
+Cumulative list of updated QualNet 3.8 files:
+
+Same as previous release.
+
+===============================================================================
+qualnet-3.8-hla-2005-02-02
+===============================================================================
+
+This is the official release of the QualNet 3.8 HLA interface.  The interface
+has changed substantially since QualNet 3.7.
+
+Significantly reduced HLA memory footprint.  (Changed initial hash size for
+outstanding simulated messages from 1024 buckets to 128 buckets per node.)
+
+Created some new sample scenarios in gui/scenarios.  The current list is:
+- hla-4		testfed only
+- iitsec	STRIVE 1.8.9.3, "integration scenario"
+- iitsec04	STRIVE 1.8.9.3, I/ITSEC 2004
+- otb-4		OTB 1.0, 4 entities
+- otb-116	OTB 1.0, 116 entities
+
+- Note that testfed can be used with any of the above scenarios.
+
+- For the above directories, entity and scenario background files where present
+have been moved from the icons subdirectory to a backgrounds subdirectory.
+.config files have been updated to reflect this.
+
+- The gui/scenarios/rprsynch directory contains Synchronizer support files:
+The .router-models file used to specify devices; the .hla-icons and
+.hla-backgrounds files used to specify entity icons and background images;
+and the corresponding image files.
+
+- The gui/scenarios/synch directory has been removed.
+
+Changed maximum number of members per network from 16 to 254 (to approximate
+a class C network).
+
+Added RPR FOM 0.5 support.  Enable as follows:
+- Synchronizer and testfed:
+  Use the -r flag.
+- QualNet scenarios:
+  Set HLA-RPR-FOM-VERSION 0.5 in the .config file.
+  (NAWC Gateway uses RPR FOM 0.5.)
+
+User can now turn on NAWC Gateway compatibility mode.  (NAWC Gateway is bundled
+with the domestic release of OTB 1.0, and interconverts DIS and HLA messages.)
+Activate by setting HLA-NAWC-GATEWAY-COMPATABILITY YES in the .config file.
+What this does:
+
+- Increases the number of requestObjectAttributeValueUpdate() calls from one
+set of calls to three.  The delay between each set of calls is also changed
+from two seconds to ten seconds.
+
+- Implements a workaround to the NAWC Gateway sending an incorrectly formatted
+DamageState attribute.
+
+Synchronizer now requires a base filename, instead of defaulting to "synch".
+Other changes to default settings:
+- Federation name:  RPR-FOM
+- FED file:  RPR-FOM.fed
+
+Synchronizer now requires .router-models, .hla-icons, and .hla-backgrounds
+files to be present.  Synchronizer will look for these files in
+QUALNET_HOME/gui/scenarios/rprsynch.  Default files (with rprsynch as a base
+filename) have been placed in this directory.
+
+- Previously, these files were optional, and Synchronizer looked for them in
+the current directory, and using the base filename.
+
+- In new-scenario mode -- and merge mode when a .router-models file is not
+specified in the .config file -- the rprsynch.router-models file will be copied
+to the current directory and renamed to use the base filename.
+
+Synchronizer will now look for FED files in the user-specified path, and if not
+found, will look in QUALNET_HOME/gui/scenarios/rprsynch.
+
+- When the QUALNET_HOME/gui/scenarios/rprsynch copy of the FED file is used,
+the FED file will be copied to the current directory.
+
+Synchronizer will now copy icon and background graphic files (as specified in
+the rprsynch.hla-icons and rprsynch.hla-backgrounds files) to icons and
+backgrounds subdirecturies in the current directory.  Previously, the user
+needed to do this manually.
+
+In merge mode when a .router-models file is not specified in the original
+.config file, Synchronizer now will configure a .router-models file in the
+merged .config file.  Previously, this did not occur.
+
+Synchronizer-generated .config files updated with new HLA-specific parameters,
+including those for HLA dynamic statistics.
+
+Synchronizer and testfed now accept flags to change the federation name and FED
+file.  Run each program without flags for syntax.
+
+Synchronizer now has a -o option.  When active, Synchronizer will ignore any
+discovered RadioTransmitter objects, and automatically generate a scenario with
+one radio for every entity (regardless of whether the entity is friendly,
+opposing, or neutral).  This feature is useful when the client federate does
+not create any RadioTransmitter objects at all, such as with OTB 1.0.
+
+- Since the -o option will put all the entities in a single subnet, this means
+this feature tops out at 254 entities.
+
+Synchronizer will exit automatically if 5 seconds have passed since the last
+PhysicalEntity object was discovered.  Change this value with the -t flag.
+
+A gui/scenarios/rprsynch/backgrounds directory has been created, and all
+entity backgrounds and the mole.gif file have been moved here.
+rprsynch.hla-backgrounds has been updated to reflect this as well.
+
+testfed now requires a base filename, instead of defaulting to "iitsec".
+Other changes to default settings:
+- Federation name:  RPR-FOM
+- FED file:  RPR-FOM.fed
+
+Copied RPR-FOM.fed (RPR FOM 1.0) and rpr.fed (RPR FOM 0.5) FED files to
+gui/scenarios/rprsynch, in addition to the existing STRIVE-RPR.fed (RPR FOM 1.0
+with STRIVE extensions).
+
+The interface will call the RTI tick() service to check for new HLA messages
+once every HLA-TICK-INTERVAL seconds of real time (default 200 milliseconds).
+Naturally, this determines the interval at which QualNet will find out about
+position updates, damage state, and comm effects requests.
+
+- Previously, if QualNet was "behind real time", QualNet would not tick() at
+all.  This could lead to many mobility updates being skipped, and also a long
+delay before receipt of comm effects requests.  (On the other hand, this helped
+QualNet "catch up".)
+
+- Currently, as long as HLA-TICK-INTERVAL seconds have passed (and this could
+be set to 0), tick() is called at least once per QualNet event.
+
+- This also means that mobility events, damage state changes, comm effects
+requests, etc. are now received in a timely manner even if QualNet is running
+behind real time.
+
+In addition to the HLA-TICK-INTERVAL functionality:  For a given node, only
+one mobility event every HLA-MOBILITY-INTERVAL seconds of real time is
+scheduled (default 500 milliseconds).  Skipped mobility updates are queued for
+the next time a mobility update is received for a node.  Setting
+HLA-MOBILITY-INTERVAL to 0 will cause almost no mobility updates to be skipped.
+But, having a large HLA-MOBILITY-INTERVAL generally reduces simulation time.
+
+The HLA-XYZ-EPSILON setting (default 0.5 meters) now replaces HLA-X-EPSILON,
+HLA-Y-EPSILON, and HLA-Z-EPSILON (didn't make sense to separate these).
+This acts as yet another filter:  Position updates will not be scheduled
+unless at least one of the GCC x, y, or z coordinates of an entity has changed
+by this value.
+
+- Speed has 0 epsilon (any change is significant).  Orientation has a 1
+degree epsilon for either azimuth or elevation.  This is not currently
+changeable.
+
+Fixed error in testfed and Synchronizer Makefile-redhat-7.1-RTI-1.3NGv6.
+This Makefile can be used with Red Hat Linux 7.3 with gcc 2.96.
+
+Fixed source code in various files to enable compilation on Red Hat Linux 7.3
+with gcc 2.96.
+
+Updated gui/scenarios/iitsec.hla-entities with the initial positions from
+the iitsec.nodes file, so that testfed could use these values too.
+
+** Minor changes
+
+Minor updates to scenario files in gui/scenarios.
+
+Synchronizer-generated .hla-entities files will no longer contain ", " at the
+end of every line.
+
+Synchronizer returns 0 for successful creation of a QualNet scenario, and
+non-zero values for all other cases.  This behavior will be used when the
+QualNet IDE launches Synchronizer.
+
+The following sections cover other changes which have occurred since the
+QualNet 3.7 HLA interface.
+
+** Documentation
+
+The README-HLA-date.pdf file covers general usage of the QualNet 3.8 HLA
+interface, using the "testfed" program as the federate which creates entities.
+See the README-HLA-STRIVE-date.pdf files for STRIVE-specific notes.
+
+ICD - Draft version 7.pdf contains further details on the HLA RPR-FOM 0.5/1.0
+ApplicationSpecificRadioSignal interaction which QualNet will interpret as a
+request for comm effects, and the Data interactions that QualNet returns
+containing results of comms modeling.
+
+QualNet HLA Dynamic Statistics ICD v5.pdf contains details on how statistics
+are sent by QualNet while the simulation is running.  These statistics are
+contained in HLA RPR-FOM 0.5/1.0 Comment interactions.
+
+** Updates to general QualNet 3.8 source code
+
+External interface: FIXED, UPDATED
+  Hooks introduced to support QualNet HLA interface.
+  Externally generated mobility events now execute at the correct simulation
+   time.  Previously, such mobility events may have executed later than they
+   should.
+  Speed statistic no longer automatically reset to 0.0 when calling
+   EXTERNAL_ChangeNode*() functions; last value is used instead, unless
+   another value is specified.
+  Added EXTERNAL_ChangeNodePositionOrientationAndSpeedAtTime() function.
+  Please use the EXTERNAL_ChangeNode*() functions to update mobility instead
+   of MOBILITY_InsertANewEvent().  Using both can lead to mobility events
+   being dropped and warnings being printed.
+
+Cumulative list of updated QualNet 3.8 files:
+
+include/api.h
+include/external.h
+include/external_util.h
+main/external.cpp
+main/external_util.cpp
+
+===============================================================================
+9 Dec 2004
+===============================================================================
+
+Fixed Synchronizer merge-mode bug where hierarchies weren't properly created.
+
+QualNet HLA interface updated to work with new external interface
+(main/external.cpp) for pending official QualNet 3.8 release.  Previously,
+QualNet would crash immediately if HLA was enabled.
+
+===============================================================================
+Pre 9 Dec 2004
+===============================================================================
+
+Fixed memory-access bug with HLA object names that could lead to random
+crashes, particularly when STRIVE/testfed leaves the federation before QualNet.
+
+QualNet no longer exits (but prints a warning in debug mode) when an entity
+requests to broadcast on a network with no potential receivers.
+
+rprsynch.exe and testfed.exe now build in the bin directory, no longer in the
+source directories.  This is so they can be in the PATH.
+
+Some directories moved:
+
+- Synchronizer source code moved from the QualNet root directory to
+addons/hla/rprsynch
+
+- testfed source code moved from the QualNet root directory to
+addons/hla/testfed
+
+gui/scenarios/synch directory created, where Synchronizer can be run in
+new-scenario mode when following the tutorial (the tutorial has also been
+updated).
+
+- Users are no longer expected to run Synchronizer from the rprsynch source
+code directory, but from a gui/scenarios/scenario-name directory -- since the
+rprsynch executable should now be in the PATH.
+
+addons/hla/testfed/iitsec*.hla-* and FED files removed.
+Users should now run testfed from a gui/scenarios/scenario-name directory
+where the .hla-* files already exist -- since the testfed executable should now
+be in the PATH.
+
+New Synchronizer changes are now kept in addons/hla/CHANGES.
+Earlier Synchronizer history can be found in addons/hla/rprsynch/CHANGES.
+
+Synchronizer now accepts PhysicalEntity objects where the EntityType attribute
+(more specifically, the EntityKind field) indicates the entity is a "cultural
+feature".  ("Bunker" entities in a STRIVE scenario had this property.)
+
+Added gui/scenarios/iitsec04 scenario for demo with CAE.
+
+Increased maximum number of radios per entity from 8 to 64.
+
+In testfed, user no longer has to specify the -n flag to specify the base
+filename.
+
+STRIVE-RPR.fed has been copied to the scenarios directories from the STRIVE
+root directory.
+
+Synchronizer now generates scenarios which use STRIVE-RPR.fed instead of
+RPR-FOM.fed.
+testfed now also uses this FED file by default.
+
+** Minor changes
+
+Some comm effects request warnings now printed only in debug mode.
+
+Synchronizer now generates scenarios where the VERSION parameter is now 3.8,
+not 3.7.
+
+Synchronizer generated SUBNET declarations now only have one space after the
+network string instead of multiple tab characters, to accommodate for a GUI
+issue.
+
+Updated the following to match the STRIVE integration scenario:
+- RadioIndex fields (gui/scenarios/iitsec/iitsec.hla-radios)
+- UAV EntityType field (gui/scenarios/iitsec/iitsec.hla-entities)
+- Initial positions (gui/scenarios/iitsec/iitsec.nodes)
+
+Updated the following in gui/scenarios/iitsec/*.config:
+- STRIVE-RPR.fed is used instead of RPR-FOM.fed
+- ROUTER-MODEL statements are now per-node instead of per-subnet to make GUI
+  support easier.
+
+addons/hla/rprsynch no longer includes synch.{hla-backgrounds,hla-icons,
+router-models} files.  These are now found in gui/scenarios/synch.
+
+===============================================================================
+8 Oct 2004
+===============================================================================
+
+QualNet now supports statistics being sent over the HLA interface in real time.
+These statistics are sent as Comment interactions.  Please see HLA Dynamic
+Statistics ICD draft 5 for more information.
+
+QualNet now supports scenarios with "entity hierarchies".  An entity hierarchy
+is a hierarchy which corresponds to an entity.  Radios hosted by the entity are
+QualNet nodes inside the hierarchy.  This support also includes position
+updates (when the entity moves, the hierarchy moves).
+
+- Use the gui/scenarios/iitsec/iitsec-hier.config file with the GUI to see the
+difference.  (Click on an icon, press 'o' to open a hierarchy; and 'c' to
+close it.)  This scenario is the same as iitsec.config, except with an entity-
+hierarchy representation.
+
+QualNet now reflects the VelocityVector attribute of BaseEntity objects.
+A speed is computed when this attribute is received and applied for motion
+effects calculations.
+
+testfed also supports manual update of the VelocityVector attribute via the "v"
+command.
+
+Reduced CPU consumption on QualNet side when QualNet is waiting for the first
+object to be discovered.  (Changed usleep() time from 0 to 0.1 seconds.)
+
+** Issues
+
+Hierarchies without any nodes (i.e., entities without radios) start in the
+incorrect place, and are always displayed as a green icon.
+
+Satellite nodes inside a hierarchy will freeze the GUI at ~ 100% CPU.
+
+Subnet clouds are incorrectly placed when the subnet members belong to
+different hierarchies.
+
+** Minor changes
+
+hla_shared.h now #include's many header files, so many .cpp files will only
+need to include the hla_shared.h file.
+
+Added new event type for HLA dynamic statistics in include/api.h.
+
+New basic icons in gui/scenarios/iitsec/icons folder for devices and entity-
+hierarchy backgrounds.
+
+Changed backslashes in paths in .config files to forward slashes.
+
+Fixed HOSTNAME for .config files:  Lead4 (not Lead1) talks with CC.
+
+Reduced unnecessary precision for lat/lon values in
+gui/scenarios/iitsec/*.nodes files.
+
+Updated EntityType for UAV in testfed/iitsec.hla-entities (no longer has
+values for a tank).
+
+Added HLA-RADIO-SYSTEM-TYPE and HLA-DEVICE-ICON-PATH parameters to
+gui/scenarios/iitsec/iitsec.router-models for consistency.  (These are only
+used by Synchronizer; they are NOT used during QualNet execution.)
+
+===============================================================================
+hlapatch5a.zip (sent to Boeing Australia to test)
+===============================================================================
+
+QualNet no longer asserts false when a PhysicalEntity object listed in the
+.hla-entities file -- but which does not host a RadioTransmitter object --
+changes state (WorldLocation, Orientation, etc.).
+
+Such entities do not move in the GUI, yet, since they are not connected with
+any real QualNet node, and thus do not affect propagation models in any way.
+GUI support will be added later in the form of closed-hierarchy icons which
+move with such entities (closed-hierarchy icons do not need to represent a
+real QualNet node).
+
+===============================================================================
+hlapatch5.zip
+===============================================================================
+
+The QualNet HLA interface now supports queued voice.  Queued voice is actually
+implemented in the Messenger application.  Messenger will queue outgoing voice
+messages if it is currently receiving data from the channel.
+
+To test this, use the iitsec.config scenario with testfed and QualNet.
+In testfed, issue the following commands:
+
+> s 1 V1
+[Send 1 second of voice from node 1.
+ You should receive a success right away.]
+> s 1 V10
+[Send 10 seconds of voice from node 1.]
+> s 2 V1
+[Send 1 second of voice from node 2.
+ The success for node 1 occurs after ten seconds.  Node 2 notices the channel
+ is busy for those 10 seconds.  It will transmit after the channel clears up
+ when node 1 is done.]
+
+Note that data transmissions will go out immediately even if the channel is
+busy.
+
+===============================================================================
+hlapatch4.zip
+===============================================================================
+
+QualNet supports, for PhysicalEntity objects, the Orientation attribute.
+Nodes in Qualnet that correspond to RadioTransmitter objects hosted by a given
+entity will change their orientation when the entity changes orientation.
+To view this support in the QualNet IDE:  After launching the scenario (not
+before), click on the "Layer animations" tab on the right side of the window,
+then click on the icon with the red arrow.
+
+QualNet now calls the requestObjectAttributeValueUpdate() function for the
+following additional PhysicalEntity attributes:  Marking, Orientation.
+Before the Marking change, entities may not have been recognized by Qualnet if
+QualNet joined a federation after another federate had already registered
+entities.
+
+testfed now publishes, for PhysicalEntity objects, the Orientation attribute.
+Note that since none of the .hla-* files contains orientation information,
+testfed initializes entities psi/theta/psi to 0.0 (entities point along the
+GCC x-axis).  Entity orientations may be set by the user during runtime through
+the standard command-line interface, however, using the "o" command.
+
+In testfed, old "o" command for changing TransmitterOperationalStatus changed
+to "t".
+
+** Minor changes
+
+Updated GCC <-> lat/lon/alt functions:  renamed functions to follow existing
+convention, now uses references instead of pointers, moved ellipsoid constants
+from arguments into function body.
+
+In testfed, EntityIdentifier and EntityType swapped in source code, for
+alphabetical ordering.
+
+===============================================================================
+hlapatch3.zip
+===============================================================================
+
+testfed now publishes, for RadioTransmitter objects, the Frequency attribute.
+
+For the Timeout interaction, QualNet set only "1" for the number of EntityIDs,
+and it also sent the wrong EntityIDs.  Fixed this bug.
+
+===============================================================================
+hlapatch2.zip
+===============================================================================
+
+testfed now publishes, for PhysicalEntity objects, these additional attributes:
+EntityType, WorldLocation, DamageState, ForceID.
+
+testfed now publishes, for RadioTransmitter objects, these additional
+attributes:  RelativePosition, RadioSystemType.
+
+** Minor changes
+
+Removed unnecessary precision in iitsec.hla-entities file.
+More descriptive error when discovering duplicate RadioTransmitter objects.
+In error/warning messages, removed parentheses around reported line numbers.
+updateAttributeValue() calls made more efficient.
+
+===============================================================================
+hlapatch.zip
+===============================================================================
+
+PhysicalEntity objects are mapped by Marking (no longer mapped by EntityID).
+The .hla-entities file loses its first column (the EntityID column).
+The .hla-radios file has the EntityID column replaced by a Marking column.
+QualNet will print a warning if it discovers a PhysicalEntity object with a
+duplicate Marking, and will just use the first entity.
+
+===============================================================================
+qualnet-3.7-boeing_aus-hla-2004-06-28
+===============================================================================
+
+Changes to the PhysicalEntity.DamageState attribute now probabilistically
+decrease radio transmit power (all interfaces are still disabled when the host
+entity is destroyed, and re-enabled when the host entity is indicated as no
+longer destroyed).
+Also, the DamageState will need to be set to NoDamage for an entity in order
+for the entity's radios to recover their original full transmit power.
+
+RadioTransmitter.TransmitterOperationalStatus attribute now can control
+radio on/off state (in addition to PhysicalEntity.DamageState).
+
+Fixed bug where changing PhysicalEntity.DamageState to Destroyed or back to
+NoDamaged would crash QualNet.
+
+Added capability to change PhysicalEntity.DamageState to testfed.
+
+RelativePosition offsets to radios were flipped for the y and z axes.
+
+Removed testfed.exe (should be re-built by user depending on which RTI is
+used).
+
+When QualNet sends a Data interaction, it now sends all parameters required for
+RPR FOM 1.0.  The new parameters sent are:  ReceivingEntity, RequestIdentifier.
+Zero values are sent, since these parameters are not used in ICD 6.  The
+FixedDatums parameter is not required by RPR FOM 1.0 and not used in ICD 6, so
+this parameter is still not sent.
+
+QualNet now prints the RadioIndex (in addition to the EntityID) on Comm Effects
+Requests.
+
+QualNet no longer subscribes to Data interactions (only publishes them), since
+QualNet subscription is not part of ICD 6.
+
+QualNet no longer exits when recieving interactions it is not subscribed to;
+instead, it will print a warning in debug mode.
+
+QualNet no longer exits when receiving an interaction parameter it has not
+stored the parameter handle for; it will ignore such parameters.
+
+Minor efficiency changes to reflectAttributeValues() callback.
+
+Timeout messages to stdout are no longer printed if debugging is off.
+
+===============================================================================
+qualnet-3.7-boeing_aus-hla-2004-06-07
+===============================================================================
+
+Major update to support ICD draft version 6.
+
+===============================================================================
+qualnet-3.6.1-hla-2003-11-04
+===============================================================================
+
+Updated comments in addons/hla/hla_shared.h.
+
+Corrected README-HLA.pdf wording that indicated RPR FOM 1.0 wasn't yet
+supported (it is supported).
+
+===============================================================================
+qualnet-3.6.1-hla-2003-10-28
+===============================================================================
+
+QualNet 3.6 is no longer supported with the QualNet HLA interface.
+Please upgrade to QualNet 3.6.1 (3.6->3.6.1 patch available on download page).
+
+Support for arbitrary message sizes.
+
+- A new restriction is that an individual node cannot re-use message numbers.
+
+There is no longer a maximum message number.
+The message number modulo HLA-MAX-COMMS-MSGS-OUTSTANDING gives an index into
+an outstanding-Comms-Message array.
+
+Support for different timeout delays specific to each Comms Request.
+
+Support for BaseEntity.PhysicalEntity object class:  DamageState field.
+If DamageState indicates the entity is Destroyed, then all network interfaces
+for the corresponding node will be disabled.  If the DamageState changes from
+Destroyed to a state with lesser damage, then all network interfaces will be
+re-enabled.
+
+Support for RPR FOM 1.0.
+To enable RPR FOM 1.0 support, modify addons/hla/FedAmb.cpp and
+testfed/FedAmb.cpp, setting rprFomVersion(1.0), and recompile.
+
+NAWC Gateway compatibility mode added, addressing the following issues:
+NAWC Gateway appears to drop attribute updates, interactions, etc. under high
+load (~ 100 nodes) using DMSO RTI-NG 1.3v6.
+Also, the Entity State PDU Entity Appearance Record is not properly translated
+into the HLA RPR-FOM PhysicalEntity.DamageState field.
+To enable NAWC Gateway compatibility mode, modify addons/hla/FedAmb.cpp,
+setting m_nawcGatewayCompatibity(true), and recompile.
+
+Fixed double<->clocktype rounding errors which may have led to intermittent
+crashes.
+
+Fixed gcclatlon.cpp bug where GCC->latlon conversions would yield only
+positive values for longitudes between 0 and -90 degrees (90 deg West).
+
+Fixed myusleep() to sleep for the correct time in Windows.  (Previously,
+would sleep 1,000 times longer.)  myusleep() is not called in the HLA
+interface, so nothing is affected.
+
+Changed default Comms Message timeout delay from 2 to 5 seconds.
+
+Included phy/itm.o-linux-gcc-3.0 file, required when using DMSO RTI-NG 1.3NGv6
+for Red Hat Linux 7.2.
+
+Renamed several HLA .config file parameters.
+
+Renamed "Send Requests" and "Send Results" to "Communications/Comms Requests"
+and "Comms Results".
+
+Renamed addons/hla/Makefile-linux-* files to Makefile-redhat-*, to explicitly
+indicate supported versions of Red Hat Linux for each DMSO RTI.
+
+The MANET Library is no longer required for the HLA interface.
+
+Major code cleanup.
+Major update to README-HLA.pdf.
+Added CHANGES file.
+
+===============================================================================
+qualnet-3.6-hla-2003-06-17
+===============================================================================
+
+Fixed bug where QualNet would get in an infinite loop at federation
+destruction.
+
+Small update to source code comments.
+
+Updated README-HLA.pdf.
+
+Verified as working with QualNet 3.6.1 (in addition to QualNet 3.6).
+
+===============================================================================
+qualnet-3.6-hla-2003-05-02.zip
+===============================================================================
+
+Initial release.

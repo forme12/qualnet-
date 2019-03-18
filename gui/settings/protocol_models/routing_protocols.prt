@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="ROUTING PROTOCOL" class="interface,device,atmdevice">
+
+        <variable name="Routing Protocol IPv4" key="ROUTING-PROTOCOL" type="Selection" default="BELLMANFORD" visibilityrequires="[NETWORK-PROTOCOL] != 'IPv6'">
+            <option value="NONE" name="None"/>
+            <option value="ANODR" name="ANODR" addon="cyber">
+                <variable name="Network Diameter (hops)" key="ANODR-NET-DIAMETER" type="Integer" default="35" optional="true" />
+                <variable name="Node Traversal Time" key="ANODR-NODE-TRAVERSAL-TIME" type="Time" default="40MS" optional="true" />
+                <variable name="Active Route Timeout Interval" key="ANODR-ACTIVE-ROUTE-TIMEOUT" type="Time" default="5000MS" optional="true" />
+                <variable name="Maximum RREQ Retries" key="ANODR-RREQ-RETRIES" type="Integer" default="2" min="0" optional="true" />
+                <variable name="Maximum Number of Buffered Packets" key="ANODR-BUFFER-MAX-PACKET" type="Integer" default="100" optional="true" />
+                <variable name="Maximum Buffer Size (bytes)" key="ANODR-BUFFER-MAX-BYTE" optional="true" type="Integer" default="0" />
+            </option>
+            <option value="AODV" name="AODV" addon="wireless">
+                <variable name="Network Diameter (hops)" key="AODV-NET-DIAMETER" type="Integer" default="35" help="The maximum possible number of hops between two nodes in the network" optional="true" />
+                <variable name="Node Traversal Time" key="AODV-NODE-TRAVERSAL-TIME" type="Time" default="40MS" help="Conservative estimate of the average one hop traversal time for packets and should include queuing, transmission, propagation and other delays" optional="true" />
+                <variable name="Active Route Timeout Interval" key="AODV-ACTIVE-ROUTE-TIMEOUT" type="Time" default="3S" help="Timeout time for an active route; each time a data packet is received, the lifetime of that route is updated to this value.  A default value of 10 seconds is suggested for error detection through MAC layer message (like what 802.11 does)" optional="true" />
+                <variable name="My Route Timeout Interval" key="AODV-MY-ROUTE-TIMEOUT" type="Time" optional="true" default="6S" requires="this.value == 2 * [AODV-ACTIVE-ROUTE-TIMEOUT]" help="The destination of a RREQ replies with AODV-MY-ROUTE-TIMEOUT as the lifetime of the route." />
+                <variable name="Maximum RREQ Retries" key="AODV-RREQ-RETRIES" type="Integer" default="2" min="0" help="Specifies the number of times AODV will repeat expanded ring search for a destination if no Route Reply is received within specified amount of time." optional="true" />
+                <variable name="Route Deletion Constant" key="AODV-ROUTE-DELETION-CONSTANT" type="Integer" default="5" help="A constant use for calculating the time after which an active route should be deleted.  After timeout of an active route, the route is finally deleted from the routing table after a time period of (K * max (AODV-ACTIVE_ROUTE_TIMEOUT, AODV-ALLOWED_HELLO_LOSS * AODV-HELLO_INTERVAL)), Here K is AODV-ROUTE-DELETION-CONSTANT." optional="true" />
+                <variable name="Enable Hello Messages" key="AODV-PROCESS-HELLO" type="Selection" default="NO" help="If the value is set to YES, a node will send a hello message if there is no broadcast within the last hello interval. Simulation time will increase depending on the frequency of the hello updates." optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Hello Interval" key="AODV-HELLO-INTERVAL" type="Time" default="1S" help="Lifetime of a hello message is determined by AODV-ALLOWED_HELLO_LOSS * AODV-HELLO_INTERVAL" optional="true" />
+                        <variable name="Maximum Allowed Hello Loss" key="AODV-ALLOWED-HELLO-LOSS" type="Integer" default="2" min="2" max="3" help="Lifetime of a hello message is determined by AODV-ALLOWED_HELLO_LOSS * AODV-HELLO_INTERVAL" optional="true" />
+                    </option>
+                </variable>
+                <variable name="Enable Local Repair" key="AODV-LOCAL-REPAIR" type="Checkbox" default="NO" help="If this value is set to YES, the node will try to locally repair a broken route, if possible." optional="true" />
+                <variable name="Enable Better Route Search" key="AODV-SEARCH-BETTER-ROUTE" type="Checkbox" default="NO" help="If the source node of a route gets a route error message, it will initiate a new Route Request for the destination if the value is set to YES." optional="true" />
+                <variable name="Enable Acknowledgement Processing" key="AODV-PROCESS-ACK" type="Checkbox" default="NO" optional="true" />
+                <variable name="Maximum Number of Buffered Packets" key="AODV-BUFFER-MAX-PACKET" type="Integer" default="100" help="Maximum number of packets the message buffer of AODV can hold. If the buffer fills up, incoming packets for the buffer will be dropped." optional="true" />
+                <variable name="Maximum Buffer Size (bytes)" key="AODV-BUFFER-MAX-BYTE" type="Integer" default="0" help="If nothing is specified, buffer overflow will be checked by number of packets in the buffer. If some value is specified here, incoming packets will be dropped if the incoming packet size + current size of the buffer exceeds this value." optional="true" />
+                <variable name="Open Bi-directional Connection" key="AODV-OPEN-BI-DIRECTIONAL-CONNECTION" type="Checkbox" default="NO" optional="true" />
+                <variable name="TTL Start" key="AODV-TTL-START" type="Integer" default="1" min="1" optional="true" />
+                <variable name="TTL Increment" key="AODV-TTL-INCREMENT" type="Integer" default="2" min="1" optional="true" />
+                <variable name="TTL Threshold" key="AODV-TTL-THRESHOLD" type="Integer" default="7" requires="this.value > [AODV-TTL-START]" optional="true" />
+                <variable name="RREQs Replied by Destination Only" key="AODV-DEST-ONLY-NODE" type="Checkbox" default="NO" help="Specifies whether the D Flag shall be set or not" optional="true" />
+            </option>
+            <option value="DYMO" name="DYMO" addon="wireless">
+                <variable name="Enable Processing Hello" key="DYMO-PROCESS-HELLO" type="Selection" default="NO" help="If the value is set to YES, a node will send a hello message if there is no broadcast within the last hello interval. Simulation time will increase depending on the frequency of the hello updates." optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Hello Interval" key="DYMO-HELLO-INTERVAL" type="Time" default="1S" help="Lifetime of a hello message is determined by DYMO-ALLOWED_HELLO_LOSS * DYMO-HELLO_INTERVAL" optional="true" />
+                        <variable name="Maximum Allowed Hello Loss" key="DYMO-ALLOWED-HELLO-LOSS" type="Integer" default="4" min="1" max="6" help="Lifetime of a hello message is determined by DYMO-ALLOWED_HELLO_LOSS * DYMO-HELLO_INTERVAL" optional="true" />
+                    </option>
+                </variable>
+                <variable name="Maximum RREQ Retries" key="DYMO-RREQ-RETRIES" type="Integer" default="3" min="1" help="Specifies the number of times DYMO will repeat expanded ring search for a destination if no Route Reply is received within specified amount of time." optional="true" />
+                <variable name="Configure as a Gateway Node" key="DYMO-GATEWAY" type="Selection" default="NO" optional="true" invisible="wiredsubnet,WirelessSubnet" help="Select the node as DYMO Gateway" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Gateway Prefix Length" key="DYMO-GATEWAY-PREFIX-LENGTH" type="Integer" default="24" help="Spceify the prefix length for DYMO subnet for which this node is a Gateway " optional="true" />
+                    </option>
+                </variable>
+                <variable name="RREQ Replied by Destination Only" key="DYMO-DEST-ONLY-NODE" type="Selection" default="NO" help="Specifies whether the intermediate node can initiate the reply message" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Maximum Hop Limit" key="DYMO-MAX-HOP-LIMIT" type="Integer" default="10" help="The maximum number of hops DYMO messages will traverse" optional="true" />
+                <variable name="Node Traversal Time" key="DYMO-NODE-TRAVERSAL-TIME" type="Time" default="90MS" help="Conservative estimate of the average one hop traversal time for packets and should include queuing, transmission, propagation and other delays" optional="true" />
+                <!-- <variable name="Node Traversal Time" key="DYMO-NODE-TRAVERSAL-TIME" type="Time" default="40MS" help="Conservative estimate of the average one hop traversal time for packets and should include queuing, transmission, propagation and other delays" optional="true" /> -->
+            <variable name="New Route Timeout Interval" key="DYMO-NEW-ROUTE-TIMEOUT" type="Time" default="5S" help="Timeout time for a new route; After this timeout if the route has not been used, a timer for deleting the route is set to ROUTE_DELETE_TIMEOUT" optional="true" />
+                <variable name="Used Route Timeout Interval" key="DYMO-USED-ROUTE-TIMEOUT" type="Time" default="5S" help="Timeout time for an used route; If a route has not been used recently, then a timer for deleting the route is set to ROUTE_DELETE_TIMEOUT." optional="true" />
+                <variable name="Delete Route Timeout Interval" key="DYMO-DELETE-ROUTE-TIMEOUT" type="Time" default="10S" help="After expiration of this duration node will remove this path from routing table." optional="true" />
+                <variable name="Maximum Number of Buffered Packets" key="DYMO-BUFFER-MAX-PACKET" type="Integer" default="50" help="Maximum number of packets the message buffer of DYMO can hold. If the buffer fills up, incoming packets for the buffer will be dropped." optional="true" />
+                <variable name="Maximum Buffer Size (bytes)" key="DYMO-BUFFER-MAX-BYTE" type="Integer" default="0" help="If nothing is specified, buffer overflow will be checked by number of packets in the buffer. If some value is specified here, incoming packets will be dropped if the incoming packet size + current size of the buffer exceeds this value." optional="true" />
+                <variable name="TTL Start Value" key="DYMO-TTL-START" type="Integer" default="1" min="1" optional="true" />
+
+                <variable name="TTL Increment Value" key="DYMO-TTL-INCREMENT" type="Integer" default="2" min="1" optional="true" />
+                <variable name="TTL Threshold Value" key="DYMO-TTL-THRESHOLD" type="Integer" default="7" requires="this.value > [DYMO-TTL-START]" optional="true" />
+
+                <variable name="Append Own Address" key="DYMO-APPEND-SELF-ADDRESS" type="Selection" default="YES" help="Specifies whether the node will append its address to the relayed request/reply message" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Configure a Node to Increase Own Seq Num in Appending" key="DYMO-INCREASE-SEQ-NUM-IN-APPENDING" type="Selection" default="YES" help="Specifies whether the node increment its seqNum prior to appending its own address to the request message " optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Enable Including all Unreachable Addresses" key="DYMO-RERR-INCLUDE-ALL-UNREACHABLES" type="Selection" default="YES" help="Specifies whether additional unreachable addresses that require the same unavailable link be added to the error message" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+            </option>
+            <option value="SDR" name="SDR" addon="military">
+                <variable name="SDR Update Interval" key="SDR-UPDATE-INTERVAL" type="Time" default="40S" help="Interval when LSUs are sent out" optional="true" />
+                <variable name="SDR LSA Expiration Timer" key="SDR-LSA-EXPIRATION-TIMER" type="Time" default="120S" help="Time before neighbors are expired." optional="true" />
+                <variable name="SDR Maximum Age" key="SDR-MAX-AGE" type="Time" default="1200S" help="Time before neighbors are removed." optional="true" />
+            </option>
+            <option value="BELLMANFORD" name="Bellman Ford" />
+            <option value="DSR" name="DSR" addon="wireless">
+                <variable key="DSR-BUFFER-MAX-PACKET" name="Maximum Number of Buffered Packets" type="Integer" default="50" help="Specifies the maximum size of message buffer in packets." optional="true" />
+                <variable key="DSR-BUFFER-MAX-BYTE" name="Maximum Buffer Size (bytes)" type="Integer" default="0" help="Specifies the maximum size of message buffer in bytes. When not specified the value of DSR-BUFFER-MAX-PACKET is used." optional="true" />
+            </option>
+            <option value="EIGRP" name="EIGRP" addon="multimedia_enterprise">
+                <variable name="EIGRP Configuration File" key="EIGRP-CONFIG-FILE" type="File" default="[Required]" optional="true" />
+            </option>
+            <option value="FISHEYE" name="Fisheye" addon="wireless">
+                <variable name="Scope (hops)" key="FISHEYE-SCOPE" type="Integer" default="2" optional="true" />
+                <variable name="Internal Routing Table Update Frequency" key="FISHEYE-INTRA-UPDATE-INTERVAL" type="Time" default="2S" help="Routing table update frequency within the Fisheye scope" optional="true" />
+                <variable name="External Routing Table Update Frequency" key="FISHEYE-INTER-UPDATE-INTERVAL" type="Time" default="4S" help="Routing table update frequency outside of the fisheye scope" optional="true" />
+                <variable name="Neighbor Expiration Time" key="FISHEYE-NEIGHBOR-TIMEOUT-INTERVAL" type="Time" default="6S" optional="true" />
+            </option>
+            <option value="IARP" name="IARP" addon="wireless">
+                <variable name="IARP Zone Radius (hops)" key="ZONE-RADIUS" type="Integer" default="2" min="0" optional="true" />
+            </option>
+            <option value="IERP" name="IERP" addon="wireless">
+                <variable name="IERP Zone Radius (hops)" key="ZONE-RADIUS" type="Integer" default="0" min="0" optional="true" />
+                <variable name="IERP Maximum Message Buffer Size (bytes)" key="IERP-MAX-MESSAGE-BUFFER-SIZE" type="Integer" default="100" min="0" optional="true" />
+            </option>
+            <option value="IGRP" name="IGRP" addon="multimedia_enterprise">
+                <variable name="IGRP Configuration File" key="IGRP-CONFIG-FILE" type="File" default="[Required]" filetype="igrp" optional="true" />
+                <variable name="Broadcast Time Interval " key="IGRP-BROADCAST-TIME" type="Time" default="90S" optional="true" />
+                <variable name="Invalid Time Interval" key="IGRP-INVALID-TIME" type="Time" default="270S" requires="this.value == 3 * [IGRP-BROADCAST-TIME]" optional="true" />
+                <variable name="Hold Time Interval" key="IGRP-HOLD-TIME" type="Time" default="280S" requires="this.value == (3 * [IGRP-BROADCAST-TIME]) + 10000000000.0" optional="true" />
+                <variable name="Flush Time Interval" key="IGRP-FLUSH-TIME" type="Time" default="630S" requires="this.value == 7 * [IGRP-BROADCAST-TIME]" optional="true" />
+                <variable name="Periodic Timer Value" key="IGRP-PERIODIC-TIMER" type="Time" default="1S" optional="true" />
+                <variable name="Sleep Time Interval" key="IGRP-SLEEP-TIME" type="Time" default="5S" min="1NS" optional="true" />
+                <variable name="Maximum Hops" key="IGRP-MAXIMUM-HOPS" type="Integer" default="100" min="5" optional="true" />
+            </option>
+            <option value="FSRL" name="LANMAR" addon="wireless">
+                <variable name="Minimum Member Threshold" key="LANMAR-MIN-MEMBER-THRESHOLD" type="Integer" default="8" help="Minimum number of neighbor in order to be considered a landmark." optional="true" />
+                <variable name="Alpha" key="LANMAR-ALPHA" type="Fixed" default="1.3" optional="true" />
+                <variable name="Landmark Update Interval" key="LANMAR-LANDMARK-UPDATE-INTERVAL" type="Time" default="4S" optional="true" />
+                <variable name="Neighbor Timeout Interval" key="LANMAR-NEIGHBOR-TIMEOUT-INTERVAL" type="Time" default="6S" optional="true" />
+                <variable name="Maximum Landmark Entry Age" key="LANMAR-LANDMARK-MAX-AGE" type="Time" default="12S" help="Maximum age for landmark entries." optional="true" />
+                <variable name="Maximum Drifter Entry Age" key="LANMAR-DRIFTER-MAX-AGE" type="Time" default="12S" help="Maximum age for drifter entries." optional="true" />
+                <variable name="Fisheye Scope (hops)" key="LANMAR-FISHEYE-SCOPE" type="Integer" default="2" min="1" optional="true" />
+                <variable name="Fisheye Update Interval" key="LANMAR-FISHEYE-UPDATE-INTERVAL" type="Time" default="2S" help="Routing table update frequency within the fisheye scope." optional="true" />
+                <variable name="Maximum Fisheye Entry Age" key="LANMAR-FISHEYE-MAX-AGE" type="Time" default="6S" help="Maximum age for fisheye entries." optional="true" />
+            </option>
+            <option value="LAR1" name="LAR1" addon="wireless" />
+            <option value="OLSR-INRIA" name="OLSR INRIA" addon="wireless">
+                <variable name="Hello Interval" key="OLSR-HELLO-INTERVAL" type="Time" default="2S" optional="true" />
+                <variable name="TC Interval" key="OLSR-TC-INTERVAL" type="Time" default="5S" optional="true" />
+                <variable name="MID Interval" key="OLSR-MID-INTERVAL" type="Time" default="5S" optional="true" />
+                <variable name="HNA Interval" key="OLSR-HNA-INTERVAL" type="Time" default="5S" optional="true" />
+                <variable name="Neighbor Table Timeout Interval" key="OLSR-NEIGHBOR-HOLD-TIME" type="Time" default="6S" optional="true"/>
+                <variable name="Topology Table Timeout Interval" key="OLSR-TOPOLOGY-HOLD-TIME" type="Time" default="15S" optional="true" />
+                <variable name="Duplicate Table Timeout Interval" key="OLSR-DUPLICATE-HOLD-TIME" type="Time" default="30S" optional="true" />
+                <variable name="MID Table Timeout Interval" key="OLSR-MID-HOLD-TIME" type="Time" default="15S" optional="true" />
+                <variable name="HNA Table Timeout Interval" key="OLSR-HNA-HOLD-TIME" type="Time" default="15S" optional="true" />
+            </option>
+            <option value="OLSRv2-NIIGATA" name="OLSRv2 NIIGATA" addon="wireless">
+                <variable name="Hello Interval" key="OLSRv2-HELLO-INTERVAL" type="Time" default="2S" optional="true" />
+                <variable name="TC Interval" key="OLSRv2-TC-INTERVAL" type="Time" default="5S" optional="true" />
+                <variable name="Refresh Timeout Interval" key="OLSRv2-REFRESH-TIMEOUT-INTERVAL" type="Time" default="2S" optional="true" />
+                <variable name="Time to Start Hello" key="OLSRv2-START-HELLO" type="Time" default="1S" optional="true" />
+                <variable name="Start TC" key="OLSRv2-START-TC" type="Time" default="1S" optional="true" />
+                <variable name="Start Refresh Timeout Interval" key="OLSRv2-START-REFRESH-TIMEOUT" type="Time" default="1S" optional="true" />
+                <variable name="Neighbor Hold Time" key="OLSRv2-NEIGHBOR-HOLD-TIME" type="Time" default="6S" optional="true" />
+                <variable name="Topology Hold Time" key="OLSRv2-TOPOLOGY-HOLD-TIME" type="Time" default="15S" optional="true" />
+                <variable name="Duplicate Hold Time" key="OLSRv2-DUPLICATE-HOLD-TIME" type="Time" default="30S" optional="true" />
+                <variable name="Attached Network Set" key="OLSRv2-ATTACHED-NETWORK" type="text" default="[Required]" invisible="ScenarioLevel" help="Specifies the non-OLSRv2 attached network information to the node that is acting as a gateway. Please see Wireless Model Library User's Guide for details." optional="true" />
+                <variable name="Link Layer Notification" key="OLSRv2-LINK-LAYER-NOTIFICATION" type="Checkbox" default="NO" optional="true" />
+                <variable name="Packet Restoration" key="OLSRv2-PACKET-RESTORATION" type="Checkbox" default="NO" optional="true" />
+            </option>
+            <option value="OSPFv2" name="OSPFv2" addon="multimedia_enterprise">
+                <variable name="Define Area" key="OSPFv2-DEFINE-AREA" type="Selection" default="NO">
+                    <option value="YES" name="Yes">
+                         <variable name="OSPFv2 Configuration File" key="OSPFv2-CONFIG-FILE" type="File" default="[Required]" filetype="ospf,ospfv2" optional="true" />
+                    </option>
+                    <option value="NO" name="No">
+                         <variable name="OSPFv2 Configuration File" key="OSPFv2-CONFIG-FILE" type="File" default="[Optional]" filetype="ospf,ospfv2" optional="true" />
+                    </option>
+                </variable>
+                <variable name="Specify Autonomous System" key="DUMMY-AUTONOMOUS-SYSTEM" type="Selection" default="N/A" optional="true">
+                    <option value="N/A" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Autonomous System ID" key="AS-NUMBER" type="Integer" default="1" min="0" max="65536" help="specify the AS ID (0 means not assigned)" optional="true"/>
+                    </option>
+                </variable>
+                <variable name="Configure as Autonomous System Boundary Router" key="AS-BOUNDARY-ROUTER" type="Selection" default="NO" invisible="PtPLink,WiredSubnet,WirelessSubnet" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+			            <variable name="Inject External Route" key="OSPFv2-INJECT-EXTERNAL-ROUTE" type="Selection" default="NO">
+			                <option value="NO" name="No" />
+			                <option value="YES" name="Yes">
+				                <variable name="External Route File" key="OSPFv2-INJECT-ROUTE-FILE" type="File" default="[Required]" filetype="ospfv2-external" optional="true"/>
+			                </option>
+			            </variable>                    
+                    </option>
+                </variable>
+                <variable name="Stagger Start Time" key="OSPFv2-STAGGER-START-TIME" type="Time" default="0S" optional="true" />
+                <variable name="SPF Calculation Delay" key="OSPFv2-SPF-CALCULATION-DELAY" type="Time" default="40MS" optional="true" />
+                <variable name="LSA Flood Delay" key="OSPFv2-LSA-FLOOD-DELAY" type="Time" default="100MS" optional="true" />
+                <variable name="LSA Age Increment Interval" key="OSPFv2-LSA-AGE-INCREMENT-INTERVAL" type="Time" default="1S" optional="true" />
+                <variable name="Enable Advertising Self Interface" key="OSPFv2-ADVRT-SELF-INTF" type="Selection" default="NO" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Calculate Routes to Subnet Addresses" key="OSPFv2-INCLUDE-SUBNET-ROUTES" type="Selection" default="YES" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Enable Demand Circuit Extension" key="OSPFv2-DEMAND-CIRCUIT-EXTENSION-ENABLED" type="Selection" default="NO" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes"> 
+                    </option>
+                </variable> 
+                 <variable name="Accept Opaque LSAs" key="OSPFv2-OPAQUE-LSA-CAPABLE" type="Selection" default="YES" optional="true" invisible="interface, WiredSubnet, WirelessSubnet">
+                     <option value="NO" name="No" />
+                     <option value="YES" name="Yes" />
+                </variable> 
+                <variable name="Enable OSPF with Quality of Service (QOSPF)" key="QUALITY-OF-SERVICE" type="Selection" default="NONE" addon="multimedia_enterprise" invisible="interface, WiredSubnet, WirelessSubnet">
+                    <option value="NONE" name="No" />
+                    <option value="Q-OSPF" name="Yes">
+                        <variable name="QOSPF Route Computation Algorithm" key="QOSPF-COMPUTATION-ALGORITHM" type="Selection" default="EXTENDED_BREADTH_FIRST_SEARCH_SINGLE_PATH">
+                            <option value="EXTENDED_BREADTH_FIRST_SEARCH_SINGLE_PATH" name="Extended BFS Single Path" />
+                        </variable>
+                        <variable name="Queueing Delay for Path Calculation" key="QUEUEING-DELAY-FOR-QOS-PATH-CALCULATION" type="Checkbox" default="NO" help="Specifies whether or not queue delay will be considered during path calculation." optional="true" />
+                        <variable name="Interface Observation Interval" key="QOSPF-INTERFACE-OBSERVATION-INTERVAL" type="Time" default="2S" optional="true" />
+                        <variable name="Flooding Interval" key="QOSPF-FLOODING-INTERVAL" type="Time" default="0S" help="Specifies the interval of the flooding of LSAs for QOSPF." optional="true" />
+                        <variable name="Flooding Factor" key="QOSPF-FLOODING-FACTOR" type="Fixed" default=".1" min="0" max="1" optional="true" />
+                    </option>
+                </variable>
+            </option>
+            <option value="RIP" name="RIP">
+                <variable key="RIP-VERSION" type="Selection" name="Version" default="2" optional="true" >
+                    <option value="1" name="1" />
+                    <option value="2" name="2" />
+                </variable>
+                <variable name="Split Horizon" key="SPLIT-HORIZON" type="Selection" default="SIMPLE" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="SIMPLE" name="Simple" />
+                    <option value="POISONED-REVERSE" name="Poisoned Reverse" />
+                </variable>
+            </option>
+            <option value="STAR" name="STAR" addon="wireless">
+                <variable name="Routing Mode" key="STAR-ROUTING-MODE" type="Selection" default="LORA" optional="true" >
+                    <option value="LORA" name="LORA" />
+                    <option value="ORA" name="ORA" />
+                </variable>
+                <variable name="Neighbor Protocol Broadcast Interval" key="NEIGHBOR-PROTOCOL-SEND-FREQUENCY" type="Time" default="2S" optional="true" />
+                <variable name="Neighbor Protocol Entry TTL" key="NEIGHBOR-PROTOCOL-ENTRY-TTL" type="Time" default="4S" optional="true" />
+            </option>
+            <option value="ZRP" name="ZRP" addon="wireless">
+                <variable name="IERP Uses BRP" key="IERP-USE-BRP" type="Checkbox" default="NO" optional="true" />
+                <variable name="Zone Radius (hops)" key="ZONE-RADIUS" type="Integer" default="2" min="0" max="65535" optional="true" />
+                <variable name="IERP Maximum Message Buffer Size (bytes)" key="IERP-MAX-MESSAGE-BUFFER-SIZE" type="Integer" default="100" min="0" optional="true" />
+            </option>
+        </variable>
+        <variable name="Routing Protocol IPv6" key="ROUTING-PROTOCOL-IPv6" type="Selection" default="NONE" optional="true" visibilityrequires="[NETWORK-PROTOCOL] == 'IPv6' || [NETWORK-PROTOCOL] == 'DUAL-IP'">
+            <option value="NONE" name="None"/>
+            <option value="OSPFv3" name="OSPFv3" addon="multimedia_enterprise">
+                <variable name="Define Area" key="OSPFv3-DEFINE-AREA" type="Selection" default="NO" optional="true" >
+                    <option value="YES" name="Yes">
+                         <variable name="OSPFv3 Configuration File" key="OSPFv3-CONFIG-FILE" type="File" default="[Required]" filetype="ospf,ospfv3"  optional="true" />
+                    </option>
+                    <option value="NO" name="No">
+                         <variable name="OSPFv3 Configuration File" key="OSPFv3-CONFIG-FILE" type="File" default="[Optional]" filetype="ospf,ospfv3"  optional="true" />
+                    </option>
+                </variable>
+                <variable name="Specify Autonomous System" key="DUMMY-AUTONOMOUS-SYSTEM" type="Selection" default="NO" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Autonomous System ID" key="AS-NUMBER" type="Integer" default="1" min="0" max="65536" help="specify the AS ID (0 means not assigned)" optional="true" />
+                    </option>
+                </variable>
+                <variable name="Configure as Autonomous System Boundary Router" key="AS-BOUNDARY-ROUTER" type="Selection" default="NO" invisible="PtPLink,WiredSubnet,WirelessSubnet" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+			            <variable name="Inject External Route" key="OSPFv3-INJECT-EXTERNAL-ROUTE" type="Selection" default="NO">
+			                <option value="NO" name="No" />
+			                <option value="YES" name="Yes">
+				                <variable name="External Route File" key="OSPFv3-INJECT-ROUTE-FILE" type="File" default="[Required]" filetype="ospfv3-external" optional="true" />
+			                </option>
+			            </variable>                    
+                    </option>
+                </variable>
+            	<variable name="Enable Stagger start" key="OSPFv3-STAGGER-START" type="Checkbox" default="NO" invisible="interface,WiredSubnet,WirelessSubnet" optional="true" />
+            </option>
+            <option value="RIPng" name="RIPng">
+                <variable name="Split Horizon" key="SPLIT-HORIZON" type="Selection" default="SIMPLE" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="SIMPLE" name="Simple" />
+                    <option value="POISONED-REVERSE" name="Poisoned Reverse" />
+                </variable>
+            </option>
+            <option value="AODV" name="AODV" addon="wireless">
+                <variable name="Network Diameter (hops)" key="AODV-NET-DIAMETER" type="Integer" default="35" help="The maximum possible number of hops between two nodes in the network" optional="true" />
+                <variable name="Node Traversal Time" key="AODV-NODE-TRAVERSAL-TIME" type="Time" default="40MS" help="Conservative estimate of the average one hop traversal time for packets and should include queuing, transmission, propagation and other delays" optional="true" />
+                <variable name="Active Route Timeout Interval" key="AODV-ACTIVE-ROUTE-TIMEOUT" type="Time" default="3S" help="Timeout time for an active route; each time a data packet is received, the lifetime of that route is updated to this value.  A default value of 10 seconds is suggested for error detection through MAC layer message (like what 802.11 does)" optional="true" />
+                <variable name="My Route Timeout Interval" key="AODV-MY-ROUTE-TIMEOUT" optional="true" type="Time" default="6S" requires="this.value == 2 * [AODV-ACTIVE-ROUTE-TIMEOUT]" help="The destination of a RREQ replies with AODV-MY-ROUTE-TIMEOUT as the lifetime of the route." />
+                <variable name="Maximum RREQ Retries" key="AODV-RREQ-RETRIES" type="Integer" default="2" mim="0" help="Specifies the number of times AODV will repeat expanded ring search for a destination if no Route Reply is received within specified amount of time." optional="true" />
+                <variable name="Route Deletion Constant" key="AODV-ROUTE-DELETION-CONSTANT" type="Integer" default="5" help="A constant use for calculating the time after which an active route should be deleted.  After timeout of an active route, the route is finally deleted from the routing table after a time period of (K * max (AODV-ACTIVE_ROUTE_TIMEOUT, AODV-ALLOWED_HELLO_LOSS * AODV-HELLO_INTERVAL)), Here K is AODV-ROUTE-DELETION-CONSTANT." optional="true" />
+                <variable name="Enable Hello Message" key="AODV-PROCESS-HELLO" type="Selection" default="NO" help="If the value is set to YES, a node will send a hello message if there is no broadcast within the last hello interval. Simulation time will increase depending on the frequency of the hello updates." optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Hello Interval" key="AODV-HELLO-INTERVAL" type="Time" default="1S" help="Lifetime of a hello message is determined by AODV-ALLOWED_HELLO_LOSS * AODV-HELLO_INTERVAL" optional="true" />
+                        <variable name="Allowed Hello Loss" key="AODV-ALLOWED-HELLO-LOSS" type="Integer" default="2" min="2" max="3" help="Lifetime of a hello message is determined by AODV-ALLOWED_HELLO_LOSS * AODV-HELLO_INTERVAL" optional="true" />
+                    </option>
+                </variable>
+                <variable name="Enable Local Repair" key="AODV-LOCAL-REPAIR" type="Checkbox" default="NO" help="If this value is set to YES, the node will try to locally repair a broken route, if possible." optional="true" />
+                <variable name="Enable Better Route Search" key="AODV-SEARCH-BETTER-ROUTE" type="Checkbox" default="NO" help="If the source node of a route gets a route error message, it will initiate a new Route Request for the destination if the value is set to YES." optional="true" />
+                <variable name="Enable Acknowledgement Processing" key="AODV-PROCESS-ACK" type="Checkbox" default="NO" optional="true" />
+                <variable name="Maximum Number of Buffered Packets" key="AODV-BUFFER-MAX-PACKET" type="Integer" default="100" help="Maximum number of packets the message buffer of AODV can hold. If the buffer fills up, incoming packets for the buffer will be dropped." optional="true" />
+                <variable name="Maximum Buffer Size (bytes)" key="AODV-BUFFER-MAX-BYTE" type="Integer" default="0" help="If nothing is specified, buffer overflow will be checked by number of packets in the buffer. If some value is specified here, incoming packets will be dropped if the incoming packet size + current size of the buffer exceeds this value." optional="true" />
+                <variable name="Open Bi-directional Connection" key="AODV-OPEN-BI-DIRECTIONAL-CONNECTION" type="Checkbox" default="NO" optional="true" />
+                <variable name="TTL Start" key="AODV-TTL-START" type="Integer" default="1" min="1" optional="true" />
+                <variable name="TTL Increment" key="AODV-TTL-INCREMENT" type="Integer" default="2" min="1" optional="true" />
+                <variable name="TTL Threshold" key="AODV-TTL-THRESHOLD" type="Integer" default="7" requires="this.value > [AODV-TTL-START]" optional="true" />
+                <variable name="RREQs Replied by Destination Only" key="AODV-DEST-ONLY-NODE" type="Checkbox" default="NO" help="Specifies whether the D Flag shall be set or not" optional="true" />
+            </option>
+            <option value="DYMO" name="DYMO" addon="wireless">
+                <variable name="Enable Processing Hello" key="DYMO-PROCESS-HELLO" type="Selection" default="NO" help="If the value is set to YES, a node will send a hello message if there is no broadcast within the last hello interval. Simulation time will increase depending on the frequency of the hello updates." optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Hello Interval" key="DYMO-HELLO-INTERVAL" type="Time" default="1S" help="Lifetime of a hello message is determined by DYMO-ALLOWED_HELLO_LOSS * DYMO-HELLO_INTERVAL" optional="true" />
+                        <variable name="Maximum Allowed Hello Loss" key="DYMO-ALLOWED-HELLO-LOSS" type="Integer" default="4" min="1" max="6" help="Lifetime of a hello message is determined by DYMO-ALLOWED_HELLO_LOSS * DYMO-HELLO_INTERVAL" optional="true" />
+                    </option>
+                </variable>
+                <variable name="Maximum RREQ Retries" key="DYMO-RREQ-RETRIES" type="Integer" default="3" min="1" help="Specifies the number of times DYMO will repeat expanded ring search for a destination if no Route Reply is received within specified amount of time." optional="true" />
+                <variable name="Configure as a Gateway Node" key="DYMO-GATEWAY" type="Selection" default="NO" optional="true" help="Select the node as DYMO Gateway" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Gateway Prefix Length" key="DYMO-GATEWAY-PREFIX-LENGTH" type="Integer" default="64" help="Spceify the prefix length for DYMO subnet for which this node is a Gateway " optional="true" />
+                    </option>
+                </variable>
+                <variable name="RREQs Replied by Destination Only" key="DYMO-DEST-ONLY-NODE" type="Selection" default="NO" help="Specifies whether the intermediate node can initiate the reply message" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Maximum Hop Limit" key="DYMO-MAX-HOP-LIMIT" type="Integer" default="10" help="The maximum number of hops DYMO messages will traverse" optional="true" />
+                <variable name="Node Traversal Time" key="DYMO-NODE-TRAVERSAL-TIME" type="Time" default="90MS" help="Conservative estimate of the average one hop traversal time for packets and should include queuing, transmission, propagation and other delays" optional="true" />
+                <!-- <variable name="Node Traversal Time" key="DYMO-NODE-TRAVERSAL-TIME" type="Time" default="40MS" help="Conservative estimate of the average one hop traversal time for packets and should include queuing, transmission, propagation and other delays" optional="true" /> -->
+            <variable name="New Route Timeout Interval" key="DYMO-NEW-ROUTE-TIMEOUT" type="Time" default="5S" help="Timeout time for a new route; After this timeout if the route has not been used, a timer for deleting the route is set to ROUTE_DELETE_TIMEOUT" optional="true" />
+                <variable name="Used Route Timeout Interval" key="DYMO-USED-ROUTE-TIMEOUT" type="Time" default="5S" help="Timeout time for an used route; If a route has not been used recently, then a timer for deleting the route is set to ROUTE_DELETE_TIMEOUT." optional="true" />
+                <variable name="Delete Route Timeout Interval" key="DYMO-DELETE-ROUTE-TIMEOUT" type="Time" default="10S" help="After expiration of this duration node will remove this path from routing table." optional="true" />
+                <variable name="Maximum Buffer Size (packets)" key="DYMO-BUFFER-MAX-PACKET" type="Integer" default="50" help="Maximum number of packets the message buffer of DYMO can hold. If the buffer fills up, incoming packets for the buffer will be dropped." optional="true" />
+                <variable name="Maximum Buffer Size (bytes)" key="DYMO-BUFFER-MAX-BYTE" type="Integer" default="0" help="If nothing is specified, buffer overflow will be checked by number of packets in the buffer. If some value is specified here, incoming packets will be dropped if the incoming packet size + current size of the buffer exceeds this value." optional="true" />
+                <variable name="TTL Start Value" key="DYMO-TTL-START" type="Integer" default="1" min="1" optional="true" />
+
+                <variable name="TTL Increment Value" key="DYMO-TTL-INCREMENT" type="Integer" default="2" min="1" optional="true" />
+                <variable name="TTL Threshold Value" key="DYMO-TTL-THRESHOLD" type="Integer" default="7" requires="this.value > [DYMO-TTL-START]" optional="true" />
+
+                <variable name="Append Own Address" key="DYMO-APPEND-SELF-ADDRESS" type="Selection" default="YES" help="Specifies whether the node will append its address to the relayed request/reply message" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Configure a Node to Increase Own Seq Num in Appending" key="DYMO-INCREASE-SEQ-NUM-IN-APPENDING" type="Selection" default="YES" help="Specifies whether the node increment its seqNum prior to appending its own address to the request message " optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+                <variable name="Enable Including all Unreachable Addresses" key="DYMO-RERR-INCLUDE-ALL-UNREACHABLES" type="Selection" default="YES" help="Specifies whether additional unreachable addresses that require the same unavailable link be added to the error message" optional="true" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes" />
+                </variable>
+            </option>
+            <option value="OLSR-INRIA" name="Olsr Inria" addon="wireless">
+                <variable name="Hello Interval" key="OLSR-HELLO-INTERVAL" type="Time" default="2S" optional="true" />
+                <variable name="TC Interval" key="OLSR-TC-INTERVAL" type="Time" default="5S" optional="true" />
+                <variable name="MID Interval" key="OLSR-MID-INTERVAL" type="Time" default="5S" optional="true" />
+                <variable name="HNA Interval" key="OLSR-HNA-INTERVAL" type="Time" default="5S" optional="true" />
+                <variable name="Neighbor Table Time-out" key="OLSR-NEIGHBOR-HOLD-TIME" type="Time" default="6S" optional="true"/>
+                <variable name="Topology Table Time-out" key="OLSR-TOPOLOGY-HOLD-TIME" type="Time" default="15S" optional="true" />
+                <variable name="Duplicate Table Time-out" key="OLSR-DUPLICATE-HOLD-TIME" type="Time" default="30S" optional="true" />
+                <variable name="MID Table Time-out" key="OLSR-MID-HOLD-TIME" type="Time" default="15S" optional="true" />
+                <variable name="HNA Table Time-out" key="OLSR-HNA-HOLD-TIME" type="Time" default="15S" optional="true" />
+            </option>
+            <option value="OLSRv2-NIIGATA" name="Olsrv2 Niigata" addon="wireless">
+                <variable name="Hello Interval" key="OLSRv2-HELLO-INTERVAL" type="Time" default="2S" optional="true" />
+                <variable name="TC Interval" key="OLSRv2-TC-INTERVAL" type="Time" default="5S" optional="true" />
+                <variable name="Refresh Timeout Interval" key="OLSRv2-REFRESH-TIMEOUT-INTERVAL" type="Time" default="2S" optional="true" />
+                <variable name="Start Hello" key="OLSRv2-START-HELLO" type="Time" default="1S" optional="true" />
+                <variable name="Start TC" key="OLSRv2-START-TC" type="Time" default="1S" optional="true" />
+                <variable name="Start Refresh Timeout Interval" key="OLSRv2-START-REFRESH-TIMEOUT" type="Time" default="1S" optional="true" />
+                <variable name="Neighbor Hold Time" key="OLSRv2-NEIGHBOR-HOLD-TIME" type="text" default="6S" optional="true" />
+                <variable name="Topology Hold Time" key="OLSRv2-TOPOLOGY-HOLD-TIME" type="text" default="15S" optional="true" />
+                <variable name="Duplicate Hold Time" key="OLSRv2-DUPLICATE-HOLD-TIME" type="text" default="30S" optional="true" />
+                <variable name="Attached Network Set" key="OLSRv2-ATTACHED-NETWORK" type="text" default="[Required]" invisible="ScenarioLevel" optional="true" />
+                <variable name="Link Layer Notification" key="OLSRv2-LINK-LAYER-NOTIFICATION" type="Checkbox" default="NO" optional="true" />
+                <variable name="Packet Restoration" key="OLSRv2-PACKET-RESTORATION" type="Checkbox" default="NO" optional="true" />
+            </option>
+        </variable>
+        <variable name="Enable IP Forwarding" key="IP-FORWARDING" type="Checkbox" default="YES" invisible="interface" optional="true" help="Determines whether or not node(s) will forward packets"/>
+        <variable name="Specify Static Routes" key="STATIC-ROUTE" type="Selection" default="NO" invisible="interface, WiredSubnet, WirelessSubnet" help="Static routes have priority over those discovered by routing protocols" >
+            <option value="YES" name="Yes">
+                <variable name="Static Route File" key="STATIC-ROUTE-FILE" type="File" default="[Required]" filetype="routes-static" />
+            </option>
+            <option value="NO" name="No" />
+        </variable>
+        <variable name="Specify Default Routes" key="DEFAULT-ROUTE" type="Selection" default="NO" invisible="interface, WiredSubnet, WirelessSubnet" help="Default routes have less priority than static routes and those discovered by routing protocols" >
+            <option value="YES" name="Yes">
+                <variable name="Default Route File" key="DEFAULT-ROUTE-FILE" type="File" default="[Required]" filetype="routes-default" />
+            </option>
+            <option value="NO" name="No" />
+        </variable>
+        <variable name="Enable Multicast" key="DUMMY-MULTICAST" type="Selection" default="NO" >
+            <option value="NO" name="No"/>
+            <option value="YES" name="Yes">
+                 <variable name="Group Management Protocol" key="GROUP-MANAGEMENT-PROTOCOL" type="Selection" default="NONE" optional="true" >
+                    <option value="NONE" name="None" />
+                    <option value="IGMP" name="IGMP" help="IGMP follows RFC 2236.  IGMP must be specified at the host network for DVMRP to run correctly.  Specify the IGMP routers using IGMP-ROUTER-LIST.">
+                        <variable name="Router List" key="IGMP-ROUTER-LIST" type="Text" default="{}" optional="true" help="List the nodes which are multicast routers between the '{}' separated by commas.  You can use 'thru' to specify a range of nodes." />
+                        <variable name="Enable Proxy" key="IGMP-PROXY" type="Selection" default="NO" help="Determines whether or not node is proxy" invisible="interface, WiredSubnet, WirelessSubnet" optional="true" >
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes" >
+                                <variable name="Upstream Interface Address" key="IGMP-PROXY-UPSTREAM-INTERFACE" type="Dotted Decimal" optional="true" />
+                            </option>
+                        </variable>
+                        <variable key="IGMP-UNSOLICITED-REPORT-COUNT" type="Integer" name="Unsolicited Report Count" default="2" optional="true"/>
+                        <variable key="IGMP-ROBUSTNESS-VARIABLE" type="Integer" name="Robustness Variable" default="2"  optional="true" />
+                        <variable key="IGMP-QUERY-INTERVAL" type="Time" name="Query Interval" default="125S" optional="true" />
+                        <variable key="IGMP-QUERY-RESPONSE-INTERVAL" type="Time" name="Query Response Interval" default="10S" optional="true" />
+                        <variable key="IGMP-LAST-MEMBER-QUERY-INTERVAL" type="Time" name="Last Member Query Interval" default="1S" optional="true" />
+                    </option>
+                </variable>
+                <variable name="Specify Static Multicast Routes" key="MULTICAST-STATIC-ROUTE" type="Selection" default="NO" optional="true" invisible="interface, WiredSubnet, WirelessSubnet" help="Specify static multicaste routes"  >
+                    <option value="YES" name="Yes">
+                        <variable name="Static Multicast Route File" key="MULTICAST-STATIC-ROUTE-FILE" type="File" default="[Required]" filetype="multicast-static" />
+                    </option>
+                    <option value="NO" name="No" />
+                </variable>
+                <variable name="Multicast Protocol" key="MULTICAST-PROTOCOL" type="Selection" default="NONE" optional="true" >
+                    <option value="NONE" name="None" />
+                    <option value="ODMRP" name="ODMRP" help="ODMRP follows draft-ietf-manet-odmrp-04.txt. To use ODMRP, multicast group members must be specified using MULTICAST-GROUP-FILE.  Also, only MCBR application traffic supports multicast address destination." addon="wireless">
+                        <variable key="ODMRP-JR-REFRESH" type="Time" name="Join Query Refresh Interval" default="20S" help="ODMRP route refresh interval." />
+                        <variable key="ODMRP-FG-TIMEOUT" type="Time" name="Forwarding Group Update Interval" default="60S" help="ODMRP Forwarding group timeout value." />
+                        <variable key="ODMRP-DEFAULT-TTL" name="Default TTL Value" type="Integer" default="64" />
+                        <variable key="ODMRP-PASSIVE-CLUSTERING" name="Enable Passive Clustering" type="Checkbox" default="NO" />
+                        <variable key="ODMRP-CLUSTER-TIMEOUT" name="Cluster Timeout Interval" type="Time" default="10S" />
+                    </option>
+                    <option value="DVMRP" name="DVMRP" help="DVMRP follows draft-ietf-idmr-dvmrp-v3-10.  To use DVMRP, the group management protocol IGMP must be running on the host network. Furthermore, multicast group members must be specified using MULTICAST-GROUP-FILE.  Finally, only MCBR application traffic supports multicast address destination." addon="multimedia_enterprise">
+                    </option>
+                    <option value="MOSPF" name="MOSPF" addon="multimedia_enterprise" visibilityrequires="[NETWORK-PROTOCOL] == 'IP'">
+                        <variable name="Configure Inter-area Multicast Forwarder" key="DUMMY-INTER-AREA-MULTICAST-FORWARDER" type="Selection" default="NO" invisible="interface, WiredSubnet, WirelessSubnet, PtPLink" optional="true" >
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable name="Inter-area Multicast Forwarder List" key="INTER-AREA-MULTICAST-FORWARDER" type="Text" default="{}" />
+                            </option>
+                        </variable>
+                    </option>
+                    <option value="PIM" name="PIM" help="PIM Multicast Protocol Requires IGMP." addon="multimedia_enterprise">
+                        <variable name="PIM Routing Mode" key="PIM-ROUTING-MODE" type="Selection" default="DENSE" >
+                            <option value="DENSE" name="Dense" >
+                                <variable name="PIM-DM Hello Period Interval" key="ROUTING-PIM-HELLO-PERIOD" type="Time" default="30S" />
+                            </option>
+                            <option value="SPARSE" name="Sparse">
+                                <variable name="PIM-SM Hello Period Interval" key="ROUTING-PIM-HELLO-PERIOD" type="Time" default="30S" />
+                                <variable name="PIM-SM DR Priority" key="ROUTING-PIMSM-DR-PRIORITY" type="Integer" default="1"/>
+                                <variable name="PIM-SM Switch To SPT" key="DUMMY-ROUTING-PIM-SWITCH-TO-SPT" type="Selection" default="NO" optional="true" >
+                                    <option value="NO" name="No" />
+                                    <option value="YES" name="Yes">
+                                         <variable name="PIM-SM Switch To SPT Threshold" key="ROUTING-PIMSM-SWITCH-SPT-THRESHOLD" type="Text" default="1 GROUP-RANGE &lt;224.0.0.0,15.255.255.255 &gt;"/>
+                                    </option>
+                                </variable>
+                                <variable name="PIM-SM Static RP Present" key="DUMMY-PIM-SM-STATIC-NUMBER-OF-RP" type="Selection" default="NO" optional="true" >
+                                    <option value="NO" name="No">
+                                        <variable name="PIM-SM Candidate Rendezvous Point" key="PIM-SM-CANDIDATE-RP" type="Selection" default="NO" optional="true" >
+                                               <option value="NO" name="No" />
+                                            <option value="YES" name="Yes">
+                                                <variable name="PIM-SM Candidate RP Timeout Interval" key="ROUTING-PIMSM-CANDIDATE-RP-TIMEOUT" type="Time" default="60S" />
+                                                <variable name="PIM-SM Candidate RP Priority" key="PIM-SM-CANDIDATE-RP-PRIORITY" type="Integer" default="192" min="0" max="255"/>
+                                                <variable name="PIM-SM Candidate RP Group Range" key="PIM-SM-RP-GROUP-RANGE" type="Text" default="&lt;224.0.0.0,15.255.255.255 &gt;"/>
+                                            </option>
+                                        </variable>
+                                        <variable name="PIM-SM Candidate Bootstrap Router" key="PIM-SM-CANDIDATE-BSR" type="Selection" default="NO" optional="true" >
+                                               <option value="NO" name="No" />
+                                            <option value="YES" name="Yes">
+                                                <variable name="PIM-SM Candidate BSR Priority" key="PIM-SM-CANDIDATE-BSR-PRIORITY" type="Integer" default="64" min="0" max="255"/>
+                                                <variable name="PIM-SM Bootstrap Period Interval" key="ROUTING-PIMSM-BOOTSTRAP-PERIOD" type="Time" default="60S" />
+                                               </option>
+                                        </variable>
+                                    </option>
+                                    <option value="YES" name="Yes">
+                                        <variable name="PIM-SM Number of Static RPs" key="PIM-SM-STATIC-NUMBER-OF-RP" default="1" type="Array" optional="true" >
+                                            <variable name="PIM-SM Static RP Address" key="PIM-SM-STATIC-RP-ADDRESS" type="Dotted decimal"/>
+                                            <variable name="PIM-SM Static RP Priority" key="PIM-SM-STATIC-RP-PRIORITY" type="Integer" default="192" min="0" max="255"/>
+                                            <variable name="PIM-SM Static RP Group Range" key="PIM-SM-STATIC-RP-GROUP-RANGE" type="Text" default="&lt;224.0.0.0,15.255.255.255 &gt;"/>
+                                        </variable>
+                                    </option>
+                                </variable>
+                                <variable name="PIM-SM Triggered Delay" key="ROUTING-PIMSM-TRIGGERED-DELAY" type="Time" default="30S" />
+                                <variable name="PIM-SM Keep-alive Timeout Interval" key="ROUTING-PIMSM-KEEPALIVE-TIMEOUT" type="Time" default="210S" />
+                                <variable name="PIM-SM Join/Prune Hold Timeout Interval" key="ROUTING-PIMSM-JOINPRUNE-HOLD-TIMEOUT" type="Time" default="210S" />
+                                <variable name="PIM-SM T Periodic Interval" key="ROUTING-PIMSM-T-PERIODIC-INTERVAL" type="Time" default="60S" />
+                                <variable name="PIM-SM Assert Timeout Interval" key="ROUTING-PIMSM-ASSERT-TIMEOUT" type="Time" default="180S" />
+                                <variable name="PIM-SM Registered Supression Time" key="ROUTING-PIMSM-REGISTER-SUPRESSION-TIME" type="Time" default="60S" />
+                                <variable name="PIM-SM Register Probe Time" key="ROUTING-PIMSM-REGISTER-PROBE-TIME" type="Time" default="5S" />
+                            </option>
+                            <option value="SPARSE-DENSE" name="Sparse-Dense">
+                                <variable name="PIM Hello Period Interval" key="ROUTING-PIM-HELLO-PERIOD" type="Time" default="30S" />
+                                <variable name="PIM-SM DR Priority" key="ROUTING-PIMSM-DR-PRIORITY" type="Integer" default="1"/>
+                                <variable name="PIM-SM Switch To SPT" key="DUMMY-ROUTING-PIM-SWITCH-TO-SPT" type="Selection" default="NO" optional="true" >
+                                    <option value="NO" name="No" />
+                                    <option value="YES" name="Yes">
+                                         <variable name="PIM-SM Switch To SPT Threshold" key="ROUTING-PIMSM-SWITCH-SPT-THRESHOLD" type="Text" default="1 GROUP-RANGE &lt;224.0.0.0,15.255.255.255 &gt;"/>
+                                    </option>
+                                </variable>
+                                <variable name="PIM-SM Static RP Present" key="DUMMY-PIM-SM-STATIC-NUMBER-OF-RP" type="Selection" default="NO" optional="true" >
+                                <option value="NO" name="No">
+                                    <variable name="PIM-SM Candidate Rendezvous Point" key="PIM-SM-CANDIDATE-RP" type="Selection" default="NO" optional="true" >
+                                        <option value="NO" name="No" />
+                                        <option value="YES" name="Yes">
+                                            <variable name="PIM-SM Candidate RP Timeout Interval" key="ROUTING-PIMSM-CANDIDATE-RP-TIMEOUT" type="Time" default="60S" />
+                                            <variable name="PIM-SM Candidate RP Priority" key="PIM-SM-CANDIDATE-RP-PRIORITY" type="Integer" default="192" min="0" max="255"/>
+                                            <variable name="PIM-SM Candidate RP Group Range" key="PIM-SM-RP-GROUP-RANGE" type="Text" default="&lt;224.0.0.0,15.255.255.255 &gt;"/>
+                                        </option>
+                                    </variable>
+                                        <variable name="PIM-SM Candidate Bootstrap Router" key="PIM-SM-CANDIDATE-BSR" type="Selection" default="NO" optional="true" >
+                                            <option value="NO" name="No" />
+                                            <option value="YES" name="Yes">
+                                                <variable name="PIM-SM Candidate BSR Priority" key="PIM-SM-CANDIDATE-BSR-PRIORITY" type="Integer" default="64" min="0" max="255"/>
+                                                <variable name="PIM-SM Bootstrap Period Interval" key="ROUTING-PIMSM-BOOTSTRAP-PERIOD" type="Time" default="60S" />
+                                               </option>
+                                        </variable>
+                                    </option>
+                                    <option value="YES" name="Yes">
+                                        <variable name="PIM-SM Number of Static RPs" key="PIM-SM-STATIC-NUMBER-OF-RP" default="1" type="Array" optional="true" >
+                                            <variable name="PIM-SM Static RP Address" key="PIM-SM-STATIC-RP-ADDRESS" type="Dotted decimal"/>
+                                            <variable name="PIM-SM Static RP Priority" key="PIM-SM-STATIC-RP-PRIORITY" type="Integer" default="192" min="0" max="255"/>
+                                            <variable name="PIM-SM Static RP Group Range" key="PIM-SM-STATIC-RP-GROUP-RANGE" type="Text" default="&lt;224.0.0.0,15.255.255.255 &gt;"/>
+                                        </variable>
+                                    </option>
+                                </variable>
+                                <variable name="PIM-SM Triggered Delay" key="ROUTING-PIMSM-TRIGGERED-DELAY" type="Time" default="30S" />
+                                <variable name="PIM-SM Keep-alive Timeout Interval" key="ROUTING-PIMSM-KEEPALIVE-TIMEOUT" type="Time" default="210S" />
+                                <variable name="PIM-SM Join/Prune Hold Timeout Interval" key="ROUTING-PIMSM-JOINPRUNE-HOLD-TIMEOUT" type="Time" default="210S" />
+                                <variable name="PIM-SM T Periodic Interval" key="ROUTING-PIMSM-T-PERIODIC-INTERVAL" type="Time" default="60S" />
+                                <variable name="PIM-SM Assert Timeout Interval" key="ROUTING-PIMSM-ASSERT-TIMEOUT" type="Time" default="180S" />
+                                <variable name="PIM-SM Registered Supression Time" key="ROUTING-PIMSM-REGISTER-SUPRESSION-TIME" type="Time" default="60S" />
+                                <variable name="PIM-SM Register Probe Time" key="ROUTING-PIMSM-REGISTER-PROBE-TIME" type="Time" default="5S" />
+                            </option>
+                        </variable>
+                    </option>
+                    <option value="MAODV" name="MAODV" help="MAODV follows manet-maodv-00.txt." addon="maodv">
+                        <variable name="Network Diameter (hops)" key="MAODV-NET-DIAMETER" type="Integer" default="35" help="The maximum possible number of hops between two nodes in the network" />
+                        <variable name="Node Traversal Time Interval" key="MAODV-NODE-TRAVERSAL-TIME" type="Time" default="40MS" help="Conservative estimate of the average one hop traversal time for packets and should include queuing, transmission, propagation and other delays" />
+                        <variable name="Active Route Timeout Interval" key="MAODV-ACTIVE-ROUTE-TIMEOUT" type="Time" default="3S" help="Timeout time for an active route; each time a data packet is received, the lifetime of that route is updated to this value.  A default value of 10 seconds is suggested for error detection through MAC layer message (like what 802.11 does)" />
+                        <variable name="My Route Timeout Interval" key="MAODV-MY-ROUTE-TIMEOUT" type="Time" default="6S" help="The destination of a RREQ replies with MAODV-MY-ROUTE-TIMEOUT as the lifetime of the route." />
+                        <variable name="Hello Interval" key="MAODV-HELLO-INTERVAL" type="Time" default="1S" help="Lifetime of a hello message is determined by MAODV-ALLOWED-HELLO-LOSS * MAODV-HELLO-INTERVAL" />
+                        <variable name="Group Hello Interval" key="MAODV-GROUP-HELLO-INTERVAL" type="Time" default="5S" help="Lifetime of a group hello message" />
+                        <variable name="Maximum Allowed Hello Loss" key="MAODV-ALLOWED-HELLO-LOSS" type="Integer" default="2" min="2" max="3" help="Lifetime of a hello message is determined by MAODV-ALLOWED_HELLO_LOSS * MAODV-HELLO_INTERVAL" />
+                        <variable name="Maximum RREQ Retries" key="MAODV-RREQ-RETRIES" type="Integer" default="2" min="0" help="Specifies the number of times MAODV will repeat expanded ring search for a destination if no Route Reply is received within specified amount of time." />
+                        <variable name="Route Deletion Constant" key="MAODV-ROUTE-DELETION-CONSTANT" type="Integer" default="5" help="A constant use for calculating the time after which an active route should be deleted.  After timeout of an active route, the route is finally deleted from the routing table after a time period of (K * max (MAODV-ACTIVE_ROUTE_TIMEOUT,MAODV-ALLOWED_HELLO_LOSS * MAODV-HELLO_INTERVAL)), Here K is MAODV-ROUTE-DELETION-CONSTANT." />
+                        <variable name="Maximum Number of Buffered Packets" key="MAODV-BUFFER-MAX-PACKET" type="Integer" default="100" help="Maximum number of packets the message buffer of MAODV can hold. If the buffer fills up, incoming packets for the buffer will be dropped." />
+                        <variable name="Maximum Buffer Size (bytes)" key="MAODV-BUFFER-MAX-BYTE" type="Integer" default="0" help="If nothing is specified, buffer overflow will be checked by number of packets in the buffer. If some value is specified here, incoming packets will be dropped if the incoming packet size + current size of the buffer exceeds this value." />
+                        <variable name="TTL Start" key="MAODV-TTL-START" type="Integer" default="1" min="1" />
+                        <variable name="TTL Increment" key="MAODV-TTL-INCREMENT" type="Integer" default="2" min="1" />
+                        <variable name="TTL Threshold" key="MAODV-TTL-THRESHOLD" type="Integer" default="7" requires="this.value > [MAODV-TTL-START]" />
+                    </option>
+                </variable>
+            </option>
+        </variable>
+        <variable name="Configure Default Gateway" key="DUMMY-GATEWAY-CONFIGURATION" type="Selection" default="NO" invisible="scenariolevel,interface" optional="true" >
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes">
+                <variable name="Default Gateway" key="DEFAULT-GATEWAY" type="text" default="[Required]" />
+            </option>
+        </variable>
+        <variable name="Enable HSRP Protocol" key="HSRP-PROTOCOL" type="Selection" default="NO" addon="multimedia_enterprise" optional="true" >
+            <option value="YES" name="Yes">
+                <variable name="Standby Group Number" key="HSRP-STANDBY-GROUP-NUMBER" type="Integer" default="0" />
+                <variable name="Virtual IP Address" key="HSRP-VIRTUAL-IP-ADDRESS" type="Text" default="0.0.10.1" />
+                <variable name="Priority" key="HSRP-PRIORITY" type="Integer" default="0" />
+                <variable name="Hello Time" key="HSRP-HELLO-TIME" type="Time" default="3S" />
+                <variable name="Hold Time" key="HSRP-HOLD-TIME" type="Time" default="10S" />
+                <variable name="Enable Preemption Capability" key="HSRP-PREEMPTION-CAPABILITY" type="Checkbox" default="NO"/>
+            </option>
+            <option value="NO" name="No" />
+        </variable>
+        <subcategory name="BGP Configuration" class="device,atmdevice">
+            <variable name="Set BGP Protocol Parameters" key="DUMMY-BGP" type="Selection" default="NO" addon="multimedia_enterprise" invisible="interface,WiredSubnet, WirelessSubnet" optional="true" >
+                <option value="NO" name="No" />
+                <option value="YES" name="Yes">
+                    <variable name="Enable Legacy Support" key="BGP-NEXT-HOP-LEGACY-SUPPORT" type="Selection" default="YES" help="If the value is set to NO, a node will not modify the next-hop after receiving an UPDATE message from an external peer." optional="true" >
+                        <option value="NO" name="No" />
+                        <option value="YES" name="Yes"/>
+                    </variable>
+                    <variable name="Start Time" key="BGP-START-TIME" type="Time" default="0S" help="The amount of time a speaker will wait before trying to open TCP connection with a peer"/>               
+                    <variable name="Hold Time Interval" key="BGP-HOLD-TIME-INTERVAL" type="Time" default="90S" help="The amount of time a speaker will wait to listen for activities from a peer"/>
+                    <variable name="Large Hold Time Interval" key="BGP-LARGE-HOLD-TIME-INTERVAL" type="Time" default="4M" help="The hold time in active state"/>
+                    <variable name="Minimum External Route Advertisement Interval" key="BGP-MIN-RT-ADVERTISEMENT-INTERVAL-EBGP" type="Time" default="30S" help="The interval between two subsequent update messages for external peers"/>
+                    <variable name="Minimum Internal Route Advertisement Interval" key="BGP-MIN-RT-ADVERTISEMENT-INTERVAL-IBGP" type="Time" default="5S" help="The interval between two subsequent update messages for internal peers"/>
+                    <variable name="Minimum AS Origination Interval" key="BGP-MIN-AS-ORIGINATION-INTERVAL" type="Time" default="15S" help="The interval between two subsequent update messages for internal peers advertising IGP routes"/>
+                    <variable name="Keep-alive Interval" key="BGP-KEEPALIVE-INTERVAL" type="Time" default="30S" help="The interval between two successive keep alive message"/>
+                    <variable name="Connect Retry Interval" key="BGP-CONNECT-RETRY-INTERVAL" type="Time" default="120S" help="The amount of time to wait before re-opening a TCP connection"/>
+                    <variable name="Route Waiting Interval" key="BGP-ROUTE-WAITING-INTERVAL" type="Time" default="15S" help="The amount of time to wait to determine if a neighbor is no longer reachable"/>
+                </option>
+            </variable>
+            <variable name="Local Preference" key="DEFAULT-LOCAL-PREFERENCE" type="Integer" default="100" keyvisible="false" invisible="scenariolevel,WiredSubnet,WirelessSubnet,interface"/>
+            <variable name="Multi-exit Discriminator" key="DEFAULT-METRIC" type="Integer" default="0" keyvisible="false" invisible="scenariolevel,WiredSubnet, WirelessSubnet,interface"/>
+            <variable name="Use IGP Route Synchronization" key="NO SYNCHRONIZATION" type="Checkbox" default="YES" keyvisible="false" invisible="scenariolevel,WiredSubnet,WirelessSubnet,interface"/>
+            <variable name="Stop Route Injection from IGP" key="NO-ADVERTISEMENT-FROM-IGP" type="Selection" default="NO" keyvisible="false" invisible="scenariolevel,WiredSubnet,WirelessSubnet,interface" optional="true" >
+                <option value="NO" name="No">
+                    <variable name="IGP Probe Interval" key="BGP-PROBE-IGP-INTERVAL" type="Time" default="10M" keyvisible="false" invisible="scenariolevel,WiredSubnet,WirelessSubnet,interface"/>
+                </option>
+                <option value="YES" name="Yes"/>
+            </variable>
+            <variable name="Stop Route Distribution to OSPF" key="NO-REDISTRIBUTION-TO-OSPF" type="Selection" default="NO" keyvisible="false" invisible="scenariolevel,WiredSubnet,WirelessSubnet,interface" optional="true" >
+                <option value="NO" name="No"/>
+                <option value="YES" name="Yes"/>
+            </variable>
+            <variable name="Stop Static And Default Route Distribution to BGP" key="BGP-NO-REDISTRIBUTE-STATIC-CONNECTED-ROUTE" type="Selection" default="NO" keyvisible="false" invisible="scenariolevel,WiredSubnet,WirelessSubnet,interface" optional="true" >
+                <option value="NO" name="No"/>
+                <option value="YES" name="Yes"/>
+            </variable>
+            <subcategory name="BGP Router-Id">
+                <variable name="Enable BGP Router-Id" key="BGP-ENABLE-ROUTER-ID" type="Selection" default="NO" visibilityrequires="[NETWORK-PROTOCOL] != 'IPv6'">
+                    <option value="NO" name="No"/>
+                    <option value="YES" name="Yes">
+                        <variable name="BGP Router-Id" key="BGP ROUTER-ID" type="Dotted decimal" default="127.0.0.1" min="127.0.0.1"/>
+                    </option>
+                </variable>
+                <variable name="Enable BGP Router-Id IPv6" key="BGP-ENABLE-ROUTER-ID_IPv6" type="Selection" default="YES" visibilityrequires="[NETWORK-PROTOCOL] == 'IPv6'">
+                    <option value="YES" name="Yes">
+                        <variable name="BGP Router-Id" key="BGP ROUTER-ID" type="Dotted decimal" default="127.0.0.1" min="127.0.0.1" max="127.255.255.254" />
+                    </option>
+                </variable>
+            </subcategory>
+            <subcategory name="Networks Advertised">
+                <variable name="Network Address" key="NETWORK" type="NetworkCheckBox" default="" keyvisible="false" invisible="scenariolevel,subnet,interface"/>
+            </subcategory>
+            <subcategory name="Neighbours">
+                <subcategory name="Neighbour 0">
+                    <variable name="Neighbour Address" key="NEIGHBOR" type="SelectionDynamic" default="" keyvisible="false" invisible="scenariolevel,subnet,interface"/>
+                    <variable name="Weight Assigned" key="WEIGHT" type="Integer" default="32767" keyvisible="false" invisible="scenariolevel,subnet,interface"/>
+                    <variable name="Multi-exit Discriminator" key="DEFAULT-METRIC" type="Integer" default="0" keyvisible="false" invisible="scenariolevel,subnet,interface"/>
+                    <variable name="Set Route Reflector Client"  key="ROUTE-REFLECTOR-CLIENT" type="Selection" default="NO" keyvisible="false" invisible="scenariolevel,interface" optional="true" >
+                        <option value="NO" name="No" /> 
+                        <option value="YES" name="Yes"/> 
+                     </variable>
+                </subcategory>
+            </subcategory>
+        </subcategory>
+    </subcategory>
+</category>

@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<application name='Tracer' title='Packet Tracer' version='1.0'>
+    <actions>// File Menu
+        <item accel='Ctrl+O' actSlot='slotFileOpen()' icon='/icons/file_open_jd.png' menuText='&amp;Open' statusTip="Click to open a trace file" name='Tracer.MT.FileOpen'></item>
+        <item  accel='Ctrl+Shift+O' actSlot='slotFileReload()' icon='/icons/filereload.png' menuText='&amp;Reload' statusTip="Click to Reload a trace file"  name='Tracer.MT.FileReload'></item>
+        <item  actSlot='slotFileClose()'  menuText='&amp;Close' statusTip="Click to close file" name='Tracer.MT.FileClose'></item>
+        <item  actSlot='slotConfirmAppQuit()' menuText='&amp;Exit' statusTip="Click to exit" name='Tracer.MT.Exit'>
+
+        // Settings menu    </item>
+        <item actSlot='slotSettingsTimePrecision()' menuText='&amp;Time Precision...' statusTip="To display the simulation time data precision up to the specified places"  name='Tracer.MT.SettingsTimePrecision'></item>
+     <!--   <item accel='F6' isToggle='true' menuText='&amp;Show Parse Logs' name='Tracer.MT.SettingsShowErrorLog' toggleSlot='slotSettingsShowErrorLog(bool)' toggleStatus='false'></item>  -->
+        <item accel='F7' isToggle='true' menuText='&amp;Show Relevant Protocols' statusTip="Show details of relevant protocols for the currently loaded file" name='Tracer.MT.SettingsShowRelaventProtocols' toggleSlot='slotSettingsShowRelaventProtocols(bool)' toggleStatus='false'></item>  
+        <item accel='F4' isToggle='true' menuText='&amp;Use And Search'  statusTip="Use and search" name='Tracer.MT.SettingsAndSearch' toggleSlot='slotSettingsAndSearch(bool)' toggleStatus='false'>
+        // Filters Menu</item>
+        <item accel='Ctrl+F' actSlot='slotEditFilterQueue()' icon='icons/filter.png' menuText='&amp;Edit Filter Queue' statusTip="Edit filter Queue"  name='Tracer.TB.EditFilterQueue'></item>
+        <item accel='H' actSlot='slotFilterHide()' menuText='&amp;Hide' statusTip="Hides the currently selected data record" name='Tracer.MT.FilterHide'></item>
+        <item accel='M' actSlot='slotFilterToggleMark()' menuText='&amp;Toggle Mark' statusTip="checks/unchecks the currently selected data record"  name='Tracer.MT.FilterToggleMark'></item>
+        <item accel='Ctrl+Alt+S' actSlot='slotFilterShowAll()' menuText='&amp;Show All' statusTip="Show All the records present in the trace file"  name='Tracer.MT.FilterShowAll'></item>
+        <item accel='Ctrl+M' actSlot='slotFilterShowMarked()' menuText='&amp;Show Marked' statusTip="Show marked records"  name='Tracer.MT.FilterShowMarked'></item>
+        <item accel='Ctrl+H' actSlot='slotFilterHideMarked()' menuText='&amp;Hide Marked' statusTip="Hide Marked records"  name='Tracer.MT.FilterHideMarked'></item>
+        <item accel='Ctrl+L' actSlot='slotFilterMarkAll()' menuText='&amp;Mark All' statusTip="Mark all the available data records"  name='Tracer.MT.FilterMarkAll'></item>
+        <item accel='Ctrl+Alt+U' actSlot='slotFilterUnmarkAll()' menuText='&amp;Unmark All' statusTip="Unmark all the data records"  name='Tracer.MT.FilterUnmarkAll'></item>
+        <item accel='Alt+R' actSlot='slotFilterMarkRelated()' menuText='&amp;Mark Related' statusTip="Marks all the related data record with the currently marked record"  name='Tracer.MT.FilterMarkRelated'></item>
+        <item accel='Alt+U' actSlot='slotFilterUnmarkRelated()' menuText='&amp;Unmark Related' statusTip="Unmark all the related records with the currently marked record"  name='Tracer.MT.FilterUnmarkRelated'>
+        // Navigation menu</item>
+        <item accel='Ctrl+G' actSlot='slotNavigationGoto()' menuText='&amp;Goto...' statusTip="Jumps to a particular record number in the records table" name='Tracer.MT.NavigationGoto'></item>
+        <!-- <item accel='F5' actSlot='slotNavigationFindRecord()' icon='icons/find_jd.png' menuText='&amp;Edit Search Queue' name='Tracer.MT.NavigationFindRecord'></item> -->
+     <!--   <item accel='F3' actSlot='slotNavigationFindNext()' menuText='&amp;Find Next' statusTip="Find next record" name='Tracer.MT.NavigationFindNext'></item>  -->
+        <item accel='Up' actSlot='slotNavigationPreviousRecord()' icon='icons/prev_1.png' menuText='&amp;Previous Record' statusTip="Find Previous Record" name='Tracer.MT.NavigationPreviousRecord'></item>
+        <item accel='Down' actSlot='slotNavigationNextRecord()' icon='icons/next_1.png' menuText='&amp;Next Record'  statusTip="Find next record" name='Tracer.MT.NavigationNextRecord'></item>
+        <item accel='PgUp' actSlot='slotNavigationPageUp()' menuText='&amp;Page Up' statusTip="Display previous pages of records" name='Tracer.MT.NavigationPageUp'></item>
+        <item accel='PgDown' actSlot='slotNavigationPageDown()' menuText='&amp;Page Down' statusTip="Display Next page of records" name='Tracer.MT.NavigationPageDown'></item>
+        
+        <item accel='Home' actSlot='slotNavigationFirstRecord()' icon='icons/gostart.png' menuText='&amp;First Record' statusTip="Selects the first record in the data record pane" name='Tracer.MT.NavigationFirstRecord'></item>
+        <item accel='End' actSlot='slotNavigationLastRecord()' icon='icons/goend.png' menuText='&amp;Last Record' statusTip="Selects the last record in the data record pane" name='Tracer.MT.NavigationLastRecord'></item>
+        <item accel='Ctrl+Up' actSlot='slotNavigationPreviousMarked()' menuText='&amp;Previous Marked' statusTip="Select the previous marked data record to the currently selected record" name='Tracer.MT.NavigationPreviousMarked'></item>
+        <item accel='Ctrl+Down' actSlot='slotNavigationNextMarked()' menuText='&amp;Next Marked' statusTip="Navigates to the next marked record" name='Tracer.MT.NavigationNextMarked'></item>
+        <item accel='Ctrl+Home' actSlot='slotNavigationFirstMarked()' menuText='&amp;First Marked' statusTip="Navigates to the first marked record" name='Tracer.MT.NavigationFirstMarked'></item>
+        <item accel='Ctrl+End' actSlot='slotNavigationLastMarked()' menuText='&amp;Last Marked' statusTip="Navigates to the last marked record" name='Tracer.MT.NavigationLastMarked'></item>
+        <item accel='Alt+Up' actSlot='slotNavigationPreviousRelated()' menuText='&amp;Previous Related' statusTip="Navigates to the previous related record" name='Tracer.MT.NavigationPreviousRelated'></item>
+        <item accel='Alt+Down' actSlot='slotNavigationNextRelated()' menuText='&amp;Next Related' statusTip="Selects to the next related data record to the currently selected data record" name='Tracer.MT.NavigationNextRelated'></item>
+        <item accel='Alt+Home' actSlot='slotNavigationFirstRelated()' menuText='&amp;First Related' statusTip="selects the first related data record" name='Tracer.MT.NavigationFirstRelated'></item>
+        <item accel='Alt+End' actSlot='slotNavigationLastRelated()' menuText='&amp;Last Related' statusTip="selects the last related data record" name='Tracer.MT.NavigationLastRelated'>
+        // Help Menu</item>
+        <item menuText='Contents' name='Tracer.MT.HelpContents'></item>
+        <item actSlot='slotHelpAbout()' menuText='About' statusTip="Open the products information page" name='Tracer.MT.HelpAbout'>
+        // Main Menus</item>
+        <menu label='&amp;File' name='Tracer.MT.FileMenu'></menu>
+        <menu label='&amp;Settings' name='Tracer.MT.SettingsMenu'></menu>
+        <menu label='&amp;Filters' name='Tracer.MT.FiltersMenu'></menu>
+        <menu label='&amp;Navigation' name='Tracer.MT.NavigationMenu'></menu>
+        <menu isDynamic='true' label='&amp;Recent Files' statusTip="Open recently opened files" name='Tracer.MT.RecentlyOpened'></menu>
+        <toolbar label='Tracer Tools' name='Tracer.TB.TracerTools'></toolbar>
+        <toolbar label='Navigation Tools' name='Tracer.TB.NavigationTools'></toolbar>
+        <!-- <toolbar label='Filter Tools' name='Tracer.TB.FilterTools'></toolbar> -->
+        <Tracer.MT.FileMenu>
+            <Tracer.MT.FileOpen></Tracer.MT.FileOpen>
+            <Tracer.MT.RecentlyOpened></Tracer.MT.RecentlyOpened>
+            <Tracer.MT.FileReload></Tracer.MT.FileReload>
+            <Tracer.MT.FileClose></Tracer.MT.FileClose>
+            <separator></separator>
+            <Tracer.MT.Exit></Tracer.MT.Exit>
+            
+        </Tracer.MT.FileMenu>
+        <Tracer.MT.SettingsMenu>
+            <Tracer.MT.SettingsTimePrecision></Tracer.MT.SettingsTimePrecision>
+            <Tracer.MT.SettingsShowErrorLog></Tracer.MT.SettingsShowErrorLog>
+            <Tracer.MT.SettingsShowRelaventProtocols></Tracer.MT.SettingsShowRelaventProtocols>
+            <Tracer.MT.SettingsAndSearch></Tracer.MT.SettingsAndSearch>
+        </Tracer.MT.SettingsMenu>
+        <Tracer.MT.FiltersMenu>
+            <Tracer.MT.FilterHide></Tracer.MT.FilterHide>
+            <Tracer.MT.FilterToggleMark></Tracer.MT.FilterToggleMark>
+            <separator></separator>
+            <Tracer.MT.FilterShowAll></Tracer.MT.FilterShowAll>
+            <Tracer.MT.FilterShowMarked></Tracer.MT.FilterShowMarked>
+            <Tracer.MT.FilterHideMarked></Tracer.MT.FilterHideMarked>
+            <separator></separator>
+            <Tracer.MT.FilterMarkAll></Tracer.MT.FilterMarkAll>
+            <Tracer.MT.FilterUnmarkAll></Tracer.MT.FilterUnmarkAll>
+            <separator></separator>
+            <Tracer.MT.FilterMarkRelated></Tracer.MT.FilterMarkRelated>
+            <Tracer.MT.FilterUnmarkRelated></Tracer.MT.FilterUnmarkRelated>
+        </Tracer.MT.FiltersMenu>
+        <Tracer.MT.NavigationMenu>
+            <Tracer.MT.NavigationGoto></Tracer.MT.NavigationGoto>
+            <separator></separator>
+            <Tracer.MT.NavigationFindRecord></Tracer.MT.NavigationFindRecord>
+            <Tracer.MT.NavigationFindNext></Tracer.MT.NavigationFindNext>
+            <separator></separator>
+            <Tracer.MT.NavigationFirstRecord></Tracer.MT.NavigationFirstRecord>
+            <Tracer.MT.NavigationLastRecord></Tracer.MT.NavigationLastRecord>
+            <Tracer.MT.NavigationPreviousRecord></Tracer.MT.NavigationPreviousRecord>
+            <Tracer.MT.NavigationNextRecord></Tracer.MT.NavigationNextRecord>
+            <Tracer.MT.NavigationPageUp></Tracer.MT.NavigationPageUp>
+            <Tracer.MT.NavigationPageDown></Tracer.MT.NavigationPageDown>
+            <separator></separator>
+            <Tracer.MT.NavigationPreviousMarked></Tracer.MT.NavigationPreviousMarked>
+            <Tracer.MT.NavigationNextMarked></Tracer.MT.NavigationNextMarked>
+            <Tracer.MT.NavigationFirstMarked></Tracer.MT.NavigationFirstMarked>
+            <Tracer.MT.NavigationLastMarked></Tracer.MT.NavigationLastMarked>
+            <separator></separator>
+            <Tracer.MT.NavigationPreviousRelated></Tracer.MT.NavigationPreviousRelated>
+            <Tracer.MT.NavigationNextRelated></Tracer.MT.NavigationNextRelated>
+            <Tracer.MT.NavigationFirstRelated></Tracer.MT.NavigationFirstRelated>
+            <Tracer.MT.NavigationLastRelated></Tracer.MT.NavigationLastRelated>
+        </Tracer.MT.NavigationMenu>
+        <Tracer.TB.TracerTools>
+            <Tracer.MT.FileOpen></Tracer.MT.FileOpen>
+            <Tracer.MT.FileReload></Tracer.MT.FileReload>
+        </Tracer.TB.TracerTools>
+  <!--   <Tracer.TB.FilterTools>  -->
+            <!-- <Tracer.MT.NavigationFindRecord></Tracer.MT.NavigationFindRecord> -->
+            <separator></separator>
+            <!--<Tracer.TB.EditFilterQueue></Tracer.TB.EditFilterQueue>  -->
+            <!--<Tracer.MT.FilterHide></Tracer.MT.FilterHide>-->
+            <!--<Tracer.MT.FilterToggleMark></Tracer.MT.FilterToggleMark> -->
+        <!--  </Tracer.TB.FilterTools>   -->
+        <Tracer.TB.NavigationTools>
+            <Tracer.MT.NavigationPreviousRecord></Tracer.MT.NavigationPreviousRecord>
+            <Tracer.MT.NavigationNextRecord></Tracer.MT.NavigationNextRecord>
+            <Tracer.MT.NavigationFirstRecord></Tracer.MT.NavigationFirstRecord>
+            <Tracer.MT.NavigationLastRecord></Tracer.MT.NavigationLastRecord>
+        </Tracer.TB.NavigationTools>
+    </actions>
+    <workspace>
+        <vbox>
+            <widget name='Tracer.WS.TabWidget'></widget>
+        </vbox>
+    </workspace>
+    <collapsible alignment='left'>
+
+        <!--<page icon='/icons/phiview.png' label='Protocol Header' name='Tracer.CL.Page1'> -->
+        <page label='Protocol Header' name='Tracer.CL.Page1'>
+        
+            <vbox useSplitter='true'>
+                <widget name='Tracer.CL.ProtocolHeaderTree'></widget>
+            </vbox>
+        </page>
+        <!--<page icon='/icons/pex.png' label='Protocol Explorer' name='Tracer.CL.Page2'>-->
+        <page label='Protocol Explorer' name='Tracer.CL.Page2'>
+            <vbox>
+                <widget name='Tracer.CL.ProtocolExplorer'></widget>
+            </vbox>
+        </page>
+        <!--<page icon='/icons/find.png' label='Find Record' name='Tracer.CL.Page3'> -->
+        <page label='Find Record' name='Tracer.CL.Page3'>
+            <vbox>
+                <widget name='Tracer.CL.FindRecordPane'></widget>
+            </vbox>
+        </page>
+        <!--<page icon='/icons/filter.png' label='Filter Queue Editor' name='Tracer.CL.Page4'> -->
+        <page  label='Filter Queue Editor' name='Tracer.CL.Page4'>
+            <vbox>
+               <widget name='Tracer.CL.FilterQueueEditor'></widget> 
+            </vbox>
+        </page>
+    </collapsible>
+    <collapsible alignment='bottom'>
+    
+    <!--    <page icon='/icons/fprop.jpg' label='File Properties' name='Tracer.CB.Page1'> -->
+    <page  label='File Properties' name='Tracer.CB.Page1'> 
+            <vbox>
+                <widget name='Tracer.CB.FileProperties'></widget>
+            </vbox>
+        </page>
+        <!--<page icon='/icons/errlog.png' label='Parse Logs' name='Tracer.CB.Page2'>-->
+        <page label='Error Log' name='Tracer.CB.Page2'>  
+            <vbox>
+                <widget name='Tracer.CB.TracerErrorLogViewer'></widget>
+            </vbox>
+        </page>
+    
+        
+        
+        
+        
+    </collapsible>
+</application>

@@ -1,0 +1,78 @@
+PURPOSE:-
+--------
+To show the operation of multiple BGP speakers within the same AS (IBGP).
+
+
+SCENARIO:-
+---------
+                          N8-7.0
+                       +-----------+
+                       |           |
+                       |  19  20   |
+                       | +---+     |
+                       | |   |     |AS-ID 1
+                       | |17 | 18  |
+                       | |   |     |
+                       | +---+     |
+                       +--|-|------+
+                          | |
+                    N2-1.0| |BGPLink
+                          | |
+  +-----------------------|-|---------------------------+
+  |                       | |                 AS-ID 2   |
+  |                    +--|-|------+                    |
+  |                    | +---+     |                    |
+  |           +--------+-|   |-----+---------+          |
+  |           |        | | 4 |  3  |         |          |
+  |           | +------+-|   |-----+-------+ |          |
+  |           | |      | +---+     |       | |          |
+  |           | |      |   2    1  |       | |          |
+  |           | |      |           |       | |          |
+  |           | |      +-----------+       | |          |
+  |           | |          N8-8.0          | |          |
+  |           | |                          | |          |
+  |     N2-2.0| |BGPLink            BGPLink| |N2-3.0    |
+  |           | |                          | |          |
+  |   +-------|-|-+                     +--|-|------+   |
+  |   |      +---+|       N2-4.0        | +---+     |   |
+  |   |      |   |+---------------------+-|   |     |   |
+  |   |14    |13 ||                     | | 5 |  6  |   |
+  |   |      |   |+---------------------+-|   |     |   |
+  |   |      +---+|       BGPLink       | +---+     |   |
+  |   |15  16 | | |                     |  |7|   8  |   |
+  |   |       | | |                     |  | |      |   |
+  |   +-------|-|-+                     +--|-|------+   |
+  |     N8-9.0| |                          | |N8-10.0   |
+  |           | |                          | |          |
+  +-----------|-|--------------------------|-|----------+
+              | | BGPLink           BGPLink| |
+              | |      +-----------+       | |
+              | |      | +---+     |       | |
+              |  ------+-|   |-----+-------+ |
+              |        | | 9 |  10 |         |
+        N2-5.0+--------+-|   |-----+---------+N2-6.0
+                       | +---+     |
+                       |  11    12 |N8-11.0
+                       |           |
+                       +-----------+
+                          AS-ID 3
+
+
+
+CBR is used to send 10 data segments of 1000B from node 11 to node 20.
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.bgp - QualNet BGP router configuration file.
+4. default.expected.stat - QualNet statistics file for BGP and application.
+5. default.routes-default - QualNet default routes specification file.
+6. README - This file.
+

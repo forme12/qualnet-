@@ -1,0 +1,151 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+#
+# IPsec configuration file
+#
+# To create an SA ( Security Association)
+#
+# Syntax:
+#
+#
+#[Node] SA <Src Addr> <Dest Addr> <Protocol> <SPI> <[-m Mode]>
+# <[-E <Encryption_algo> <"Encryption_key">]> <[-A <Auth_algo> <"Auth_key">]>
+#	
+#[Node]	 				  					It specifies node id of the node for which Security
+#											Association is being configured.
+
+#<Src Addr>				  					It specifies the source of the secure communication
+#											i.e. one  end of the IPSec SA. In case of TRANSPORT
+#											mode, this should be the address of the source host. #											Only unicast addresses are permissible as source
+#											addresses.
+
+#<Dest Addr>								It specifies the destination of the
+#											secure communication i.e. the other end of the IPSec
+#											SA. In case of TRANSPORT mode, this should be the
+#											address of the destination host. It can be a unicast
+#											or a mulicast address.
+
+#<Protocol>									Protocol can be either 'ESP' (Encapsulating Security
+#											Payload) or 'AH' (Authentication Header).
+
+#<SPI>										SPI (security parameter index) is used to uniquely
+#											identify a SA.It must be a decimal or a hexadecimal
+#											number; in the latter case, it should begin with 
+#											0x.
+
+#<Mode>										Specifies the IPSec operation mode. It is an
+#											optional parameter and can take three possible
+#											values: TRANSPORT, TUNNEL, or ANY. Default
+#											value is 'ANY'.
+#
+#[-E <Encryption_algo> <"Encryption_key">	This specifies the encryption algorithm and its key
+#											for the SA entry. It is required only if <Protocol>
+#                                           is ESP. In case of AH, it is not required; and
+#											hence, shouldn’t be mentioned. The
+#											token <Encryption_algo> can take any of the
+#											following values:
+#											DES-CBC,
+#										    3DES-CBC,
+#											AES-CBC,
+#											AES-CTR,
+#											NULL.
+#											<"Encryption_key"> can be given with or without
+#											quotes. In case the latter way is followed,
+#											the key should be a hex string beginning with
+#											0x.
+#
+#[-A <Auth_algo> <"Auth_key">]	 			This specifies the authentication algorithm and its
+#											key for the SA entry. It is required if <Protocol> 
+#											is AH and can be skipped if <Protocol> is
+#											ESP. The token <Auth_algo> can take any of the
+#											following values:
+#										    HMAC-MD5,
+#											HMAC-MD5-96,
+#											HMAC_SHA1,
+#											HMAC-SHA-1-96,
+#											NULL.
+#											<"Auth_key"> can be given with or without quotes.
+#											In case the latter way is followed,
+#											the key should be a hex string beginning with
+#											0x. 
+#
+#
+# To create an SPD (Security Policy Database Entry) entry
+#
+# Syntax:
+#							
+#[NodeId/Interface Address] SP <Src Addr> <Dest Addr> <Upper Layer Protocol> <-P IN|OUT> <DISCARD | BYPASS | IPSEC> < SA filter(s) >
+#
+#[NodeId/Interface Address]	 				It specifies node id of the node or the interface
+#											address for which Security Policy is being
+#											configured.
+											
+#<Src Addr>									Specifies the address from where the packet (to be
+#											IPSec processed) originates. This address can be a
+#											unicast or a network address. The acceptable formats
+#											are: a.b.c.d/e[port number] and  Nx-y.0[port number]#											where [port number] is optional.
+
+#<Dest Addr>								Specifies the IPSec processed packet’s destination
+#											address. This address can be a unicast, multicast or
+#											a network address. The acceptable formats are:
+#											a.b.c.d/e[port number] and  Nx-y.0[port number]
+#											where [port number] is optional.
+
+#<Upper Layer Protocol>						Specifies the protocol of transport layer. It may be
+#											TCP, UDP or ANY. Packets delivered by these
+#											protocols will be IPSec processed.
+
+#<-P IN|OUT>								Specifies the traffic mode (inbound or outbound) for
+#											IPSec processing through the IPSec enabled
+#											interface. It is an optional parameter and can
+#											either be IN for inbound packet or OUT for outbound
+#											packet. Default value is 'OUT'.
+
+#<DISCARD | BYPASS | IPSEC>					Specifies what action is to be performed on the
+#											packet. It is an optional parameter. Default value
+#											is 'IPSEC' which implies packet is to
+#											be IPSec processed.
+
+#<SA filter(s)>								A SA filter assists in finding corresponding SA(s)
+#											for SP entry. Each SA filter should follow the below
+#											mentioned format: 
+#											Protocol/Mode/Src-Dst/Level, Where 
+#											Protocol can be either ESP or AH,
+#											Mode can be either TRANSPORT or TUNNEL,
+#											Src-Dst specifies IPSec communication end-points.
+#											These should be unicast addresses only and should be
+#											mentioned only when 'Mode' is TUNNEL, in which case,
+#											hyphen (-) separated tunnel end-points should be set
+#											to Src-Dst.
+#											Level is a parameter meant for future use.
+#											Currently, it can take any of the following values
+#											REQUIRE.
+#											Note: The maximum number of SA filters that can be
+#											mentioned in any particular SP entry is 10 (ten).
+
+
+
+[1] SA 0.0.0.22 0.0.0.1 ESP 12346 -m TRANSPORT -E DES-CBC "descbcte";
+[1] SP 192.0.0.0/16 192.0.0.0/16 ANY -P IN IPSEC ESP/TRANSPORT//REQUIRE;
+
+
+[22] SA 0.0.0.22 0.0.0.1 ESP 12346 -m TRANSPORT -E DES-CBC "descbcte";
+[22] SP 192.0.0.0/16 192.0.0.0/16 ANY -P OUT IPSEC ESP/TRANSPORT//REQUIRE;
+
+
+
+ 

@@ -1,0 +1,66 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+-------
+To test the IDLE-MODE functionality for 802.16 network.
+
+SCENARIO:-
+---------
+Three subnets are present in the scenario,having one base station (BS) and one
+subscriber station (SS) each. While in Idle Mode, SS of Sub net 0 moves to subnet
+2 at 80s.
+
+TOPOLOGY:
+--------
+
+           1(BS)     3(BS)        5(BS)
+             |         |            |
+             |         |            |
+             |         |            |
+             2         4            6
+
+ROUTING-PROTOCOL AODV
+
+There are two config files one with node 2 Idle Mode Enabled and the other with
+Idle Mode disabled.
+
+
+Idle mode avoids unwanted handover of node 2 from BS 1 to BS 3. 
+
+The Battery charge consumed decreases drastically from 1.13 mAhr to 0.16 mAhr.
+There is significant drop in energy consumed in transmit and receive mode at node
+2 and little increase in energy consumed in Idle mode.Also there is quite a large
+increase in time for which node is in sleep mode (46.7% to 89.9%).
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet Idle-Mode-Enable.config'.
+Run '<QUALNET_HOME>/bin/qualnet Idle-Mode-Disable.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+------------------------
+1.Idle-Mode-Enable.config - QualNet configuration input file with Idle-Mode Enabled.
+2.Idle-Mode-Disable.config - QualNet configuration input file with Idle-Mode Disabled.
+3.Idle-Mode.app    - QualNet configuration file for application input.
+4.Idle-Mode.nodes  - QualNet node placement file for the simulation run.
+5.Idle-Mode-Enable.expected.stat - QualNet statistics collection.
+6.Idle-Mode-Disable.expected.stat - QualNet statistics collection.
+7.README - This file

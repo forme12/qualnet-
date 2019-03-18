@@ -1,0 +1,104 @@
+# This file is used to specify the various configurable parameters of OSPFv2.
+#
+# Some parameter setting need to be consistent among groups of routers. For
+# example, all routers in an area must agree on that area's parameters, and 
+# all routers attached to a network must agree on that network's IP network
+# number and mask.
+#
+#
+###############################################################################
+# GLOBAL PARAMETERS: (Not specific to a single area)
+###############################################################################
+#
+# [<Node Id>]  OSPF-ROUTER-ID  <specify router ID in IP address format>
+#
+# For example
+# [4]  OSPF-ROUTER-ID  0.0.1.4
+#
+###############################################################################
+# AREA PARAMETERS: (Specific to a single area)
+###############################################################################
+#
+# AREA ID: A 32 bit number that uniquely identify the area within an AS.
+# NOTE: The area ID of 0.0.0.0 is reserved for backbone. Use this area ID for
+#       backbone only. Also note that backbone can't be configured as stub.
+#
+# [<Network number>]  AREA-ID  <Area ID in IP address format>
+#
+# For example
+# [N8-1.0]  AREA-ID  0.0.0.1
+#
+#
+# LIST OF ADDRESS RANGE: Describes the collection of IP addresses contained in
+# the address range.
+#
+# AREA  <Area ID>  RANGE  { <Network1>, <Network2>, ... , <NetworkN> }  [<as_id>]
+#
+#
+# DEFINING STUB AREA: Define an area as Stub.
+#
+# AREA  <Area ID>  STUB  <Stub Default Cost> [<as_id>]
+
+###########################################
+# Area Configuration for AS1
+###########################################
+
+# Area 1
+[N8-192.168.1.0] AREA-ID  0.0.0.1
+[N8-192.168.2.0] AREA-ID  0.0.0.1
+[N8-192.168.3.0] AREA-ID  0.0.0.1
+[N8-192.168.4.0] AREA-ID  0.0.0.1
+[N8-192.168.5.0] AREA-ID  0.0.0.1
+
+AREA  0.0.0.1  RANGE  {N8-192.168.1.0, N8-192.168.2.0, N8-192.168.3.0, N8-192.168.4.0, N8-192.168.5.0}  1
+
+# Area 2
+[N8-192.168.6.0] AREA-ID  0.0.0.2
+[N8-192.168.7.0] AREA-ID  0.0.0.2
+[N8-192.168.8.0] AREA-ID  0.0.0.2
+[N8-192.168.9.0] AREA-ID  0.0.0.2
+[N8-192.168.10.0] AREA-ID  0.0.0.2
+
+AREA  0.0.0.2  RANGE  {N8-192.168.6.0, N8-192.168.7.0, N8-192.168.8.0, N8-192.168.9.0, N8-192.168.10.0}  1
+
+# Area 3 (Stub Area)
+[N8-192.168.11.0] AREA-ID  0.0.0.3
+[N8-192.168.12.0] AREA-ID  0.0.0.3
+[N8-192.168.13.0] AREA-ID  0.0.0.3
+
+AREA  0.0.0.3  RANGE  {N8-192.168.11.0, N8-192.168.12.0, N8-192.168.13.0}  1
+
+AREA  0.0.0.3  STUB  5000  1
+
+# Backbone Area
+[N2-192.168.14.0] AREA-ID  0.0.0.0
+[N2-192.168.14.4] AREA-ID  0.0.0.0
+[N2-192.168.14.8] AREA-ID  0.0.0.0
+[N2-192.168.14.12] AREA-ID  0.0.0.0
+[N2-192.168.14.16] AREA-ID  0.0.0.0
+[N2-192.168.14.20] AREA-ID  0.0.0.0
+
+AREA  0.0.0.0  RANGE  {N2-192.168.14.0, N2-192.168.14.4, N2-192.168.14.8, N2-192.168.14.12, N2-192.168.14.16, N2-192.168.14.20}  1
+
+###########################################
+# Area Configuration for AS2
+###########################################
+
+# Area 1
+[N8-192.168.16.0] AREA-ID  0.0.0.1
+[N8-192.168.17.0] AREA-ID  0.0.0.1
+
+AREA  0.0.0.1  RANGE  {N8-192.168.16.0, N8-192.168.17.0}  2
+
+# Area 2
+[N8-192.168.18.0] AREA-ID  0.0.0.2
+[N8-192.168.19.0] AREA-ID  0.0.0.2
+
+AREA  0.0.0.2  RANGE  {N8-192.168.18.0, N8-192.168.19.0}  2
+
+# Backbone Area
+[N2-192.168.20.0] AREA-ID  0.0.0.0
+[N2-192.168.20.4] AREA-ID  0.0.0.0
+[N2-192.168.20.8] AREA-ID  0.0.0.0
+
+AREA  0.0.0.0  RANGE  {N2-192.168.20.0, N2-192.168.20.4, N2-192.168.20.8}  2

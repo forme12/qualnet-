@@ -1,0 +1,94 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+
+PURPOSE:-
+--------
+To show:
+OSPFv3 implementation configured with multiple areas and Origination 
+of OSPF packets.
+
+
+SCENARIO:-
+---------
+In this scenario:
+Area-1 contains Nodes 1 thru 3 connected with a Hub. Area-2 contains Nodes 6 thru 8, 12.
+Area-3 contains Nodes 4 and 10. Area-4 contains Nodes 5 and 11. Area-0/Backbone area
+contains Nodes 3 thru 6 as shown in the below network topology.
+
+
+
+                                        """"""""""""""" 
+                                        "             " 
+                                        "   (10)      " 
+                                        "    |        " 
+                                        "    |        " 
+                                        "    | Area-3 "                 
+                                        "    |        "                 
+        """"""""""""""""""""            "    |        "           """""""""""""""""""""""       
+        "                  "            "    |        "           "                     "       
+        "         (1)      "            """"(4)""""""""           "      (7)            "       
+        "          |       " """"""""""""""""|""""""""""""""""""" "       |             "       
+        "          |       " "               |                  " "       |             "       
+        "          |       " "               |                  " "       |             "       
+        "(2)-----[Hub]-----(3)-------------[Switch]-------------(6)-----[Hub]-----(8)   "       
+        "                  " "               |                  " "\                    "       
+        "       Area-1     " "               |  Area-0          " "  \                  "       
+        "                  " "               |                  " "   |  Area-2         "       
+        "                  " "              (5)                 " "   |                 "       
+        """""""""""""""""""" """"""""""""""""|""""""""""""""""""" "   |                 "       
+                                        "    |          "         "  (12)               "       
+                                        "    |  Area-4  "         "                     "       
+                                        "    |          "         """""""""""""""""""""""       
+                                        "    |  (STUB)  "               
+                                        "    |          "               
+                                        "   (11)        "       
+                                        "               "       
+                                        "               "       
+                                        """""""""""""""""       
+                                                
+
+                                                
+        
+APPLICATIONS:-
+------------
+CBR 1 12 0 512 1S 300S 0S PRECEDENCE 0
+FTP/GENERIC 10 11 1000 512 300S 0S PRECEDENCE 0
+CBR 2 8 0 512 1S 300S 0S PRECEDENCE 0
+
+CBR is used to transfer continuous data segments of 512 bytes each at
+1 second interval, starting from 300 seconds till the end of the 
+simulation between Node-1 to Node-12 and Node-2 to Node-8.
+
+Node-10 initiates an FTP/GENERIC session with Node-11.
+ 
+
+  
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet multiple-area.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. multiple-area.app                    - QualNet configuration file for application input.
+2. multiple-area.config                 - QualNet configuration input file.
+3. multiple-area.expected.stat          - QualNet statistics collection.
+4. multiple-area.nodes                  - QualNet node position file.
+5. multiple-area.ospfv3                 - QualNet OSPFv3 configuration input file.
+6. README                               - This file.

@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="Physical Layer" class="interface,device,atmdevice,WirelessSubnet">
+        <variable name="Interface Name" key="DUMMY-INTERFACE-TYPE" type="Selection" default="SUBNET-WIRELESS" help="" visibilityrequires="false" keyvisible="false">
+            <option name="Link Wireless" value="LINK-WIRELESS" />
+            <option name="Subnet Wired" value="SUBNET-WIRED" />
+            <option name="Link Microwave" value="LINK-MICROWAVE" />
+            <option name="Subnet Wireless" value="SUBNET-WIRELESS" />
+            <option name="Link Wired" value="LINK-WIRED" />
+            <option name="Subnet Satellite" value="SUBNET-SATELLITE" />
+        </variable>
+        <variable name="Listenable Channel Mask" key="PHY-LISTENABLE-CHANNEL-MASK" type="Mask" default="1" help="Channels the radio is capable of listening to." format="MaskArray" length="PROPAGATION-CHANNEL-FREQUENCY.length" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'"/>
+        <variable name="Listening Channel Mask" key="PHY-LISTENING-CHANNEL-MASK" type="Mask" default="1" help="Channels the radio is currently listening to.  Can be changed during run time." format="MaskArray" length="PROPAGATION-CHANNEL-FREQUENCY.length" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'"/>
+        <variable name="Radio Type" key="PHY-MODEL" type="Selection" default="PHY802.11b" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'">
+            <option value="None" name="None" />
+            <option value="PHY802.11a" name="802.11a/g Radio" addon="wireless">
+                <variable key="PHY802.11-AUTO-RATE-FALLBACK" type="Selection" name="Enable Auto Rate Fallback" default="NO">
+                    <option value="NO" name="No">
+                        <variable key="PHY802.11-DATA-RATE" type="Fixed multiplier" name="Data Rate" default="6 Mbps" help="bandwidth in bps. supported data rates: 6Mbps, 9Mbps, 12Mbps, 18Mbps, 24Mbps, 36Mbps, 48Mbps, 54Mbps" unit="bps" maxunit="Gbps" minunit="bps" />
+                    </option>
+                    <option value="YES" name="Yes">
+                        <variable key="DUMMY-PHY802.11-DATA-RATE-FOR-BROADCAST" type="Selection" name="Specify Broadcast Data Rate" default="Not Applicable">
+                            <option value="Not Applicable" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable key="PHY802.11-DATA-RATE-FOR-BROADCAST" type="Fixed multiplier" name="Broadcast Data Rate" default="54 Mbps" help="bandwidth in bps. supported data rates: 6Mbps, 9Mbps, 12Mbps, 18Mbps, 24Mbps, 36Mbps, 48Mbps, 54Mbps" unit="bps" maxunit="Gbps" minunit="bps" />
+                            </option>
+                        </variable>
+                    </option>
+                </variable>
+                <variable key="PHY802.11a-TX-POWER--6MBPS" type="Fixed" name="Transmission Power at 6 Mbps (dBm)" default="20.0" />
+                <variable key="PHY802.11a-TX-POWER--9MBPS" type="Fixed" name="Transmission Power at 9 Mbps (dBm)" default="20.0" />
+                <variable key="PHY802.11a-TX-POWER-12MBPS" type="Fixed" name="Transmission Power at 12 Mbps (dBm)" default="19.0" />
+                <variable key="PHY802.11a-TX-POWER-18MBPS" type="Fixed" name="Transmission Power at 18 Mbps (dBm)" default="19.0" />
+                <variable key="PHY802.11a-TX-POWER-24MBPS" type="Fixed" name="Transmission Power at 24 Mbps (dBm)" default="18.0" />
+                <variable key="PHY802.11a-TX-POWER-36MBPS" type="Fixed" name="Transmission Power at 36 Mbps (dBm)" default="18.0" />
+                <variable key="PHY802.11a-TX-POWER-48MBPS" type="Fixed" name="Transmission Power at 48 Mbps (dBm)" default="16.0" />
+                <variable key="PHY802.11a-TX-POWER-54MBPS" type="Fixed" name="Transmission Power at 54 Mbps (dBm)" default="16.0" />
+                <variable key="PHY802.11a-RX-SENSITIVITY--6MBPS" type="Fixed" name="Receive Sensitivity at 6 Mbps (dBm)" default="-85.0" />
+                <variable key="PHY802.11a-RX-SENSITIVITY--9MBPS" type="Fixed" name="Receive Sensitivity at 9 Mbps (dBm)" default="-85.0" />
+                <variable key="PHY802.11a-RX-SENSITIVITY-12MBPS" type="Fixed" name="Receive Sensitivity at 12 Mbps (dBm)" default="-83.0" />
+                <variable key="PHY802.11a-RX-SENSITIVITY-18MBPS" type="Fixed" name="Receive Sensitivity at 18 Mbps (dBm)" default="-83.0" />
+                <variable key="PHY802.11a-RX-SENSITIVITY-24MBPS" type="Fixed" name="Receive Sensitivity at 24 Mbps (dBm)" default="-78.0" />
+                <variable key="PHY802.11a-RX-SENSITIVITY-36MBPS" type="Fixed" name="Receive Sensitivity at 36 Mbps (dBm)" default="-78.0" />
+                <variable key="PHY802.11a-RX-SENSITIVITY-48MBPS" type="Fixed" name="Receive Sensitivity at 48 Mbps (dBm)" default="-69.0" />
+                <variable key="PHY802.11a-RX-SENSITIVITY-54MBPS" type="Fixed" name="Receive Sensitivity at 54 Mbps (dBm)" default="-69.0" />
+                <variable key="PHY802.11-ESTIMATED-DIRECTIONAL-ANTENNA-GAIN" type="Fixed" name="Estimated Directional Antenna Gain (dB)" default="15.0" />
+                <variable key="PHY-RX-MODEL" type="Selection" name="Packet Reception Model" default="PHY802.11a">
+                    <option value="BER-BASED" name="BER-based Reception Model" help="If specified, the Simulator will look up Bit Error Rate (BER) in the SNR - BER table specified by BER-TABLE-FILE.">
+                        <variable name="Number of BER Tables" key="DUMMY-NUM-PHY-RX-BER-TABLE-802.11a" default="8" type="Array" disable="true">
+                            <variable key="PHY-RX-BER-TABLE-FILE" type="File" name="BER Table" default="[Required]" filetype="ber" />
+                        </variable>
+                    </option>
+                    <option value="PHY802.11a" name="PHY802.11a Reception Model" />
+                </variable>
+            </option>
+            <option value="PHY802.11b" name="802.11b Radio" addon="wireless">
+                <variable key="PHY802.11-AUTO-RATE-FALLBACK" type="Selection" name="Enable Auto Rate Fallback" default="NO">
+                    <option value="NO" name="No">
+                        <variable key="PHY802.11-DATA-RATE" type="Fixed multiplier" name="Data Rate" default="2 Mbps" help="bandwidth in bps. supported data rates: 1Mbps, 2Mbps, 5.5Mbps, 11Mbps" unit="bps" maxunit="Gbps" minunit="bps" />
+                    </option>
+                    <option value="YES" name="Yes">
+                        <variable key="DUMMY-PHY802.11-DATA-RATE-FOR-BROADCAST" type="Selection" name="Specify Broadcast Data Rate" default="NO">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable key="PHY802.11-DATA-RATE-FOR-BROADCAST" type="Fixed multiplier" name="Broadcast Data Rate" default="2 Mbps" help="bandwidth in bps. supported data rates: 1Mbps, 2Mbps, 5.5Mbps, 11Mbps" unit="bps" maxunit="Gbps" minunit="bps" />
+                            </option>
+                        </variable>
+                    </option>
+                </variable>
+                <variable key="PHY802.11b-TX-POWER--1MBPS" type="Fixed" name="Transmission Power at 1 Mbps (dBm)" default="15.0" />
+                <variable key="PHY802.11b-TX-POWER--2MBPS" type="Fixed" name="Transmission Power at 2 Mbps (dBm)" default="15.0" />
+                <variable key="PHY802.11b-TX-POWER--6MBPS" type="Fixed" name="Transmission Power at 6 Mbps (dBm)" default="15.0" />
+                <variable key="PHY802.11b-TX-POWER-11MBPS" type="Fixed" name="Transmission Power at 11 Mbps (dBm)" default="15.0" />
+                <variable key="PHY802.11b-RX-SENSITIVITY--1MBPS" type="Fixed" name="Receive Sensitivity at 1 Mbps (dBm)" default="-94.0" />
+                <variable key="PHY802.11b-RX-SENSITIVITY--2MBPS" type="Fixed" name="Receive Sensitivity at 2 Mbps (dBm)" default="-91.0" />
+                <variable key="PHY802.11b-RX-SENSITIVITY--6MBPS" type="Fixed" name="Receive Sensitivity at 6 Mbps (dBm)" default="-87.0" />
+                <variable key="PHY802.11b-RX-SENSITIVITY-11MBPS" type="Fixed" name="Receive Sensitivity at 11 Mbps (dBm)" default="-83.0" />
+                <variable key="PHY802.11-ESTIMATED-DIRECTIONAL-ANTENNA-GAIN" type="Fixed" name="Estimated Directional Antenna Gain (dB)" default="15.0" />
+                <variable key="PHY-RX-MODEL" type="Selection" name="Packet Reception Model" default="PHY802.11b">
+                    <option value="BER-BASED" name="BER-based Reception Model" help="If specified, the Simulator will look up Bit Error Rate (BER) in the SNR - BER table specified by BER-TABLE-FILE.">
+                        <variable name="Number of BER Tables" key="DUMMY-NUM-PHY-RX-BER-TABLE-802.11b" default="4" type="Array" disable="true" >
+                            <variable key="PHY-RX-BER-TABLE-FILE" type="File" name="BER Table" default="[Required]" filetype="ber" />
+                        </variable>
+                    </option>
+                    <option value="PHY802.11b" name="PHY802.11b Reception Model" />
+                </variable>
+            </option>
+            <option value="PHY802.11n" name="802.11n Radio" addon="wireless">
+                <variable key="PHY802.11n-NUM-ANTENNA-ELEMENTS" type="Integer" name="Number of Antenna Elements" default="1" min="1" max="4" />
+                <variable key="PHY802.11n-SHORT-GI-CAPABLE" name="Enable Short OFDM Inter-symbol Guard Interval Capability" type="Selection" default="NO" help="Is the 802.11n radio capable using short guard interval in OFDM modulation?">
+                    <option value="NO" name="No"/>
+                    <option value="YES" name="Yes"/>
+                </variable>
+                <variable key="PHY802.11n-TX-POWER" type="Fixed" name="Transmission Power (dBm)" default="20.0" />
+                <variable key="PHY802.11n-CHANNEL-BANDWIDTH" name="Channel Bandwidth" type="Selection" default="20MHz" >
+            
+                   <option value="20MHz" name="20 MHz">
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS0" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 0" default="-82.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS1" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 1" default="-79.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS2" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 2" default="-77.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS3" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 3" default="-74.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS4" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 4" default="-70.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS5" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 5" default="-66.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS6" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 6" default="-65.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS7" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 7" default="-64.0" />
+                   </option>
+                   <option value="40MHz" name="40 MHz" >
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS0" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 0" default="-82.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS1" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 1" default="-79.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS2" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 2" default="-77.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS3" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 3" default="-74.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS4" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 4" default="-70.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS5" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 5" default="-66.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS6" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 6" default="-65.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-20MHz-MCS7" type="Fixed" name="Receive Sensitivity at 20 MHz for MCS 7" default="-64.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-40MHz-MCS0" type="Fixed" name="Receive Sensitivity at 40 MHz for MCS 0" default="-79.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-40MHz-MCS1" type="Fixed" name="Receive Sensitivity at 40 MHz for MCS 1" default="-76.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-40MHz-MCS2" type="Fixed" name="Receive Sensitivity at 40 MHz for MCS 2" default="-74.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-40MHz-MCS3" type="Fixed" name="Receive Sensitivity at 40 MHz for MCS 3" default="-71.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-40MHz-MCS4" type="Fixed" name="Receive Sensitivity at 40 MHz for MCS 4" default="-67.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-40MHz-MCS5" type="Fixed" name="Receive Sensitivity at 40 MHz for MCS 5" default="-63.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-40MHz-MCS6" type="Fixed" name="Receive Sensitivity at 40 MHz for MCS 6" default="-62.0" />
+                       <variable key="PHY802.11n-RX-SENSITIVITY-40MHz-MCS7" type="Fixed" name="Receive Sensitivity at 40 MHz for MCS 7" default="-61.0" />
+                    </option>
+                 </variable>
+                <variable key="PHY802.11-ESTIMATED-DIRECTIONAL-ANTENNA-GAIN" type="Fixed" name="Estimated Directional Antenna Gain (dB)" default="15.0" />
+                <variable key="PHY-RX-MODEL" type="Selection" name="Packet Reception Model" default="PHY802.11n">
+                    <option value="PHY802.11n" name="PHY802.11n Reception Model" />
+                </variable>
+            </option>
+            <option value="PHY802.16" name="802.16 Radio" addon="advanced_wireless">
+                <variable name="Maximum Transmission Power (dBm)" key="PHY802.16-MAX-TX-POWER" type="Fixed" default="50.0" help="maximum transmission power in dBm" />
+                <variable name="Transmission Power (dBm)" key="PHY802.16-TX-POWER" type="Fixed" default="20.0" help="transmission power in dBm" requires="[PHY802.16-MAX-TX-POWER] > this.value" />
+                <variable name="Channel Bandwidth (Hz)" key="PHY802.16-CHANNEL-BANDWIDTH" type="Fixed multiplier" unit="Hz" default="20 MHz" invisible="device,interface" />
+                <variable name="FFT Size" key="PHY802.16-FFT-SIZE" type="Selection" default="2048" invisible="device">
+                    <option value="2048" name="2048" />
+                    <option value="1024" name="1024" />
+                    <option value="512" name="512" />
+                    <option value="128" name="128" />
+                </variable>
+                <variable name="Cyclic Prefix Factor" key="PHY802.16-CYCLIC-PREFIX" type="Selection" default="8.0" invisible="device">
+                    <option value="4.0" name="4.0" />
+                    <option value="8.0" name="8.0" />
+                    <option value="16.0" name="16.0" />
+                    <option value="32.0" name="32.0" />
+                </variable>
+                <variable name="Packet Reception Model" key="PHY-RX-MODEL" type="Selection" default="PHY802.16">
+                    <option value="PHY802.16" name="PHY802.16 Reception Model" />
+                </variable>
+            </option>
+            <option value="PHY802.15.4" name="802.15.4 Radio" addon="sensor_networks">
+                <variable name="Transmission Power (dBm)" key="PHY802.15.4-TX-POWER" type="Fixed" default="3.0" help="transmission power in dBm" />
+                <variable key="PHY-RX-MODEL" type="Selection" name="Packet Reception Model" default="PHY802.15.4">
+                    <option value="PHY802.15.4" name="PHY802.15.4 Reception Model" />
+                    <option value="BER-BASED" name="BER-based Reception Model" help="If specified, the Simulator will look up Bit Error Rate (BER) in the SNR - BER table specified by BER-TABLE-FILE.">
+                        <variable name="Number of BER Tables" key="DUMMY-NUM-PHY-RX-BER-TABLE-802.11a" default="1" type="Array" disable="true">
+                            <variable key="PHY-RX-BER-TABLE-FILE" type="File" name="BER Table" default="[Required]" filetype="ber" />
+                        </variable>
+                    </option>
+                </variable>
+                <variable name="Modulation Scheme" key="PHY802.15.4-MODULATION" type="Selection" default="O-QPSK" >
+                    <option value="BPSK" name="BPSK" />
+                    <option value="ASK" name="ASK" />
+                    <option value="O-QPSK" name="O-QPSK" />
+                </variable>
+                <variable name="CCA Mode" key="PHY802.15.4-CCA-MODE" type="Selection" default="CARRIER-SENSE" >
+                    <option value="CARRIER-SENSE" name="Carrier Sense" />
+                    <option value="ENERGY-ABOVE-THRESHOLD" name="Energy above Threshold" />
+                    <option value="CARRIER-SENSE-WITH-ENERGY-ABOVE-THRESHOLD" name="Carrier Sense with Energy above Threshold" />
+                </variable>
+            </option>
+            <option value="PHY-GSM" name="GSM" addon="cellular">
+                <variable key="PHY-GSM-DATA-RATE" type="Fixed multiplier" name="Data Rate" default="270.833 Kbps" help="bandwidth in bps" unit="bps" maxunit="Gbps" minunit="bps" />
+                <variable key="PHY-GSM-TX-POWER" type="Fixed" name="Transmission Power (dBm)" default="15.0" help="transmission power in dBm" />
+                <variable key="PHY-GSM-RX-SENSITIVITY" type="Fixed" name="Receive Sensitivity (dBm)" default="-91.0" help="sensitivity in dBm" />
+                <variable key="PHY-GSM-RX-THRESHOLD" type="Fixed" name="Receive Threshold (dBm)" default="-92.0" help="Minimum power for received packet (in dBm)" />
+                <variable key="PHY-RX-MODEL" type="Selection" name="Packet Reception Model" default="BER-BASED">
+                    <option value="BER-BASED" name="BER-based Reception Model" help="If specified, the Simulator will look up Bit Error Rate (BER) in the SNR - BER table specified by BER-TABLE-FILE.">
+                        <variable name="Number of BER Tables" key="DUMMY-NUM-PHY-RX-BER-TABLE-GSM" default="1" type="Array" disable="true">
+                            <variable key="PHY-RX-BER-TABLE-FILE" type="File" name="BER Table" default="[Required]" filetype="ber" />
+                        </variable>
+                    </option>
+                </variable>
+            </option>
+            <option value="PHY-CELLULAR" name="Cellular PHY" addon="umts">
+                <variable name="Cellular PHY Model" key="CELLULAR-PHY-MODEL" type="Selection" default="PHY-UMTS" help="Select a specific cellular PHY model">
+                    <option value="PHY-UMTS" name="UMTS PHY Model" help="WCDMA PHY model of UMTS" >
+                        <variable name="Maximum Transmission Power (dBm)" key="PHY-UMTS-MAX-TX-POWER" type="Fixed" default="30.0" help="Maximum transmission power in dBm" />
+                        <variable name="Minimum Transmission Power (dBm)" key="PHY-UMTS-MIN-TX-POWER" type="Fixed" default="-30.0" help="Minimum transmission power in dBm" />
+                        <variable name="Enable HSDPA Capability" key="PHY-UMTS-HSDPA-CAPABLE" type="Selection" default="NO" help="Is the UMTS radio HSDPA capable?">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes" />
+                        </variable>
+                        <variable name="Packet Reception Model" key="PHY-RX-MODEL" type="Selection" default="PHY-UMTS">
+                            <option value="PHY-UMTS" name="PHY UMTS" />
+                        </variable>
+                        <variable name="Specify Downlink Scrambling Code Set" key="DUMMY-PHY-UMTS-NodeB-SCRAMBLING-CODE-SET" type="Selection" default="N/A" help="Specify the downlink scrambling code set index for a NodeB" >
+                            <option value="N/A" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable name="Scrambling Code Set Index" key="PHY-UMTS-NodeB-SCRAMBLING-CODE-SET-INDEX" type="Integer" default="0" min="0" max="511" />
+                            </option>
+                        </variable>
+                    </option>
+                </variable>
+            </option>
+            <option value="PHY-ABSTRACT" name="Abstract" addon="wireless">
+                <variable key="PHY-ABSTRACT-DATA-RATE" type="Fixed multiplier" name="Data Rate" default="2 Mbps" help="bandwidth in bps" unit="bps" maxunit="Gbps" minunit="bps" />
+                <variable name="Frequency Bandwidth" key="PHY-ABSTRACT-BANDWIDTH" type="Fixed multiplier" default="2 MHz" help="channel frequency bandwidth in Hz" unit="Hz" />
+                <variable key="PHY-ABSTRACT-TX-POWER" type="Fixed" name="Transmission Power (dBm)" default="15.0" help="transmission power in dBm" />
+                <variable key="PHY-ABSTRACT-RX-SENSITIVITY" type="Fixed" name="Reception Sensitivity (dBm)" default="-91.0" help="sensitivity in dBm" />
+                <variable key="PHY-ABSTRACT-RX-THRESHOLD" type="Fixed" name="Reception Threshold (dBm)" default="-81.0" help="Minimum power for received packet (in dBm)" />
+                <variable key="PHY-RX-MODEL" type="Selection" name="Packet Reception Model" default="SNR-THRESHOLD-BASED">
+                    <option value="SNR-THRESHOLD-BASED" name="SNR-based Reception Model" help="If the Signal to Noise Ratio (SNR) is more than the SNR Threshold (in dB), it receives the signal without error. Otherwise the packet is dropped."><!--  visibilityrequires="[MAC-PROTOCOL] != 'MAC-CES-WNW-MDL'">-->
+                        <variable key="PHY-RX-SNR-THRESHOLD" type="Fixed" name="SNR Threshold" default="10.0" />
+                    </option>
+                    <option value="BER-BASED" name="BER-based Reception Model" help="If specified, the Simulator will look up Bit Error Rate (BER) in the SNR - BER table specified by BER-TABLE-FILE." > <!--visibilityrequires="[MAC-PROTOCOL] != 'MAC-CES-WNW-MDL'">-->
+                        <variable name="Number of BER Tables" key="DUMMY-NUM-PHY-RX-BER-TABLE-ABSTRACT" default="1" type="Array">
+                            <variable key="PHY-RX-BER-TABLE-FILE" type="File" name="BER Table" default="[Required]" filetype="ber" />
+                        </variable>
+                    </option>
+                </variable>
+            </option>
+            <option value="PHY-LTE" name="LTE PHY" addon="lte" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+              <variable name="Station Type" key="DUMMY-PHY-LTE-STATION-TYPE" type="Selection" default="UE" invisible="device">
+                <option value="eNB" name="evolved Node B">
+                  <variable key="PHY-LTE-DL-CHANNEL" name="DL Channel Index" type="Integer" default="0" min="0" invisible="device" />
+                  <variable key="PHY-LTE-UL-CHANNEL" name="UL Channel Index" type="Integer" default="1" min="0" invisible="device" />
+                  <variable key="PHY-LTE-TX-POWER" name="Transmission Power (dBm)" type="Fixed" default="23" max="1000" min="-1000" help="transmission power in dBm" invisible="device" />
+                  <variable key="PHY-LTE-NUM-TX-ANTENNAS" name="Number of Transmission Antennas" type="Selection" default="1" invisible="device">
+                    <option value="1" name="1" />
+                    <option value="2" name="2" />
+                  </variable>
+                  <variable key="PHY-LTE-NUM-RX-ANTENNAS" name="Number of Reception Antennas" type="Selection" default="1" invisible="device">
+                    <option value="1" name="1" />
+                    <option value="2" name="2" />
+                  </variable>
+                  <variable key="PHY-LTE-PUCCH-OVERHEAD" name="Control Signals Overhead for Uplink" type="Integer" default="0" max="100" min="0" help="Control channel/signals overhead for uplink" invisible="device" />
+                  <variable key="PHY-RX-MODEL" name="Packet Reception Model" type="Selection" default="PHY-LTE-BER-BASED" invisible="device">
+                    <option value="PHY-LTE-BER-BASED" name="BER-based Reception Model" help="Multi files corresponding to each MCS ( for both DL/UL ) are required.">
+                      <variable key="PHY-RX-BER-TABLE-FILE[0]" type="File" name="BER Table[0]" default="DL_BER_MCS0.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[1]" type="File" name="BER Table[1]" default="DL_BER_MCS1.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[2]" type="File" name="BER Table[2]" default="DL_BER_MCS2.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[3]" type="File" name="BER Table[3]" default="DL_BER_MCS3.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[4]" type="File" name="BER Table[4]" default="DL_BER_MCS4.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[5]" type="File" name="BER Table[5]" default="DL_BER_MCS5.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[6]" type="File" name="BER Table[6]" default="DL_BER_MCS6.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[7]" type="File" name="BER Table[7]" default="DL_BER_MCS7.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[8]" type="File" name="BER Table[8]" default="DL_BER_MCS8.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[9]" type="File" name="BER Table[9]" default="DL_BER_MCS9.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[10]" type="File" name="BER Table[10]" default="DL_BER_MCS10.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[11]" type="File" name="BER Table[11]" default="DL_BER_MCS11.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[12]" type="File" name="BER Table[12]" default="DL_BER_MCS12.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[13]" type="File" name="BER Table[13]" default="DL_BER_MCS13.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[14]" type="File" name="BER Table[14]" default="DL_BER_MCS14.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[15]" type="File" name="BER Table[15]" default="DL_BER_MCS15.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[16]" type="File" name="BER Table[16]" default="DL_BER_MCS16.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[17]" type="File" name="BER Table[17]" default="DL_BER_MCS17.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[18]" type="File" name="BER Table[18]" default="DL_BER_MCS18.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[19]" type="File" name="BER Table[19]" default="DL_BER_MCS19.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[20]" type="File" name="BER Table[20]" default="DL_BER_MCS20.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[21]" type="File" name="BER Table[21]" default="DL_BER_MCS21.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[22]" type="File" name="BER Table[22]" default="DL_BER_MCS22.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[23]" type="File" name="BER Table[23]" default="DL_BER_MCS23.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[24]" type="File" name="BER Table[24]" default="DL_BER_MCS24.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[25]" type="File" name="BER Table[25]" default="DL_BER_MCS25.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[26]" type="File" name="BER Table[26]" default="DL_BER_MCS26.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[27]" type="File" name="BER Table[27]" default="DL_BER_MCS27.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[28]" type="File" name="BER Table[28]" default="DL_BER_MCS28.ber" filetype="ber" />
+
+                      <variable key="PHY-RX-BER-TABLE-FILE[32]" type="File" name="BER Table[32]" default="UL_BER_MCS0.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[33]" type="File" name="BER Table[33]" default="UL_BER_MCS1.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[34]" type="File" name="BER Table[34]" default="UL_BER_MCS2.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[35]" type="File" name="BER Table[35]" default="UL_BER_MCS3.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[36]" type="File" name="BER Table[36]" default="UL_BER_MCS4.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[37]" type="File" name="BER Table[37]" default="UL_BER_MCS5.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[38]" type="File" name="BER Table[38]" default="UL_BER_MCS6.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[39]" type="File" name="BER Table[39]" default="UL_BER_MCS7.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[40]" type="File" name="BER Table[40]" default="UL_BER_MCS8.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[41]" type="File" name="BER Table[41]" default="UL_BER_MCS9.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[42]" type="File" name="BER Table[42]" default="UL_BER_MCS10.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[43]" type="File" name="BER Table[43]" default="UL_BER_MCS11.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[44]" type="File" name="BER Table[44]" default="UL_BER_MCS12.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[45]" type="File" name="BER Table[45]" default="UL_BER_MCS13.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[46]" type="File" name="BER Table[46]" default="UL_BER_MCS14.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[47]" type="File" name="BER Table[47]" default="UL_BER_MCS15.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[48]" type="File" name="BER Table[48]" default="UL_BER_MCS16.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[49]" type="File" name="BER Table[49]" default="UL_BER_MCS17.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[50]" type="File" name="BER Table[50]" default="UL_BER_MCS18.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[51]" type="File" name="BER Table[51]" default="UL_BER_MCS19.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[52]" type="File" name="BER Table[52]" default="UL_BER_MCS20.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[53]" type="File" name="BER Table[53]" default="UL_BER_MCS21.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[54]" type="File" name="BER Table[54]" default="UL_BER_MCS22.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[55]" type="File" name="BER Table[55]" default="UL_BER_MCS23.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[56]" type="File" name="BER Table[56]" default="UL_BER_MCS24.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[57]" type="File" name="BER Table[57]" default="UL_BER_MCS25.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[58]" type="File" name="BER Table[58]" default="UL_BER_MCS26.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[59]" type="File" name="BER Table[59]" default="UL_BER_MCS27.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[60]" type="File" name="BER Table[60]" default="UL_BER_MCS28.ber" filetype="ber" />
+
+                    </option>
+                  </variable>
+                  <variable key="PHY-LTE-TPC-P_O_PUSCH" name="TPC P_O_PUSCH (dBm)" type="Fixed" default="-90" max="1000" min="-1000" help="P_O_PUSCH for UL TPC. in (dBm)" invisible="device" />
+                  <variable key="PHY-LTE-TPC-ALPHA" name="TPC Alpha" type="Fixed" default="1" max="1" min="0" invisible="device" />
+                  <variable key="PHY-LTE-CELL-SELECTION-RX-LEVEL-MIN" name="Cell Selection Rx Level Min (dBm)" type="Fixed" default="-140" max="1000" min="-1000" help="" invisible="device" />
+                  <variable key="PHY-LTE-CELL-SELECTION-RX-LEVEL-MIN-OFFSET" name="Cell Selection Rx Level Min Offset (dB)" type="Fixed" default="0" max="1000" min="-1000" help="" invisible="device" />
+                  <variable key="PHY-LTE-CELL-SELECTION-QUAL-LEVEL-MIN" name="Cell Selection Qual Level Min (dB)" type="Fixed" default="-19.5" max="1000" min="-1000" help="" invisible="device" />
+                  <variable key="PHY-LTE-CELL-SELECTION-QUAL-LEVEL-MIN-OFFSET" name="Cell Selection Qual Level Min Offset (dB)" type="Fixed" default="0" max="1000" min="-1000" help="" invisible="device" />
+                  <variable key="PHY-LTE-RA-DETECTION-THRESHOLD" name="Random Access Detection Threshold (dBm)" type="Fixed" default="-100" max="1000" min="-1000" help="" invisible="device" />
+                  <variable key="PHY-LTE-RX-SENSITIVITY" type="Fixed" name="Receive Sensitivity (dBm)" default="-1000" max="1000" min="-1000" invisible="device" help="sensitivity in dBm" />
+                  <variable key="PHY-LTE-PATHLOSS-FILTER-COEFFICIENT" type="Fixed" name="Filter Coefficient for Pathloss Measurement" help="Used for SINR estimation to determine CQI/RI to feedback" default="40" min="0" invisible="device" />
+                  <variable key="PHY-LTE-INTERFERENCE-FILTER-COEFFICIENT" type="Fixed" name="Filter Coefficient for Interference Power Measurement" help="Used for SINR estimation to determine CQI/RI to feedback" default="40" min="0" invisible="device" />
+                </option>
+                
+                <option value="UE" name="User Equipment">
+                  <variable key="PHY-LTE-TX-POWER" name="Transmission Power (dBm)" type="Fixed" default="23" max="1000" min="-1000" help="transmission power in dBm" invisible="device" />
+                  <variable key="PHY-LTE-NUM-TX-ANTENNAS" name="Number of Transmission Antennas" type="Selection" default="1" invisible="device">
+                    <option value="1" name="1" />
+                  </variable>
+                  <variable key="PHY-LTE-NUM-RX-ANTENNAS" name="Number of Reception Antennas" type="Selection" default="1" invisible="device">
+                    <option value="1" name="1" />
+                    <option value="2" name="2" />
+                  </variable>
+                  <variable key="PHY-RX-MODEL" name="Packet Reception Model" type="Selection" default="PHY-LTE-BER-BASED" invisible="device">
+                    <option value="PHY-LTE-BER-BASED" name="BER-based Reception Model" help="Multi files corresponding to each MCS ( for both DL/UL ) are required.">
+                      <variable key="PHY-RX-BER-TABLE-FILE[0]" type="File" name="BER Table[0]" default="DL_BER_MCS0.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[1]" type="File" name="BER Table[1]" default="DL_BER_MCS1.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[2]" type="File" name="BER Table[2]" default="DL_BER_MCS2.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[3]" type="File" name="BER Table[3]" default="DL_BER_MCS3.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[4]" type="File" name="BER Table[4]" default="DL_BER_MCS4.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[5]" type="File" name="BER Table[5]" default="DL_BER_MCS5.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[6]" type="File" name="BER Table[6]" default="DL_BER_MCS6.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[7]" type="File" name="BER Table[7]" default="DL_BER_MCS7.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[8]" type="File" name="BER Table[8]" default="DL_BER_MCS8.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[9]" type="File" name="BER Table[9]" default="DL_BER_MCS9.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[10]" type="File" name="BER Table[10]" default="DL_BER_MCS10.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[11]" type="File" name="BER Table[11]" default="DL_BER_MCS11.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[12]" type="File" name="BER Table[12]" default="DL_BER_MCS12.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[13]" type="File" name="BER Table[13]" default="DL_BER_MCS13.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[14]" type="File" name="BER Table[14]" default="DL_BER_MCS14.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[15]" type="File" name="BER Table[15]" default="DL_BER_MCS15.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[16]" type="File" name="BER Table[16]" default="DL_BER_MCS16.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[17]" type="File" name="BER Table[17]" default="DL_BER_MCS17.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[18]" type="File" name="BER Table[18]" default="DL_BER_MCS18.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[19]" type="File" name="BER Table[19]" default="DL_BER_MCS19.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[20]" type="File" name="BER Table[20]" default="DL_BER_MCS20.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[21]" type="File" name="BER Table[21]" default="DL_BER_MCS21.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[22]" type="File" name="BER Table[22]" default="DL_BER_MCS22.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[23]" type="File" name="BER Table[23]" default="DL_BER_MCS23.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[24]" type="File" name="BER Table[24]" default="DL_BER_MCS24.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[25]" type="File" name="BER Table[25]" default="DL_BER_MCS25.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[26]" type="File" name="BER Table[26]" default="DL_BER_MCS26.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[27]" type="File" name="BER Table[27]" default="DL_BER_MCS27.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[28]" type="File" name="BER Table[28]" default="DL_BER_MCS28.ber" filetype="ber" />
+                      
+                      <variable key="PHY-RX-BER-TABLE-FILE[32]" type="File" name="BER Table[32]" default="UL_BER_MCS0.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[33]" type="File" name="BER Table[33]" default="UL_BER_MCS1.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[34]" type="File" name="BER Table[34]" default="UL_BER_MCS2.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[35]" type="File" name="BER Table[35]" default="UL_BER_MCS3.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[36]" type="File" name="BER Table[36]" default="UL_BER_MCS4.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[37]" type="File" name="BER Table[37]" default="UL_BER_MCS5.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[38]" type="File" name="BER Table[38]" default="UL_BER_MCS6.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[39]" type="File" name="BER Table[39]" default="UL_BER_MCS7.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[40]" type="File" name="BER Table[40]" default="UL_BER_MCS8.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[41]" type="File" name="BER Table[41]" default="UL_BER_MCS9.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[42]" type="File" name="BER Table[42]" default="UL_BER_MCS10.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[43]" type="File" name="BER Table[43]" default="UL_BER_MCS11.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[44]" type="File" name="BER Table[44]" default="UL_BER_MCS12.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[45]" type="File" name="BER Table[45]" default="UL_BER_MCS13.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[46]" type="File" name="BER Table[46]" default="UL_BER_MCS14.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[47]" type="File" name="BER Table[47]" default="UL_BER_MCS15.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[48]" type="File" name="BER Table[48]" default="UL_BER_MCS16.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[49]" type="File" name="BER Table[49]" default="UL_BER_MCS17.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[50]" type="File" name="BER Table[50]" default="UL_BER_MCS18.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[51]" type="File" name="BER Table[51]" default="UL_BER_MCS19.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[52]" type="File" name="BER Table[52]" default="UL_BER_MCS20.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[53]" type="File" name="BER Table[53]" default="UL_BER_MCS21.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[54]" type="File" name="BER Table[54]" default="UL_BER_MCS22.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[55]" type="File" name="BER Table[55]" default="UL_BER_MCS23.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[56]" type="File" name="BER Table[56]" default="UL_BER_MCS24.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[57]" type="File" name="BER Table[57]" default="UL_BER_MCS25.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[58]" type="File" name="BER Table[58]" default="UL_BER_MCS26.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[59]" type="File" name="BER Table[59]" default="UL_BER_MCS27.ber" filetype="ber" />
+                      <variable key="PHY-RX-BER-TABLE-FILE[60]" type="File" name="BER Table[60]" default="UL_BER_MCS28.ber" filetype="ber" />
+                      
+                    </option>
+                  </variable>
+                  <variable key="PHY-LTE-CQI-REPORTING-INTERVAL" name="CQI Reporting Interval" type="Integer" default="10" min="1" help="PHY-LTE-CQI-REPORTING-INTERVAL" invisible="device" />
+                  <variable key="PHY-LTE-CQI-REPORTING-OFFSET" name="CQI Reporting Offset" type="Integer" default="0" min="0" help="PHY-LTE-CQI-REPORTING-OFFSET" invisible="device" />
+                  <variable key="PHY-LTE-RI-REPORTING-INTERVAL" name="RI Reporting Interval" type="Integer" default="10" min="1" help="PHY-LTE-RI-REPORTING-INTERVAL" invisible="device" />
+                  <variable key="PHY-LTE-RI-REPORTING-OFFSET" name="RI Reporting Offset" type="Integer" default="1" min="0" help="PHY-LTE-RI-REPORTING-OFFSET" invisible="device" />
+                  <variable key="PHY-LTE-SRS-TRANSMISSION-INTERVAL" name="SRS Transmission Interval (TTI)" type="Integer" default="10" min="1" help="" invisible="device" />
+                  <variable key="PHY-LTE-SRS-TRANSMISSION-OFFSET" name="SRS Transmission Offset (TTI)" type="Integer" default="0" min="0" help="" invisible="device" />
+                  <variable key="PHY-LTE-NON-SERVING-CELL-MEASUREMENT-PERIOD" type="Time" name="Cell Sellection Measurement Period" default="200MS" help="" invisible="device" />
+                  <variable key="PHY-LTE-CELL-SELECTION-MIN-SERVING-DURATION" type="Time" name="Cell Sellection Minimum Serving Duration" default="1S" help="" invisible="device" />
+                  <variable key="PHY-LTE-RX-SENSITIVITY" type="Fixed" name="Receive Sensitivity (dBm)" default="-1000" max="1000" min="-1000" invisible="device" help="sensitivity in dBm" />
+                  <variable key="PHY-LTE-PATHLOSS-FILTER-COEFFICIENT" type="Fixed" name="Filter Coefficient for Pathloss Measurement" help="Used for SINR estimation in scheduler" default="40" min="0" invisible="device" />
+                  <variable key="PHY-LTE-INTERFERENCE-FILTER-COEFFICIENT" type="Fixed" name="Filter Coefficient for Interference Power Measurement" help="Used for SINR estimation in scheduler" default="40" min="0" invisible="device" />
+                </option>
+              </variable>
+              
+              <!-- Subnet -->
+                <variable key="PHY-LTE-CHANNEL-BANDWIDTH" name="Channel Bandwidth (MHz)" type="Selection" default="10000000" invisible="interface,device">
+                  <option value="1400000" name="1.4" />
+                  <option value="3000000" name="3" />
+                  <option value="5000000" name="5" />
+                  <option value="10000000" name="10" />
+                  <option value="15000000" name="15" />
+                  <option value="20000000" name="20" />
+                </variable>
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[0]" name="Downlink CQI SNR Table[0]" type="Fixed" default="-5.00" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[0]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[1]" name="Downlink CQI SNR Table[1]" type="Fixed" default="-4.42" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[1]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[2]" name="Downlink CQI SNR Table[2]" type="Fixed" default="-3.40" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[2]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[3]" name="Downlink CQI SNR Table[3]" type="Fixed" default="-1.70" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[3]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[4]" name="Downlink CQI SNR Table[4]" type="Fixed" default="-0.19" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[4]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[5]" name="Downlink CQI SNR Table[5]" type="Fixed" default="1.34" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[5]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[6]" name="Downlink CQI SNR Table[6]" type="Fixed" default="2.64" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[6]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[7]" name="Downlink CQI SNR Table[7]" type="Fixed" default="5.16" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[7]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[8]" name="Downlink CQI SNR Table[8]" type="Fixed" default="6.71" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[8]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[9]" name="Downlink CQI SNR Table[9]" type="Fixed" default="8.18" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[9]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[10]" name="Downlink CQI SNR Table[10]" type="Fixed" default="10.43" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[10]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[11]" name="Downlink CQI SNR Table[11]" type="Fixed" default="11.84" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[11]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[12]" name="Downlink CQI SNR Table[12]" type="Fixed" default="13.32" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[12]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[13]" name="Downlink CQI SNR Table[13]" type="Fixed" default="15.53" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[13]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[14]" name="Downlink CQI SNR Table[14]" type="Fixed" default="16.20" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[14]" />
+                <variable key="PHY-LTE-DL-CQI-SNR-TABLE[15]" name="Downlink CQI SNR Table[15]" type="Fixed" default="22.38" invisible="interface,device" help="PHY-LTE-DL-CQI-SNR-TABLE[15]" />
+              <!-- Subnet End -->
+              
+            </option>
+            <option value="PHY-MODE5" name="Mode 5" addon="jne">
+                <variable key="PHY-MODE5-TX-POWER" type="Fixed" name="Transmission Power (dBm)" default="82.0" help="transmission power in dBm" />
+                <variable key="PHY-MODE5-RX-SENSITIVITY" type="Fixed" name="Reception Sensitivity (dBm)" default="-74.0" help="sensitivity in dBm" />
+                <variable key="PHY-RX-MODEL" type="Selection" name="Packet Reception Model" default="PHYMODE5">
+                    <option value="PHYMODE5" name="Mode 5 Receiver Model"/>
+                </variable>
+                <variable key="MODE5-MKIIA-ROLE" type="Selection" name="MKXIIA Role" default="NONE" help="Equipment role">
+                    <option value="NONE" name="Null Mode 5 Component"/>
+                    <option value="RECEIVER" name="Mode 5 Receiver">
+                        <variable name="LAN Multicast Group" key="MODE5-MULTICAST-GROUP" type="Text" default="[Required]" help="IP dotted quad of multicast group to send VMF output"/>
+                        <variable name="LAN Multicast Port" key="MODE5-MULTICAST-PORT" type="Integer" default="[Required]" min="0" max="65535" help="UDP port to send VMF output"/>
+                        <variable name="LAN Multicast Interface" key="MODE5-MULTICAST-INTERFACE" type="Text" default="[Required]" help="Interface name to bind multicast socket to"/>
+                        <variable name="Referring URN" key="MODE5-REFERRING-URN" type="Integer" default="[Required]" min="0" help="URN to use as MIL-STD-2045-47001C originator."/>
+                        <variable name="Destination URN" key="MODE5-SERVER-URN" type="Integer" default="[Required]" min="0" help="URN to use as MIL-STD-2045-47001C recipient."/>
+                    </option>
+                    <option value="TRANSMITTER" name="Mode 5 Transmitter">
+                        <variable name="Initial Squitter Delay" key="MODE5-SQUITTER-START" type="Time" default="60S" help="Time until transmitters starts to emit Mode 5 Level 2 messages."/>
+                        <variable name="Minimum Squitter Interval" key="MODE5-SQUITTER-I0" type="Time" default="0.45S" help="Minimum interval between Mode 5 Level 2 messages."/>
+                        <variable name="Maximum Squitter Interval" key="MODE5-SQUITTER-I1" type="Time" default="0.55S" help="Maximum interval between Mode 5 Level 2 messages."/>
+                        <variable name="VMF Location Quality" key="MODE5-SQUITTER-LOCQUAL" type="Integer" default="0" help="VMF location quality indication."/>
+                        <variable name="Squitter FOM" key="MODE5-SQUITTER-FOM" type="Integer" default="0" help="Format 0100 figure of merit."/>
+                        <variable name="Squitter PIN" key="MODE5-SQUITTER-PIN" type="Integer" default="[Required]" help="Format 0100 reporting PIN."/>
+                        <variable name="Reporting URN" key="MODE5-SQUITTER-URN" type="Integer" default="[Required]" help="VMF reporting URN"/>
+                    </option>
+                    <option value="RECEIVER|TRANSMITTER" name="Mode 5 Receiver and Transmitter">
+                        <variable name="LAN Multicast Group" key="MODE5-MULTICAST-GROUP" type="Text" default="[Required]" help="IP dotted quad of multicast group to send VMF output"/>
+                        <variable name="LAN Multicast Port" key="MODE5-MULTICAST-PORT" type="Integer" default="[Required]" min="0" max="65535" help="UDP port to send VMF output"/>
+                        <variable name="LAN Multicast Interface" key="MODE5-MULTICAST-INTERFACE" type="Text" default="[Required]" help="Interface name to bind multicast socket to"/>
+                        <variable name="Referring URN" key="MODE5-REFERRING-URN" type="Integer" default="[Required]" min="0" help="URN to use as MIL-STD-2045-47001C originator."/>
+                        <variable name="Destination URN" key="MODE5-SERVER-URN" type="Integer" default="[Required]" min="0" help="URN to use as MIL-STD-2045-47001C recipient."/>
+                        <variable name="Initial Squitter Delay" key="MODE5-SQUITTER-START" type="Time" default="60S" help="Time until transmitters starts to emit Mode 5 Level 2 messages."/>
+                        <variable name="Minimum Squitter Interval" key="MODE5-SQUITTER-I0" type="Time" default="0.45S" help="Minimum interval between Mode 5 Level 2 messages."/>
+                        <variable name="Maximum Squitter Interval" key="MODE5-SQUITTER-I1" type="Time" default="0.55S" help="Maximum interval between Mode 5 Level 2 messages."/>
+                        <variable name="VMF Location Quality" key="MODE5-SQUITTER-LOCQUAL" type="Integer" default="0" help="VMF location quality indication."/>
+                        <variable name="Squitter FOM" key="MODE5-SQUITTER-FOM" type="Integer" default="0" help="Format 0100 figure of merit."/>
+                        <variable name="Squitter PIN" key="MODE5-SQUITTER-PIN" type="Integer" default="[Required]" help="Format 0100 reporting PIN."/>
+                        <variable name="Reporting URN" key="MODE5-SQUITTER-URN" type="Integer" default="[Required]" help="VMF reporting URN"/>
+                    </option>
+                </variable>
+            </option>
+            <option value="FCSC-PROTOTYPE" name="FCSC Prototype" addon="military">
+                <variable key="PHY-FCSC-DATA-RATE" type="Fixed multiplier" name="Data Rate" default="2 Mbps" help="bandwidth in bps" unit="bps" maxunit="Gbps" minunit="bps" />
+                <variable key="PHY-FCSC-TX-POWER" type="Fixed" name="Transmission Power (dBm)" default="15.0" help="transmission power in dBm" />
+                <variable key="PHY-FCSC-RX-SENSITIVITY" type="Fixed" name="Receive Sensitivity (dBm)" default="-91.0" help="sensitivity in dBm" />
+                <variable key="PHY-FCSC-RX-THRESHOLD" type="Fixed" name="Receive Threshold (dBm)" default="-81.0" help="Minimum power for received packet (in dBm)" />
+                <variable key="PHY-RX-MODEL" type="Selection" name="Packet Reception Model" default="SNR-THRESHOLD-BASED">
+                    <option value="SNR-THRESHOLD-BASED" name="SNR-based Reception Model" help="If the Signal to Noise Ratio (SNR) is more than the SNR Threshold (in dB), it receives the signal without error. Otherwise the packet is dropped.">
+                        <variable key="PHY-RX-SNR-THRESHOLD" type="Fixed" name="SNR Threshold" default="10.0" />
+                    </option>
+                </variable>
+            </option>
+            <option value="SATELLITE-RSV" name="Satellite RSV PHY" addon="satellite" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'">
+                <variable name="Channel Bandwidth" help="Hz" key="PHY-SATELLITE-RSV-CHANNEL-BANDWIDTH" type="Fixed multiplier" unit="Hz" default="1280 KHz" />
+                <variable name="Preamble Size" help="symbols multiple of 8" key="PHY-SATELLITE-RSV-PREAMBLE-SIZE" type="Integer" default="64" />
+                <variable name="R-S Shorten Last Codeword" key="PHY-SATELLITE-RSV-USE-SHORTEN-LAST-CODEWORD" type="Selection" default="YES">
+                    <option value="YES" name="Shorten Last Codeword" />
+                    <option value="NO" name="Do Not Shorten Last Codeword" />
+                </variable>
+                <variable name="R-S Block And Code Size" key="PHY-SATELLITE-RSV-BLOCK-CODING" type="Selection" default="REED-SOLOMON-204-188">
+                    <option value="REED-SOLOMON-204-188" name="REED-SOLOMON-204-188" />
+                </variable>
+                <variable name="Modulation Profile" key="PHY-SATELLITE-RSV-TRANSMISSION-MODE" type="Selection" default="BPSK">
+                    <option value="BPSK" name="BPSK" />
+                    <option value="QPSK" name="QPSK" />
+                    <option value="8PSK" name="8PSK" />
+                    <option value="USER-DEFINED" name="USER-DEFINED" >
+                        <variable name="Transmit Power" key="PHY-SATELLITE-RSV-TRANSMIT-POWER" type="Fixed" default="[Required]" />
+                        <variable name="Sensitivity" key="PHY-SATELLITE-RSV-SENSITIVITY" type="Fixed" default="[Required]" />
+                        <variable name="Bits per Symbol" key="PHY-SATELLITE-RSV-BITS-PER-SYMBOL" type="Fixed" default="[Required]" />
+                    </option>
+                </variable>
+                <variable name="Convolutional Coding Profile" key="PHY-SATELLITE-RSV-CONVOLUTIONAL-CODING" type="Selection" default="VITERBI-1-2">
+                    <option value="VITERBI-1-2" name="VITERBI-1-2" />
+                    <option value="VITERBI-2-3" name="VITERBI-2-3" />
+                    <option value="VITERBI-3-4" name="VITERBI-3-4" />
+                    <option value="VITERBI-5-6" name="VITERBI-5-6" />
+                    <option value="VITERBI-7-8" name="VITERBI-7-8" />
+                    <option value="VITERBI-8-9" name="VITERBI-8-9" />
+                </variable>
+                <variable name="Guard Time" key="PHY-SATELLITE-RSV-GUARD-TIME" type="Time" default="10US" />
+                <variable name="Adjacent Channel Interference" help="dB" key="PHY-SATELLITE-RSV-ADJACENT-CHANNEL-INTERFERENCE" type="Fixed" default="18.0" />
+                <variable name="Adjacent Satellite Inteference" help="dB" key="PHY-SATELLITE-RSV-ADJACENT-SATELLITE-INTERFERENCE" type="Fixed" default="30.0" />
+                <variable name="Intermodulation Distortion" help="dB" key="PHY-SATELLITE-RSV-INTERMODULATION-INTERFERENCE" type="Fixed" default="25.0" />
+                <variable name="Receiver Threshold" help="dB" key="PHY-SATELLITE-RSV-EBNO-THRESHOLD" type="Fixed" default="7.0" />
+                <variable name="Error Model" key="PHY-RX-MODEL" default="SNR-THRESHOLD-BASED" type="Selection">
+                    <option value="SNR-THRESHOLD-BASED" name="SNR-based Reception Model" />
+                </variable>
+                <variable name="Error Threshold" help="dB" key="PHY-RX-SNR-THRESHOLD" type="Fixed" default="7.0"/>
+            </option>
+            <option value="PHY-SPAWAR-LINK16" name="LINK-16 Radio" addon="link16">
+                <variable name="Data Rate" key="PHY-SPAWAR-LINK16-DATA-RATE" type="Fixed multiplier" default="5 Mbps" help="bandwidth in bps" unit="bps" />
+                <variable name="Transmission Power (dBm)" key="PHY-SPAWAR-LINK16-TX-POWER" type="Fixed" default="15.0" help="radio transmission power in dBm" />
+                <variable name="Receive Sensitivity (dBm)" key="PHY-SPAWAR-LINK16-RX-SENSITIVITY" type="Fixed" default="-91.0" help="sensitivity of the radio in dBm" />
+                <variable name="Receive Threshold (dBm)" key="PHY-SPAWAR-LINK16-RX-THRESHOLD" type="Fixed" default="-81.0" help="Minimum power for received packet (in dBm)" />
+            </option>
+        </variable>
+        <variable name="Specify Antenna Model from File" key="DUMMY-ANTENNA-MODEL-CONFIG-FILE-SPECIFY" type="Selection" default="NO" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'" >
+            <option value="YES" name="Yes">
+                <variable name="Antenna Model" key="ANTENNA-MODEL" type="SelectionDynamic" default="None"  help="Please go to Tools->Antenna Model Editor to load the antenna model file" dynamicantennamodels="true" optional="true"/>
+                <variable name="Antenna Orientation Azimuth (degrees)" key="ANTENNA-ORIENTATION-AZIMUTH" type="Fixed" default="0" help="antenna orientation azimuth in degree" />
+                <variable name="Antenna Orientation Elevation (degrees)" key="ANTENNA-ORIENTATION-ELEVATION" type="Fixed" default="0" help="antenna orientation azimuth in degree" />
+            </option>
+            <option value="NO" name="No">
+                <variable name="Antenna Model" key="ANTENNA-MODEL" type="Selection" default="OMNIDIRECTIONAL">
+                    <option value="OMNIDIRECTIONAL" name="Omnidirectional" >
+                    </option>
+                    <option value="SWITCHED-BEAM" name="Switched Beam" addon="wireless">
+                        <variable name="Antenna Pattern Type" key="ANTENNA-PATTERN-TYPE" type="Selection" default="TRADITIONAL" >
+                                <option value="TRADITIONAL" name="Traditional" >
+                                        <variable key="ANTENNA-AZIMUTH-PATTERN-FILE" type="File" name="Antenna Azimuth Pattern File" default="[Required]" filetype="antenna-azimuth" />
+                                        <variable key="ANTENNA-ELEVATION-PATTERN-FILE" type="File" name="Antenna Elevation Pattern File" default="[Optional]" optional="true" filetype="antenna-elevation" />
+                                </option>
+                                <option value="ASCII2D" name="Ascii2d" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                                        <variable key="ANTENNA-AZIMUTH-PATTERN-FILE" type="File" name="Antenna Azimuth Pattern File" default="[Required]" filetype="antenna-azimuth,asciiazimuth" />
+                                        <variable key="ANTENNA-ELEVATION-PATTERN-FILE" type="File" name="Antenna Elevation Pattern File" default="[Optional]" optional="true" filetype="antenna-elevation" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                                <option value="ASCII3D" name="Ascii3d" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                                        <variable name="Antenna Pattern Pattern File " key="ANTENNA-PATTERN-PATTERN-FILE" type="File" default="[Required]" filetype="*ascii3d" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                                <option value="NSMA" name="Nsma" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                                        <variable name="Antenna Pattern Pattern File " key="ANTENNA-PATTERN-PATTERN-FILE" type="File" default="[Required]" filetype="nsm,nsma" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                        </variable>
+                    </option>
+                    <option value="STEERABLE" name="Steerable" addon="wireless">
+                        <variable name="Antenna Pattern Steerable Set Repeat Angle" key="ANTENNA-PATTERN-STEERABLE-SET-REPEAT-ANGLE" type="Fixed" default="360" min="1" max="360"/>
+                        <variable name="Antenna Pattern Type" key="ANTENNA-PATTERN-TYPE" type="Selection" default="TRADITIONAL" >
+                                <option value="TRADITIONAL" name="Traditional" >
+                                        <variable key="ANTENNA-AZIMUTH-PATTERN-FILE" type="File" name="Antenna Azimuth Pattern File" default="[Required]" filetype="antenna-azimuth" />
+                                        <variable key="ANTENNA-ELEVATION-PATTERN-FILE" type="File" name="Antenna Elevation Pattern File" default="[Optional]" optional="true" filetype="antenna-elevation" />
+                                </option>
+                                <option value="ASCII2D" name="Ascii2d" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                        <variable key="ANTENNA-AZIMUTH-PATTERN-FILE" type="File" name="Antenna Azimuth Pattern File" default="[Required]" filetype="antenna-azimuth,asciiazimuth" />
+                                        <variable key="ANTENNA-ELEVATION-PATTERN-FILE" type="File" name="Antenna Elevation Pattern File" default="[Optional]" optional="true" filetype="antenna-elevation" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                                <option value="ASCII3D" name="Ascii3d" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                                        <variable name="Antenna Pattern Pattern File " key="ANTENNA-PATTERN-PATTERN-FILE" type="File" default="[Required]" filetype="*ascii3d" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                                <option value="NSMA" name="Nsma" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                                        <variable name="Antenna Pattern Pattern File " key="ANTENNA-PATTERN-PATTERN-FILE" type="File" default="[Required]" filetype="nsm,nsma" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                        </variable>
+                    </option>
+                    <option value="PATTERNED" name="Patterned" >
+                        <variable name="Antenna Pattern Type" key="ANTENNA-PATTERN-TYPE" type="Selection" default="TRADITIONAL" >
+                                <option value="TRADITIONAL" name="Traditional" >
+                                        <variable key="ANTENNA-AZIMUTH-PATTERN-FILE" type="File" name="Antenna Azimuth Pattern File" default="[Required]" filetype="antenna-azimuth" />
+                                        <variable key="ANTENNA-ELEVATION-PATTERN-FILE" type="File" name="Antenna Elevation Pattern File" default="[Optional]" optional="true" filetype="antenna-elevation" />
+                                </option>
+                                <option value="ASCII2D" name="Ascii2d" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                                        <variable key="ANTENNA-AZIMUTH-PATTERN-FILE" type="File" name="Antenna Azimuth Pattern File" default="[Required]" filetype="antenna-azimuth,asciiazimuth" />
+                                        <variable key="ANTENNA-ELEVATION-PATTERN-FILE" type="File" name="Antenna Elevation Pattern File" default="[Optional]" optional="true" filetype="antenna-elevation" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                                <option value="ASCII3D" name="Ascii3d" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                                        <variable name="Antenna Pattern Pattern File " key="ANTENNA-PATTERN-PATTERN-FILE" type="File" default="[Required]" filetype="*ascii3d" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                                <option value="NSMA" name="Nsma" >
+                                        <variable name="Antenna Pattern Num Patterns" key="ANTENNA-PATTERN-NUM-PATTERNS" type="Fixed" default="1" min="1"/>
+                                        <variable name="Antenna Pattern Pattern File " key="ANTENNA-PATTERN-PATTERN-FILE" type="File" default="[Required]" filetype="nsm,nsma" />
+                                        <variable name="Antenna Pattern Conversion Parameter" key="ANTENNA-PATTERN-CONVERSION-PARAMETER" type="Fixed" default="25" />
+                                        <variable name="Antenna Pattern Azimuth Resolution" key="ANTENNA-PATTERN-AZIMUTH-RESOLUTION" type="Fixed" default="360" min="1" max="360"  />
+                                        <variable name="Antenna Pattern Elevation Resolution" key="ANTENNA-PATTERN-ELEVATION-RESOLUTION" type="Fixed" default="180" min="1" max="180" />
+                                </option>
+                        </variable>
+                    </option>
+                </variable>
+                <variable name="Antenna Gain (dB)" key="ANTENNA-GAIN" type="Fixed" default="0.0" help="antenna gain in dB" />
+                <variable name="Antenna Height (meters)" key="ANTENNA-HEIGHT" type="Fixed" default="1.5" help="antenna height in meters" />
+                <variable name="Antenna Efficiency" key="ANTENNA-EFFICIENCY" type="Fixed" default="0.8" help="efficiency of the antenna" />
+                <variable name="Antenna Mismatch Loss (dB)" key="ANTENNA-MISMATCH-LOSS" type="Fixed" default="0.3" help="antenna mismatch loss in dB" />
+                <variable name="Antenna Cable Loss (dB)" key="ANTENNA-CABLE-LOSS" type="Fixed" default="0.0" help="antenna cable loss in dB" />
+                <variable name="Antenna Connection Loss (dB)" key="ANTENNA-CONNECTION-LOSS" type="Fixed" default="0.2" help="antenna connection loss in dB" />
+                <variable name="Antenna Orientation Azimuth (degrees)" key="ANTENNA-ORIENTATION-AZIMUTH" type="Fixed" default="0" help="antenna orientation azimuth in degree" />
+                <variable name="Antenna Orientation Elevation (degrees)" key="ANTENNA-ORIENTATION-ELEVATION" type="Fixed" default="0" help="antenna orientation azimuth in degree" />
+            </option>
+        </variable>
+        <variable name="Temperature (K)" key="PHY-TEMPERATURE" type="Fixed" default="290.0" help="Temperature of the environment in K" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'"/>
+        <variable name="Noise Factor" key="PHY-NOISE-FACTOR" type="Fixed" default="10.0" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'"/>
+        <variable name="Energy Model" key="ENERGY-MODEL-SPECIFICATION" type="Selection" default="NONE" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'">
+            <option value="NONE" name="None" />
+            <option value="MICA-MOTES" name="Mica-Motes" />
+            <option value="MICAZ" name="MicaZ" />
+            <option value="USER-DEFINED" name="User Specified" >
+                <variable name="Transmission Current Load (mAmp)" key="ENERGY-TX-CURRENT-LOAD" type="Fixed" default="280.0" />
+                <variable name="Reception Load (mAmp)" key="ENERGY-RX-CURRENT-LOAD" type="Fixed" default="204.0" />
+                <variable name="Idle Current Load (mAmp)" key="ENERGY-IDLE-CURRENT-LOAD" type="Fixed" default="178.0" />
+                <variable name="Sleep Current Load (mAmp)" key="ENERGY-SLEEP-CURRENT-LOAD" type="Fixed" default="14.0" />
+                <variable name="Supply Voltage of the Interface (volt)" key="ENERGY-OPERATIONAL-VOLTAGE" type="Fixed" default="3.0" />
+            </option>
+            <option value="GENERIC" name="Generic" >
+                <variable name=" Power Amplifier Inefficiency Factor" key="ENERGY-POWER-AMPLIFIER-INEFFICIENCY-FACTOR" type="Fixed" default="6.5" />
+                <variable name=" Transmit Circuitry Power Consumption (mW)" key="ENERGY-TRANSMIT-CIRCUITRY-POWER-CONSUMPTION" type="Fixed" default="100.0" />
+                <variable name=" Receive Circuitry Power Consumption (mW)" key="ENERGY-RECEIVE-CIRCUITRY-POWER-CONSUMPTION" type="Fixed" default="130.0" />
+                <variable name=" Idle Circuitry Power Consumption (mW)" key="ENERGY-IDLE-CIRCUITRY-POWER-CONSUMPTION" type="Fixed" default="120.0" />
+                <variable name=" Sleep Circuitry Power Consumption (mW)" key="ENERGY-SLEEP-CIRCUITRY-POWER-CONSUMPTION" type="Fixed" default="0.0" />
+                <variable name=" Supply Voltage (volt)" key="ENERGY-SUPPLY-VOLTAGE" type="Fixed" default="6.5" />
+            </option>
+        </variable>
+    </subcategory>
+</category>

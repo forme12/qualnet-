@@ -1,0 +1,55 @@
+include Makefile-common
+include Makefile-windows-common
+
+DEBUG = /W3
+OPT = /Ox /Ob2
+
+!IFNDEF RTI_HOME
+!ERROR You must set the environment variable RTI_HOME to the RTI installation directory.
+!ENDIF
+
+!IFNDEF RTI_INCLUDE_DIR
+RTI_INCLUDE_DIR = $(RTI_HOME)\include
+!ENDIF
+
+!IF !EXISTS( $(RTI_INCLUDE_DIR) )
+!ERROR Could not find the directory containing the RTI include files. Please \
+set the environment variable RTI_INCLUDE_DIR to the directory containing the \
+RTI include files.
+!ENDIF
+
+!IFNDEF RTI_LIB_DIR
+RTI_LIB_DIR = $(RTI_HOME)\lib
+!ENDIF
+
+!IF !EXISTS( $(RTI_LIB_DIR) )
+!ERROR Could not find the directory containing the RTI library files. Please \
+edit Makefile-windows in the interfaces/hla directory to set RTI_LIB_DIR to \
+the directory containing the RTI library files.
+!ENDIF
+
+#
+# Look for the MaK 64 bit RTI
+!IF !DEFINED( RTI_LIBRARY ) && "$(ARCH)" == "windows-x64" && EXISTS( $(RTI_LIB_DIR)\libRTI-NG_64.lib )
+RTI_LIBRARY = libRTI-NG_64.lib libFedTime_64.lib
+#
+# Look for the MaK 32 bit RTI
+!ELSEIF !DEFINED( RTI_LIBRARY ) &&  EXISTS( $(RTI_LIB_DIR)\libRTI-NG.lib )
+RTI_LIBRARY = libRTI-NG.lib libFedTime.lib
+#
+# Some other RTI
+!ELSEIF !DEFINED( RTI_LIBRARY )
+!ERROR Could not find the RTI library in $(RTI_LIB_DIR). Please set the \
+environment variable RTI_LIBRARY to the name of the RTI library and the \
+environment variable RTI_LIB_DIR to the directory containing the RTI library \
+files.
+!ENDIF
+
+!IFNDEF RTI_DEFINES
+RTI_DEFINES = -DRTI_USES_STD_FSTREAM
+!ENDIF
+
+INCLUDE_DIRS = -I"$(RTI_INCLUDE_DIR)"
+LIBS = /libpath:"$(RTI_LIB_DIR)" $(RTI_LIBRARY) $(RTI_ADDITIONAL_LIBRARIES)
+
+include Makefile-windows-targets

@@ -1,0 +1,194 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+############################################################################
+# INTERFACE SPECIFIC PARAMETERS:
+############################################################################
+#
+# INTERFACE OUTPUT COST:
+#    The cost of sending a packet on the interface, expressed in the
+#    link state metric. This is advertised as the link cost for this
+#    interface in the router's router-LSA. The interface output cost
+#    must always be greater than 0.
+#
+# [<Network number> | <IP interface address>]  INTERFACE-COST  <cost>
+#
+# For example:
+#
+# [TLA-0.NLA-0.SLA-1] INTERFACE-COST 2000
+# [SLA-1] INTERFACE-COST 500
+#
+#
+# RETRANSMISSION INTERVAL:
+#    The number of seconds between LSA retransmissions, for adjacencies
+#    belonging to this interface. Also used when retransmitting Database
+#    Description and Link State Request Packets. This should be well over
+#    the expected round-trip delay between any two routers on the attached
+#    network. The setting of this value should be conservative or needless
+#    retransmissions will result. Sample value for a local area network:
+#    5 seconds.
+#
+# [<Network number> | <IP interface address>]  RXMT-INTERVAL  <interval>
+#
+# For example:
+#
+# [TLA-0.NLA-0.SLA-1] RXMT-INTERVAL 8S
+# [SLA-1] RXMT-INTERVAL 10S
+#
+#
+# INTERFACE TRANSMISSION DELAY:
+#    The estimated number of seconds it takes to transmit a Link State Update
+#    Packet over this interface. LSAs contained in the update packet must
+#    have their age incremented by this amount before transmission.  This
+#    value should take into account the transmission and propagation delays
+#    of the interface. It must be greater than 0. Sample value for a local
+#    area network: 1 second.
+#
+# [<Network number> | <IP interface address>]  INF-TRANS-DELAY  <delay>
+#
+# For example:
+#
+# [TLA-0.NLA-0.SLA-1] INF-TRANS-DELAY 2S
+# [SLA-1] INF-TRANS-DELAY 1.2S
+#
+#
+# ROUTER PRIORITY:
+#    An 8-bit unsigned integer. When two routers attached to a
+#    network both attempt to become Designated Router, the one
+#    with the highest Router Priority takes precedence. If there
+#    is still a tie, the router with the highest Router ID takes
+#    precedence.  A router whose Router Priority is set to 0 is
+#    ineligible to become Designated Router on the attached
+#    network. Router Priority is only configured for interfaces
+#    to broadcast and NBMA networks.
+#
+# [<Network number> | <IP interface address>]  ROUTER-PRIORITY  <priority>
+#
+# For example:
+#
+# [TLA-0.NLA-0.SLA-1] ROUTER-PRIORITY 1
+# [SLA-1] ROUTER-PRIORITY 4
+#
+#
+# HELLO INTERVAL:
+#    The length of time, in seconds, between the Hello Packets
+#    that the router sends on the interface. This value is
+#    advertised in the router's Hello Packets.  It must be the
+#    same for all routers attached to a common network. The
+#    smaller the HelloInterval, the faster topological changes
+#    will be detected; however, more OSPF routing protocol
+#    traffic will ensue.  Sample value for a X.25 PDN network: 30
+#    seconds. Sample value for a local area network: 10 seconds.
+#
+# [<Network number> | <IP interface address>]  HELLO-INTERVAL  <interval>
+#
+# For example:
+#
+# [TLA-0.NLA-0.SLA-1] HELLO-INTERVAL 15S
+# [SLA-1] HELLO-INTERVAL 12S
+#
+#
+# ROUTER DEAD INTERVAL:
+#    After ceasing to hear a router's Hello Packets, the number
+#    of seconds before its neighbors declare the router down.
+#    This is also advertised in the router's Hello Packets in
+#    their RouterDeadInterval field. This should be some
+#    multiple of the HelloInterval (say 4). This value again
+#    must be the same for all routers attached to a common
+#    network.
+#
+# [<Network number> | <IP interface address>]  ROUTER-DEAD-INTERVAL  <interval>
+#
+# For example:
+#
+# [TLA-0.NLA-0.SLA-1] ROUTER-DEAD-INTERVAL 60S
+# [SLA-1] ROUTER-DEAD-INTERVAL 48S
+#
+#
+# INTERFACE TYPE:
+#    The OSPF interface type is either point-to-point, broadcast,
+#    NBMA, Point-to-MultiPoint or virtual link. Currently broadcast,
+#    point-to-point and Point-to-Multipoint area only choices.
+#
+# [<Network number> | <IP interface address>]  INTERFACE-TYPE  <interface type>
+#
+# For example:
+#
+# [TLA-0.NLA-0.SLA-1] INTERFACE-TYPE BROADCAST
+# [SLA-1] INTERFACE-TYPE POINT-TO-POINT
+# [SLA-3] INTERFACE-TYPE POINT-TO-MULTIPOINT
+#
+#
+############################################################################
+# AREA PARAMETERS: (Specific to a single area)
+############################################################################
+#
+# AREA ID: A 32-bit number that uniquely identifies the area within an AS.
+#          The area ID of 0.0.0.0 is reserved for backbone.
+#          Use this area ID for the backbone only.
+#
+# [<Network number>]  AREA-ID  <Area ID in IP address format>
+#
+# For example:
+#
+# [TLA-0.NLA-0.SLA-1]  AREA-ID  0.0.0.1
+#
+#
+# LIST OF ADDRESS RANGE: Describes the collection of IP addresses
+#                        contained within the address range.
+#
+# AREA <Area ID> RANGE { <Network1>, <Network2>, ... , <NetworkN> } [<as_id]
+#
+# DEFINING STUB AREA: Define an area as a stub.
+#
+# AREA <Area ID> STUB <Stub Default Cost> [<as_id>]
+#
+# NOTE: Backbone area should be physically contiguous as we do currently
+#       do not support virtual links.
+#
+#       We need <as_id> here when running ospf on multiple AS with BGP
+#       interaction. Two different AS can have area with same AreaID. In
+#       this case <as_id> will help to detect for which area we're
+#       declaring the STUB keywords or specifying RANGE. The parameter is
+#       optional in case of single AS configuration and user may leave it
+#       blank.
+#
+
+[TLA-0.NLA-0.SLA-1]  AREA-ID  0.0.0.0
+[TLA-0.NLA-0.SLA-2]  AREA-ID  0.0.0.0
+
+AREA 0.0.0.0 RANGE { TLA-0.NLA-0.SLA-1, TLA-0.NLA-0.SLA-2 } 1
+
+[TLA-0.NLA-0.SLA-0]  AREA-ID  0.0.0.1
+AREA 0.0.0.1 RANGE { TLA-0.NLA-0.SLA-0 } 1

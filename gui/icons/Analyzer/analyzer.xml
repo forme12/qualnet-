@@ -1,0 +1,224 @@
+<application name="Analyzer" version="0.1" title="Analyzer" resource_dir="/gui/icons/analyzer/">
+    <actions>
+    
+        <item name="Analyzer.MN.AnalyzeStatFile" icon="file_open_jd.png" accel="Ctrl+O" menuText='&amp;Open'
+            toolTip="Open" statusTip="Click to select a stat file for analyzing"
+             actSlot="slotAnalyzeFile()" />
+        <item name="Analyzer.MN.DelimitedAllGraphRow" icon="defaulticon.png" statusTip="Click to export all graphs row-wise to a file" menuText="Row Wise" actSlot="slotExportRowAll()"/>
+        <item name="Analyzer.MN.DelimitedAllOpenedGraphCol" icon="defaulticon.png" statusTip="Click to export opened graphs column-wise to a file" menuText="Column Wise" actSlot="slotExportColOpened()"/>
+        <item name="Analyzer.MN.DelimitedAllOpenedGraphRow" icon="defaulticon.png" statusTip="Click to export opened graphs row-wise to a file" menuText="Row Wise" actSlot="slotExportRowOpened()"/>
+        <item name="Analyzer.MN.DelimitedAllGraphCol" icon="defaulticon.png" statusTip="Click to export all graphs column-wise to a file" menuText="Column Wise" actSlot="slotExportColAll()"/>
+        <item name="Analyzer.MN.DelimitedCurrentGraphRow" icon="defaulticon.png" statusTip="Click to export current graph row-wise to a file" menuText="Row Wise" actSlot="slotExportRowOne()"/>
+        <item name="Analyzer.MN.DelimitedCurrentGraphCol" icon="defaulticon.png" statusTip="Click to export current graph column-wise to a file" menuText="Column Wise" actSlot="slotExportColOne()"/>
+        <item name="Analyzer.MN.AsImage" icon="defaulticon.png" menuText="As &amp;Image" accel="Ctrl+I" statusTip="Click to export Graph as Image" actSlot = "slotExportAsImage()"/>
+        <item name="Analyzer.MN.CloseAllStatFile" menuText="Close All" statusTip="Click to close all open files" actSlot="slotCloseAllStatFile()"/>
+        <item name="Analyzer.MN.CloseStatFile" icon="close_50.png" menuText="C&amp;lose" statusTip="Click to close current file" actSlot="slotCloseStatFile()"/>
+        <item name="Analyzer.MN.PageSetUp"  accel="Ctrl+T" statusTip="Click to change the page margins" menuText="Page Set&amp;up" actSlot = "slotPageSetUp()"/>
+            <item name="Analyzer.MN.Print" icon="print_jd.png" statusTip="Click to print the graph" menuText="&amp;Print" accel="Ctrl+P" actSlot = "slotPrintGraph()"/>
+        <item name="Analyzer.MN.Exit" menuText="&amp;Exit" statusTip="Click to exit from Analyzer" actSlot="slotConfirmAppQuit()"/>
+    
+        <menu name="Analyzer.MN.FileMenu" label="&amp;File" />
+        <menu name="Analyzer.MN.ExportMenu" label="&amp;Export" />
+        <menu name="Analyzer.MN.DelimitedAllGraph" statusTip="Click to Export all graphs to a file" label="&amp;All Graphs to Delimited Text" />
+        <menu name="Analyzer.MN.DelimitedCurrentGraph" statusTip="Click to Export current graph to a file" label="&amp;Current Graph to Delimited Text" />
+        <menu name="Analyzer.MN.DelimitedAllOpenedGraph" statusTip="Click to Export all opened Graphs to file" label="All &amp;Opened Graphs to Delimited Text" />
+        <menu name="Analyzer.MN.RecentFiles" label="Recent Files" statusTip="Open menu of recently opened files" isDynamic = "true"/>
+        <menu name="Analyzer.MN.Close" label="&amp;Close Graph" statusTip="Click to close the opened graphs" isDynamic = "true"/>
+        <toolbar name="Analyzer.TB.FileToolbar" label="File Tools" />
+        <toolbar name="Analyzer.TB.BinWidthToolbar" label="Bin Width Tools" />
+        <!-- <toolbar name="Analyzer.TB.GoToNodeToolbar" label="Go to Node Tools" /> -->
+        
+        <itemGroup name="Analyzer.MN.GraphVisibilityGroup">
+            <item name="Analyzer.MN.SingleGraph" statusTip="Click to view Single graph at a time" isToggle="true" toggleStatus="true" menuText="&amp;Single Graph" actSlot="slotSingleGraph()" />
+            <item name="Analyzer.MN.MultipleGraph" statusTip="Click to view Multiple graphs at a time" isToggle="true" toggleStatus="false" menuText="&amp;Multiple Graph" actSlot="slotMultipleGraph()" />
+        </itemGroup>
+        
+        <item name="Analyzer.MN.MergedGraph" icon="mergegraphnew_jd.png" statusTip="Click to view merged graph" menuText="&amp;Merge Open Graphs" actSlot="slotMergeGraph()" toolTip = 'Merge Graph'/>
+        
+        
+        
+        <item name="Analyzer.MN.DisplayNodeName" statusTip="Click to display node names on the graph" isToggle="true" toggleStatus="false" menuText="N&amp;ode Name" actSlot="slotDisplayNodeNames()" toolTip = 'Display Node Name'/>
+        
+            
+        <item name="Analyzer.MN.CollapseGraph" statusTip="Click to view nodes having non-zero nodes" isToggle="true" toggleStatus="false" menuText="&amp;Collapse Graphs" actSlot="slotCollapseGraph()"/>
+        <menu name="Analyzer.MN.ViewMenu" label="&amp;View" />
+        <menu name="Analyzer.MN.GraphVisiblity" label="&amp;Graph Visiblity" />
+        <toolbar name="Analyzer.TB.ViewToolbar" label="View Tools" />
+
+        <itemGroup name="Analyzer.MN.ChartTypeGroup">
+            <item name="Analyzer.MN.BarGraph" statusTip="Click to view bar graph" isToggle="true" toggleStatus="true" menuText="&amp;Bar Graph" actSlot="slotBarGraph()"/>
+            <item name="Analyzer.MN.HistogramGraph" statusTip="Click to view histogram" isToggle="true" toggleStatus="false" menuText="&amp;Histogram" actSlot="slotHistogram()"/>
+        </itemGroup>
+        <itemGroup name="Analyzer.MN.CompareGroup">
+            <item name="Analyzer.MN.CompareIPAddr" statusTip="Click to view graph compared by IPAddress" isToggle="true" toggleStatus="false" menuText="&amp;IP Address" actSlot="slotSetIPAddress()"/>
+            <item name="Analyzer.MN.CompareNodeWise" statusTip="Click to view graph compared by Node Id" isToggle="true" toggleStatus="true" menuText="&amp;Node ID" actSlot="slotSetNode()"/>
+        </itemGroup>
+        <itemGroup name="Analyzer.MN.MultipleExperimentGroup">
+            <item name="Analyzer.MN.CompareMetricSum" statusTip="Click to view graph compared by taking sum of values" isToggle="true" toggleStatus="false" menuText="Display Metric &amp;Sum" actSlot="slotCmpSum()"/>
+            <item name="Analyzer.MN.CompareMetricAverage" statusTip="Click to view graph compared by taking average of values" isToggle="true" toggleStatus="true" menuText="Compare Metric &amp;Average" actSlot="slotCmpAverage()"/>
+        </itemGroup>
+        <item name="Analyzer.MN.AllToolbar" statusTip="Click to remove all tool bars" isToggle="true" toggleStatus="true" menuText="All" actSlot = "showAllToolBar()"/>
+        <item name="Analyzer.MN.BinWidthToolbarMenu" statusTip="Click to remove bin width tool bar" isToggle="true" toggleStatus="true" menuText="Histogram Bin Size" actSlot = "showBinWidthToolBar()"/>
+        <item name="Analyzer.MN.GoToNodeMenu" statusTip="Click to Go to Node tool bars" isToggle="true" toggleStatus="true" menuText="Go to Node" actSlot = "showGoToNodeToolBar()"/>
+        <item name="Analyzer.MN.ViewToolBarMenu" statusTip="Click to View tool bar" isToggle="true" toggleStatus="true" menuText="View Tool Bar" actSlot = "showViewToolBar()"/>
+        
+        <item name="Analyzer.MN.GraphProperties" icon="graphproperties.png" statusTip="Click to open Graph Properties Dialog" menuText="&amp;Graph Properties" accel="Ctrl+G" actSlot = "slotShowGraphProp()"/>
+        <menu name="Analyzer.MN.Option" label="&amp;Options" />
+        <menu name="Analyzer.MN.ChartType" label="&amp;Graph Type" />
+        <menu name="Analyzer.MN.CompareType" label="C&amp;ompare By" />
+        <menu name="Analyzer.MN.MultipleExperiments" label="&amp;Multiple Experiments" />
+        
+        <item name="Analyzer.MN.UserManual" menuText="&amp;User Manual" actSlot = "slotOpenUserManual()"/>
+        
+
+        <!-- <menu name="Analyzer.MN.ToolBar" label="&amp;Toolbar" />Histogram Bin Size -->
+        
+        <!--
+        <toolbar name="Analyzer.TB.SwitchTextModeToolBar" label="Switch Mode" />
+        -->
+        
+        <Analyzer.MN.FileMenu>
+            <Analyzer.MN.AnalyzeStatFile />
+            <Analyzer.MN.RecentFiles/>
+            <Analyzer.MN.Close />
+            <Analyzer.MN.CloseStatFile/>
+            <Analyzer.MN.CloseAllStatFile/>
+            <separator />
+            <Analyzer.MN.OpenStatFile />
+            <separator />
+            <Analyzer.MN.ExportMenu>
+                <Analyzer.MN.DelimitedCurrentGraph>
+                    <Analyzer.MN.DelimitedCurrentGraphRow/>
+                    <Analyzer.MN.DelimitedCurrentGraphCol/>
+                </Analyzer.MN.DelimitedCurrentGraph>
+                <Analyzer.MN.DelimitedAllOpenedGraph>
+                    <Analyzer.MN.DelimitedAllOpenedGraphRow />
+                    <Analyzer.MN.DelimitedAllOpenedGraphCol />
+                </Analyzer.MN.DelimitedAllOpenedGraph>
+                <Analyzer.MN.DelimitedAllGraph>
+                    <Analyzer.MN.DelimitedAllGraphRow />
+                    <Analyzer.MN.DelimitedAllGraphCol />
+                </Analyzer.MN.DelimitedAllGraph>
+                
+                <Analyzer.MN.AsImage />
+            </Analyzer.MN.ExportMenu>
+            <separator />
+            <Analyzer.MN.PageSetUp />
+            <Analyzer.MN.Print />
+            
+            
+            <separator/>
+            <Analyzer.MN.Exit />
+            
+        </Analyzer.MN.FileMenu>
+        
+        <Analyzer.MN.ViewMenu>
+            <Analyzer.MN.GraphVisiblity>
+                <Analyzer.MN.SingleGraph />
+                <Analyzer.MN.MultipleGraph />
+            </Analyzer.MN.GraphVisiblity>
+            <Analyzer.MN.DisplayNodeName />
+            
+            <Analyzer.MN.GraphProperties /> 
+            <!-- 
+            <Analyzer.MN.ToolBar>
+                <Analyzer.MN.AllToolbar/>               
+                <Analyzer.MN.BinWidthToolbarMenu />
+                <Analyzer.MN.GoToNodeMenu />
+                <Analyzer.MN.ViewToolBarMenu />
+            </Analyzer.MN.ToolBar> 
+            -->
+            
+        </Analyzer.MN.ViewMenu>
+        
+        <Analyzer.MN.Option>
+            <Analyzer.MN.ChartType>
+                <Analyzer.MN.BarGraph />
+                <Analyzer.MN.HistogramGraph />
+            </Analyzer.MN.ChartType>
+            <Analyzer.MN.CompareType>
+                <Analyzer.MN.CompareNodeWise/>
+                <Analyzer.MN.CompareIPAddr/>
+            </Analyzer.MN.CompareType>
+            <separator />
+            <Analyzer.MN.MergedGraph />
+            <Analyzer.MN.CollapseGraph/>
+            <Analyzer.MN.MultipleExperiments>
+                <Analyzer.MN.CompareMetricSum/>
+                <Analyzer.MN.CompareMetricAverage/>     
+            </Analyzer.MN.MultipleExperiments>
+        
+                        
+        </Analyzer.MN.Option>
+        
+        <Analyzer.TB.FileToolbar>
+            <Analyzer.MN.AnalyzeStatFile />
+            <Analyzer.MN.CloseStatFile/>
+        </Analyzer.TB.FileToolbar>
+        
+        <Analyzer.TB.ViewToolbar>
+            <Analyzer.MN.MergedGraph/>
+            <Analyzer.MN.GraphProperties />
+            <!--
+            <Analyzer.MN.DisplayNodeName/> 
+            -->
+            <!--
+            <Analyzer.MN.DisplayMetricDifference/>
+            -->
+        </Analyzer.TB.ViewToolbar>
+        
+        <!--
+        <Analyzer.TB.SwitchTextModeToolBar>
+            <Analyzer.MN.SwitchTextMode/>
+        </Analyzer.TB.SwitchTextModeToolBar>
+        -->
+    </actions>
+        <workspace>
+        <vbox>
+            <widget name="Analyzer.WS.GraphTabWidget" />
+        </vbox>
+    </workspace>
+    <!--
+    <collapsible alignment="left">
+        <page name="Analyzer.CL.ListView" label="File System" icon="filesystem.png">
+            <vbox>
+                <widget name="Analyzer.CL.FileSystemWidget" />
+            </vbox>
+
+        </page>
+    </collapsible>
+    -->
+    
+    
+    <collapsible alignment="left">
+        <!--<page name="Analyzer.CR.ListView" label="Graph Metrics" icon="filesystem.png" > -->
+            <page name="Analyzer.CR.ListView" label="Statistics"  >
+            <vbox>
+                <widget name="Analyzer.CR.GraphMetricToolBox" />
+            </vbox>     
+        </page>
+        <page name="Analyzer.CR.ListView" label="File List"  >
+            <vbox>
+                <widget name="Analyzer.CR.AnalyzedFileListWidget" />
+            </vbox>     
+        </page>
+    </collapsible>
+
+    <collapsible alignment="bottom">
+        <page name="Analyzer.CD.ListView" label="Overview"  >       
+            <vbox>
+                <widget name="Analyzer.CB.ThumbnailLabel" /> 
+            </vbox>
+        </page>
+        <page name="Analyzer.CD.ListView" label="Statistics File"  >
+            <vbox>
+                <widget name="Analyzer.CB.StatFileLabel"  /> 
+            </vbox>
+        </page>
+        <page name="Analyzer.CD.ListView" label="Error Log"  >
+            <vbox>
+                <widget name="Analyzer.CB.ParseErrorLogLabel"  /> 
+            </vbox>
+        </page>
+    </collapsible>
+</application>

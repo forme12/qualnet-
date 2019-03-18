@@ -1,0 +1,39 @@
+PURPOSE:
+-------
+To show the prune operation of MOSPF in a string topology network.
+The multicast receiver will not received all data sent by the source
+since the receiver leaves the group early, causing a prune.
+
+
+
+SCENARIO:
+---------
+In this scenario, there is one MCBR session, with node 1 being the multicast
+source and node 5 being the multicast receiver.  Node 5 joins the group
+1 minute into the simulation and leaves at 12 minutes into the simulation.
+Node 4 is the IGMP router.
+The link capacity is 10 Mbps for all links.
+
+
+1 ------- 2 ------- 3 ------- 4 ------- 5
+
+
+MCBR is used to transfer 50 data segments of 1000B each at 5 second intervals
+starting at 10 minutes into the simulation.
+
+
+
+RUN:
+-------
+
+Run '<QUALNET_HOME>/bin/qualnet string-prune.config'.
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+1. string-prune.app -  specifies the application being used.
+2. string-prune.config - the QualNet configuration input file.
+3. string-prune.member - specifies the multicast group.
+4. string-prune.stat - QualNet statistics collection for MCBR and MOSPF.
+5. README - this file.
+

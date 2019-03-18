@@ -1,0 +1,44 @@
+---------------------------------------------
+Battelfield Monitoring and Sensor Data Collection: Scenario Description
+---------------------------------------------
+
+This scenario demonstrates data collection from ground sensors using mobile vehicles.
+Sensors are randomly deployed in a observation region. The sensors constantly monitor any phenomena of interest in the area. The sensory information observed by each sensor is stored locally at the sensor.
+The mobile vehicles are moving inside the area where sensors are deployed. The vehicles have short range communication to sensors and long distance communication to a remote site which is called fusion center in this scenario.
+The sensors send their locally stored data packets to the vehicles which  at any time are within their radio range. The vehicles then relay sensory data packets to fusion center using long distance communication to that center.
+
+Node types in this scenario are:
+Unattended Ground Sensors (UGS) which refers to ground sensors.
+Unmanned Ground Vehicles (UGV) which refers to mobile vehicles
+Fusion center refers to remote site.
+UGS and UGV are both battery-powered devices
+
+Short rage communication between UGSs and UGVs has been configured as ZigBee. PHY and MAC protocol is 802.15.4 and routing protocol is Mesh Routing (AODV)
+Long distance communication between UGVs and fusion center is configured as WiFi (802.11a) and the routing protocol is OSPFv2
+   
+The scenario consists of: 
+100 UGS nodes (nodes from 1 through 100) with linear battery model and micaZ radio energy model
+5 UGV (nodes from 100 through 105) with random way point inside the area where sensors are deployed (velocity range 0.1-0.4 damp)
+Linear Battery model and micaZ radio energy model are configured for UGSs and UGVs 
+Fusion center is node 121.
+
+
+When the scenario is run, it shows that UGVs moving inside the area. 
+The UGVs communicate with the UGVs which are inside their ZigBee communication range. The sensors which have CBR flows to fusion center then are able to send their sensory data to the center. 
+
+
+----------
+Libraries
+----------
+-Sensor Networka library
+-wireless Librarry
+-Developer Library
+
+
+-------
+Models
+-------
+-802.11a
+-802.15.4
+-battery model
+-energy model

@@ -1,0 +1,82 @@
+PURPOSE:-
+--------
+To show the interaction of bgp and ospf as well as AS-External LSA,
+default Summary LSA etc.
+
+
+SCENARIO:-
+---------
+In this scenario, we have two AS (each of them partitioned into
+several areas). There are three CBR sessions, with node 501,
+node 512 and node 604 being the sources and node 601, node 608
+and node 518 being the corresponding destinations. Sources and
+destinations belong to different AS.
+
+
+ '''''''''''''''''''''''''''''''''''''''''''''
+ '           ............................... '
+ '           :                             : '
+ '           :       501 502  503 504      : '
+ '           :         |   |  |   |        : '
+ '           :         +-+-+  +-+-+        : '
+ '           :           |      |          : '
+ '           :          101    102         : '
+ '           :           |      |          : '
+ '           : 505 -+  +-+------++  +- 507 : '
+ '           :      |  |         |  |      : '  '''''''''''''''''''''''''
+ '           :      +-(1)       (2)-+      : '  '   ................... '
+ '           :      |  |         |  |      : '  '   :                 : '
+ '           : 506 -+  |         |  +- 508 : '  '   : 601   602       : '
+ '           :.........|.........|.........: '  '   :  |     |        : '
+ '.................    |         |           '  '   :  +--+--+        : '
+ ':               :    |         |           '  '   :     |   +-- 603 : '
+ ': 517   518     :    |         |           '  '   :    (9) -+       : '
+ ':  +--+--+      :    |         |           '  '   :   / |   +-- 604 : '
+ ':     |         :    |         |           '  '   :./...|...........: '
+ ':   (105)-|     :    |         |           '  '   /     |             '
+ ':         |-(7)---- (3) ----- (4) ------------- (8)     |             '
+ ':   (106)-|     :    |         |           '  ' / \     |             '
+ ':     |         :    |         |           '  /   ..\...|............ '
+ ':  +--+--+      :    |         |           '/ '   :   \ |   +-- 605 : '
+ ': 519   520     :    |         |          /   '   :   (10) -+       : '
+ ':................    |         |        /  '  '   :     |   +-- 606 : '
+ '           ..........|.........|....../... '  '   :  +--+--+        : '
+ '           :         |         |    /    : '  '   :  |     |        : '
+ '           : 513 -+  |         |  /      : '  '   : 607   608       : '
+ '           :      |  |         |/ +- 515 : '  '   :.................: '
+ '                  +-(5)       (6)-+      : '  '                       '
+ '           :      |  |         |  +- 516 : '  '''''''''''''''''''''''''
+ '           : 514 -+  +-+------++         : '
+ '           :           |      |          : '
+ '           :          103    104         : '
+ '           :           |      |          : '
+ '           :         +-+-+  +-+-+        : '
+ '           :         |   |  |   |        : '
+ '           :       509 510  511 512      : '
+ '           :.............................: '
+ '                                           '
+ '''''''''''''''''''''''''''''''''''''''''''''
+
+
+CBR is used to transfer 10 data segments of 512B each at 5 second intervals
+starting at 70 minutes into the simulation.
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet 2-as-default-lsa.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. 2-as-default-lsa.app -  QualNet application configuration input file.
+2. 2-as-default-lsa.config - QualNet configuration input file.
+3. 2-as-default-lsa.ospf - Ospf area configuration file
+4. 2-as-default-lsa.bgp - Bgp configuration file
+5. 2-as-default-lsa.expected.stat - QualNet statistics collection
+                                    for CBR, BGP and OSPFv2.
+6. README - This file.
+
+

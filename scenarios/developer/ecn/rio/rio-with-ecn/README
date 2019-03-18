@@ -1,0 +1,62 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+PURPOSE:-
+--------
+Shows the behavior of the RIO with ECN.
+
+
+SCENARIO:-
+---------
+In this scenario, there is one TCP session,
+with node 1 being the source and node 5 being the destination.
+IP QUEUE type is FIFO at all nodes except node 3 where it is 
+configured as RIO. ECN is enabled at all nodes.
+
+
+
+      s1(node 1)                            s3(node 5)
+       \                                   /
+10Mb,2ms \           1.5Mb,20ms          / 10Mb,4ms
+          r1(node 3) --------- r2(node 4)
+10Mb,3ms /                               \ 10Mb,5ms
+       /                                   \
+      s2(node 2)                            s4(node 6)
+
+
+APPLICATIONS:-
+-------------
+FTP/GENERIC is used to transfer data segments of 1000B each
+starting from 0 second to the end of simulation, which is 10 seconds.
+
+
+RUN:-
+----
+Type '<QUALNET_HOME>/bin/qualnet rio-with-ecn.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. rio-with-ecn.app - QualNet configuration file for application input.
+2. rio-with-ecn.config - QualNet configuration input file for RIO with ECN.
+3. rio-with-ecn.expected.stat - QualNet statistics collection for RIO with
+                                ECN.
+4. rio-with-ecn.routes-static - QualNet static route declarations file.
+5. README - This file.
+
+

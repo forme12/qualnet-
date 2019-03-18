@@ -1,0 +1,49 @@
+PURPOSE:-
+--------
+
+This scenario verifies that QOSPF finds the best path from source to
+destination and that this path is 'pinned down' throughout the session.
+
+SCENARIO:-
+---------
+
+In this scenario, a link fault occurs on the link between nodes 2 and 4
+from 8 minutes into the simulation to 14 minutes into the simulation.  The
+TRAFFIC-GEN session starts before the fault occurs. Another TRAFFIC-GEN
+session starts during the fault. The first session gets fixed to the
+original best path throughout the entire simulation. So all the packets
+transmitted during the link fault will be dropped for this session.
+All of the second session's packets will reach to destination, as it is
+assigned the second path.
+
+
+               (1)
+                |
+                |
+                |
+               (2)
+               / \
+             /     \
+           /         \
+         (3)---------(4)
+
+APPLICATION:-
+------------
+TRAFFIC-GEN 1 4.2 DET 180 DET 900 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 150000 40MS 1
+TRAFFIC-GEN 1 4.2 DET 540 DET 500 RND UNI 250 250 UNI 20MS 20MS 1 NOLB CONSTRAINT 150000 40MS 1
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet link-fault.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. link-fault.app -  QualNet application input file.
+2. link-fault.config - QualNet configuration input file.
+3. link-fault.fault - QualNet fault configuration file.
+4. link-fault.expected.stat - QualNet statistics collection for QOSPF.
+5. README - This file.
+

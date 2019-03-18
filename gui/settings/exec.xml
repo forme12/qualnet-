@@ -1,0 +1,44 @@
+<exec>
+<!--
+    $PRODUCT_HOME = directory where product is installed
+    $SIM_EXEC = file name of simulator executable
+    $CONFIG_FILE = file name of simulation config file
+    $CONFIG_DIR = path to the config file directory
+    $NUM_PROCESSORS = number of processors allocated to the simulator
+    $INTERACTIVE_OPTIONS = gui specific interactive options
+    $INTERACTIVE_PORT = gui specific interactive port
+    $HOST_FILE = mpi host file used to configure distributed execution
+    $LOGIN_AT_HOST = remote execution server
+    $REMOTE_PRODUCT_HOME = directory here product is installed on the server
+    $REMOTE_RUN_MODE = distributed execution mode to run on server
+    $SIMULATION_MODE = -simulation or -emulation
+-->
+
+    <command id='local_normal' type='local' name='Normal' win_command='qualnet.exe' unix_command='qualnet'>
+    <![CDATA[
+        {$PRODUCT_HOME}/bin/{$SIM_EXEC} {$CONFIG_FILE} -np {$NUM_PROCESSORS} {$INTERACTIVE_OPTIONS} -with-snt-gui -friendly {$SIMULATION_MODE}
+    ]]>
+    </command>
+
+    <command id='local_distributed' type='local' name='Distributed' win_command='qualnet.mpi.exe' unix_command='qualnet.mpi'>
+    <![CDATA[
+        mpirun -np {$NUM_PROCESSORS} -hostfile {$HOST_FILE} {$PRODUCT_HOME}/bin/{$SIM_EXEC} {$CONFIG_FILE} {$INTERACTIVE_OPTIONS} -with-snt-gui -friendly {$SIMULATION_MODE}
+    ]]>
+    </command>
+
+    <command id='remote_normal' type='remote' name='Normal' win_command='qualnet.remote.bat' unix_command='qualnet.remote.sh'>
+    <![CDATA[
+        {$PRODUCT_HOME}/bin/{$SIM_EXEC} {$CONFIG_FILE} {$INTERACTIVE_PORT} {$CONFIG_DIR} {$NUM_PROCESSORS} {$LOGIN_AT_HOST} {$HOST_FILE} {$REMOTE_PRODUCT_HOME} {$REMOTE_RUN_MODE} {$PRODUCT_HOME}/bin {$SIMULATION_MODE}
+    ]]>
+    </command>
+
+    <command id='remote_distributed' type='remote' name='Distributed' win_command='qualnet.remote.bat' unix_command='qualnet.remote.sh'>
+    <![CDATA[
+        {$PRODUCT_HOME}/bin/{$SIM_EXEC} {$CONFIG_FILE} {$INTERACTIVE_PORT} {$CONFIG_DIR} {$NUM_PROCESSORS} {$LOGIN_AT_HOST} {$HOST_FILE} {$REMOTE_PRODUCT_HOME} {$REMOTE_RUN_MODE} {$PRODUCT_HOME}/bin {$SIMULATION_MODE}
+    ]]>
+    </command>
+    
+
+
+
+</exec>

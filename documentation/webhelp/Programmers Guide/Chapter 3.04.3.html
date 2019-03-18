@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Modeling Protocols in QualNet</title>
+    <link rel="StyleSheet" href="css/Chapter%203.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%203.04.1.html#943741">3	Simulator Basics</a> &gt; 3.2  Modeling Protocols in QualNet</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">3.2  <a name="943741">Modeling Protocols in </a><span class="Variable">QualNet</span></div>
+      <div class="BodyAfterHead"><a name="943748">As discussed in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%201.02.3.html#931458', '');" title="QualNet Protocol Stack">Section&nbsp;1.2</a></span>, each node in <span class="Variable">QualNet</span> runs a protocol stack, shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%201.02.3.html#930060', '');" title="QualNet Protocol Stack">Figure&nbsp;1-1</a></span>. Each layer provides a service to the layer above it, by using the services of the layers below it. </div>
+      <div class="Body"><a name="933103">Each protocol operates at one of the layers of the stack. Protocols in </a><span class="Variable">QualNet</span> essentially operate as a finite state machine. The occurrence of an event corresponds to a transition in the finite state machine. The interface between the layers is also event based. Each protocol can either create events that make it change its own state (or perform some event handling), or create events that are processed by another protocol. To pass data to, or request a service from, an adjacent layer, a protocol creates an event for that layer.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.3.html#919640', '');" title="Modeling Protocols in QualNet" name="927951">Figure&nbsp;3-1</a></span> shows the finite state machine representation of a protocol in <span class="Variable">QualNet</span>. At the heart of a protocol model is an <span style="font-style: italic">Event Dispatcher</span>, which consists of a <span style="font-style: italic">Wait For Event</span> state and one or more <span style="font-style: italic">Event Handler </span>states (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%203.04.3.html#919640', '');" title="Modeling Protocols in QualNet">Figure&nbsp;3-1</a></span>). In the <span style="font-style: italic">Wait For Event</span> state, the protocol waits for an event to occur. When an event for the protocol occurs, the protocol transitions to the <span style="font-style: italic">Event Handler</span> state corresponding to that event (e.g., when <span style="font-style: italic">Event 1</span> occurs, the protocol transitions to the <span style="font-style: italic">Event 1 Handler</span> state). In this <span style="font-style: italic">Event Handler</span> state, the protocol performs the actions corresponding to the event, and then returns to the <span style="font-style: italic">Wait For Event</span> state. Actions performed in the <span style="font-style: italic">Event Handler</span> state may include updating the protocol state, or scheduling other events, or both.</div>
+      <div class="Anchor"><a name="919627"><img class="Default" src="images/Chapter%203.04.3.1.jpg" width="451" height="351" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 3-1.&nbsp;&nbsp;<a name="919640">Protocol Model in </a><span class="Variable">QualNet</span></div>
+      <div class="Body"><a name="933264">Besides the </a><span style="font-style: italic">Event Dispatcher</span>, the protocol finite state machine has two other states: the <span style="font-style: italic">Initialization</span> state and the <span style="font-style: italic">Finalization</span> state. In the <span style="font-style: italic">Initialization</span> state, the protocol reads external input to configure its initial state. The protocol then transitions to the <span style="font-style: italic">Wait For Event</span> state.</div>
+      <div class="Body"><a name="977892">The transition to the </a><span style="font-style: italic">Finalization</span> state occurs automatically at the end of simulation. In the <span style="font-style: italic">Finalization</span> state, protocol statistics collected during the simulation are printed. </div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

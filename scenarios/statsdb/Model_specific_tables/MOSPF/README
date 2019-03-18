@@ -1,0 +1,54 @@
+PURPOSE:
+-------
+To test the MOSPF Summary tables, provides information in regards to the group LSAs and router LSAs in multicast scenario.
+
+
+
+SCENARIO:
+---------
+In this scenario, there is one MCBR session, with node 5 being the multicast
+source and nodes 2, 6, 7 and 9 being the multicast group members.
+The multicast members join the group before the source sends data.
+However, nodes 7 and 9 leave the group early.
+Nodes 4, 8, 12 and 13 are the IGMP routers.
+Nodes 4, 8, and 12 are the Inter Area Multicast Forwarder.
+
+
+             1     2      3
+             |     |      |
+             +-----++-----+
+                    |
+            ........4........
+            :      / \      :
+            :    /     \    :
+   10 --+   :  /         \  :   +-- 6
+        |   :/             \:   |
+        +-- 12   Backbone   8 --+
+   11 --+   :\             /:   +-- 7
+        |   :  \         /  :   |
+    9 --+   :    \     /    :   +-- 5
+            :......\ /......:
+                    13
+
+MCBR is used to transfer data segments of 512B each at 30 second intervals
+until the end of the simulation. Starting at 10 minutes into the simulation.
+
+MOSPF Summary tables is configured in the config file:
+
+STATS-DB-MULTICAST-MOSPF-SUMMARY-TABLE YES
+
+
+RUN:
+-------
+
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+1. default.app -  specifies the application being used.
+2. default.config - the QualNet configuration input file.
+3. default.member - specifies the multicast group.
+4. default.expected.db - QualNet DB collection for MOSPF.
+5. inter-area-prune.ospf - specifies the different type of area with range.
+6. README - this file.

@@ -1,0 +1,51 @@
+PURPOSE:-
+
+To configure and test the functionality of GVRP.
+
+
+SCENARIO:-
+
+This scenario matches the one under vlan/sample1. The
+principle difference is in that GVRP is enabled. As a
+consequence, the required manual configuration of member
+sets at each switch is eliminated as this is dynamically
+created by the operation of GVRP in association with the
+GARP applicant/registrar state machine.
+
+
+
+                12                     22                     32
+                 |                      |                      |
+                 | 2 access             | 2 access             | 2 access
+                 |                      |                      |
+   2 access +--------+             +--------+             +--------+
+    --------|        |   2 trunk   |        |   2 trunk   |        |
+  100       |  Sw1   |-------------|  Sw2   |-------------|  Sw3   |
+    --------|        |   3 trunk   |        |   3 trunk   |        |
+   3 access +--------+             +--------+             +--------+
+                 |                      |                      |
+                 | 3 access             | 3 access             | 3 access
+                 |                      |                      |
+                14                     24                     34 
+
+
+
+Generic FTP exchange between 
+ 12,32 starting 100S
+ 12,34 starting 150S
+ 14,34 starting 200S
+ 14,32 starting 250S
+
+
+
+RUN:-
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. README - This file.

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>High Level Architecture (HLA) Interface</title>
+    <link rel="StyleSheet" href="css/Ch%202.%20HLA.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">2	High Level Architecture (HLA) Interface</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="ChapterTitle_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="ChapterTitle_inner" style="width: 72pt; white-space: nowrap;">
+                <span class="ChapterNumber">2	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="ChapterTitle_inner"><a name="979486">High Level Architecture (HLA) Interface</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BodyAfterHead"><a name="979656">High Level Architecture (HLA) is a specification that enables two or more software programs (usually simulation software) to interoperate. The software programs communicate with each other through a Run-Time Infrastructure (RTI) module, which implements the HLA interface specification. The RTI software typically comprises a RTI Executive process and a RTI library. Some RTIs have an additional process called the Federation Executive process. Typically, RTI library functions are added to each simulation and each simulation is linked with RTI libraries at compile time. The RTI Executive process is a globally known process that initializes RTI components and provides services to the distributed simulations. This enables the simulations to communicate with each other.</a></div>
+      <div class="Body"><a name="979657">In HLA terminology, the collection of communicating simulations is called a </a><span style="font-style: italic">federation</span> and each simulation is called a <span style="font-style: italic">federate</span>. The object and interaction classes used in the federation are defined in a module called Federation Object Model (FOM). Information is exchanged between simulations using this FOM.</div>
+      <div class="Body"><a name="979658">For example, a FOM could define an object class representing a plane, with latitude, longitude, and altitude values as object attributes. A federate creates an instance of a plane and periodically updates its position (the latitude, longitude, and altitude attributes). Through the RTI, another federate can access this plane and receive its position updates.</a></div>
+      <div class="Body"><a name="979659">Interaction classes are defined to implement interactions between federates. Whereas objects and object attributes are more permanent in nature, interactions are transitory. For example, when simulating the blinking of a light on a plane, each blink can be sent as an interaction.</a></div>
+      <div class="Body"><a name="979660">Federates announce their ability to create objects, update object attributes, and send interactions by publishing them. Federates subscribe to object classes, object attributes, and interaction classes of interest created by other federates.</a></div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Standard_Interfaces', 'Ch%202.%20HLA.2.2.html#979643', '');" title="System Requirements, Installation, and Compilation" name="979889">Section&nbsp;2.1</a></span> lists the system requirements and describes how to install and compile the HLA interface.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Standard_Interfaces', 'Ch%202.%20HLA.2.3.html#980368', '');" title="Using the HLA Interface" name="979919">Section&nbsp;2.2</a></span> describes how to use the HLA interface to run <span class="Variable">QualNet</span> with an external program.</div>
+      <div class="Body"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Standard_Interfaces', 'Appendix%20B.%20Protocols.6.1.html#976053', '');" title="Inter-Simulation Communication Protocols" name="980229">Appendix&nbsp;B</a></span> describes the Real-time Platform Reference Federation Object Model (RPR FOM) used by the <span class="Variable">QualNet</span> HLA interface, the RPR FOM 1.0 Extensions Interface Communications Document, and the Dynamic Statistics Interface Communications Document.</div>
+      <div class="Anchor"><a name="980248">&nbsp;</a></div>
+      <div class="Heading4"><span class="Variable"><a name="980236">QualNet</a></span> and HLA Time Management</div>
+      <div class="BodyAfterHead"><a name="980237">The HLA standard defines a number of optional time management services. However, RPR FOM federate support for these services is optional and they are not supported in </a><span class="Variable">QualNet</span>. Instead, <span class="Variable">QualNet</span> operates with time stepped, clock driven, independent time advance. This clock driven simulation is considered “real-time” because each second of wall clock time is equivalent to one second in the virtual world.</div>
+      <div class="Anchor"><a name="980208">&nbsp;</a></div>
+      <div class="Heading4"><a name="980190">Limitations of the </a><span class="Variable">QualNet</span> HLA Interface</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="980191">The </a><span class="Variable">QualNet</span> HLA interface supports the HLA 1.3 standard. It does not support the HLA 1594 standard.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><a name="980294">The </a><span class="Variable">QualNet</span> HLA interface is supported on distributed architectures but is not thread-safe and can not be run shared-memory parallel systems.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

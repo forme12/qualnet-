@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="MAC Layer" class="interface,device,atmdevice">
+        <variable name="Interface Name" key="DUMMY-INTERFACE-TYPE" type="Selection" default="SUBNET-WIRELESS" help="" visibilityrequires="false" keyvisible="false">
+            <option name="Link Wireless" value="LINK-WIRELESS" />
+            <option name="Subnet Wired" value="SUBNET-WIRED" />
+            <option name="Link Microwave" value="LINK-MICROWAVE" />
+            <option name="Subnet Wireless" value="SUBNET-WIRELESS" />
+            <option name="Link Wired" value="LINK-WIRED" />
+            <option name="Subnet Satellite" value="SUBNET-SATELLITE" />
+        </variable>
+        <variable name="Symmetric" key="DUMMY-GUI-SYMMETRIC-LINK" type="Checkbox" default="YES" help="" visibilityrequires="false" keyvisible="false"/>
+        <variable name="MAC Protocol" key="LINK-MAC-PROTOCOL" type="Selection" default="ABSTRACT" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-WIRED' || [DUMMY-INTERFACE-TYPE] == 'LINK-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE'" disable="true" printable="false">
+            <option value="ABSTRACT" name="Abstract Link MAC">
+                <variable key="LINK-PROPAGATION-DELAY" type="Time" name="Link Propagation Delay" default="1MS" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-WIRED' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-PROPAGATION-SPEED" type="Fixed" name="Link Propagation Speed (m/s)" default="3e8" visibilityrequires="([DUMMY-INTERFACE-TYPE] == 'LINK-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE') &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'" optional="true" />
+                <variable name="Bandwidth" key="LINK-BANDWIDTH" type="Fixed multiplier" default="10 Mbps" min="0 bps" unit="bps" visibilityrequires="[LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable name="Link Header Size (bits)" key="LINK-HEADER-SIZE-IN-BITS" type="Integer" default="224" min="0" visibilityrequires="[LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-TX-FREQUENCY" name="Transmission Frequency" type="Fixed multiplier" default="13.17 GHz" unit="Hz" min="1 GHz" max="350 GHz" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-RX-FREQUENCY" name="Receiving Frequency" type="Fixed multiplier" default="13.17 GHz" unit="Hz" min="1 GHz" max="350 GHz" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-TX-ANTENNA-HEIGHT" name="Transmission Antenna Height (meters)" type="Fixed" default="30" min="3" max="200" help="Tx antenna height in meters." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-RX-ANTENNA-HEIGHT" name="Receiving Antenna Height (meters)" type="Fixed" default="30" min="3" max="200" help="Rx antenna height in meters." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-TX-ANTENNA-DISH-DIAMETER" name="Transmission Antenna Dish Diameter (meters)" type="Fixed" default="0.8" min="0.01" help="Tx antenna dish diameter in meters." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-RX-ANTENNA-DISH-DIAMETER" name="Receiving Antenna Dish Diameter (meters)" type="Fixed" default="0.8" min="0.01" help="Rx antenna dish diameter in meters." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-TX-ANTENNA-CABLE-LOSS" name="Transmission Antenna Cable Loss (dB)" type="Fixed" default="1.5" min="0" help="In practice it should be less than 20 dB." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-RX-ANTENNA-CABLE-LOSS" name="Receiving Antenna Cable Loss (dB)" type="Fixed" default="1.5" min="0" help="In practice it should be less than 20 dB." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-TX-ANTENNA-POLARIZATION" name="Transmission Antenna Polarization" type="Selection" default="VERTICAL" optional="true" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'">
+                    <option value="HORIZONTAL" name="Horizontal" />
+                    <option value="VERTICAL" name="Vertical" />
+                </variable>
+                <variable key="LINK-RX-ANTENNA-POLARIZATION" name="Receiving Antenna Polarization" type="Selection" default="VERTICAL" optional="true" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'">
+                    <option value="HORIZONTAL" name="Horizontal" />
+                    <option value="VERTICAL" name="Vertical" />
+                </variable>
+                <variable key="LINK-TX-POWER" name="Transmission Power (dBm)" type="Fixed" min="0" default="30" help="In practice it should be larger than 0 dBm." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-RX-SENSITIVITY" name="Receiving Sensitivity (dBm)" type="Fixed" default="-80" min="-90" max="-60" help="It should be larger than the noise power." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-NOISE-TEMPERATURE" name="Noise Temperature (K)" type="Integer" default="290" help="The larger noise temperature the higher noise power." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-NOISE-FACTOR" name="Noise Factor" type="Integer" default="4" min="1" help="The larger noise factor the higher noise power." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-TERRAIN-TYPE" name="Terrain Type" type="Selection" default="PLAINS" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'">
+                    <option value="PLAINS" name="Plains" />
+                    <option value="HILLS" name="Hills" />
+                    <option value="MOUNTAINS" name="Mountains" />
+                </variable>
+                <variable key="LINK-PROPAGATION-RAIN-INTENSITY" name="Propagation Rain Intensity (mm/h)" type="Fixed" default="0" min="0" max="100" help="Refer to ITU-R.Recommendation P.837-1 to have rain intensity value for desired area." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-PROPAGATION-TEMPERATURE" name="Propagation Temperature (C)" type="Fixed" default="25" min="-20" max="50" help="In practice it should be in the range -20 to +50 Degrees Centigrade." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-PROPAGATION-SAMPLING-DISTANCE" name="Propagation Sampling Distance (meters)" type="Fixed" default="100" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-PROPAGATION-CLIMATE" name="Propagation Climate" type="Selection" default="1" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'">
+                    <option value="1" name="Equatorial" />
+                    <option value="2" name="Continental Subtropical" />
+                    <option value="3" name="Maritime Tropical" />
+                    <option value="4" name="Desert" />
+                    <option value="5" name="Continental Temperate" />
+                    <option value="6" name="Maritime Temperate, Over Land" />
+                    <option value="7" name="Maritime Temperate, Over Sea" />
+                </variable>
+                <variable key="LINK-PROPAGATION-REFRACTIVITY" name="Propagation Refractivity" type="Selection" default="360" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'">
+                    <option value="360" name="Equatorial" />
+                    <option value="320" name="Continental Subtropical" />
+                    <option value="370" name="Maritime Tropical" />
+                    <option value="280" name="Desert" />
+                    <option value="301" name="Continental Temperate" />
+                    <option value="320" name="Maritime Temperate, Over Land" />
+                    <option value="350" name="Maritime Temperate, Over Sea" />
+                </variable>
+                <variable key="LINK-PROPAGATION-PERMITTIVITY" name="Propagation Permittivity" type="Selection" default="15" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'">
+                    <option value="15" name="Average Ground" />
+                    <option value="4" name="Poor Ground" />
+                    <option value="25" name="Good Ground" />
+                    <option value="81" name="Fresh Water" />
+                    <option value="81" name="Salt Water" />
+                </variable>
+                <variable key="LINK-PROPAGATION-CONDUCTIVITY" name="Propagation Conductivity" type="Selection" default="0.005" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'">
+                    <option value="0.005" name="Average Ground" />
+                    <option value="0.001" name="Poor Ground" />
+                    <option value="0.02" name="Good Ground" />
+                    <option value="0.01" name="Fresh Water" />
+                    <option value="5.0" name="Salt Water" />
+                </variable>
+                <variable key="LINK-PROPAGATION-HUMIDITY" name="Propagation Humidity" type="Selection" default="50" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'">
+                    <option value="50" name="Temperate Summer" />
+                    <option value="80" name="Temperate Winter" />
+                </variable>
+                <variable key="LINK-PERCENTAGE-TIME-REFRACTIVITY-GRADIENT-LESS-STANDARD" name="Percentage Time Refractivity Gradient Less Standard" type="Integer" default="15" min="0" max="100" help="Refer to ITU-R Recommendation P.453-6 to have value for desired area." visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' &amp;&amp; [LINK-MAC-PROTOCOL] == 'ABSTRACT' &amp;&amp; [DUMMY-GUI-SYMMETRIC-LINK] == 'NO'"/>
+                <variable key="LINK-GENERATE-AUTOMATIC-DEFAULT-ROUTE" name="Generate Automatic Default Route" type="Selection" default="YES" optional="true">
+                        <option value="YES" name="Yes" />
+                        <option value="NO" name="No" />
+                </variable>
+            </option>
+            <option value="MAC802.3" name="802.3"/>
+         </variable>
+         
+        <variable name="MAC Protocol" key="MAC-PROTOCOL" type="Selection" default="MACDOT11" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-SATELLITE' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRED' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'ANE-SATELLITE'">
+            <!--<option value="None" name="None"/>-->
+            <option value="MAC802.3" name="802.3" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRED'">
+                <variable name="802.3 Bandwidth" key="LINK-BANDWIDTH" type="Selection" default="100000000">
+                    <option value="10000000000" name="10 Gbps" />
+                    <option value="1000000000" name="1 Gbps" />
+                    <option value="100000000" name="100 Mbps" />
+                    <option value="10000000" name="10 Mbps" />
+                </variable>
+                <variable name="802.3 Propagation Delay" key="LINK-PROPAGATION-DELAY" type="Time" default="2.5US" />
+                <variable name="802.3 Mode" key="MAC802.3-MODE" type="Selection" default="HALF-DUPLEX">
+                    <option value="HALF-DUPLEX" name="Half-Duplex" />
+                    <option value="FULL-DUPLEX" name="Full-Duplex" />
+                </variable>
+            </option>
+            <option value="SWITCHED-ETHERNET" name="Switched Ethernet" addon="developer" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRED'">
+                <variable name="Data Rate" key="SUBNET-DATA-RATE" type="Fixed multiplier" default="100 Mbps" unit="bps" />
+                <variable name="Propagation Delay" key="SUBNET-PROPAGATION-DELAY" type="Time" default="5US" />
+            </option>
+            <option value="SATCOM" name="Abstract Satellite (SATCOM) MAC" addon="developer" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-SATELLITE'">
+                <variable name="Satellite Node" key="SATCOM-SATELLITE-NODE" type="Integer" default="0" issatellitekey="yes" visibilityrequires="false" />
+                <variable name="SATCOM Type" key="SATCOM-TYPE" type="Selection" default="BENT-PIPE" visibilityrequires="false">
+                    <option value="BENT-PIPE" name="Bent Pipe" />
+                </variable>
+                <variable name="Bandwidth" key="SATCOM-BANDWIDTH" type="Fixed multiplier" default="1 Mbps" unit="bps" maxunit="Ebps" minunit="bps" />
+                <variable name="Propagation Delay" key="SATCOM-PROPAGATION-DELAY" type="Time" default="270MS" />
+            </option>
+            <option value="MACDOT11" name="802.11" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Short Packet Transmit Limit" key="MAC-DOT11-SHORT-PACKET-TRANSMIT-LIMIT" type="Integer" default="7" min="1" max="65535" />
+                <variable name="Long Packet Transmit Limit" key="MAC-DOT11-LONG-PACKET-TRANSMIT-LIMIT" type="Integer" default="4" min="1" max="65535" />
+                <variable name="RTS Threshold (bytes)" key="MAC-DOT11-RTS-THRESHOLD" type="Integer" default="0" min="0" max="2346" />
+                <variable name="Stop Receiving after Header Mode" key="MAC-DOT11-STOP-RECEIVING-AFTER-HEADER-MODE" type="Checkbox" default="NO" />
+                <variable name="Station Association Type" key="MAC-DOT11-ASSOCIATION" type="Selection" default="NONE">
+                    <option value="NONE" name="None" >
+                        <variable name="Enable Power Save Mode" key="MAC-DOT11-IBSS-SUPPORT-PS-MODE" type="Selection" default="NO" invisible="device,interface">
+                            <option value="YES" name="Yes" >
+                                <variable name="Beacon Start Time (TUs)" key="MAC-DOT11-IBSS-BEACON-START-TIME" type="Integer" default="[Optional]" min="1" max="65535" />
+                                <variable name="Beacon Interval (TUs)" key="MAC-DOT11-IBSS-BEACON-INTERVAL" type="Integer" default="200" min="1" max="32767" />
+                                <variable name="ATIM Duration (TUs)" key="MAC-DOT11-IBSS-PS-MODE-ATIM-DURATION" type="Integer" default="20" min="1" max="32767" />
+                            </option>
+                            <option value="NO" name="No" />
+                        </variable>
+                    </option>
+                    <option value="DYNAMIC" name="Dynamic">
+                        <variable name="SSID" key="MAC-DOT11-SSID" type="Text" default="TEST1" />
+                        <variable name="Set as Access Point" key="MAC-DOT11-AP" type="Selection" default="NO" invisible="scenariolevel, wiredsubnet">
+                            <option value="NO" name="No" >
+                                 <variable name="Initial Channel" key="MAC-DOT11-STA-CHANNEL" type="Integer" default="0" />
+                                 <variable name="Station Scan Type" key="MAC-DOT11-SCAN-TYPE" type="Selection" default="DISABLED">
+                                     <option value="DISABLED" name="Disabled" />
+                                     <option value="PASSIVE" name="Passive" >
+                                         <variable name="Max Channel Time (TUs)" key="MAC-DOT11-SCAN-MAX-CHANNEL-TIME" type="Integer" default="400" min="1" max="32767" optional="true"/>
+                                         <variable name="Configure Handover RSS Trigger" key="DUMMY-MAC-DOT11-STATION-HANDOVER-RSS-TRIGGER" type="Selection" default="NO" help="Set to Yes to configure Handover RSS Trigger Parameter">
+                                            <option value="NO" name="No" />
+                                            <option value="YES" name="Yes">
+                                                <variable name="Handover RSS Trigger (dBm)" key="MAC-DOT11-STATION-HANDOVER-RSS-TRIGGER" type="Fixed" default="-83.0" help="The STA will try to scan and re-associate with neighboring AP if the receiving signal strength (RSS) from serving AP is below this threshold" />
+                                            </option>
+                                         </variable>
+                                     </option>
+                                     <option value="ACTIVE" name="Active">
+                                         <variable name="Max Channel Time (TUs)" key="MAC-DOT11-SCAN-MAX-CHANNEL-TIME" type="Integer" default="50" min="1" max="32767" optional="true"/>
+                                         <variable name="Configure Handover RSS Trigger" key="DUMMY-MAC-DOT11-STATION-HANDOVER-RSS-TRIGGER" type="Selection" default="NO" help="Set to Yes to configure Handover RSS Trigger Parameter">
+                                            <option value="NO" name="No" />
+                                            <option value="YES" name="Yes">
+                                                <variable name="Handover RSS Trigger (dBm)" key="MAC-DOT11-STATION-HANDOVER-RSS-TRIGGER" type="Fixed" default="-83.0" help="The STA will try to scan and re-associate with neighboring AP if the receiving signal strength (RSS) from serving AP is below this threshold" />
+                                            </option>
+                                         </variable>
+                                     </option>
+                                 </variable>
+                                 <variable name="Enable Power Save Mode" key="MAC-DOT11-STA-PS-MODE-ENABLED" type="Selection" default="NO">                        
+                                     <option value="NO" name="No" />
+                                     <option value="YES" name="Yes">
+                                         <variable name="Listen Interval (beacon intervals)" key="MAC-DOT11-STA-PS-MODE-LISTEN-INTERVAL" type="Integer" default="10" min="1" max="65535" />
+                                         <variable name="Listen to DTIM Frames" key="MAC-DOT11-STA-PS-MODE-LISTEN-DTIM-FRAME" type="Checkbox" default="YES"/>
+                                     </option>
+                                 </variable>
+                                 <variable name="Enable PCF" key="DUMMY-MAC-DOT11-ENABLE-PCF" type="Selection" default="N/A">
+                                     <option value="N/A" name="No" />
+                                     <option value="YES" name="Yes">
+                                         <variable name="Station Poll Type" key="MAC-DOT11-STATION-POLL-TYPE" type="Selection" default="POLLABLE">
+                                             <option value="POLLABLE" name="Pollable" />
+                                             <option value="NOT-POLLABLE" name="Not Pollable" />
+                                             <option value="POLLABLE-DONT-POLL" name="Don't Poll" />
+                                         </variable>
+                                         <variable name="Collect Station PCF Statistics" key="MAC-DOT11-STATION-PCF-STATISTICS" type="Checkbox" default="NO"/>
+                                     </option>
+                                 </variable>
+                            </option>
+                            <option value="YES" name="Yes">
+                                <variable name="Beacon Start Time (TUs)" key="MAC-DOT11-BEACON-START-TIME" type="Integer" default="1" min="1" max="32767" optional="true"/>
+                                <variable name="Beacon Interval (TUs)" key="MAC-DOT11-BEACON-INTERVAL" type="Integer" default="200" min="1" max="32767" />
+                                <variable name="DTIM Period (beacon intervals)" key="MAC-DOT11-DTIM-PERIOD" type="Integer" default="3" min="1" max="255" />
+                                <variable name="Relay Frames" key="MAC-DOT11-RELAY-FRAMES" type="Checkbox" default="YES"/>
+                                <variable name="Enable Power Save Mode" key="MAC-DOT11-AP-SUPPORT-PS-MODE" type="Checkbox" default="NO" />
+                                <variable name="Operating Channel" key="MAC-DOT11-STA-CHANNEL" type="Integer" default="0" />
+                                <variable name="Set as Point Coordinator" key="MAC-DOT11-PC" type="Selection" default="NO">
+                                    <option value="NO" name="No" />
+                                    <option value="YES" name="Yes">
+                                        <variable name="CFP Repetition Interval (DTIM intervals)" key="MAC-DOT11-PC-CF-REPETITION-INTERVAL" type="Integer" default="1" min="1" max="32767" />
+                                        <variable name="CFP Duration (TUs)" key="MAC-DOT11-PC-CF-DURATION" type="Integer" default="50" min="1" max="32767" />
+                                        <variable name="Delivery Mode" key="MAC-DOT11-PC-DELIVERY-MODE" type="Selection" default="POLL-AND-DELIVER">
+                                            <option value="POLL-AND-DELIVER" name="Poll and Deliver" />
+                                            <option value="POLL-ONLY" name="Poll Only" />
+                                            <option value="DELIVER-ONLY" name="Deliver Only" />
+                                        </variable>
+                                        <variable name="Poll Save Mode" key="MAC-DOT11-PC-POLL-SAVE" type="Selection" default="BY-COUNT">
+                                            <option value="BY-COUNT" name="By Count">
+                                                <variable name="Minimum Count" key="MAC-DOT11-PC-POLL-SAVE-MIN" type="Integer" default="1" />
+                                                <variable name="Maximum Count" key="MAC-DOT11-PC-POLL-SAVE-MAX" type="Integer" default="10" />
+                                            </option>
+                                            <option value="NONE" name="None" />
+                                        </variable>
+                                    </option>
+                                </variable>
+                            </option>
+                        </variable>
+                        <variable name="Set Mesh Parameters" key="DUMMY-MAC-DOT11-SET-MESH-PARAMETERS" type="Selection" default="NO" help="Set to Yes if device is an MP" invisible="ScenarioLevel, WiredSubnet">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes" >
+                                <variable name="Mesh ID" key="MAC-DOT11s-MESH-ID" type="Text" default="Mesh1" />
+                                <variable name="Path Protocol" key="MAC-DOT11s-PATH-PROTOCOL" type="Selection" default="HWMP" help="Path protocol to use for route discovery / path selection" >
+                                    <option value="HWMP" name="Hybrid Wireless Mesh Protocol" >
+                                        <variable name="Active Route Timeout" key="MAC-DOT11s-HWMP-ACTIVE-ROUTE-TIMEOUT" type="Time" default="5S" help="Lifetime of an active route" />
+                                        <variable name="My Route Timeout" key="MAC-DOT11s-HWMP-MY-ROUTE-TIMEOUT" type="Time" default="10S" help="Lifetime of a route when replied by destination" />
+                                        <variable name="Reverse Route Timeout" key="MAC-DOT11s-HWMP-REVERSE-ROUTE-TIMEOUT" type="Time" default="5S" help="Lifetime of a route being discovered" />
+                                        <variable name="Route Deletion Constant" key="MAC-DOT11s-HWMP-ROUTE-DELETION-CONSTANT" type="Integer" default="5" help="Constant used for route deletion" />
+                                        <variable name="Route Discovery Type" key="MAC-DOT11s-HWMP-ROUTE-DISCOVERY-TYPE" type="Selection" default="EXPANDING-RING" help="Ad-hoc route discovery algorithm" >
+                                            <option value="EXPANDING-RING" name="Expanding Ring" >
+                                                <variable name="Initial RREQ TTL" key="MAC-DOT11s-HWMP-RREQ-TTL-INITIAL" type="Integer" default="2" help="Initial value of TTL in route requests" />
+                                                <variable name="RREQ TTL Increment" key="MAC-DOT11s-HWMP-RREQ-TTL-INCREMENT" type="Integer" default="2" help="Increment to TTL in route requests retransmits" />
+                                                <variable name="RREQ TTL Threshold" key="MAC-DOT11s-HWMP-RREQ-TTL-THRESHOLD" type="Integer" default="5" help="Value beyond which TTL is set to net diameter" />
+                                                <variable name="Number of RREQ Attempts" key="MAC-DOT11s-HWMP-RREQ-MAX-TTL-ATTEMPTS" type="Integer" default="2" help="Number of attempts for an RREQ using maximum TTL" />
+                                            </option>
+                                            <option value="FULL-TTL" name="Full TTL">
+                                                <variable name="Number of RREQ Attempts" key="MAC-DOT11s-HWMP-RREQ-MAX-TTL-ATTEMPTS" type="Integer" default="3" help="Number of attempts for a route request" />
+                                            </option>
+                                        </variable>
+                                        <variable name="RREQs Replied by Destination Only" key="MAC-DOT11s-HWMP-RREQ-DESTINATION-ONLY" type="CheckBox" default="YES" help="Set to No if intermediate nodes can reply" />
+                                        <variable name="Set Reply-and-forward Flag" key="MAC-DOT11s-HWMP-RREQ-REPLY-AND-FORWARD" type="CheckBox" default="YES" help="Set to No if intermediate nodes reply and forward request to destination" />
+                                        <variable name="Set as a Mesh Point (MP)" key="MAC-DOT11s-MESH-POINT" type="Selection" default="NO" help="Set to Yes if device is an MP" invisible="ScenarioLevel, WiredSubnet, WirelessSubnet">
+                                            <option value="NO" name="No" />
+                                            <option value="YES" name="Yes" >
+                                                <variable name="Set as Root MP" key="MAC-DOT11s-HWMP-ROOT" type="Selection" default="NO" help="Set to Yes if MP is a root for proactive routing" >
+                                                    <option value="NO" name="No" />
+                                                    <option value="YES" name="Yes" >
+                                                        <variable name="Root Announcement Period" key="MAC-DOT11s-HWMP-ROOT-ANNOUNCEMENT-PERIOD" type="Time" default="4S" help="Interval between root announcements" />
+                                                        <variable name="Registration Flag" key="MAC-DOT11s-HWMP-ROOT-REGISTRATION" type="CheckBox" default="YES" help="Set to No if paths from root to MPs are not created" />
+                                                        <variable name="Lifetime of Path to Root " key="MAC-DOT11s-HWMP-ROOT-TIMEOUT" type="Time" default="10S" help="Lifetime of root announcements" />
+                                                    </option>
+                                                </variable>
+                                                <variable name="Set as Mesh Portal Point (MPP)" key="MAC-DOT11s-MESH-PORTAL" type="Selection" default="NO" help="Set to Yes if MP is a portal to other subnets" >
+                                                    <option value="NO" name="No" />
+                                                    <option value="YES" name="Yes">
+                                                        <variable name="Portal Announcement Period" key="MAC-DOT11s-PORTAL-ANNOUNCEMENT-PERIOD" type="Time" default="4S" help="Interval between periodic announcements by a mesh portal" />
+                                                    </option>
+                                                </variable>
+                                            </option>
+                                        </variable>
+                                    </option>
+                                </variable>
+                                <variable name="Path Metric" key="MAC-DOT11s-PATH-METRIC" type="Selection" default="AIRTIME" help="Path metric to use for route/path costs" >
+                                    <option value="AIRTIME" name="Airtime" />
+                                </variable>
+                                <variable name="Link Setup Period" key="MAC-DOT11s-LINK-SETUP-PERIOD" type="Time" default="2S" help="Period between link establishment attempts with neighbors" />
+                                <variable name="Link Setup Rate Limit" key="MAC-DOT11s-LINK-SETUP-RATE-LIMIT" type="Integer" default="1" min="0" help="Maximum number of neighbor links to attempt per period" />
+                                <variable name="Link State Period" key="MAC-DOT11s-LINK-STATE-PERIOD" type="Time" default="2S" help="Period between link state exchanges with neighbors" />
+                                <variable name="Mesh Diameter (hops)" key="MAC-DOT11s-NET-DIAMETER" type="Integer" default="7" help="Maximum number of hops between MPs in a mesh" />
+                                <variable name="Node Traversal Time" key="MAC-DOT11s-NODE-TRAVERSAL-TIME" type="Time" default="100MS" help="Conservative estimate of forwarding delay at MP" />
+                                <variable name="Portal Timeout" key="MAC-DOT11s-PORTAL-TIMEOUT" type="Time" default="10S" help="Lifetime for announcements from mesh portals" />                             
+                            </option>
+                        </variable>
+                    </option>
+                </variable>
+                <variable name="Enable Directional Antenna Mode" key="MAC-DOT11-DIRECTIONAL-ANTENNA-MODE" type="Selection" default="NO">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Direction Cache Expiration Time" key="MAC-DOT11-DIRECTION-CACHE-EXPIRATION-TIME" type="Time" default="2S" />
+                        <variable name="NAV Delta Angle" key="MAC-DOT11-DIRECTIONAL-NAV-AOA-DELTA-ANGLE" type="Fixed" default="37.0" />
+                        <variable name="Short Packet Limit" key="MAC-DOT11-DIRECTIONAL-SHORT-PACKET-TRANSMIT-LIMIT" type="Integer" default="8" />
+                    </option>
+                </variable>
+                <variable name="Security Protocol" key="MAC-SECURITY-PROTOCOL" type="Selection" default="NO" help="Specify different authentication and encryption protocol for MAC-DOT11" addon="cyber">
+                    <option value="NO" name="None" />
+                    <option value="WEP" name="WEP">
+                        <variable name="RC4 Encryption Delay" key="WEP-RC4-DELAY" type="Time" default="10US" min="0" max="1S" />
+                        <variable name="Exclude Unencrypted" key="WEP-CCMP-ALLOW-UNENC" type="Checkbox" default="NO" />
+                        <variable name="WEP Configuration File" key="WEP-CONFIG-FILE" type="File" default="[Required]" filetype="wep" />
+                    </option>
+                    <option value="CCMP" name="CCMP">
+                        <variable name="AES Encryption Delay" key="CCMP-AES-DELAY" type="Time" default="10US" min="0" max="1S" />
+                        <variable name="Exclude Unencrypted" key="WEP-CCMP-ALLOW-UNENC" type="Checkbox" default="NO" />
+                        <variable name="CCMP Configuration File" key="CCMP-CONFIG-FILE" type="File" default="[Required]" filetype="ccmp"/>
+                    </option>
+                </variable>
+            </option>
+            <option value="MACDOT11e" name="802.11e" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Short Packet Transmit Limit" key="MAC-DOT11-SHORT-PACKET-TRANSMIT-LIMIT" type="Integer" default="7" min="1" max="65535" />
+                <variable name="Long Packet Transmit Limit" key="MAC-DOT11-LONG-PACKET-TRANSMIT-LIMIT" type="Integer" default="4" min="1" max="65535" />
+                <variable name="RTS Threshold" key="MAC-DOT11-RTS-THRESHOLD" type="Integer" default="0" min="0" max="2346" />
+                <variable name="Enable HCCA" key="MAC-DOT11e-HCCA" type="Checkbox" default="NO"/>
+                <variable name="Stop Receiving after Header Mode" key="MAC-DOT11-STOP-RECEIVING-AFTER-HEADER-MODE" type="Checkbox" default="NO" />
+                <variable name="Station Association Type" key="MAC-DOT11-ASSOCIATION" type="Selection" default="NONE">
+                    <option value="NONE" name="None" />
+                    <option value="DYNAMIC" name="Dynamic">
+                        <variable name="SSID" key="MAC-DOT11-SSID" type="Text" default="TEST1" />
+                        <variable name="Set as Access Point" key="MAC-DOT11-AP" type="Selection" default="NO" invisible="scenariolevel, wiredsubnet">
+                            <option value="NO" name="No" >
+                                <variable name="Initial Channel" key="MAC-DOT11-STA-CHANNEL" type="Integer" default="0"  min="0"/>
+                                <variable name="Station Scan Type" key="MAC-DOT11-SCAN-TYPE" type="Selection" default="DISABLED">
+                                    <option value="DISABLED" name="Disabled" />
+                                    <option value="PASSIVE" name="Passive" />
+                                    <option value="ACTIVE" name="Active" />
+                                </variable>
+                            </option>
+                            <option value="YES" name="Yes">
+                                <variable name="Beacon Start Time (TUs)" key="MAC-DOT11-BEACON-START-TIME" type="Integer" default="1" min="1" max="65535" optional="true"/>
+                                <variable name="Beacon Interval (TUs)" key="MAC-DOT11-BEACON-INTERVAL" type="Integer" default="200" min="1" max="32767" />
+                                <variable name="Relay Frames" key="MAC-DOT11-RELAY-FRAMES" type="Checkbox" default="YES"/>
+                                <variable name="Set as Hybrid Coordinator" key="MAC-DOT11e-HC" type="Selection" default="N/A" invisible="scenariolevel, wiredsubnet, wirelesssubnet">
+                                    <option value="N/A" name="No" />
+                                    <option value="YES" name="Yes">
+                                        <variable name="802.11e CAP Limit" key="MAC-DOT11e-CAP-LIMIT" type="Integer" default="50" min="1" max="32767" />
+                                    </option>
+                                </variable>
+                            </option>
+                        </variable>
+                    </option>
+                </variable>
+                <variable name="Enable Directional Antenna Mode" key="MAC-DOT11-DIRECTIONAL-ANTENNA-MODE" type="Selection" default="NO">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Direction Cache Expiration Time" key="MAC-DOT11-DIRECTION-CACHE-EXPIRATION-TIME" type="Time" default="2S" />
+                        <variable name="NAV Delta Angle" key="MAC-DOT11-DIRECTIONAL-NAV-AOA-DELTA-ANGLE" type="Fixed" default="37.0" />
+                        <variable name="Packet Transmit Limit" key="MAC-DOT11-DIRECTIONAL-SHORT-PACKET-TRANSMIT-LIMIT" type="Integer" default="8" />
+                    </option>
+                </variable>
+               <variable value="MACDOT11n" name="Configure MAC 802.11n Parameters" key="DUMMY-ENABLE-MACDOT11n" type="Selection" default="NO" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'" keyvisible="false">        
+                  <option value="NO" name="No" />	
+                  <option value="YES" name="Yes">
+		         <variable name="Enable Data Burst" key="DUMMY-HELP-MESSAGE" type="text" default="Set Radio Type to 802.11n Radio in the Physical Layer tab first." disable="true" keyvisible="false" visibilityrequires="[PHY-MODEL] != 'PHY802.11n'" />   
+		         <variable name="Input Buffer Timer Interval" key="DUMMY-HELP-MESSAGE" type="text" default="Set Radio Type to 802.11n Radio in the Physical Layer tab first." disable="true" keyvisible="false" visibilityrequires="[PHY-MODEL] != 'PHY802.11n'" />
+                         <variable name="Queue Size per Destination (packets)" key="DUMMY-HELP-MESSAGE" type="text" default="Set Radio Type to 802.11n Radio in the Physical Layer tab first." disable="true" keyvisible="false" visibilityrequires="[PHY-MODEL] != 'PHY802.11n'" />  
+
+			 <variable name="Enable Data Burst" key="MAC-DOT11N-ENABLE-DATA-BURSTING" type="Selection" default="NO" visibilityrequires="[PHY-MODEL] == 'PHY802.11n'">
+                            <option value="NO" name="No">
+			          <variable name="Enable AMSDUs" key="MAC-DOT11N-AMSDU-ENABLE" type="Selection" default="NO">
+                                       <option value="NO" name="No" />
+                                       <option value="YES" name="Yes">
+                                            <variable name="Enable Big AMSDU" key="MAC-DOT11N-ENABLE-BIG-AMSDU" type="Selection" default="NO" >
+                                                 <option value="NO" name="No" />
+						 <option value="YES" name="Yes"/>
+					    </variable>
+					</option>
+                                   </variable>  
+			          <variable name="AMSDU Buffer Timer"  key="MAC-DOT11N-AMSDU-BUFFER-TIMER-INTERVAL" type="Time" default="5MS" />
+			          <variable name="Enable AMPDUs" key="MAC-DOT11N-AMPDU-ENABLE" type="Selection" default="NO">
+                                      <option value="NO" name="No" />
+                                      <option value="YES" name="Yes">
+                                          <variable name="AMPDU Length Exponent" key="MAC-DOT11N-AMPDU-LENGTH-EXPONENT" type="Selection" default="1" > 
+                                               <option value="0" name="0" />
+					       <option value="1" name="1" />
+					       <option value="2" name="2" />
+					       <option value="3" name="3" />
+					  </variable> 
+				     </option>
+                                  </variable>				
+			    </option>
+                            <option value="YES" name="Yes">
+                                  <variable name="Enable Delayed Block Acknowledgement" key="MAC-DOT11N-ENABLE-DELAYED-BLOCK-ACK" type="Selection" default="NO" >
+                                            <option value="NO" name="No"/>
+					    <option value="YES" name="Yes"/>
+				   </variable>
+				   <variable name="Block Acknowledgement Policy Timeout" key="MAC-DOT11N-BLOCK-ACK-POLICY-TIMEOUT" type="Time" default="500MS" />
+				   <variable name="Enable RIFS Mode" key="MAC-DOT11N-ENABLE-RIFS-MODE" type="Selection" default="NO" >
+					    <option value="NO" name="No"/>
+					    <option value="YES" name="Yes"/>
+				   </variable>
+			    </option>
+                       </variable>
+		       <variable name="Input Buffer Timer" key="MAC-DOT11N-REORDERING-BUFFER-TIMER-INTERVAL" type="Time" default="100MS" visibilityrequires="[PHY-MODEL] == 'PHY802.11n'" />
+                       <variable name="Queue Size per Destination (packets)" key="MAC-DOT11N-QUEUE-SIZE-PER-DESTINATION" type="Integer" default="80" min="1" max="65535" visibilityrequires="[PHY-MODEL] == 'PHY802.11n'" />
+                   </option>  
+                </variable>
+            </option>
+            <option value="MAC802.16" name="802.16" addon="advanced_wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Station Type" key="MAC-802.16-STATION-TYPE" type="Selection" default="SS">
+                    <option value="SS" name="Subscriber Station">
+                        <variable name="Wait DCD Timeout Interval" key="MAC-802.16-SS-WAIT-DCD-TIMEOUT-INTERVAL" type="Time" default="25S" />
+                        <variable name="Wait UCD Timeout Interval" key="MAC-802.16-SS-WAIT-UCD-TIMEOUT-INTERVAL" type="Time" default="25S" />
+                        <variable name="Service Flow Timeout Interval" key="MAC-802.16-SERVICE-FLOW-TIMEOUT-INTERVAL" type="Time" default="15S" />
+                        <variable name="Enable Packing" key="MAC-802.16-PACKING-ENABLED" type="Checkbox" default="NO"/>
+                        <variable name="Ranging Type" key="MAC-802.16-RANGING-TYPE" type="Selection" default="NORMAL">
+                            <option value="NORMAL" name="Normal" />
+                            <option value="CDMA" name="CDMA" />
+                        </variable>
+                        <variable name="Contention-based Bandwidth Request Type" key="MAC-802.16-CONTENTION-BASED-BWREQ-TYPE" type="Selection" default="NORMAL">
+                            <option value="NORMAL" name="Normal" />
+                            <option value="CDMA" name="CDMA" />
+                        </variable>
+                        <variable name="Enable Mobility Mode (802.16e)" key="MAC-802.16-SUPPORT-MOBILITY" type="Selection" default="NO">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable name="Neighbor BS Scanning RSS Trigger (dBm)" key="MAC-802.16e-NEIGHBOR-SCAN-RSS-TRIGGER" type="Fixed" default="-76.0" help="The SS will try to scan neighboring BSs if the receiving signal strength (RSS) from serving BS is below is threshold." />
+                                <variable name="Handover RSS Trigger (dBm)" key="MAC-802.16e-HANDOVER-RSS-TRIGGER" type="Fixed" default="-78.0" help="The SS will try to start handover if the receiving signal strength (RSS) from serving BS is below is threshold." />
+                                <variable name="Handover RSS Margin (dB)" key="MAC-802.16e-HANDOVER-RSS-MARGIN" type="Fixed" default="1.0" help="The SS will only handover to a target BS whose RSS level is higher than that of current serving BS no smaller than this margin." />
+                                <variable name="Enable Sleep Mode" key="MAC-802.16e-SS-SUPPORT-SLEEP-MODE" type="Checkbox" default="NO"/>
+                                <variable name="Enable Idle Mode" key="MAC-802.16e-SS-SUPPORT-IDLE-MODE" type="Checkbox" default="NO"/>
+                            </option>
+                        </variable>
+                        <variable name="Enable ARQ" key="MAC-802.16-ARQ-ENABLED" type="Selection" default="NO">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable name="ARQ Window Size" key="MAC-802.16-ARQ-WINDOW-SIZE" type="Integer" default="256" min="1" max="1024" />
+                                <variable name="ARQ Retry Timeout (frames)" key="MAC-802.16-ARQ-RETRY-TIMEOUT" type="Integer" default="4" min="0" max="1310700" help="If this parameter is 0, MAC-802.16-ARQ-RETRY-TIMEOUT value is considered infinite. The (MAC-802.16-ARQ-RETRY-TIMEOUT * frame duration) value must lie between 0 and (655350 * 2) micro seconds"/>
+                                <variable name="ARQ Retry Count" key="MAC-802.16-ARQ-RETRY-COUNT" type="Integer" default="2" min="0" max="655350" />
+                                <variable name="ARQ Sync Loss Interval (frames)" key="MAC-802.16-ARQ-SYNC-LOSS-INTERVAL" type="Integer" default="32" min="0" max="655350" help="If this parameter is 0, then ARQ sync loss value is considered infinite. The range of (this value * frame duration) is 0 to 655350 micro seconds"/>
+                                <variable name="ARQ Receiving Purge Timeout Interval (frames)" key="MAC-802.16-ARQ-RX-PURGE-TIMEOUT" type="Time" default="28" min="0" max="655350" />
+                                <variable name="ARQ Block Size (bytes)" key="MAC-802.16-ARQ-BLOCK-SIZE" type="Integer" default="64" min="1" max="2040" />
+                            </option>
+                        </variable>
+                    </option>
+                    <option value="BS" name="Base Station">
+                        <variable name="MAC Frame Duration" key="MAC-802.16-BS-FRAME-DURATION" type="Time" default="20MS" />
+                        <variable name="TDD Downlink Duration" key="MAC-802.16-BS-TDD-DL-DURATION" type="Time" default="10MS" />
+                        <variable name="DCD Broadcast Interval" key="MAC-802.16-BS-DCD-BROADCAST-INTERVAL" type="Time" default="5S" />
+                        <variable name="UCD Broadcast Interval" key="MAC-802.16-BS-UCD-BROADCAST-INTERVAL" type="Time" default="5S" />
+                        <variable name="Ranging Minimal Backoff Value" key="MAC-802.16-BS-RANGING-BACKOFF-MIN" type="Integer" default="3" min="0" />
+                        <variable name="Ranging Maximal Backoff Value" key="MAC-802.16-BS-RANGING-BACKOFF-MAX" type="Integer" default="15" min="0" />
+                        <variable name="Bandwidth Request Minimal Backoff Value" key="MAC-802.16-BS-BANDWIDTH-REQUEST-BACKOFF-MIN" type="Integer" default="3" min="0" />
+                        <variable name="Bandwidth Request Maximal Backoff Value" key="MAC-802.16-BS-BANDWIDTH-REQUEST-BACKOFF-MAX" type="Integer" default="15" min="0" />
+                        <variable name="Service Flow Timeout Interval" key="MAC-802.16-SERVICE-FLOW-TIMEOUT-INTERVAL" type="Time" default="15S" />
+                        <variable name="Transmit/Receive Transition Gap(TTG)" key="MAC-802.16-BS-TTG" type="Time" default="10US" />
+                        <variable name="Receive/Transmit Transition Gap(RTG)" key="MAC-802.16-BS-RTG" type="Time" default="10US" />
+                        <variable name="SS Transition Gap(SSTG)" key="MAC-802.16-BS-SSTG" type="Time" default="4US" />
+                        <variable name="Maximum Allowed Uplink Load Level" key="MAC-802.16-MAX-ALLOWED-UPLINK-LOAD-LEVEL" type="Fixed" default="0.7" max="1" min="0" />
+                        <variable name="Maximum Allowed Downlink Load Level" key="MAC-802.16-MAX-ALLOWED-DOWNLINK-LOAD-LEVEL" type="Fixed" default="0.7" max="1" min="0" />
+                        <variable name="Enable Packing" key="MAC-802.16-PACKING-ENABLED" type="Checkbox" default="NO"/>
+                        <variable name="Admission Control Scheme" key="MAC-802.16-BS-ADMISSION-CONTROL-SCHEME" type="Selection" default="NONE" >
+                            <option value="NONE" name="None" />
+                            <option value="BASIC" name="Basic" />
+                        </variable>
+                        <variable name="Ranging Type" key="MAC-802.16-RANGING-TYPE" type="Selection" default="NORMAL">
+                            <option value="NORMAL" name="Normal" />
+                            <option value="CDMA" name="CDMA" />
+                        </variable>
+                        <variable name="Contention-based Bandwidth Request Type" key="MAC-802.16-CONTENTION-BASED-BWREQ-TYPE" type="Selection" default="NORMAL">
+                            <option value="NORMAL" name="Normal" />
+                            <option value="CDMA" name="CDMA" />
+                        </variable>
+                        <variable name="Enable Mobility Mode (802.16e)" key="MAC-802.16-SUPPORT-MOBILITY" type="Selection" default="NO">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable name="Neighbor BS Scanning RSS Trigger (dBm)" key="MAC-802.16e-NEIGHBOR-SCAN-RSS-TRIGGER" type="Fixed" default="-76.0" help="The SS will try to scan neighboring BSs if the receiving signal strength (RSS) from serving BS is below is threshold." />
+                                <variable name="Handover RSS Trigger (dBm)" key="MAC-802.16e-HANDOVER-RSS-TRIGGER" type="Fixed" default="-78.0" help="The SS will try to start handover if the receiving signal strength (RSS) from serving BS is below is threshold." />
+                                <variable name="Handover RSS Margin (dB)" key="MAC-802.16e-HANDOVER-RSS-MARGIN" type="Fixed" default="1.0" help="The SS will only handover to a target BS whose RSS level is higher than that of current serving BS no smaller than this margin." />
+                                <variable name="Neighbor BS List" key="MAC-802.16-BS-NEIGHBOR" type="String" default="{}" optional="true" help="A list of neighbor BSs for possiable handover, The neighbor BS list could be in the form of {nodeId1,nodeId2
+} or {nodeId1 thru nodeId2} or a combination." />
+                                <variable name="Configure Idle Mode Parameters" key="DUMMY-MAC-802.16e-BS-SUPPORT-IDLE-MODE" type="Selection" default="No" >
+                                    <option value="NO" name="No" />
+                                    <option value="YES" name="Yes">
+                                        <variable name="Paging Group Id" key="MAC-802.16e-BS-PAGING-GROUP-ID" type="Integer" default="1" help="This parameter is used to divide the network in different paging groups. A BS may be part of one or more paging group" />
+                                        <variable name="Configure as Paging Controller" key="MAC-802.16e-BS-IS-PAGING-CONTROLLER" type="Checkbox" default="No" help="This parameter is used for finding out whether Paging Controller is co-located with BS. There can only be one paging controller per network. There can be more than one network per simulation." />
+                                        <variable name="Address of Paging Controller" key="MAC-802.16e-BS-PAGING-CONTROLLER" type="Text" default="[Required]" help="IP address of the Paging Controller which is responsible for carrying out paging related tasks for this BS "/>
+                                        <variable name="Paging Interval (frames)" key="MAC-802.16e-BS-PAGING-INTERVAL-LENGTH" type="Integer" default="5" min="1" max="5" help="During this time, BS can send Paging Advertisement messages. The value is specified as number of frames."/>
+                                        <variable name="Paging Cycle (frames)" key="MAC-802.16e-BS-PAGING-CYCLE" type="Integer" default="200" help="This is the cycle in which the paging message is transmitted within the paging group. The value is specified as number of frames."/>
+                                        <variable name="Paging Offset (frames)" key="MAC-802.16e-BS-PAGING-OFFSET" type="Integer" default="5" help="Determines the frame within the cycle in which the paging message is transmitted. It must be smaller than PAGING CYCLE value. The value is specified as number of frames."/>
+                                        <variable name="Paging Hashskip Threshold" key="MAC-802.16e-PAGING-HASHSKIP-THRESHOLD" type="Integer" default="0" min="0" max="255" help="This parameter is used for configuring the number of successive MOB-PAG-ADV messages that may be sent from a BS without individual notification for an MS."/>
+                                    </option>
+                                </variable>
+                            </option>
+                        </variable>
+                        <variable name="Enable ARQ" key="MAC-802.16-ARQ-ENABLED" type="Selection" default="NO">
+                            <option value="NO" name="No" />
+                            <option value="YES" name="Yes">
+                                <variable name="ARQ Window Size" key="MAC-802.16-ARQ-WINDOW-SIZE" type="Integer" default="256" min="1" max="1024" />
+                                <variable name="ARQ Retry Timeout (frames)" key="MAC-802.16-ARQ-RETRY-TIMEOUT" type="Integer" default="4" min="0" max="1310700" help="If this parameter is 0, MAC-802.16-ARQ-RETRY-TIMEOUT value is considered infinite. The (MAC-802.16-ARQ-RETRY-TIMEOUT * frame duration) value must lie between 0 and (655350 * 2) micro seconds"/>
+                                <variable name="ARQ Retry Count" key="MAC-802.16-ARQ-RETRY-COUNT" type="Integer" default="2" min="0" max="655350" />
+                                <variable name="ARQ Sync Loss Interval (frames)" key="MAC-802.16-ARQ-SYNC-LOSS-INTERVAL" type="Integer" default="32" min="0" max="655350" help="If this parameter is 0, then ARQ sync loss value is considered infinite. The range of (this value * frame duration) is 0 to 655350 micro seconds"/>
+                                <variable name="ARQ Receiving Purge Timeout Interval (frames)" key="MAC-802.16-ARQ-RX-PURGE-TIMEOUT" type="Time" default="28" min="0" max="655350" />
+                                <variable name="ARQ Block Size (bytes)" key="MAC-802.16-ARQ-BLOCK-SIZE" type="Integer" default="64" min="1" max="2040" />
+                            </option>
+                        </variable>
+                    </option>
+                </variable>
+            </option>
+            <option value="MAC802.15.4" name="802.15.4" addon="sensor_networks" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Device Type" key="MAC-802.15.4-DEVICE-TYPE" type="Selection" default="RFD">
+                    <option value="FFD" name="Full Function Device(FFD)">
+                        <variable name="FFD Mode" key="MAC-802.15.4-FFD-MODE" type="Selection" default="PANCOORD">
+                            <option value="PANCOORD" name="PAN Coordinator">
+                                <variable name="Enable GTS" key="MAC-802.15.4-ENABLE-GTS" type="Selection" default="NO" invisible="wirelesssubnet">
+                                    <option value="YES" name="Yes">
+                                        <variable name="GTS Trigger Precedence" key="MAC-802.15.4-GTS-TRIGGER-PRECEDENCE" type="Integer" default="1" min="0" max="6" invisible="wirelesssubnet" help="CBR precedence that would implicitly trigger GTS request" />
+                                    </option>
+                                    <option value="NO" name="No" />
+                                </variable>
+                            </option>
+                            <option value="COORD" name="Coordinator" >
+                                <variable name="Poll Interval" key="MAC-802.15.4-POLL-INTERVAL" type="Time" default="1S" />
+                            </option>
+                            <option value="DEVICE" name="Device">
+                                <variable name="Poll Interval" key="MAC-802.15.4-POLL-INTERVAL" type="Time" default="1S" />
+                            </option>
+                        </variable>
+                    </option>
+                    <option value="RFD" name="Reduced Function Device(RFD)">
+                        <variable name="Poll Interval" key="MAC-802.15.4-POLL-INTERVAL" type="Time" default="1S" />
+                    </option>
+                </variable>
+                <variable name="Enable Data Acknowledgements" key="MAC-802.15.4-ENABLE-DATA-ACKS" type="Selection" default="NO">
+                    <option value="YES" name="Yes" />
+                    <option value="NO" name="No" />
+                </variable>
+                <variable name="Beacon Order(the value of 15 disables beaconing)" key="MAC-802.15.4-COORD-BO" type="Integer" default="3" min="0" max="15"/>
+                <variable name="SuperFrame Order" key="MAC-802.15.4-COORD-SO" type="Integer" default="3" min="0" max="15"/>
+                <variable name="Device Starting Time" key="MAC-802.15.4-START-DEVICE-AT" type="Time" default="0S" />
+                <variable name="Device Stopping Time" key="MAC-802.15.4-STOP-DEVICE-AT" type="Time" default="0S" />
+            </option>
+            <option value="GSM" name="GSM" addon="cellular" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="GSM Node Type" key="DUMMY-GSM-NODE-TYPE1" type="Text" default="Mobile Station" disable="true" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-MS'"  keyvisible="false"/>
+                <variable name="GSM Node Type" key="DUMMY-GSM-NODE-TYPE2" type="Text" default="Base Station" disable="true" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false"/>
+                <variable name="GSM Node Type" key="DUMMY-GSM-NODE-TYPE3" type="Text" default="Mobile Switching Center" disable="true" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-MSC'" keyvisible="false"/>
+                <variable name="GSM Control Channel List" key="GSM-CONTROL-CHANNEL-LIST" type="Text" default="[0]" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-MS'" help="MS's stored BCCH channel list, Format:[channelId1 ...channelIdn]."/>
+                <variable name="BS Downlink Control Channel" key="GSM-CONTROL-CHANNEL" type="Text" default="[0]" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" help="Currently each BS uses the first (lowest  even numbered) channel alocated to it as the downlink control channel (C0). Format: [ChannelId]"/>
+                <variable name="Location Area Code" key="DUMMY-GSM-LAC" type="Integer" default="1" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false" />
+                <variable name="Cell Identity" key="DUMMY-GSM-CELL-ID" type="Integer" default="1" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false" />
+                <variable name="Channel Range" key="DUMMY-GSM-CHANNEL-RANGE" type="ChannelRange" default="0-3" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false" />
+                <variable name="Neighboring Base Stations" key="DUMMY-GSM-NEIGHBOUR-BS" type="BsInfo" default="0-0-0" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false" />
+                <!--<variable name="GSM Node Type" key="GSM-NODE-TYPE" type="Selection" default="GSM-MS" invisible="scenariolevel">
+                    <option value="GSM-MS" name="Mobile Station">
+                        <variable name="GSM Control Channel List" key="GSM-CONTROL-CHANNEL" type="Text" default="[0]" help="MS's stored BCCH channel list, Format:[channelId1 ...channelIdn]."/>
+                    </option>
+                    <option value="GSM-BS" name="Base Station" >
+                        <variable name="BS Downlink Control Channel" key="GSM-CONTROL-CHANNEL" type="Text" default="[0]" help="Currently each BS uses the first (lowest  even numbered) channel alocated to it as the downlink control channel (C0). Format: [ChannelId]"/>
+                        <variable name="Location Area Code" key="DUMMY-GSM-LAC" type="Integer" default="1" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false" />
+                        <variable name="Cell Identity" key="DUMMY-GSM-CELL-ID" type="Integer" default="1" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false" />
+                        <variable name="Channel Range" key="DUMMY-GSM-CHANNEL-RANGE" type="ChannelRange" default="0-3" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false" />
+                        <variable name="Neighboring Base Stations" key="DUMMY-GSM-NEIGHBOUR-BS" type="BsInfo" default="0-0-0" visibilityrequires="[GSM-NODE-TYPE] == 'GSM-BS'" keyvisible="false" />
+                    </option>
+                    <option value="GSM-MSC" name="Mobile Switching Center" />
+                </variable>-->
+            </option>
+            <option value="CELLULAR-MAC" name="Cellular MAC" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'" addon="cellular">
+                <variable name="Cellular MAC Protocol" key="CELLULAR-MAC-PROTOCOL" type="Selection" default="UMTS-LAYER2">
+                    <option value="UMTS-LAYER2" name="UMTS Layer 2" addon="umts"/>
+                    <option value="ABSTRACT-MAC" name="Abstract Cellular MAC" addon="cellular"/>
+                </variable>
+            </option>
+            <option value="MAC-LTE" name="LTE MAC" addon="lte" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Station Type" key="MAC-LTE-STATION-TYPE" type="Selection" default="UE" invisible="device" keyvisible="true">
+                    <option value="eNB" name="evolved Node B">
+                        <variable key="RRC-LTE-MEAS-FILTER-COEFFICIENT" name="RRC : Measurement Filtering Coefficient" help="L3 filtering coefficient" type="Fixed" default="40" min="0" />
+                        
+                        <variable key="RLC-LTE-MAX-RETX-THRESHOLD" name="RLC : Max Retransmission Threshold" help="Correspond to maxRetxThreshold in 3GPP document" type="Integer" default="8" min="0" />
+                        <variable key="RLC-LTE-POLL-PDU" name="RLC : Threshold Number of PDUs for Polling" help="Correspond to pollPDU in 3GPP document" type="Integer" default="16" min="0" />
+                        <variable key="RLC-LTE-POLL-BYTE" name="RLC : Threshold Number of Bytes for Polling" help="Correspond to pollBYTE in 3GPP document" type="Integer" default="250" min="0" />
+                        <variable key="RLC-LTE-T-POLL-RETRANSMIT" name="RLC : t-PollRetransmit Timer Period" type="Time" default="100MS" min="1MS" />
+                        <variable key="RLC-LTE-T-REORDERING" name="RLC : t-Reordering Timer Period" type="Time" default="100MS" min="1MS" />
+                        <variable key="RLC-LTE-T-STATUS-PROHIBIT" name="RLC : t-StatusProhibit Timer Period" type="Time" default="12MS" min="1MS" />
+
+                        <variable key="MAC-LTE-RA-BACKOFF-TIME" name="MAC : Backoff Period" type="Time" default="10MS" />
+                        <variable key="MAC-LTE-RA-PREAMBLE-INITIAL-RECEIVED-TARGET-POWER" name="MAC : Initial Received Target Power for Preamble (dBm)" help="Correspond to preambleInitialReceivedTargetPower (dBm) in 3GPP document" type="Fixed" default="-90" max="1000" min="-1000" />
+                        <variable key="MAC-LTE-RA-POWER-RAMPING-STEP" name="MAC : Power Ramping Step (dB)" help="Corresond to powerRampingStep (dB) in 3GPP document" type="Fixed" default="2" max="1000" min="0" />
+                        <variable key="MAC-LTE-RA-PREAMBLE-TRANS-MAX" name="MAC : Maximum Number of Preamble Retransmissions" help="Correspond to preambleTransMax in 3GPP document" type="Integer" default="4" min="0" />
+                        <variable key="MAC-LTE-RA-RESPONSE-WINDOW-SIZE" name="MAC : RA Response Window Size (subframes)" help="Correspond to ra-ResponseWindowSize in 3GPP document" type="Integer" default="10" min="3" />
+                        <variable key="MAC-LTE-RA-PRACH-CONFIG-INDEX" name="MAC : PRACH Configuration Index" type="Integer" default="14" max="14" min="3" />
+                        <variable key="MAC-LTE-PERIODIC-BSR-TTI" name="MAC : Periodic BSR Timer (TTI)" type="Integer" default="1" min="1" />
+                        <variable key="MAC-LTE-ENB-SCHEDULER-TYPE" name="MAC : eNB Scheduler Type" type="Selection" default="ROUND-ROBIN">
+                          <option value="ROUND-ROBIN" name="Round Robin" />
+                          <option value="PROPORTIONAL-FAIRNESS" name="Proportional Fairness" />
+                        </variable>
+                        <variable key="MAC-LTE-TRANSMISSION-MODE" name="MAC : Transmission Mode" type="Selection" default="1">
+                          <option value="1" name="Single Antenna Scheme" />
+                          <option value="2" name="Transmission Diversity (SFBC)" />
+                          <option value="3" name="Transmission Diversity / Open Loop Spatial Multiplexing" />
+                        </variable>
+                        <variable key="MAC-LTE-TARGET-BLER" name="MAC : Target BLER" help="Target Block Error Rate" type="Fixed" default="0.01" max="1.0" min="0.0" />
+                        <variable key="MAC-LTE-PF-FILTER-COEFFICIENT" name="MAC : PF Filter Coefficient" help="Exponential moving average coefficient for instant datarate" type="Fixed" default="36" min="0.0" />
+                        <variable key="MAC-LTE-PF-UL-RB-ALLOCATION-UNIT" name="MAC : PF Scheduler UL RB Allocation Unit" help="Resource block allocation unit for UL PF scheduling" type="Integer" default="1" max="100" min="1" />
+                    </option>
+                    <option value="UE" name="User Equipment">
+                        <variable key="RRC-LTE-WAIT-RRC-CONNECTED-TIME" name="RRC : Wait Time before RRC CONNECTED Status" type="Time" default="10MS" />
+                        <variable key="RRC-LTE-WAIT-RRC-CONNECTED-RECONF-TIME" name="RRC : Wait Time before RRC Reconfiguration" type="Time" default="10MS" />
+
+                        <variable key="MAC-LTE-UE-SCHEDULER-TYPE" name="MAC : UE Scheduler Type" type="Selection" default="SIMPLE-SCHEDULER">
+                          <option value="SIMPLE-SCHEDULER" name="Simple Scheduler"/>
+                        </variable>
+                    </option>
+                </variable>
+              
+            </option>
+
+            <option value="ANE" name="Abstract Network Equation (ANE) Satellite" addon="satellite" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'ANE-SATELLITE'" >
+                <variable name="Satellite Architecture" key="ANESAT-SATELLITE-ARCHITECTURE" type="Selection" default="ProcessPayload">
+                    <option value="BentPipe" name="Bent Pipe"/>
+                    <option value="ProcessPayload" name="Processor Payload"/>
+                </variable>
+                <variable type="Integer" default="0" key="ANESAT-UPLINK-CHANNEL" name="Uplink Channel"></variable>
+                <variable type="Text" default="DefaultUpstreamGroup" key="ANESAT-UPSTREAM-GROUP" name="Upstream Channel Group"></variable>
+                <variable key="ANESAT-UPSTREAM-COUNT" name="Channel Count" type="Array" default="1" >
+                    <variable key="ANESAT-UPSTREAM-BANDWIDTH" name="Upstream Bandwidth" type="Fixed multiplier" default="1000000 bps" unit="bps" maxunit="Ebps" minunit="bps" />
+                    <variable type="Time" default="0.04S" key="ANESAT-UPSTREAM-MAC-LATENCY" name="Upstream MAC Latency" />
+                </variable>
+                <variable type="Selection" default="NONE" key="ANESAT-UPSTREAM-TRAFFIC-CONDITIONING-TYPE" name="Upstream Traffic Conditioner Type">
+                    <option value="NONE" name="None"/>
+                    <option value="RESIDUAL" name="Residual">
+                        <variable key="ANESAT-UPSTREAM-BANDWIDTH-LIMIT" name="Upstream Bandwidth Limit" type="Fixed multiplier" default="512000 bps" unit="bps" maxunit="Ebps" minunit="bps" />
+                        <variable key="ANESAT-UPSTREAM-BANDWIDTH-MINIMUM" name="Upstream Bandwidth Minimum" type="Fixed multiplier" default="64000 bps" unit="bps" maxunit="Ebps" minunit="bps" />
+                    </option>
+                    <option value="STRICT" name="Strict">
+                        <variable key="ANESAT-UPSTREAM-BANDWIDTH-LIMIT" name="Upstream Bandwidth Limit" type="Fixed multiplier" default="512000 bps" unit="bps" maxunit="Ebps" minunit="bps" />
+                    </option>
+                </variable>
+                <variable key="ANESAT-DOWNSTREAM-BANDWIDTH" name="Downstream Bandwidth" type="Fixed multiplier" default="70000000 bps" unit="bps" maxunit="Ebps" minunit="bps" ></variable>
+                <variable type="Time" default="5MS" key="ANESAT-DOWNSTREAM-MAC-LATENCY" name="Downstream MAC Latency"></variable>
+                <variable type="Text" default="Downstream0" key="ANESAT-CHANNEL-ID" name="Anesat Subnet Channel Identifier"></variable>
+                <variable type="Selection" default="ane_default_mac" key="ANE-EQUATION-DEFINITION" name="Equation Definition File/class" invisible="interface">
+                    <option value="anesat_mac" name="Abstract Multichannel Satellite"></option>
+                    <option value="ane_default_mac" name="Abstract Base Satellite"></option>
+                </variable>
+                <variable type="Selection" default="Asymmetric" key="ANE-SUBNET-ARCHITECTURE" name="Subnet Topology" invisible="interface">
+                    <option value="Asymmetric" name="Host to Gateway">
+                        <variable type="Integer" default="[Required]" key="ANE-HEADEND-NODE" name="Headend Node" invisible="interface" min = "1"></variable>
+                    </option>
+                    <option value="Symmetric" name="Host to Host">
+                    </option>
+                </variable>
+                <variable type="Integer" default="1" key="ANE-PROCESSOR-NODE" name="ANE Simulation Processing Node" help="Centralized processing node" invisible="interface"/>
+                <variable type="Integer" default="0" key="ANE-PROCESSOR-NODE-INDEX" name="ANE Simulation Node Index" help="Centralized processing node index" invisible="interface" />
+                
+            </option>
+            <option value="SATELLITE-BENTPIPE" name="Satellite-RSV MAC" addon="satellite"  visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-ADVANCE-SATELLITE'">
+                <variable name="Protocol Role" key="MAC-SATELLITE-BENTPIPE-ROLE" type="Selection" default="GROUND-STATION" prepend="id" issatellitekey="yes" >
+                    <option value="SATELLITE" name="Satellite">
+                        <variable name="No. of Satellite Channels" key="MAC-SATELLITE-CHANNEL-COUNT" default="1" type="Array">
+                        <variable name="Satellite Uplink Channel" key="MAC-SATELLITE-UPLINK-CHANNEL" default="[Required]" type="Integer"/>
+                        <variable name="Satellite Downlink Channel" key="MAC-SATELLITE-DOWNLINK-CHANNEL" default="[Required]" type="Integer"/>
+                        </variable>
+                    </option>
+                    <option value="GROUND-STATION" name="Ground Station">
+                        <variable name="Use Uplink Channel" key="MAC-SATELLITE-USE-UPLINK-CHANNEL" default="[Required]" type="Integer"/>
+                        <variable name="Use Downlink Channel" key="MAC-SATELLITE-USE-DOWNLINK-CHANNEL" default="[Required]" type="Integer"/>
+                    </option>
+                </variable>
+                <variable name="Forward to Payload Processor" key="MAC-SATELLITE-BENTPIPE-FORWARD-TO-PAYLOAD-PROCESSOR" type="Selection" default="NO" prepend="id">
+                    <option value="YES" name="Yes" />
+                    <option value="NO" name="No" />
+                </variable>
+                <variable name="Frame Transmit Power (mW)" help="mW" key="MAC-SATELLITE-BENTPIPE-TRANSMIT-POWER-MW" type="Fixed" default="3000.0" min="0.0" prepend="id" />
+            </option>
+            <option value="CSMA" name="CSMA" addon="wireless"  visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'"/>
+            <option value="MACA" name="MACA" addon="wireless"  visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'"/>
+            <option value="FCSC-CSMA" name="FCSC-CSMA" addon="military"  visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'"/>
+            <option value="TDMA" name="TDMA" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Slot Duration" key="TDMA-SLOT-DURATION" type="Time" default="10MS" help="TDMA slot duration must be greater than or equal to 1MS and less than or equal to 1S. The default value is 10MS. This duration should be longer enough so that a packet can be transmitted." />
+                <variable name="Guard Time" key="TDMA-GUARD-TIME" type="Time" default="0NS" />
+                <variable name="Inter-frame Time" key="TDMA-INTER-FRAME-TIME" type="Time" default="1US" />
+                <variable name="Scheduling" key="TDMA-SCHEDULING" type="Selection" default="AUTOMATIC">
+                    <option value="AUTOMATIC" name="Automatic" />
+                    <option value="FILE" name="File">
+                        <variable name="Scheduling File" key="TDMA-SCHEDULING-FILE" type="File" default="[Required]" />
+                    </option>
+                </variable>
+                <variable name="Slots per Frame" key="TDMA-NUM-SLOTS-PER-FRAME" type="Integer" optional="true" default="30" help="By default, if no TDMA schedule is given, this is set to the number of nodes in the network. If a schedule is given, by default, this is set to the number of slots necessary for the schedule. If this parameter value is given, it must be at least as large as the aforementioned default values or an error will be produced. In addition, the number of slots per frame must be greater than 0 and less than or equal to 2000." />
+            </option>
+			<option value="BAC" name="BAC" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Control Slot Duration" key="BAC-CONTROL-SLOT-DURATION" type="Time" default="0.3MS" help="Duration of control slot, should be much shorter than that of data slot." />
+                <variable name="Data Slot Duration" key="BAC-DATA-SLOT-DURATION" type="Time" default="3MS" help="Duration of data slot." />              
+               <!-- <variable name="Guard Time" key="BAC-GUARD-TIME" type="Time" default="0NS" />-->
+                <variable name="Inter-frame Time" key="BAC-INTER-FRAME-TIME" type="Time" default="1US" />
+                <variable name="Data Partition Inter-TxSlot-Number" key="BAC-INTER-TX-SLOT-NUM" type="Integer" default="4" />
+                <variable name="Slots Number of Backoff Block" key="BAC-MIN-BO-SLOT-NUM" type="Integer" default="20" />
+                <variable name="Times of Backoff Initialization Parameter of Different Priorities" key="BAC-BO-INIT-MUL" type="Integer" default="2" />
+                <variable name="Scheduling" key="BAC-SCHEDULING" type="Selection" default="AUTOMATIC">
+                    <option value="AUTOMATIC" name="Automatic" />
+                    <option value="FILE" name="File">
+                        <variable name="Scheduli
+						ng File" key="BAC-SCHEDULING-FILE" type="File" default="[Required]" />
+                    </option>
+                </variable>
+				<variable name="N" key="WIDTH" type="Integer" default="0" />
+				<variable name="TTL" key="TTL" type="Time" default="20MS"/>
+				<variable name="Max Hop" key="MAX_HOP" type="Integer" default="8"/>
+				<variable name="Number of Slots of Control Partition" key="BAC-NUM-SLOTS-CONTROL-PARTITION" type="Integer" default="150"/>
+				<variable name="Num of Slot Partition" key="BAC-NUM-OF-PARTITION" type="Integer" default="3"/>
+               <!-- <variable name="Slots per Frame" key="BAC-NUM-SLOTS-PER-FRAME" type="Integer" optional="true" default="32" help="By default, if no BAC schedule is given, this is set to the number of nodes in the network. If a schedule is given, by default, this is set to the number of slots necessary for the schedule. If this parameter value is given, it must be at least as large as the aforementioned default values or an error will be produced. In addition, the number of slots per frame must be greater than 0 and less than or equal to 2000." />-->
+
+			   <variable name="Is Multicast" key="Is-Multicast" type="Selection" default="NO">
+				    <option value="YES" name="yes" >
+					   <variable name="Is Multicast Sequence_1" key="Is-Multicast-Sequence_1" type="Selection" default="NO-MULTICAST-SEQUENCE_1">
+					         <option value="MULTICAST-SEQUENCE_1" name="Multicast-Sequence_1" /> 
+							 <option value="NO-MULTICAST-SEQUENCE_1" name="No-Multicast-Sequence_1" /> 
+					   </variable>
+					   <variable name="Is Multicast Sequence_2" key="Is-Multicast-Sequence_2" type="Selection" default="NO-MULTICAST-SEQUENCE_2">
+					         <option value="MULTICAST-SEQUENCE_2" name="Multicast-Sequence_2" /> 
+							 <option value="NO-MULTICAST-SEQUENCE_2" name="No-Multicast-Sequence_2" /> 
+					   </variable>
+					   <variable name="Is Multicast Sequence_3" key="Is-Multicast-Sequence_3" type="Selection" default="NO-MULTICAST-SEQUENCE_3">
+					         <option value="MULTICAST-SEQUENCE_3" name="Multicast-Sequence_3" /> 
+							 <option value="NO-MULTICAST-SEQUENCE_3" name="No-Multicast-Sequence_3" /> 
+					   </variable>
+					</option>
+					<option value="NO" name="no" >
+					</option>
+				</variable>
+				<variable name="Dithering Type" key="Dithering-Type" type="Selection" default="PHASE-DITHERING">
+				    <option value="PHASE-DITHERING" name="Phaes-Dithering" >
+					    <variable name="Phase-Dithering Sequence" key="PHASE-DITHERING-SEQUENCE" type="Selection" default="PHASE-DITHERING-SEQUENCE-1">
+						    <option value="PHASE-DITHERING-SEQUENCE-1" name="Phase-Sequence-1" /> 
+							<option value="PHASE-DITHERING-SEQUENCE-2" name="Phase-Sequence-2" />
+						    <option value="PHASE-DITHERING-SEQUENCE-3" name="Phase-Sequence-3" />
+						</variable>
+					</option>
+					<option value="TIME-DITHERING" name="Time-Dithering" >
+						<variable name="Time-Dithering Sequence" key="TIME-DITHERING-SEQUENCE" type="Selection" default="TIME-DITHERING-SEQUENCE-1">
+						    <option value="TIME-DITHERING-SEQUENCE-1" name="Time-Sequence-1" /> 
+							<option value="TIME-DITHERING-SEQUENCE-2" name="Time-Sequence-2" />
+						    <option value="TIME-DITHERING-SEQUENCE-3" name="Time-Sequence-3" />
+                        </variable>	
+					</option>						
+					<option value="TIME-AND-PHASE-DITHERING" name="Time-and-Phaes-Dithering" >
+						<variable name="Time-And-Phase-Dithering Sequence" key="TIME-AND-PHAES-DITHERING-SEQUENCE" type="Selection" default="TIME-AND-PHAES-DITHERING-SEQUENCE-1">
+						    <option value="TIME-AND-PHAES-DITHERING-SEQUENCE-1" name="Time-And-Phase-Sequence-1" /> 
+							<option value="TIME-AND-PHAES-DITHERING-SEQUENCE-2" name="Time-And-Phase-Sequence-2" />
+						    <option value="TIME-AND-PHAES-DITHERING-SEQUENCE-3" name="Time-And-Phase-Sequence-3" />
+						</variable>
+					</option>
+				</variable>
+			</option>
+            <option value="ALOHA" name="Aloha" addon="wireless" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'"/>
+            <option value="MAC-SPAWAR-LINK16" name="SPAWAR Link 16" addon="link16" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="SPAWAR Link-16 Slot File" key="MAC_SPAWAR_LINK16-CONFIG-FILE" type="Link16 slot file" default="[Optional]" filetype="link16" invisible="device,interface" />
+                <variable name="SPAWAR Link-16 CCSK file" key="MAC_SPAWAR_LINK16-CCSK-FILE" type="Link16 CCSK file" default="[Optional]" filetype="ccsk" invisible="device,interface" />
+            </option>
+            <option value="MAC-LINK-16" name="Link 16" addon="military" invisible="WiredSubnet, interface" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Link 16 Data Packing Scheme" key="LINK-16-DATA-PACKING-SCHEME" type="Selection" default="STD-DP" >
+                    <option value="STD-DP" name="STD-DP" />
+                    <option value="P2SP" name="P2SP" />
+                    <option value="P2DP" name="P2DP" />
+                    <option value="P4SP" name="P4SP" />
+                </variable>
+                <variable name="Link 16 Encoding" key="LINK-16-ENCODING-SCHEME" type="Checkbox" default="NO" />
+                        <variable name="Link 16 Code Length" key="LINK-16-CODE-LENGTH" type="Integer" default="1" />
+                        <variable name="Link 16 Data Length" key="LINK-16-DATA-LENGTH" type="Integer" default="1" />
+                <variable name="Link 16 Time Slot Allocation File" key="LINK-16-SLOT-FILE" type="SlotFile" default="[Required]" filetype="slot" invisible="device,interface" />
+                <variable name="Open NPG Editor" key="LINK-16-NPG-EDITOR" type="NPGEditor" default="" keyvisible="false" invisible="device,interface" />
+                <variable name="Maximum NPG Index" key="MAX-NPG-INDEX" type="Integer" default="512" invisible="device,interface" />
+            </option>
+            <option value="MAC-LINK-11" name="Link 11" addon="military" invisible="WiredSubnet, interface" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Link 11 NCS Node" key="LINK-11-NCS" type="Integer" default="1" help="Please Enter the Node Id of the NCS Node for this network"/>
+                <variable name="Link 11 Data Rate" key="LINK-11-DATA-RATE" type="Selection" default="FAST" help="Please Specify the Link 11 Data Rate from the given choices">
+                    <option value="FAST" name="Fast Rate:2250 bps" />
+                    <option value="SLOWL" name="Slowl Rate: 1364 bps" />
+                    <option value="SLOWS" name="Slows Rate: 1364 bps" />
+                </variable>
+                <variable name="Link 11 Polling Order" key="LINK-11-POLLING-ORDER-TYPE" type="Selection" default="SERIAL" help="Please select the polling order options from the given choices ">
+                    <option value="SERIAL" name="Serial" />
+                    <option value="USER-SPECIFIED" name="User-Specified">
+                        <variable key="LINK-11-USER-SPECIFIED-POLLING-ORDER" type="Text" name="Polling List" default="{}" optional="true" help="List the nodes which are ICMP routers between the '{}' separated by commas.  You can use 'thru' to specify a range of nodes." invisible="Device" />
+                    </option>
+                </variable>
+                <variable name="Configure Link 11 Rx Threshold Manully" key="USER-SPECIFIED-RX-THRESHOLD" type= "Selection" default="NO">
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Link 11 Rx Threshold" key="LINK-11-RX-SNR-THRESHOLD" type= "Fixed" default="10"/>
+                    </option>
+                </variable>
+            </option>
+            <option value="MODE5" name="Mode 5 MAC" addon="jne"/>
+            <option value="GENERICMAC" name="Generic MAC" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Channel Access Mode" key="CHANNEL-ACCESS" type="Selection" default="PSMA">
+                    <option value="PSMA" name="PSMA" />
+                    <option value="CSMA" name="CSMA" />
+                    <option value="CSMA-CA" name="CSMA-CA" />
+                    <option value="SLOT-CSMA" name="SLOT-CSMA">
+                        <variable name="Slot Duration" key="SLOT" type="Time" default="10MS" help="GENERICMAC slot duration must be greater than or equal to 1MS and less than or equal to 1S. The default value is 10MS. This duration should be longer enough so that a packet can be transmitted." />
+                    </option>
+                    <option value="SLOT-CSMA-CA" name="SLOT-CSMA-CA">
+                        <variable name="Slot Duration" key="SLOT" type="Time" default="10MS" help="GENERICMAC slot duration must be greater than or equal to 1MS and less than or equal to 1S. The default value is 10MS. This duration should be longer enough so that a packet can be transmitted." />
+                    </option>
+                </variable>
+                <variable name="Enable RTS/CTS" key="RTS-CTS" type="Checkbox" default="NO" />
+                <variable name="Enable ACK" key="ACK" type="Checkbox" default="NO" />
+                <variable name="Retry Limit" key="RETRY-LIMIT" type="Integer" default="25" min="0"/>
+            </option>
+            <option value="USAP" name="USAP" addon="military" invisible="WiredSubnet" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Sync. Slot Duration" key="USAP-SYNC-SLOT-DURATION" type="Time" default="2MS" min="0S" help="Duration of a synchronization slot." />
+                <variable name="Bootstrap Slot Duration" key="USAP-BOOTSTRAP-SLOT-DURATION" type="Time" default="3MS" min="0S" help="Duration of a bootstrap slot." />
+                <variable name="Data Slot Duration" key="USAP-SLOT-DURATION" type="Time" default="8MS" min="0S" help="Duration of a broadcast or reserved slot." />
+                <variable name="Number of Sync. Slots per Frame" key="USAP-SYNC-SLOT-PER-FRAME" type="Integer" default="3" min="0" max="65535" help="Number of synchronization slots in one frame." />
+                <variable name="Number of Bootstrap Slots per Frame" key="USAP-BOOTSTRAP-SLOT-PER-FRAME" type="Integer" default="13" min="1" max="65535" help="Number of bootstrap slots in one frame." />
+                <variable name="Number of Broadcast Slots per Frame" key="USAP-BROADCAST-SLOT-PER-FRAME" type="Integer" default="2" min="1" max="65535" help="Number of broadcast slots in one frame." />
+                <variable name="Number of Reserved Slots per Frame" key="USAP-RESERVED-SLOT-PER-FRAME" type="Integer" default="8" min="1" max="65535" help="Number of reserved slots in one frame." />
+                <variable name="Number of Frames per Bootstrap Cycle" key="USAP-BOOTSTRAP-CYCLE" type="Integer" default="4" min="1" max="65535" help="Number of frames in one bootstrap cycle." />
+                <variable name="Number of Frames per Broadcast Cycle" key="USAP-BROADCAST-CYCLE" type="Integer" default="4" min="1" max="65535" help="Number of frames in one broadcast cycle." />
+                <variable name="Maximum Number of Broadcast Cycles per Epoch" key="USAP-BROADCAST-EPOCH-SIZE" type="Integer" default="0" min="0" max="65535" optional="true" help="Maximum number of broadcast cycles in one broadcast epoch." />
+                <variable name="Inter-slot Guard Time" key="USAP-GUARD-TIME" type="Time" default="0MS" help="Guard time between two consecutive slots in a frame." />
+                <variable name="Inter-frame Guard Time" key="USAP-INTER-FRAME-TIME" type="Time" default="0MS" help="Guard time between two consecutive frames." />
+                <variable name="Enable Channelized Neighborhood" key="USAP-CHANNELIZED-NEIGHBORHOOD" type="Checkbox" default="YES" help="Whether to utilize channelized neighborhood." />
+                <variable name="Enable Adaptive Bootstrap Cycle" key="USAP-ADAPTIVE-BOOTSTRAP-CYCLE" type="Checkbox" default="NO" help="Whether to adaptively assign bootstrap slots." />
+                <variable name="Wait Confirmation for Slot Reservation" key="USAP-WAIT-ASSIGNMENT-CONFIRMATION" type="Checkbox" default="NO" help="Whether to wait for confirmation of the slot reservation before transmitting." />
+                <variable name="Data Packet Fragmentation Unit Size (bytes)" key="USAP-FRAGMENTATION-UNIT" type="Integer" default="2048" min="512" max="65535" optional="true" help="Unit size for fragmenting data packets." />
+                <variable name="Neighbor Timeout Value" key="USAP-NEIGHBOR-LIFETIME" type="Integer" default="3" min="2" max="65535" help="The time out interval of a neighbor from neighbor list in the unit of # of bootstrap cycles." />
+                <variable name="Maximum Slot Idle Duration" key="USAP-MAX-SLOT-IDLE-TIME" type="Time" default="10S" help="Maximum idle time of a reserved slot. Once exceeded, the slot will be freed." />
+                <variable name="Maximum MAC Buffer Size (bytes)" key="USAP-PACKET-BUFFER-SIZE" type="Integer" default="500000" min="5000" help="Maximum size of the MAC layer buffer in terms of number of bytes." />
+                <variable name="Number of Buckets for Traffic Monitoring" key="USAP-TRAFFIC-BUCKET-MONITOR-INTERVAL" type="Integer" default="64" help="Number of buckets used for monitoring the traffic rate per neighbor." />
+                <variable name="Maximum Number of Slots for One Neighbor" key="USAP-MAX-RESERV-SLOT-PER-NEIGHBOR" type="Integer" default="2" min="1" help="Maximum number of slots that can be reserved for transmitting to one neighbor." />
+            </option>
+            <option value="MAC-WORMHOLE" name="Wormhole" addon="cyber" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRELESS'">
+                <variable name="Wormhole Operation Mode" key="WORMHOLE-MODE" type="Selection" default="THRESHOLD">
+                    <option value="THRESHOLD" name="Threshold">
+                        <variable name="Wormhole Link Drop Threshold" key="WORMHOLE-THRESHOLD" type="Integer" default="150" />
+                    </option>
+                    <option value="ALLPASS" name="All Pass"/>
+                    <option value="ALLDROP" name="All Drop"/>
+                </variable>
+                <variable name="Wormhole Link Bandwidth (bits/second)" key="WORMHOLE-LINK-BANDWIDTH" type="Fixed multiplier" default="10000000 bps" unit="bps" maxunit="Ebps" minunit="bps"/>
+                <variable name="Wormhole Replay Mac Protocol" key="WORMHOLE-REPLAY-MAC-PROTOCOL" type="Text" default="WORMHOLE-CSMA" disable="true" />
+                <variable name="Wormhole Propagation Delay" key="WORMHOLE-PROPAGATION-DELAY" type="Time" default="1US" />
+                <variable name="Specify Wormhole Victim Turnaround Time" key="WORMHOLE-VICTIM-COUNT-TURNAROUND-TIME" type="Selection" default="NO" >
+                    <option value="NO" name="No" />
+                    <option value="YES" name="Yes">
+                        <variable name="Wormhole Victim Turnaround Time" key="WORMHOLE-VICTIM-TURNAROUND-TIME" type="Time" default="0MS" />
+                    </option>
+                </variable>
+            </option>
+        </variable>
+        <variable name="MAC Propagation Delay" key="MAC-PROPAGATION-DELAY" type="Time" default="1US" help="specifies an additional delay for messages sent by the MAC layer to the phy layer.  Some MAC protocols use a multiple of this value." addon="wireless" visibilityrequires="[MAC-PROTOCOL] != 'None'"/>
+        <variable name="Enable Promiscuous Mode" key="PROMISCUOUS-MODE" type="Checkbox" default="NO" optional="true" help="must be set to YES if nodes want to overhear packets destined to the neighboring node." />
+        <variable name="Enable LLC" key="LLC-ENABLED" type="Checkbox" default="NO" invisible="device, ScenarioLevel"/>
+        <variable name="Configure MAC Address" key="DUMMY-MAC-ADDRESS" help="ARP must be enabled to configure MAC address." type="Selection" default="NO" optional="true" invisible="ScenarioLevel, Device, WirelessSubnet">
+            <option value="NO" name="No"></option>
+            <option value="YES" name="Yes" >
+                <variable name="Read MAC Address from File" key="DUMMY-ADDRESS-FROM-FILE" type="Selection" default="NO" keyvisible="false" >
+                    <option name="Yes" value="YES">
+                        <variable name="MAC Address Configuration File" key="MAC-ADDRESS-CONFIG-FILE" type="File" default="[Required]" filetype="mac-address"/>    
+                    </option>
+                    <option name="No" value="NO">
+                        <variable name="MAC Address Type" key="MAC-ADDRESS-TYPE" type="Selection" default="ETHERNET">
+                            <option value="ETHERNET" name="Ethernet"/>
+                            <option value="ATM" name="ATM"/>
+                        </variable>
+                        <variable name="MAC Address Value" key="MAC-ADDRESS" type="Text" default="[Required]"/>
+                        <variable name="MAC Address Length" key="MAC-ADDRESS-LENGTH" type="Integer" default="6" disable="true"/>    
+                    </option>
+                </variable>
+            </option>
+        </variable>    
+        <variable key="SWITCH-STATION-VLAN-TAGGING" type="Selection" name="Use Station VLAN Tagging" default="NO" optional="true" visibilityrequires="[DUMMY-INTERFACE-TYPE] == 'LINK-WIRED' || [DUMMY-INTERFACE-TYPE] == 'LINK-WIRELESS' || [DUMMY-INTERFACE-TYPE] == 'LINK-MICROWAVE' || [DUMMY-INTERFACE-TYPE] == 'SUBNET-WIRED'" >
+            <option value="NO" name="No" />
+            <option value="YES" name="Yes" >
+                <variable key="SWITCH-STATION-VLAN-ID" type="Integer" name="Station VLAN ID" default="1" min="0" max="4090" />
+            </option>
+        </variable>
+    </subcategory>
+</category>

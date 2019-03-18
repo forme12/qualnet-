@@ -1,0 +1,66 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+#
+# CONFIGURATION FILE FOR DEFINING ACL CRITERIAS
+#
+# Inputs in this file are case insensitive.
+#
+# Node-id of node where access list is defined.
+# ROUTER <node-id>
+# NOTE: This line is required only if a common ACL configuration file
+# is provided for all the nodes.
+#
+# Interface index of node where ACL is to be configured.
+# INTERFACE <interface-index>
+# NOTE: Access list is applied to that interface which is defined by last
+# INTERFACE keyword in the current configuration file.
+#
+# The rest all the configurations for standard, extended and reflex ACL
+# follow the CISCO format. For detailed configuration proposals, refer
+# to the user's manual.
+#
+# For static and standard access list, use the following reference:
+# http://www.cisco.com/univercd/cc/td/doc/product/software/
+#       ios113ed/113ed_cr/np1_c/1cip.htm#xtocid847415
+# For reflexive access lists, use the following reference:
+# http://www.cisco.com/univercd/cc/td/doc/product/software/
+#       ios120/12cgcr/secur_c/scprt3/screflex.htm#13069
+#
+# Example:
+#
+
+#
+# Summarize route using ACL configuration
+#
+NODE-IDENTIFIER 2
+INTERFACE 0
+IP ACCESS-LIST Standard Router2-ACL
+PERMIT  10.1.0.0  0.0.0.0
+DENY ANY
+IP ACCESS-GROUP Router2-ACL OUT
+
+#
+# Summarize route using ACL configuration
+#
+NODE-IDENTIFIER 6
+INTERFACE 0
+IP ACCESS-LIST Standard Router6-ACL
+PERMIT  10.6.0.0  0.0.0.0
+DENY ANY
+IP ACCESS-GROUP Router6-ACL OUT
+

@@ -1,0 +1,76 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+#
+# There are two types of interface faults: static and dynamic.  Static faults
+# have specific user-specified start and end times.  Dynamic faults can be
+# specified using mean time before failure and mean repair time.
+#
+
+#
+# A static interface faults can be specified by the following:
+#
+# INTERFACE-FAULT <interface index> <time fault occurs> <time fault is over>
+#
+# Link faults can be modeled using two INTERFACE-FAULT statements to
+# specify faults on both interfaces associated with the link.
+# For example, to specify a link fault for a link of N8-1.0, use:
+#
+# INTERFACE-FAULT 2.4 0S 10S
+# INTERFACE-FAULT 1.2 0S 10S
+#
+
+# ARP is enhanced to deal with situation where the network interface card in
+# a system is changed. QualNet Interface fault configuration is extended for
+# this purpose. The following can specify interface card faults:
+#
+# INTERFACE-FAULT <interface address> <time fault occurs> <time fault is over> [INTERFACE-CARD-FAULT <interface mac-address>]
+#
+# INTERFACE-CARD-FAULT and replacement is supported only when ARP is enabled,
+# and is only enabled for static faults.
+#
+# For example, to specify a interface card fault, use:
+#
+# INTERFACE-FAULT 192.168.100.1 5S 100S INTERFACE-CARD-FAULT 5C-AA-FE-23-4F-C2
+
+
+# A dynamic fault has four components: repetitions, start time, mtbf, and repair
+# time.  The syntax is as follows:
+#
+# INTERFACE-FAULT <interface address> <repetitions> <start time> <mtbf> <repair time>
+#
+# Each of the four components is specified using two keywords and a list of parameters.
+# The first keyword identifies the component: REPS, START, MTBF, DOWN.
+# The second keyword is the random variable type specifier, DET for deterministic,
+# UNI for uniform distribution, and EXP for exponential distribution.  The naming is
+# the same as for the TRAFFIC-GEN/TRAFFIC-TRACE applications.
+#
+# DET requires one parameter.
+# UNI requires two: lower and upper bounds on the range.
+# EXP requires one: a mean value for the distribution.
+#
+# An example follows.
+#
+# INTERFACE-FAULT 192.0.1.1 REPS DET 1   START DET 1S  MTBF UNI 1S 2S  DOWN EXP 1S
+#                          [repetitions][start time  ][up time       ][down time  ]
+#
+
+
+
+INTERFACE-FAULT    192.168.9.2    2000     2500
+
+INTERFACE-FAULT    192.168.4.2    2700     3200

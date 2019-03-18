@@ -1,0 +1,41 @@
+PURPOSE:-
+-------
+To test the graft operation of DVMRP in a string topology network.
+The multicast receiver will receive most, but not all, the data
+sent since the receiver leaves the group and rejoins .
+(causing prunes and grafts).
+
+
+
+SCENARIO:-
+---------
+In this scenario, there is one MCBR session, with node 1 being the multicast
+source and node 5 being the multicast receiver.  Node 5 joins the group at
+1 minute and leaves at 13 minutes of the simulation time. The receiver then
+rejoins the group at 17 minutes of the simulation time. Node 4 is the IGMP
+router. The link capacity is 10 Mbps for all links.
+
+
+1 ------- 2 ------- 3 ------- 4 ------- 5
+
+
+MCBR is used to transfer 240 data segments of 1000B each at 5 second
+intervals starting at 10 minutes of the simulation time.
+
+
+
+RUN:-
+----
+
+Run '<QUALNET_HOME>/bin/qualnet string-graft.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. string-graft.app -  QualNet Configuration file for application input.
+2. string-graft.config - QualNet configuration input file.
+3. string-graft.member - QualNet multicast group members file.
+4. string-graft.expected.stat - QualNet statistics collection for MCBR
+                                and DVMRP.
+5. README - This file.
+

@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Pathloss Matrix Model</title>
+    <link rel="StyleSheet" href="css/Pathloss%20Matrix.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Ch2%20-%20Propagation%20Models.html#998293">2	Propagation Models</a> &gt; 2.7  Pathloss Matrix Model</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">2.7  <a name="998293">Pathloss Matrix Model</a></div>
+      <div class="Heading2Numbered">2.7.1  <a name="1001758">Description</a></div>
+      <div class="BodyAfterHead"><a name="998294">This model uses a four-dimensional matrix indexed by source node, destination node, simulation time, and channel number. The matrix value for a (source, destination, simulation-time) is the pathloss value between the given source-destination pair at the given simulation time. The pathloss matrix is input as a text file.</a></div>
+      <div class="Heading2Numbered">2.7.2  <a name="998295">Command Line Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1003189">To select the Pathloss Matrix model, include the following parameter in the scenario configuration (.config) file:</a></div>
+      <div class="Declaration"><a name="1003190">&nbsp;</a></div>
+      <div class="Declaration"><a name="1003191">PROPAGATION-PATHLOSS-MODEL[&lt;Index&gt;]	 PATHLOSS-MATRIX</a></div>
+      <div class="Example"><a name="1003400">where</a></div>
+      <table class="ArgumentTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 90pt">
+            <div class="BodyCourier"><a name="1003396">&lt;Index&gt;</a></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 342pt">
+            <div class="CellBody_Large"><a name="1003398">Channel index to which this parameter declaration is applicable, enclosed in square brackets. This should be in the range 0 to </a><span style="font-style: italic">n</span> -1, where <span style="font-style: italic">n</span> is the number of priority channels. </div>
+            <div class="CellBody_Large"><a name="1003399">The index specification is optional. If an index is not included, then the parameter declaration is applicable to all channels.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading4"><a name="998324">&nbsp;</a></div>
+      <div class="Heading4"><a name="1005039">Pathloss Matrix Model Parameters</a></div>
+      <div class="BodyAfterHead"><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Pathloss%20Matrix.html#998311', '');" title="Pathloss Matrix Model" name="1001729">Table&nbsp;2-11</a></span> describes the Pathloss Matrix configuration parameters. See <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Ch1%20-%20Overview.01.2.html#1058602', '');" title="Conventions Used">Section&nbsp;1.2.1.3</a></span> for a description of the format used for the parameter table.</div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 2-11.&nbsp;&nbsp;<a name="998311">Pathloss Matrix Model Parameters&nbsp;</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 162pt">
+            <div class="CellHeading"><a name="998315">Parameter Name</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 90pt">
+            <div class="CellHeading"><a name="1000466">Value</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 216pt">
+            <div class="CellHeading"><a name="998317">Description</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Parameter_Name"><a name="998319">PROPAGATION-PATHLOSS- MATRIX-FILE</a></div>
+            <div class="Cell_2nd_Line" style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 9.0pt; font-style: italic; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1000471">Required</a></span></div>
+            <div class="CellRun-In_Plain"><span class="Emphasis"><a name="1000472">Scope</a></span></div>
+            <div class="CellBody"><a name="1000473">Global</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1000468">Filename</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="998321">Name of the file that contains the pathloss matrix.</a></div>
+            <div class="CellBody"><a name="998322">The format of the pathloss matrix file is described in </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Pathloss%20Matrix.html#998325', '');" title="Pathloss Matrix Model">Section&nbsp;2.7.2.1</a></span>.</div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading3Numbered">2.7.2.1  <a name="998325">Format of the Pathloss Matrix File</a></div>
+      <div class="BodyAfterHead"><a name="998326">The first line in the pathloss matrix file lists the channel frequencies in use in the scenario and has the following format:</a></div>
+      <div class="Declaration"><a name="998327">Freq:&lt;Num-channels&gt;:&lt;Frequency 1&gt;:&lt;Frequency 2&gt; ...:&lt;Frequency n&gt;</a></div>
+      <div class="Example"><a name="998328">where</a></div>
+      <table class="ArgumentTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 126pt">
+            <div class="Body" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1003431">&lt;Num-channels&gt;</a></span></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 306pt">
+            <div class="Body"><a name="1003433">Number of channels.</a></div>
+            <div class="BodyAfterHead"><a name="1003484">This must be the same as the number of channels specified in the configuration file.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Body" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1003435">&lt;Frequency </a></span><span style="font-style: italic">i</span>&gt;</div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Body"><a name="1003437">Frequency of the </a><span style="font-style: italic">i</span><span style="vertical-align: super">th</span> channel, in GHz. </div>
+            <div class="BodyAfterHead"><a name="1003488">There should be as many occurrences of this field as the number of channels in the scenario.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="998331">The second line specifies the number of nodes in the scenario and has the following format:</a></div>
+      <div class="Declaration"><a name="998332">Nodes:&lt;Num-nodes&gt;</a></div>
+      <div class="Example"><a name="998333">where</a></div>
+      <table class="ArgumentTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 126pt">
+            <div class="Body" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1003452">&lt;Num-nodes&gt;</a></span></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 306pt">
+            <div class="Body"><a name="1003454">Number of nodes in the scenario.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Body"><a name="998335">Each of the remaining lines gives the pathloss values between a pair of nodes for each of the channels at a specific simulation time. The format for these lines is:</a></div>
+      <div class="Declaration"><a name="998336">&lt;Time&gt; &lt;Node 1&gt; &lt;Node 2&gt; &lt;Pathloss 1&gt; &lt;Pathloss 2&gt;... &lt;Pathloss m&gt;</a></div>
+      <div class="Example"><a name="998337">where:</a></div>
+      <table class="ArgumentTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 90pt">
+            <div class="Body" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1003466">&lt;Time&gt;</a></span></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top; width: 342pt">
+            <div class="Body"><a name="1003468">Simulation time (in seconds). This is an integer or real value.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Body" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1003470">&lt;Node 1&gt;, &lt;Node 2&gt;</a></span></div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Body"><a name="1003472">Node IDs.</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Body" style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: &quot;Courier New&quot;; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="1003474">&lt;Pathloss </a></span><span style="font-style: italic">i</span>&gt;</div>
+          </td>
+          <td style="padding-bottom: 6pt; padding-left: 0pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="Body"><a name="1005384">Pathloss (in dB) on the </a><span style="font-style: italic">i</span><span style="vertical-align: super">th</span> channel from <span style="font-family: &quot;Courier New&quot;">&lt;Node 1&gt;</span> to <span style="font-family: &quot;Courier New&quot;">&lt;Node 2&gt;</span> at the specified simulation time. </div>
+            <div class="BodyAfterHead"><a name="1005575">There should be between 1 and </a><span style="font-style: italic">num-channels</span> occurrences of this field, where <span style="font-style: italic">num-channels</span> is the number of channels in the scenario.</div>
+          </td>
+        </tr>
+      </table>
+      <div class="Example"><a name="1005137">&nbsp;</a></div>
+      <table class="NoteTable" style="text-align: left; width: 432pt" cellspacing="0" summary="">
+        <caption></caption>
+        <tr>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 36pt">
+            <div class="Note_003a">
+              <span class="Bold">Note:</span><a name="1005144">&nbsp;</a></div>
+          </td>
+          <td style="padding-bottom: 2pt; padding-left: 0pt; padding-right: 0pt; padding-top: 4pt; vertical-align: top; width: 396pt">
+            <div class="Body"><a name="1005157">The lines specifying pathloss values can be in any order, i.e., they need not be ordered by simulation time or node IDs.</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Anchor"><a name="998342">&nbsp;</a></div>
+      <div class="Heading4"><a name="1005853">Rules for Determining Pathloss Values</a></div>
+      <div class="BodyAfterHead"><a name="1005892">The following rules determine the pathloss value between two nodes on a specific channel at a specific time. In the following, </a><span style="font-style: italic">num-channels</span> is the number of channels in the scenario.</div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="1005860">If for any time t, there are m (1 ≤ m ≤ num-channels) pathloss values specified from node N1 to node N2, then these pathloss values are for the first m channels. If the i</a><span style="vertical-align: super">th</span> pathloss value is 1000, then N2 is not reachable from N1 on channel i at time t.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="NumberedCont"><a name="1005861">If t</a><span style="vertical-align: sub">1</span> is the earliest time for which pathloss is specified from node N1 to node N2 and there are m pathloss values specified (1 ≤ m ≤ num-channels), then for channel i (m &lt; i ≤ num-channels), N2 is assumed to be not reachable from N1 up to and including time t<span style="vertical-align: sub">1</span>. </div>
+      <div class="NumberedCont"><a name="1006154">For any subsequent time t</a><span style="vertical-align: sub">2</span> (t<span style="vertical-align: sub">2</span> &gt; t<span style="vertical-align: sub">1</span>), if there are p pathloss values specified from N1 to N2, then for channel i (p &lt; i ≤ num-channels):</div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><a name="1006158">If the pathloss value has been specified for an earlier time, then the pathloss value specified for the most recent time is used.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><a name="1006159">If the pathloss value has not been specified for any time instant before t</a><span style="vertical-align: sub">2</span>, then N2 is assumed to be not reachable from N1 at up to and including time t<span style="vertical-align: sub">2</span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="NumberedCont"><a name="1005877">(Therefore, it is only necessary to specify the pathloss for the first p channels, where p is the largest index of the channel for which the pathloss has changed from the most recent previous specification.)</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1005878">The pathloss between two nodes can be different in each direction. </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><a name="1005879">If the pathloss from N1 to N2 on channel i at time t is defined (as specified by rule 1), then that value is used. If pathloss is not defined for time t but is defined for an earlier time instant, then the value from the most recent time is used.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><a name="1005880">If pathloss from N1 to N2 is not defined at time t to or any previous time, but pathloss is defined from N2 to N1 at time t or an earlier time, then the pathloss defined from N2 to N1 for the most recent time (time t or earlier) is also used as the pathloss from N1 to N2.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Bulleted_Indented_outer" style="margin-left: 14.4pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_Indented_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_Indented_inner"><a name="1005881">If pathloss is not defined from N1 to N2 or from N2 to N1 at time t or earlier, then the two nodes are unreachable from each other up to and including time t.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Example"><a name="1005929">Example</a></div>
+      <div class="BodyAfterHead" style="text-indent: 36pt"><a name="998343">The following lines show a segment of a pathloss matrix file.</a></div>
+      <div class="Declaration"><a name="1005957">Freq:2:2.4:2.6</a></div>
+      <div class="Declaration"><a name="1005958">Nodes:6</a></div>
+      <div class="Declaration"><a name="1005959">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005960">#Time	Node1	Node2	Pathloss1	Pathloss2 </a></div>
+      <div class="Declaration"><a name="1005961">0	1	2	95.2400000	</a></div>
+      <div class="Declaration"><a name="1005962">0	1	3	300.1510000	</a></div>
+      <div class="Declaration"><a name="1005963">0	2	1	295.2400000	100.0000000</a></div>
+      <div class="Declaration"><a name="1005964">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005965">10	1	2	195.2400000	5.2400000</a></div>
+      <div class="Declaration"><a name="1005966">10	1	3	320.1510000	3.1510000</a></div>
+      <div class="Declaration"><a name="1005967">10	2	3	196.7650000	6.7650000</a></div>
+      <div class="Declaration"><a name="1005968">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005969">20	1	2	295.2400000	25.2400000</a></div>
+      <div class="Declaration"><a name="1005970">20	1	3	400.1510000	200.1510000</a></div>
+      <div class="Declaration"><a name="1005971">20	2	3	598.2400000	698.2400000</a></div>
+      <div class="Declaration"><a name="1005972">20	2	1	395.2400000	300.0000000</a></div>
+      <div class="Declaration"><a name="1005973">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005974">30	1	2	295.2400000	195.2400000</a></div>
+      <div class="Declaration"><a name="1005975">30	1	3	100.1510000	400.1510000</a></div>
+      <div class="Declaration"><a name="1005976">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005977">40	1	2	95.2400000	95.2400000</a></div>
+      <div class="Declaration"><a name="1005978">40	1	3	300.0000000	300.1510000</a></div>
+      <div class="Declaration"><a name="1005979">40	2	3	96.7650000	960.0000000</a></div>
+      <div class="Declaration"><a name="1005980">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005981">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005982">0	4	5	95.2400000	</a></div>
+      <div class="Declaration"><a name="1005983">0	4	6	300.1510000	</a></div>
+      <div class="Declaration"><a name="1005984">0	5	4	295.2400000	100.0000000</a></div>
+      <div class="Declaration"><a name="1005985">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005986">10	4	5	195.2400000	5.2400000</a></div>
+      <div class="Declaration"><a name="1005987">10	4	6	320.1510000	3.1510000</a></div>
+      <div class="Declaration"><a name="1005988">10	5	6	196.7650000	6.7650000</a></div>
+      <div class="Declaration"><a name="1005989">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005990">20	4	5	295.2400000	25.2400000</a></div>
+      <div class="Declaration"><a name="1005991">20	4	6	400.1510000	200.1510000</a></div>
+      <div class="Declaration"><a name="1005992">20	5	6	598.2400000	698.2400000</a></div>
+      <div class="Declaration"><a name="1005993">20	5	4	395.2400000	300.0000000</a></div>
+      <div class="Declaration"><a name="1005994">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005995">30	4	5	295.2400000	195.2400000</a></div>
+      <div class="Declaration"><a name="1005996">30	4	6	100.1510000	400.1510000</a></div>
+      <div class="Declaration"><a name="1005997">&nbsp;</a></div>
+      <div class="Declaration"><a name="1005998">40	4	5	95.2400000	95.2400000</a></div>
+      <div class="Declaration"><a name="1005999">40	4	6	300.0000000	300.1510000</a></div>
+      <div class="Declaration"><a name="1006000">40	5	6	96.7650000	960.0000000</a></div>
+      <div class="Declaration"><a name="1006001">&nbsp;</a></div>
+      <div class="Declaration"><a name="1006002">150	5	6	96.7650000	96.0000000</a></div>
+      <div class="Declaration"><a name="1006003">200	5	6	96.7650000	960.0000000</a></div>
+      <div class="Declaration"><a name="1006004">250	5	6	96.7650000	100.0000000</a></div>
+      <div class="Declaration"><a name="998362">...</a></div>
+      <div class="Heading2Numbered">2.7.3  <a name="1008757">GUI Configuration</a></div>
+      <div class="BodyAfterHead"><a name="1008761">To configure the Pathloss Matrix Model parameters, perform the following steps:</a></div>
+      <div class="Numbered__0028first_0029_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered__0028first_0029_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">1.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered__0028first_0029_inner"><a name="1008762">Go to </a><span class="Menu_Item">Scenario Properties &gt; Channel Properties</span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">2.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1008943">Set </a><span class="Menu_Item">Number of Channels </span>to the desired value as shown in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Wireless', 'Pathloss%20Matrix.html#1008949', '');" title="Pathloss Matrix Model">Figure&nbsp;2‑14</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1008947"><img class="Default" src="images/SetNumberOfChannels.png" width="585" height="177" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 2‑14.&nbsp;&nbsp;<a name="1008949">Setting Number of Channels</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">3.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1008953">Click on the </a><span style="font-weight: bold">Open Array Editor</span> <img class="Default" src="images/ArrayEditor-Button.gif" width="27" height="24" style="display: inline; float: none; left: 0.0; top: 0.0" alt="" /> button in the <span style="font-weight: bold">Value</span> column. This opens the Array Editor.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">4.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1009384">In the left panel of the Array Editor, select the index of the channel to be configured. In the right panel, set </a><span class="Menu_Item">Pathloss Model</span><span style="font-weight: bold"> </span>to <span class="Value">Pathloss Matrix</span>. Click <span class="Menu_Item">OK</span> to close the Array Editor.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1009164"><img class="Default" src="images/PathlossMatrixModelFigure%202-1.png" width="566" height="337" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 2-15.&nbsp;&nbsp;<a name="1009609">Setting Pathloss Model</a></div>
+      <div class="Numbered_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Numbered_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="StepNumber">5.	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Numbered_inner"><a name="1009613">In the Scenario Properties Editor, specify the name of the pathloss matrix file.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="Anchor"><a name="1009617"><img class="Default" src="images/SpecifyPathlossMatrixFile.gif" width="586" height="177" style="display: block; float: none; left: 0.0; top: 0.0" alt="" /></a></div>
+      <div class="Figure">FIGURE 2-16.&nbsp;&nbsp;<a name="1009527">Setting Pathloss Matrix File</a></div>
+      <div class="Anchor"><a name="1009572">&nbsp;</a></div>
+      <table class="Format_A" style="text-align: left; width: 468pt" cellspacing="0" summary="">
+        <caption>
+          <div class="TableTitle">TABLE 2-12.&nbsp;&nbsp;<a name="1009555">Command Line Equivalent of Pathloss Matrix Parameters</a></div>
+        </caption>
+        <tr>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 180pt">
+            <div class="CellHeading"><a name="1009561">GUI Parameter </a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 108pt">
+            <div class="CellHeading"><a name="1009563">Scope of GUI Parameter</a></div>
+          </td>
+          <td style="background-color: #E6E6E6; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: bottom; width: 180pt">
+            <div class="CellHeading"><a name="1009565">Command Line Parameter</a></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1009567">Pathloss Matrix File</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody"><a name="1009569">Global</a></div>
+          </td>
+          <td style="border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 0.5pt; border-left-color: #000000; border-left-style: solid; border-left-width: 0.5pt; border-right-color: #000000; border-right-style: solid; border-right-width: 0.5pt; border-top-color: #000000; border-top-style: solid; border-top-width: 0.5pt; padding-bottom: 2pt; padding-left: 6pt; padding-right: 6pt; padding-top: 4pt; vertical-align: top">
+            <div class="CellBody_Courier"><a name="1009571">PROPAGATION-PATHLOSS-MATRIX-FILE</a></div>
+          </td>
+        </tr>
+      </table>
+      <div class="Heading2Numbered">2.7.4  <a name="1009958">Statistics</a></div>
+      <div class="BodyAfterHead"><a name="1009959">There are no statistics collected by the Pathloss Matrix model.</a></div>
+      <div class="Body" style="color: #000000; font-family: Arial; font-size: 12.0pt; font-style: normal; font-variant: normal; font-weight: bold; margin-bottom: 7.0pt; margin-top: 14.0pt; text-transform: none; vertical-align: baseline"><a name="998290">&nbsp;</a></div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

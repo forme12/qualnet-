@@ -1,0 +1,61 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+PURPOSE:-
+--------
+To verify Residual Life Accurate(RLA) battery model with the battery type configured as panasonic AAA size.
+Data sheet of this battery type is included in the scenario folder.
+The batteries of few nodes are deplted and those nodes die out during simulation time. The death time for those nodes are reported at stat file. 
+
+
+
+SCENARIO:-
+---------
+
+Name:user-defined-ifx
+There is Octogone  topology with one node at each corner (1 thru 8) and one node(9) at the center.
+
+All nodes are configured with RLA battery model and panasonic AAA specifc type
+
+
+The node at the center(node 9) relays higher traffic than the other node; hence it expects to dissipate energy higher than the other nodes and has shorter lifetime.
+All nodes have 802.11b wireless connections.
+The energy is consumed as specifed follows:
+[ 1 thru 9 ] ENERGY-MODEL-SPECIFICATION USER-DEFINED
+[ 1 thru 9 ] ENERGY-TX-CURRENT-LOAD 20.0
+[ 1 thru 9 ] ENERGY-RX-CURRENT-LOAD 15.0
+[ 1 thru 9 ] ENERGY-IDLE-CURRENT-LOAD 10.0
+[ 1 thru 9 ] ENERGY-SLEEP-CURRENT-LOAD 0.0
+[ 1 thru 9 ] ENERGY-OPERATIONAL-VOLTAGE 3.0
+Routing protocol is AODV.
+
+
+
+RUN:-
+----
+Run "<QUALNET_HOME>/bin/qualnet battery-RLA-model.config".
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. README                   - this file.
+2. battery-RLA-model.config           - general configuration.
+3. battery-RLA-model.app              - application configuration.
+4. battery-RLA-model.nodes            - node positions.
+5. battery-RLA-model.expected.stat    - expected output statistics.
+
+
+

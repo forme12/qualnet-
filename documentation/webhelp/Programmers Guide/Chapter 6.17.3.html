@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Interface Registration</title>
+    <link rel="StyleSheet" href="css/Chapter%206.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/context.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/towwhdir.js"></script>
+    <script type="text/javascript" language="JavaScript1.2" src="wwhdata/common/wwhpagef.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        // Set reference to top level help frame
+        //
+        var  WWHFrame = WWHGetWWHFrame("", true);
+      // -->
+    </script>
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+  </head>
+  <body onload="WWHUpdate();" onunload="WWHUnload();" onkeydown="WWHHandleKeyDown((document.all||document.getElementById||document.layers)?event:null);" onkeypress="WWHHandleKeyPress((document.all||document.getElementById||document.layers)?event:null);" onkeyup="WWHHandleKeyUp((document.all||document.getElementById||document.layers)?event:null);">
+    <div>
+      <img src="snt-logo-text2-transparent-small.png" />
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="Chapter%206.17.1.html#922295">6	Interfacing with QualNet: External Interface API</a> &gt; 6.2  Interface Registration</div>
+    <hr align="left" />
+    <blockquote>
+      <div class="Heading1Numbered">6.2  <a name="922295">Interface Registration</a></div>
+      <div class="BodyAfterHead"><a name="925980">This section describes the functions to register an external interface and the callback functions implemented by the interface (see </a><span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.3.html#929027', '');" title="Interface Registration">Section&nbsp;6.2.1</a></span>) and the format of the callback functions (see <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.3.html#929053', '');" title="Interface Registration">Section&nbsp;6.2.2</a></span>).</div>
+      <div class="Heading2Numbered">6.2.1  <a name="929027">Registration Functions</a></div>
+      <div class="BodyAfterHead"><a name="929028">Function EXTERNAL_UserFunctionRegistration, which is defined in </a><span class="Variable">QUALNET_HOME</span>/main/external.cpp, is called by the kernel at the beginning of the simulation. This function is used to register an external interface (by calling the function External_RegisterExternalInterface) and the callback functions implemented by the interface (by calling the function External_RegisterFunction).</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="925981">External_RegisterExternalInterface</a></span>: This function registers a new external interface with <span class="Variable">QualNet</span> and creates the necessary data structures. This function must be called before any other function that requires an EXTERNAL_Interface* argument.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922301">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922302">EXTERNAL_Interface* EXTERNAL_RegisterExternalInterface(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922303">EXTERNAL_InterfaceList *list,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922304">char *name,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922305">EXTERNAL_PerformanceParameters params,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="940985">ExternalInterfaceType type);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922307">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 81.36pt; margin-top: 3.0pt; text-indent: -45.36pt"><span style="font-family: &quot;Courier New&quot;"><a name="922308">list</a></span>	: The list of external interfaces</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 81.36pt; margin-top: 3.0pt; text-indent: -45.36pt"><span style="font-family: &quot;Courier New&quot;"><a name="922309">name</a></span>	: The name of the external interface</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 81.36pt; margin-top: 3.0pt; text-indent: -45.36pt"><span style="font-family: &quot;Courier New&quot;"><a name="922310">params</a></span>	: The performance parameters. Currently no performance parameters are supported, so pass EXTERNAL_NONE.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 81.36pt; margin-top: 3.0pt; text-indent: -45.36pt"><span style="font-family: &quot;Courier New&quot;"><a name="940986">type</a></span>	: The type of the external interface</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-left: 78.00048pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922312">Return value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-left: 90pt; margin-top: 3.0pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="922313">	A pointer to the newly registered external interface</a></span></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="929035">EXTERNAL_RegisterFunction</a></span>: This function registers a callback function for an external interface. Callback functions are described in <span class="Cross-Ref"><a href="javascript:WWHClickedPopup('Programmers_Guide', 'Chapter%206.17.3.html#929053', '');" title="Interface Registration">Section&nbsp;6.2.2</a></span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="929036">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="929037">void EXTERNAL_RegisterFunction(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="929038">EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="929039">EXTERNAL_FunctionType type,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="929040">EXTERNAL_Function function);</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="929041">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="929042">iface</a></span>	: The interface structure</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 95.04pt; margin-top: 3.0pt; text-indent: -59.040000000000006pt"><a name="929043">t</a><span style="font-family: &quot;Courier New&quot;">ype	</span>: The function type (<span style="font-family: &quot;Courier New&quot;">EXTERNAL_INITIALIZE</span>, <span style="font-family: &quot;Courier New&quot;">EXTERNAL_INITIALIZE_NODES</span>, <span style="font-family: &quot;Courier New&quot;">EXTERNAL_TIME</span>, <span style="font-family: &quot;Courier New&quot;">EXTERNAL_SIMULATION_HORIZON,</span> <span style="font-family: &quot;Courier New&quot;">EXTERNAL_PACKET_DROPPED</span>, <span style="font-family: &quot;Courier New&quot;">EXTERNAL_RECEIVE or EXTERNAL_FORWARD</span>, <span style="font-family: &quot;Courier New&quot;">EXTERNAL_FINALIZE</span>)</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="929044">function</a></span>	: The pointer to the function that is called by <span class="Variable">QualNet</span></div>
+      <div class="Body"><a name="929045">Once the interface and its callback functions have been registered </a><span class="Variable">QualNet</span> starts using the interface. <span class="Variable">QualNet</span> calls the registered callback functions as needed.</div>
+      <div class="Heading2Numbered">6.2.2  <a name="929053">Callback Functions</a></div>
+      <div class="BodyAfterHead"><a name="951401">The interface developer determines the behavior of the external interface by providing callback functions that perform certain tasks. There are eight callback functions the interface developer may provide. An external interface may not need all eight callback functions, in which case the interface needs to implement and register only the functions that it needs. </a><span class="Variable">QualNet</span> calls the registered functions as necessary. </div>
+      <div class="Body"><a name="951402">The callback functions are:</a></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="925998">Initialize</a></span>: This is an initialization function called before nodes and protocols are created. This function is used for setting up data structures and initializing services that are used on a simulation-wide basis. For example, an HLA Initialize function would initialize the RTI and Federate ambassadors, and a network emulation Initialize function would initialize the packet sniffing library.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922319">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922320">void InterfaceInitializeFunction(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="929317">EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="922322">NodeInput *nodeInput)</a></div>
+      <div class="Code_Segment_Large"><a name="932487">{</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932488">// Create socket connections, open log files, etc.</a></div>
+      <div class="Code_Segment_Large"><a name="932489">}</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922325">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922326">iface</a></span>	: The interface structure</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922327">nodeInput</a></span>	: The NodeInput structure. Contains experiment configuration information.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922329">InitializeNodes</a></span>: This is an initialization function called after nodes and protocols have been created. This function is called immediately before the simulation begins. This function is used for setting up individual nodes or protocols to operate with the external interface. Additionally, the interface might initialize data used for time management (such as setting up a correspondence between External Time and Simulation time). For example, an HLA InitializeNodes function would create an HLA application on each node that is associated with an HLA object, and a network emulation InitializeNodes function would create correspondences between real network devices and simulated nodes, and possibly create a protocol at the Application Layer to handle events.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922331">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922332">void InterfaceInitializeNodesFunction(</a></div>
+      <div class="Code_Segment_Large"><a name="922333">    EXTERNAL_Interface *iface, </a></div>
+      <div class="Code_Segment_Large"><a name="922334">    NodeInput *nodeInput)</a></div>
+      <div class="Code_Segment_Large"><a name="932503">{</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932504">// Conduct further initialization.</a></div>
+      <div class="Code_Segment_Large"><a name="932505">}</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922337">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922338">iface</a></span>	: The interface structure</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922339">nodeInput</a></span>	: The NodeInput structure. Contains experiment configuration information.</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922341">Time</a></span>: This function is called to query the time of the external interface.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922343">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922344">clocktype InterfaceTimeFunction(EXTERNAL_Interface *iface)</a></div>
+      <div class="Code_Segment_Large"><a name="932518">{</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932519">// Compute and return the time of the external entity.</a></div>
+      <div class="Code_Segment_Large"><a name="932520">}</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922349">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922350">iface</a></span>	: The interface structure</div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922352">Return value</a></span>:</div>
+      <div class="Code_Segment_Large" style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; margin-left: 36.75024pt; text-transform: none; vertical-align: baseline"><span style="color: #000000; font-family: Arial; font-size: 10.0pt; font-style: normal; font-variant: normal; font-weight: normal; text-transform: none; vertical-align: baseline"><a name="922353">	The current time of the external entity in nanoseconds. 0 corresponds to the start of the simulation.</a></span></div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922355">SimulationHorizon</a></span>: This function is called by the kernel to query the external interface’s simulation horizon. The value of the simulation horizon controls the advance of the simulation clock. The interface increases the horizon to indicate that it is ok for the simulation clock to advance. The kernel executes events less than and up to the horizon. Once the simulation reaches the horizon, it executes a loop in which it calls this function and the Receive function (explained below) until the horizon is again advanced to allow the execution of more events.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922357">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large"><a name="922358">void InterfaceSimulationHorizonFunction(EXTERNAL_Interface *iface)</a></div>
+      <div class="Code_Segment_Large"><a name="932529">{</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932530">// Set iface-&gt;horizon to the external entity’s simulation horizon.</a></div>
+      <div class="Code_Segment_Large"><a name="932531">}</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922361">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922362">iface</a></span>	: The interface structure</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922364">PacketDropped:</a></span> This function is called when a packet is dropped. Since there are many places a packet can be dropped, support for this function is not included by default. It is the interface developer’s responsibility to add support for this callback.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922366">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922367">void InterfacePacketDroppedFunction(EXTERNAL_Interface *iface)</a></div>
+      <div class="Code_Segment_Large"><a name="932869">{</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932870">// Process the dropped packet.</a></div>
+      <div class="Code_Segment_Large"><a name="932867">}</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922371">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922372">iface</a></span>	: The interface structure</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922374">Receive:</a></span> This function retrieves information from the external interface and injects messages into <span class="Variable">QualNet</span>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="932552">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="932560">void InterfaceReceiveFunction(EXTERNAL_Interface *iface)</a></div>
+      <div class="Code_Segment_Large"><a name="932565">{</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932561">// Receive data from external entity and add messages to</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932570">// </a><span class="Variable">QualNet</span> simulation.</div>
+      <div class="Code_Segment_Large"><a name="932562">}</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="932554">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922381">iface</a></span>	: The interface structure</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922384">Forward: </a></span>This function forwards information back to the external source. It is essentially the reverse of the Receive function.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922386">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large" style="margin-top: 3.0pt"><a name="922387">void InterfaceForwardFunction(</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932480">EXTERNAL_Interface *iface,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932481">void *forwardData,</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932588">int forwardSize)</a></div>
+      <div class="Code_Segment_Large"><a name="932575">{</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932576">// Send data back to external entity.</a></div>
+      <div class="Code_Segment_Large"><a name="932577">}</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922390">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="922391">iface</a></span>	: The interface structure</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="930032">forwardData</a></span>	: A pointer to the data that needs to be forwarded. Since the external interface originally created this data it is expected that the external interface knows how to interpret the data.</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 114.48pt; margin-top: 3.0pt; text-indent: -78.48pt"><span style="font-family: &quot;Courier New&quot;"><a name="932589">forwardSize</a></span>	: The size in bytes of the forwarded data</div>
+      <div class="Bulleted_outer" style="margin-left: 0pt; margin-top: 6.0pt">
+        <table border="0" cellspacing="0" cellpadding="0" summary="" role="presentation">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="Bulleted_inner" style="width: 14.4pt; white-space: nowrap;">
+                <span class="BulletSymbol">•	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="Bulleted_inner"><span style="font-weight: bold"><a name="922394">Finalize:</a></span> This function is called at the end of the simulation. It is used for freeing memory and stopping the services started by the external interface.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922396">Syntax</a></span>:</div>
+      <div class="Code_Segment_Large"><a name="922397">void InterfaceFinalizeFunction(EXTERNAL_Interface *iface)</a></div>
+      <div class="Code_Segment_Large"><a name="932615">{</a></div>
+      <div class="Code_Segment_Large" style="margin-left: 63pt; text-indent: 0pt"><a name="932616">// Close socket connections, close log files, free memory, etc.</a></div>
+      <div class="Code_Segment_Large"><a name="932617">}</a></div>
+      <div class="BulletedCont" style="margin-bottom: 3.0pt; margin-top: 6.0pt"><span style="font-weight: bold"><a name="922400">Parameters</a></span>:</div>
+      <div class="Body" style="margin-bottom: 0.0pt; margin-left: 88.56pt; margin-top: 3.0pt; text-indent: -52.56pt"><span style="font-family: &quot;Courier New&quot;"><a name="922401">iface</a></span>	: The interface structure</div>
+      <script type="text/javascript" language="JavaScript1.2">
+        <!--
+          // Clear related topics
+          //
+          WWHClearRelatedTopics();
+
+          document.writeln(WWHRelatedTopicsInlineHTML());
+        // -->
+      </script>
+    </blockquote>
+    <hr align="left" />
+    <table align="left">
+      <tr>
+        <td class="WebWorks_Company_Phone_Bottom">© 2008 - 2012 SCALABLE Network Technologies, Inc. All rights reserved.</td>
+      </tr>
+    </table>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        document.write(WWHRelatedTopicsDivTag() + WWHPopupDivTag() + WWHALinksDivTag());
+      // -->
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+PURPOSE:-
+--------
+To test RIPng behavior during interface failure.
+
+SCENARIO:-
+---------
+                                            _
+                       2001:0:3:1:0         |
+                     6--X--------------7----+
+       _            /|\                     |
+       | 2001:0:1:4:0| \                    |
+     1-+          X  |  \                   |
+       |         /   |   \                  +--10
+       +--------3----4    \                 |
+       |         \   |     8------------9---+
+     2-+          \  |                      |
+       |           \ |                      -
+       -            5
+
+
+Node 1 sends 20 CBR packets to Node 10. Each Packet is of size 512 bytes
+and sent with 1 min interval.
+
+Interface of Node-6 connecting link-2001:0:3:1:0 fails from 15M to 25M of
+simulation. Also, interface of Node-3 connecting link-2001:0:1:4:0 fails
+from 15M to 25M of simulation.
+
+
+RUN:-
+----
+Type '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet configuration file for application input.
+2. default.config - QualNet configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. default.fault - Qualnet interface failure description file.
+5. README - This file.

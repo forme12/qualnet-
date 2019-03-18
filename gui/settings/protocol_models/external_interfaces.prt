@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="NODE CONFIGURATION">
+    <subcategory name="External Interfaces" help="These external interfaces can be connected to QualNet and run together or mutually exclusive">
+        <subcategory name="HLA Interface" invisible="Device">
+            <variable name="Enable HLA" key="HLA" type="Selection" default="NO" invisible="Device">
+                 <option value="NO" name="No" />
+                 <option value="YES" name="Yes">
+                     <variable key="HLA-DEBUG" name="Enable Debugging" type="Checkbox" default="YES" />
+                     <variable key="HLA-DEBUG-2" name="Enable Verbose Debugging" type="Checkbox" default="NO" />
+                     <variable key="HLA-FEDERATION-NAME" name="Federation Name" type="Text" default="RPR-FOM" />
+                     <variable key="HLA-FED-FILE-PATH" name="Federation File" type="File" default="RPR-FOM.fed" filetype="fed" />
+                     <variable key="HLA-FEDERATE-NAME" name="Federate Name" type="Text" default="QualNet" />
+                     <variable name="RPR FOM Version" key="HLA-RPR-FOM-VERSION" type="Text" default="1.0" />
+                     <variable name="Compatible with NAWC Gateway" key="HLA-NAWC-GATEWAY-COMPATIBILITY" type="Checkbox" default="NO" />
+                
+                     <variable name="HLA XYZ Epsilon" key="HLA-XYZ-EPSILON" type="Fixed" default="0.5" />
+                     <variable name="Tick Interval" key="HLA-TICK-INTERVAL" type="Time" default="200MS" />
+                     <variable name="Mobility Interval" key="HLA-MOBILITY-INTERVAL" type="Time" default="500MS" />
+
+                     <variable key="HLA-ENTITIES-FILE-PATH" name="Entities File" type="File" default="[Required]" filetype="hla-entities" />
+                
+                     <variable key="HLA-RADIOS-FILE-PATH" name="Radios File" type="File" default="[Required]" filetype="hla-radios" />
+                
+                     <variable key="HLA-NETWORKS-FILE-PATH" name="Network File" type="File" default="[Required]" filetype="hla-networks" />
+                     <variable name="Enable HLA Statistics" key="HLA-DYNAMIC-STATISTICS" type="Selection" default="NO" addon="hla">
+                         <option value="NO" name="No" />
+                         <option value="YES" name="Yes">
+                             <variable name="Metric Update Mode" key="HLA-DYNAMIC-STATISTICS-METRIC-UPDATE-MODE" type="Text" default="VERBOSE"/>
+                             <variable name="Send NodeID Descriptions" key="HLA-DYNAMIC-STATISTICS-SEND-NODEID-DESCRIPTIONS" type="Checkbox" default="NO"/>
+                             <variable name="Send Metric Definitions" key="HLA-DYNAMIC-STATISTICS-SEND-METRIC-DEFINITIONS" type="Checkbox" default="NO"/>
+                         </option>
+                     </variable>                
+                 </option>
+            </variable>
+        </subcategory>
+        <subcategory name="DIS Interface" invisible="Device">
+            <variable name="Enable DIS" key="DIS" type="Selection" default="NO" invisible="Device">
+                         <option value="NO" name="No" />
+                         <option value="YES" name="Yes">
+                             <variable key="DIS-DEBUG-PRINT-COMMS" name="Debug: Print Comms" type="Checkbox" default="YES" />
+                             <variable key="DIS-DEBUG-PRINT-COMMS-2" name="Debug: Print Comms Verbose" type="Checkbox" default="YES" />
+                             <variable key="DIS-DEBUG-PRINT-MAPPING" name="Debug: Print Mapping" type="Checkbox" default="YES" />
+                             <variable key="DIS-DEBUG-PRINT-DAMAGE" name="Debug: Print Damage" type="Checkbox" default="YES" />
+                             <variable key="DIS-DEBUG-PRINT-TX-STATE" name="Debug: Print TX State" type="Checkbox" default="YES" />
+                             <variable key="DIS-DEBUG-PRINT-TX-POWER" name="Debug: Print TX Power" type="Checkbox" default="YES" />
+                             <variable key="DIS-DEBUG-PRINT-MOBILITY" name="Debug: Print Mobility" type="Checkbox" default="YES" />
+                             <variable key="DIS-DEBUG-PRINT-TRANSMITTER-PDU" name="Debug: Print Transmiter PDU" type="Checkbox" default="NO" />
+                             <variable key="DIS-DEBUG-PRINT-PDUS" name="Debug: Print PDUs" type="Checkbox" default="NO" />
+                             <variable key="DIS-IP-ADDRESS" name="DIS IP Address" type="Dotted decimal" default="255.255.255.255" />
+                             <variable key="DIS-PORT" name="DIS Port" type="Integer" default="3000" />
+                             <variable key="DIS-RECEIVE-DELAY" name="DIS Receive Delay" type="Time" default="200MS" />
+                             <variable key="DIS-MAX-RECEIVE-DURATION" name="DIS Max Receive Duration" type="Time" default="5MS" />
+                             <variable key="DIS-XYZ-EPSILON" name="DIS XYZ Epsilon" type="Fixed" default="0.5" />
+                             <variable key="DIS-MOBILITY-INTERVAL" name="Mobility Interval" type="Time" default="500MS" />
+                             <variable key="DIS-ENTITIES-FILE-PATH" name="Entities File" type="File" default="[Required]" filetype="dis-entities" />
+                             <variable key="DIS-RADIOS-FILE-PATH" name="Radios File" type="File" default="[Required]" filetype="dis-radios" />
+                             <variable key="DIS-NETWORKS-FILE-PATH" name="Networks File" type="File" default="[Required]" filetype="dis-networks" />
+                         </option>
+                      </variable>
+        </subcategory> 
+        <subcategory name="AGI Interface" class="device">
+            <variable name="Enable AGI Interface" key="AGI-INTERFACE" type="Selection" default="NO" help="Enables QualNet to communicate with AGI STK.  LATLONALT coordinate system must be used when communicating with STK." >
+                 <option value="NO" name="No" />
+                 <option value="YES" name="Yes">
+                    <variable name="Node Position Update Interval" key="AGI-POSITION-UPDATE-INTERVAL" type="Time" default="1S" optional="true" help="Specify how often the AGI Interface will update GUI about node positions for animation purpose" />
+                    </option>
+                </variable>
+        </subcategory>
+        <subcategory name="Socket Interface">
+            <variable name="Enable Socket Interface" key="SOCKET-INTERFACE" type="Selection" default="NO">
+             <option value="NO" name="No" />
+             <option value="YES" name="Yes">
+                 <variable name="Number of Socket Ports" key="SOCKET-INTERFACE-NUM-PORTS" type="Array" default="1" min="1" format="ValueList" >
+	                   <variable name="Socket Port" key="SOCKET-INTERFACE-PORT" type="Integer" default="5033" format="Array" length="SOCKET-INTERFACE-NUM-PORTS.value"/>
+                 </variable>
+                 <variable name="UDP Failure Timeout" key="SOCKET-INTERFACE-UDP-FAILURE-TIMEOUT" type="Time" default="2S" />
+                 <variable name="TCP Failure Timeout" key="SOCKET-INTERFACE-TCP-FAILURE-TIMEOUT" type="Time" default="15S" />
+                 <variable name="Per Packet Statistics" key="DUMMY-PRINT-PER-PACKET-STATS" type="Selection" default="NO">
+                     <option value="NO" name="Disabled" />
+                     <option value="STDOUT" name="Terminal Window">
+                        <variable name="Standard Output" key="SOCKET-INTERFACE-PRINT-PER-PACKET-STATS" type="FIXED" default="STDOUT" />
+                     </option>
+                     <option value="FILE" name="File">
+                         <variable name="Packet Statistics File" key="SOCKET-INTERFACE-PRINT-PER-PACKET-STATS" type="File" default="[Required]" />
+                     </option>
+                 </variable>
+                 <variable name="Socket Interface Log Type" key="SOCKET-INTERFACE-LOG" type="Selection" default="FILE">
+                     <option value="STDOUT" name="Terminal Window" />
+                     <option value="FILE" name="Log Files" />
+                     <option value="NONE" name="Disabled" />
+                 </variable>
+                 <variable name="Time to Print in Socket Interface Log" key="SOCKET-INTERFACE-PRINT-REAL-TIME" type="Selection" default="NO">
+                     <option value="YES" name="Real Time" />
+                     <option value="NO" name="Simulation Time" />
+                 </variable>
+                 <variable name="Time to Print in Statistics Log" key="SOCKET-INTERFACE-STATS-PRINT-REAL-TIME" type="Selection" default="1">
+                     <option value="1" name="Real Time" />
+                     <option value="0" name="Simulation Time" />
+                 </variable>
+                 <variable name="Time Interval for Statistics Log" key="SOCKET-INTERFACE-STATS-PRINT-INTERVAL" type="Time" default="60S" />
+                 <variable name="Time to Print in Graph Log" key="SOCKET-INTERFACE-GRAPH-PRINT-REAL-TIME" type="Selection" default="1">
+                     <option value="1" name="Real Time" />
+                     <option value="0" name="Simulation Time" />
+                 </variable>
+                 <variable name="Time Interval for Graph Log" key="SOCKET-INTERFACE-GRAPH-PRINT-INTERVAL" type="Time" default="60S" />
+                 <variable name="Enter Idle Mode after Sending Response" key="SOCKET-INTERFACE-IDLE-WHEN-RESPONSE-SENT" type="Checkbox" default="NO"/>
+                 <variable name="Indicate Success in All Response Messages" key="SOCKET-INTERFACE-ALWAYS-SUCCESS" type="Checkbox" default="NO"/>
+                 <variable name="Simulator to Use All Available CPU Time" key="SOCKET-INTERFACE-CPU-HOG" type="Checkbox" default="NO"/>
+ <!--                <variable name="Enable QualNet Deterministic Timing" key="SOCKET-INTERFACE-DETERMINISTIC-TIMING" type="Checkbox" default="NO"/>
+     -->       
+                 <variable name="Specify Entity Mapping File" key="DUMMY-SOCKET-INTERFACE-MAPPING" type="Selection" default="NO" >
+	              <option value="NO" name="No" />
+	              <option value="YES" name="Yes">
+	                  <variable name="Entity Mapping File" key="SOCKET-INTERFACE-ENTITY-MAPPING" type="File" default="[Required]" />
+	              </option>
+                 </variable>
+<!--
+                 <variable name="Use Warm-up Phase" key="DUMMY-SOCKET-INTERFACE-USE-WARM-UP_PHASE" type="Selection" default="NO">
+                      <option value="NO" name="No" />
+                      <option value="YES" name="Yes">
+                          <variable name="Length of Warm-up Phase" key="SOCKET-INTERFACE-WARM-UP-TIME" type="Time" default="2S" />
+                      </option>           
+                 </variable>
+-->
+                 <variable name="Support Operation in a Geopgraphically Distributed Environment" key="SOCKET-INTERFACE-DISTRIBUTED-ENVIRONMENT" type="Checkbox" default="NO"/>
+                 <variable name="Respond with Zero Delay in Pause State" key="SOCKET-INTERFACE-PAUSE-REPLY-ZERO-DELAY" type="Checkbox" default="NO"/>
+                 <variable name="Advance Simualtion Time in Pause State" key="SOCKET-INTERFACE-PAUSE-ADVANCE-SIMULATION-TIME" type="Checkbox" default="NO"/>
+                 <variable name="Flush Log File after Each Line of Output" key="SOCKET-INTERFACE-LOG-AUTOMATIC-FLUSH" type="Checkbox" default="NO"/>
+                 <variable name="Only Deactivate Mapped Nodes on Start-Up" key="SOCKET-INTERFACE-ONLY-DEACTIVATE-MAPPED-NODES" type="Checkbox" default="NO"/>
+               </option>
+            </variable>
+        </subcategory>
+    </subcategory>
+</category>

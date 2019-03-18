@@ -1,0 +1,319 @@
+优先级设置强插存在的问题：
+当设置两条优先级为强插流2和普通流0时
+CBR 31 28 1000 512 10 20MS 1S 100S Unicast 10S PRECEDENCE 0 
+CBR 14 46 2000 512 10 20MS 1S 100S Unicast 10S PRECEDENCE 2
+结果如下：
+
+   14,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.46
+  14,               ,[1024], Application,  CBR Client,Session Status = Closed
+  14,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 1.179727588
+  14,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 41.159727588
+  14,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 1.179727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 41.159727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 2000
+  14,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 1.179727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 41.159727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 2000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 1024000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  14,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 204902.451226
+  
+  46,               ,[1024], Application,  CBR Server,Client address = 169.0.0.14
+  46,               ,[1024], Application,  CBR Server,Session Status = Closed
+  46,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 41.275202556
+  46,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 41.275202556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 2000
+  46,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 41.275202556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 2000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 1024000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  46,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 0.104388772
+  46,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 204574.793838
+  46,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.011445740
+  
+   31,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.28
+  31,               ,[1024], Application,  CBR Client,Session Status = Closed
+  31,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 42.135762542
+  31,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 62.115762542
+  31,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 42.135762542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 62.115762542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 1000
+  31,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 42.135762542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 62.115762542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 1000
+  31,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 512000
+  31,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  31,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 205005.005005
+  
+ 28,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 42.181203615
+  28,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 63.127220615
+  28,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 42.181203615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 78.823234615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 1000
+  28,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 42.181203615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 78.823234615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 1000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 512000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  28,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 8.471904395
+  28,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 195550.304385
+  28,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.102796828
+  可以看出，强插流发完包之后，普通流才能接入，无法体现能够绕开重新建立新的cbr的情况
+  
+  
+  而当优先级的设置为高优先级流1和普通流0时
+  CBR 31 28 1000 512 10 20MS 1S 100S Unicast 10S PRECEDENCE 0 
+CBR 14 46 2000 512 10 20MS 1S 100S Unicast 10S PRECEDENCE 1
+  14,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.46
+  14,               ,[1024], Application,  CBR Client,Session Status = Closed
+  14,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 2000
+  14,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 2000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 1024000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  14,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 204902.451226
+  
+  46,               ,[1024], Application,  CBR Server,Client address = 169.0.0.14
+  46,               ,[1024], Application,  CBR Server,Session Status = Closed
+  46,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 41.539202556
+  46,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 41.539202556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 2000
+  46,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 41.539202556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 2000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 1024000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  46,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 0.686776272
+  46,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 203234.918379
+  46,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.013802918
+  
+  
+  31,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.28
+  31,               ,[1024], Application,  CBR Client,Session Status = Closed
+  31,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 8.205733542
+  31,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 28.185733542
+  31,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 8.205733542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 28.185733542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 1000
+  31,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 8.205733542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 28.185733542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 1000
+  31,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 512000
+  31,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  31,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 205005.005005
+  
+  
+  
+  28,               ,[1024], Application,  CBR Server,Client address = 169.0.0.31
+  28,               ,[1024], Application,  CBR Server,Session Status = Closed
+  28,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 8.251174615
+  28,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 63.757221615
+  28,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 8.251174615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 63.757221615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 1000
+  28,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 8.251174615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 63.757221615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 1000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 512000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  28,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 27.691456863
+  28,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 73793.761606
+  28,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.081383430
+  两条流都能正常接入，只不过一条流比较慢
+  明显这种情况要优于强插流的情况
+  
+  当设置优先级为0和0时
+  CBR 31 28 1000 512 10 20MS 1S 100S Unicast 10S PRECEDENCE 0 
+CBR 14 46 2000 512 10 20MS 1S 100S Unicast 10S PRECEDENCE 0
+31,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 8.205733542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 28.185733542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 1000
+  31,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 8.205733542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 28.185733542
+  
+ 28,               ,[1024], Application,  CBR Server,Client address = 169.0.0.31
+  28,               ,[1024], Application,  CBR Server,Session Status = Closed
+  28,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 8.251174615
+  28,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 29.197191615
+  28,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 8.251174615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 48.403208615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 1000
+  28,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 8.251174615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 48.403208615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 1000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 512000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  28,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 10.832966413
+  28,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 195550.304385
+  28,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.119283317
+  
+  
+  14,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.46
+  14,               ,[1024], Application,  CBR Client,Session Status = Closed
+  14,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 2000
+  14,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 2000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 1024000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  14,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 204902.451226
+  
+6,               ,[1024], Application,  CBR Server,Client address = 169.0.0.14
+  46,               ,[1024], Application,  CBR Server,Session Status = Closed
+  46,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 44.095204556
+  46,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 44.095204556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 2000
+  46,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 44.095204556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 2000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 1024000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  46,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 2.788475980
+  46,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 191115.927581
+  46,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.061900968
+  从这个地方发现不设置优先级，反而两条流
+  
+  当设置为1和1时
+  
+ 14,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.46
+  14,               ,[1024], Application,  CBR Client,Session Status = Closed
+  14,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 2000
+  14,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 1.209727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 41.189727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 2000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 1024000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  14,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 204902.451226
+  
+  46,               ,[1024], Application,  CBR Server,Client address = 169.0.0.14
+  46,               ,[1024], Application,  CBR Server,Session Status = Closed
+  46,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 55.087214556
+  46,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 55.087214556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 2000
+  46,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 55.087214556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 2000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 1024000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  46,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 7.529464101
+  46,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 152109.198659
+  46,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.022109078
+  
+  
+ 31,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.28
+  31,               ,[1024], Application,  CBR Client,Session Status = Closed
+  31,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 5.865731542
+  31,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 25.845731542
+  31,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 5.865731542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 25.845731542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 1000
+  31,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 5.865731542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 25.845731542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 1000
+  31,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 512000
+  31,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  31,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 205005.005005
+  
+  
+   28,               ,[1024], Application,  CBR Server,Client address = 169.0.0.31
+  28,               ,[1024], Application,  CBR Server,Session Status = Closed
+  28,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 5.911172615
+  28,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 48.811208615
+  28,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 5.911172615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 48.811208615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 1000
+  28,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 5.911172615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 48.811208615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 1000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 512000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  28,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 9.546745361
+  28,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 95477.775357
+  28,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.038286322
+  
+  当设置为2和2时
+  14,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.46
+  14,               ,[1024], Application,  CBR Client,Session Status = Closed
+  14,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 1.197727588
+  14,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 41.177727588
+  14,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 1.197727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 41.177727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 2000
+  14,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 1.197727588
+  14,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 41.177727588
+  14,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 2000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 1024000
+  14,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  14,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 204902.451226
+  
+  
+  46,               ,[1024], Application,  CBR Server,Client address = 169.0.0.14
+  46,               ,[1024], Application,  CBR Server,Session Status = Closed
+  46,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 47.449207556
+  46,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 47.449207556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 2000
+  46,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 1.231168556
+  46,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 47.449207556
+  46,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 2000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 1024000
+  46,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  46,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 4.017466090
+  46,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 177246.810493
+  46,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.018536288
+  
+  
+   31,               ,[1024], Application,  CBR Client,Server Address = 169.0.0.28
+  31,               ,[1024], Application,  CBR Client,Session Status = Closed
+  31,               ,[1024], Application,  CBR Client,Unicast Session Start (seconds) = 3.543729542
+  31,               ,[1024], Application,  CBR Client,Unicast Session Finish (seconds) = 23.523729542
+  31,               ,[1024], Application,  CBR Client,First Unicast Fragment Sent (seconds) = 3.543729542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Fragment Sent (seconds) = 23.523729542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Fragments Sent (fragments) = 1000
+  31,               ,[1024], Application,  CBR Client,First Unicast Message Sent (seconds) = 3.543729542
+  31,               ,[1024], Application,  CBR Client,Last Unicast Message Sent (seconds) = 23.523729542
+  31,               ,[1024], Application,  CBR Client,Total Unicast Messages Sent (messages) = 1000
+  31,               ,[1024], Application,  CBR Client,Total Unicast Data Sent (bytes) = 512000
+  31,               ,[1024], Application,  CBR Client,Total Unicast Overhead Sent (bytes) = 0
+  31,               ,[1024], Application,  CBR Client,Unicast Offered Load (bits/second) = 205005.005005
+  
+  
+  
+   28,               ,[1024], Application,  CBR Server,Client address = 169.0.0.31
+  28,               ,[1024], Application,  CBR Server,Session Status = Closed
+  28,               ,[1024], Application,  CBR Server,Unicast Session Start (seconds) = 3.571170615
+  28,               ,[1024], Application,  CBR Server,Unicast Session Finish (seconds) = 49.993209615
+  28,               ,[1024], Application,  CBR Server,First Unicast Fragment Received (seconds) = 3.571170615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Fragment Received (seconds) = 49.993209615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Fragments Received (fragments) = 1000
+  28,               ,[1024], Application,  CBR Server,First Unicast Message Received (seconds) = 3.571170615
+  28,               ,[1024], Application,  CBR Server,Last Unicast Message Received (seconds) = 49.993209615
+  28,               ,[1024], Application,  CBR Server,Total Unicast Messages Received (messages) = 1000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Data Received (bytes) = 512000
+  28,               ,[1024], Application,  CBR Server,Total Unicast Overhead Received (bytes) = 0
+  28,               ,[1024], Application,  CBR Server,Average Unicast End-to-End Delay (seconds) = 14.049227224
+  28,               ,[1024], Application,  CBR Server,Unicast Received Throughput (bits/second) = 88233.952843
+  28,               ,[1024], Application,  CBR Server,Average Unicast Jitter (seconds) = 0.041795835

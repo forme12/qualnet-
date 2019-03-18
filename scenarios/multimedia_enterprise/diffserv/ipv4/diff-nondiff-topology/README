@@ -1,0 +1,54 @@
+PURPOSE:-
+--------
+Overall behavior of DiffServ-Non DiffServ Topology for 12 nodes.
+
+
+SCENARIO:-
+---------
+
+------ Indicates link
+
+    1                                        11
+     \                                      /
+   1.0\                                    /  10.0
+       \                                  /
+    2.0 \   4.0   5.0   6.0  8.0   9.0   /
+  2----- 4------5-----6----8-----9-----10
+        /     Core         |    Core     \
+       /                   |              \
+  3.0 /               7.0  |               \  11.0
+     /                     |                \
+    3                      7                 12
+
+
+                      Topology
+
+
+
+Node-4,5,6 belong to a DS-Domain.
+Node-8,9,10 belong to another DS-Domain.
+Node-1,2,3,7,11,12 are Non DS node.
+
+Node-5, 9 - Core Router
+Node-4, 6, 8, 10 - Edge Router
+
+CBR is used to send data segments of 1000B from Node-1,3,7,12  to Node-11
+and from Node-1,12,7 to Node-2 with different DSCP field.
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.app -  QualNet Configuration file for application input.
+2. default.config - QualNet Configuration input file.
+3. default.expected.stat - QualNet statistics collection.
+4. default.traffic-conditioner - QualNet Configuration file for
+                                 Traffic Rules.
+5. dpsk.ber - QualNet bit error rate file.
+6. phbparam.in - QualNet Configuration file for Mapping queue vs
+                 packet priority.
+7. README - This file.

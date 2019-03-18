@@ -1,0 +1,80 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+#
+# Each node (that will run IGRP) MUST be configured as IGRP router.
+# Following statement is used to configure a node as IGRP router.
+# Currently IGRP will work in a single AS. So for all router as-id
+# must be same. as-id is an integer.
+#
+# ROUTER  <node-id> IGRP  <as-id>
+#
+# Each router (that will run IGRP) MUST be configured with all the
+# networks DIRECTLY attached to it. NETWORK statement is used to
+# configure a router with it's directly attached networks. If router
+# is connected with networks whose ip addresses are ip1, ip2 and ip3,
+# then following NETWORK statement is used. Address must be valid
+# network address. Address such as 0.0.3.0 will not be considerd.
+# NETWORK <ip1>
+# NETWORK <ip2>
+# NETWORK <ip3>
+#
+# The configuration parameters described below are optional. If they
+# are not given default values are used.
+#
+# Variance value is read against the configuration parameter
+# VARIANCE  <multiplier> if not given default value is set to 1. CISCO
+# do not recommands variance value nore than 1.1.
+#
+# Read and the value of weights for each type of service.
+# These values are read for each type of service against the
+# configuration following parameter:
+# METRIC WEIGHTS <tos> <weight1> <weight2> <weight3> <weight4>
+# currently only one type of service is defined - "DEFAULT-TOS"
+#
+# To enable/disable hold down set the following parameter
+# METRIC-HOLDDOWN YES | NO
+#
+# To enable/disable IP split horizon set the following configuration
+# parameter:
+# IP-SPLIT-HORIZON YES | NO
+
+ROUTER 1 IGRP 1
+NETWORK N2-192.168.1.0
+NETWORK N2-192.168.2.0
+
+ROUTER 2 IGRP 1
+NETWORK N2-192.168.1.0
+NETWORK N2-192.168.3.0
+
+ROUTER 3 IGRP 1
+NETWORK N2-192.168.2.0
+NETWORK N2-192.168.3.0
+NETWORK N8-192.168.4.0
+
+ROUTER 4 IGRP 1
+NETWORK N8-192.168.4.0
+
+
+ROUTER 5 IGRP 1
+NETWORK N8-192.168.4.0
+NETWORK N2-192.168.5.0
+
+ROUTER 6 IGRP 1
+NETWORK N2-192.168.5.0
+
+
+

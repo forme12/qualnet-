@@ -1,0 +1,77 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+
+PURPOSE:-
+--------
+To test the Inter-channel Interference for PHY802.15.4.
+
+
+SCENARIO:-
+---------
+Node 1, 2, 3 , 4 and 5 are placed in single wireless subnet working on one channel. 
+Node 1 is a PAN Coordinator. Nodes 2, 3, 4 and 5 are RFDs.
+Node 6, 7, 8 and 9 are placed in different wireless subnet working on different channel. 
+Node 6 is a PAN Coordinator. Nodes 7, 8 and 9 are RFDs.
+Nodes 5 and 7, nodes 1 and 6, nodes 4 and 8 are at same position.
+
+                                                                  _ _ _
+                                                                 |     |
+						                 | 5/7 |
+						                 |_ _ _|
+                                     3                          
+                                                     _ _ _           
+                                                    |     |         
+						    | 1/6 |              9
+						    |_ _ _|
+	                                     
+		                     _ _ _                
+                                    |     |                      2
+				    | 4/8 |
+				    |_ _ _|
+				 
+				 
+Application:
+------------
+CBR session is configured between Node 1 and Node 4, Node 1 and Node 5, 
+Node 6 and Node 7,Node 6 and Node 8.
+
+
+Scenario consists of two config files.
+For Zigbee_TwoChannel_yes.config,
+parameter PROPAGATION-ENABLE-CHANNEL-OVERLAP-CHECKis set to YES for all channels.
+For Zigbee_TwoChannel_no.config, 
+parameter PROPAGATION-ENABLE-CHANNEL-OVERLAP-CHECK is set to NO for all channels.
+
+
+RUN:-
+----
+Run "<QUALNET_HOME>/bin/qualnet Zigbee_TwoChannel_yes.config".
+Run "<QUALNET_HOME>/bin/qualnet Zigbee_TwoChannel_no.config".
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. Zigbee_TwoChannel.app -  QualNet configuration file for application input.
+2. Zigbee_TwoChannel_yes.config - QualNet configuration input file.
+3. Zigbee_TwoChannel_no.config - QualNet configuration input file.
+4. Zigbee_TwoChannel_yes.expected.stat - QualNet statistics collection.
+5. Zigbee_TwoChannel_no.expected.stat - QualNet statistics collection.
+6. Zigbee_TwoChannel.nodes - QualNet node placement file for the simulation run.
+7. README - This file.
+

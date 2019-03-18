@@ -1,0 +1,178 @@
+QualNet DIS interface CHANGES file
+
+=============================================================================
+2008-02-14
+=============================================================================
+
+QualNet DIS interface now supported on QualNet 4.5.
+
+Added support for communication effects requests to DIS (same packet formats
+as HLA).
+
+=============================================================================
+2006-10-11
+=============================================================================
+
+From this point, this file will note all changes by source code check-in date
+instead of by file name of the source zip file (qualnet-...).
+
+The QualNet DIS interface is now officially supported on QualNet 4.0.
+
+Added support for the DIS-IP-ADDRESS and DIS-EXERCISE-ID parameters.
+
+=============================================================================
+qualnet-{3.8,3.9-3.9.5}-dis-2006-05-19
+=============================================================================
+
+The QualNet DIS interface is now officially supported on QualNet 3.9.5.
+
+There have been no changes to DIS source code since the last release.
+
+=============================================================================
+qualnet-3.{8,9}-dis-2006-04-17
+=============================================================================
+
+QualNet DIS interface now supported for QualNet 3.9 as well as 3.8.
+- All sample scenarios still contain "VERSION 3.8" in their respective
+  .config files, but these scenario currently work fine with QualNet 3.9.
+
+Now compiles on Solaris SPARC. (missing #include files and macro)
+
+Now compiles on Linux. (missing #include file)
+
+Updated RadioSystemType values in .router-models and .hla-radios files so
+that they fall within commonly accepted ranges (e.g., radios should have
+EntityKind values of 7 indicating a radio, not 1, indicating a platform).
+
+DIS sample scenario:  Removed most PHY and MAC global parameters since they
+were unnessary.
+
+There was a bug in (non-DIS parts of) QualNet 3.9 and previous versions,
+but fixed in QualNet 3.9.1, where antenna settings in the .router-models file
+were ignored.  When this occurred, default values (phy/antenna.h) were used
+if the antenna settings were not otherwise configured:
+1.5-m antenna height, 0-dBi gain, 0.8-dB efficiency, 0.3-dB mismatch loss,
+0.2-dB connection loss, and 0-dB cable loss.
+
+- If you are using QualNet 3.9 or earlier and have antenna settings defined
+  in a .router-models file which you would like to use, you will need to
+  workaround the bug.  Create an .antenna-models file (sample in
+  QUALNET_HOME/bin), reference it from the .config file using the
+  ANTENNA-MODEL-CONFIG-FILE parameter, and assign antennas to subnets and
+  nodes using the ANTENNA-MODEL setting in the same way it's done for
+  ROUTER-MODEL settings.
+
+DIS sample scenario:  Adjusted radio parameters for more realism:
+radio frequency, TX power, radio RX sensitivity/threshold values (to default
+values), antenna properties (to 5-dBi gain assuming a collinear antenna,
+other properties to default values), PHY data-rate, PHY noise factor
+(default).
+
+- Both the DIS and HLA versions of the otb-4 scenario have been updated so
+  they are now the same (except DIS or HLA may be used).
+
+** Documentation
+
+From this point, further changes to documentation will be logged in the PDF
+file.
+
+=============================================================================
+qualnet-3.8-dis-2005-07-06
+=============================================================================
+
+Moved DIS scenarios from gui/scenarios to addons/dis/scenarios.
+
+** Documentation
+
+Documentation updated for new directory structure.
+
+Replaced runide.exe with runidew.exe to make sure Java GUI detaches from
+command line.
+
+** Updates to general QualNet 3.8 source code
+
+External interface: FIXED, UPDATED
+  HLA and IPNE external interfaces will now compile together.
+  Modified EXTERNAL_ConfigStringPresent() so that it only returns true if
+   the parameter value is YES. Previously this function returned true
+   regardless of the parameter value.
+  Fixed bug in external util mapping code.
+
+Cumulative list of updated QualNet 3.8 files:
+
+Same as previous release.
+
+=============================================================================
+qualnet-3.8-dis-2005-05-13
+=============================================================================
+
+** Updates to general QualNet 3.8 source code
+
+Backed out all *'d items from previous release to remain consistent with SNT
+CVS tree.  To obtain files with these changes, please inquire with
+support@scalable-networks.com.  Further notes below:
+
+- The *'d EXTERNAL_ConfigStringPresent() fix was actually not a fix.  Future
+versions of source code will have the original behavior.
+
+Cumulative list of updated QualNet 3.8 files:
+
+Same as previous release.
+
+===============================================================================
+qualnet-3.8-dis-2005-04-28
+===============================================================================
+
+Initial release.
+
+** Updates to general QualNet 3.8 source code
+
+IPNE: UPDATED
+ *Uses presence of "IPNE-CONFIG-FILE" parameter in .config file to activate
+   IPNE support (previously, the presence of the "IPNE" parameter was checked).
+ *IPNE functions better with mapping function fixes to the generic QualNet
+   external interface API.
+
+External interface: FIXED, UPDATED
+  Hooks introduced to support QualNet HLA interface.
+  Hooks introduced to support QualNet DIS interface.
+ *Fixes to external mapping functions that broke IPNE support.
+ *Fixed EXTERNAL_ConfigStringPresent() so it would return TRUE if the parameter
+   was present in the .config file, regardless of its value.  (Previously, the
+   function would only return true if the parameter was present and the value
+   was "YES".)
+  With the new external interface introduced in QualNet 3.8, QualNet may stall
+   forever (e.g., stay at 0% progress) because of a bug in
+   GetNextInternalEventTime().  Simulation stalling only seemed to occur when
+   the user had defined their own external-interface time functions.  This bug
+   has been fixed.
+   This problem did not appear to occur when using synchronization with
+   wall-clock time (e.g., when EXTERNAL_SetTimeManagementRealTime() is called,
+   such as for the HLA and IPNE interfaces).
+  Externally generated mobility events now execute at the correct simulation
+   time.  Previously, such mobility events may have executed later than they
+   should.
+  Speed statistic no longer automatically reset to 0.0 when calling
+   EXTERNAL_ChangeNode*() functions; last value is used instead, unless
+   another value is specified.
+  Added EXTERNAL_ChangeNodePositionOrientationAndSpeedAtTime() function.
+  Please use the EXTERNAL_ChangeNode*() functions to update mobility instead
+   of MOBILITY_InsertANewEvent().  Using both can lead to mobility events
+   being dropped and warnings being printed.
+  Changes to support optional DIS interface.
+  Added hooks for multiple interface types in external.cpp ProcessEvent
+   function.  Each interface can now have its own ProcessEvent function.
+ *Fixes to EXTERNAL_ActivateNode() and EXTERNAL_DeactivateNode() functions.
+
+Internal note for SNT developers:
+
+* Features marked with a single asterisk indicate changes that have not been
+  officially checked into the v3_8 branch or main trunk.
+
+Cumulative list of updated QualNet 3.8 files:
+
+include/api.h
+include/external.h
+include/external_util.h
+main/external.cpp
+main/external_util.cpp

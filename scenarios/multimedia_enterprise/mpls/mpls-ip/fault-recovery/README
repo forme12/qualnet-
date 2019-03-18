@@ -1,0 +1,56 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+PURPOSE:-
+--------
+To show that MPLS based fault recovery occurs after the fault is UP.
+
+SCENARIO:-
+---------
+
+(1)----(2)----(3)----(4)- - -(5)----(6)----(7)
+          
+
+              
+
+1. Nodes 1 and 7 are Pure IP.
+2. Nodes 2, 3, 4, 5 and 6 are Label-Switched-Routers (LSR)
+3. Fault occurs at link connecting Nodes 4 and 5 from 100S to 130S 
+4. Application data flows till 100S. 
+5. It again resumes after 130S (when fault recovery occurs)
+6. All Nodes are connected by a point-to-point link.
+
+
+APPLICATIONS:-
+-------------
+CBR 1 7 100 512 5S 60S 600S PRECEDENCE 0
+FTP 1 7 100 60S
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet fault-recovery.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. fault-recovery.app -  QualNet configuration file for application input.
+2. fault-recovery.config - QualNet configuration input file.
+3. fault-recovery.expected.stat - QualNet statistics collection.
+4. fault-recovery.nodes - QualNet configuration file for Nodes placement
+5. fault-recovery.fault - QualNet configuration file for interface fault
+6. README - This file.

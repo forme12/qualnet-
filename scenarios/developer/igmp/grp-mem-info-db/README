@@ -1,0 +1,67 @@
+PURPOSE:-
+--------
+
+To test the generation of multicast group information on all the interfaces
+of a Router.
+
+On interface 0: 225.0.0.2, 225.0.0.3
+On interface 1: 225.0.0.9, 225.0.0.10
+On interface 2: 225.0.0.7, 225.0.0.11
+On interface 3: 225.0.0.4, 225.0.0.5
+
+
+SCENARIO:-
+---------
+
+
+                                          2.0
+                                   (10)___|
+                             (7)          |____(9)     (3)
+                              |           |             |
+                              |           |      1.0    |
+                       3.0---------------(1R)--------------
+                           |              |         |
+                           |       (4)____|         |
+                         (11)             |        (2)
+                                          |____(5)
+                                          4.0
+
+
+INPUT:-
+------
+default.config file:-
+--------------------
+SUBNET N8-1.0 {1, 2, 3}
+SUBNET N8-2.0 {1, 9, 10}
+SUBNET N8-3.0 {1, 7, 11}
+SUBNET N8-4.0 {1, 4, 5}
+
+IGMP-ROUTER-LIST {1}
+
+IGMP-UNSOLICITED-REPORT-COUNT    2
+
+
+default.member file:-
+--------------------
+2 225.0.0.2        4S    15M
+3 225.0.0.3        4S    15M
+4 225.0.0.4        4S    15M
+5 225.0.0.5        4S    15M
+6 225.0.0.6        4S    15M
+7 225.0.0.7        4S    15M
+8 225.0.0.8        4S    15M
+9 225.0.0.9        4S    15M
+10 225.0.0.10      4S    15M
+11 225.0.0.11      4S    15M
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet default.config'.
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. default.config - QualNet configuration input file.
+2. default.member - QualNet group join information input file.
+3. default.expected.stat - QualNet statistics collection.
+4. README - This file.

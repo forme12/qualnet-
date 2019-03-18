@@ -1,0 +1,97 @@
+# Copyright (c) 2001-2009, Scalable Network Technologies, Inc.  All Rights Reserved.
+#                          6100 Center Drive
+#                          Suite 1250
+#                          Los Angeles, CA 90045
+#                          sales@scalable-networks.com
+#
+# This source code is licensed, not sold, and is subject to a written
+# license agreement.  Among other things, no portion of this source
+# code may be copied, transmitted, disclosed, displayed, distributed,
+# translated, used as the basis for a derivative work, or used, in
+# whole or in part, for any program or purpose other than its intended
+# use in compliance with the license agreement as part of the QualNet
+# software.  This source code and certain of the algorithms contained
+# within it are confidential trade secrets of Scalable Network
+# Technologies, Inc. and may not be used as the basis for any other
+# software, hardware, product or service.
+
+
+
+PURPOSE:-
+--------
+To show:
+OSPFv3 implementation in a simple IPv6 network, for DR-BDR election and LS Aging.
+
+
+SCENARIO:-
+---------
+In this scenario: 
+Nodes 1 thru 5 are connected with a Switch. Nodes 5, 7, 10 and 18 are
+connected with another Switch. Nodes 6 thru 9 are connected with a Hub. 
+Nodes 10 thru 12, 15 form a Wireless subnet. Nodes 10, 14 thru 17 form 
+another wireless subnet. The multiple broadcast network formed by these
+nodes are within a Single Area and is as shown in the below network 
+topology. 
+        
+
+
+
+
+          (1)                          (18)                        (6)          
+           |                            |                           |           
+           |                            |                           |           
+           |                            |                           |           
+(2)-----[Switch]-----(5)-------------[Switch]-------------(7)-----[Hub]-----(8)
+         /    \                         |                           |
+ +-----/        \-----+                 |                           |
+ |                    |                 |                           |
+ |                    |                 |                          (9)
+ |                    |                 |
+(4)                  (3)                |
+                                        |
+                                        |
+                                (14)    |       (11)
+                                        |
+                        (17)           (10)     ...     (13)
+                                ...
+                                                (12)
+                           (16)        (15)
+
+
+
+
+Note:   Node-10 and Node-15 are connected to both wireless subnets.
+  
+
+APPLICATIONS:-
+------------
+CBR 2 16 0 512 1S 300S 0S PRECEDENCE 0
+CBR 6 12 0 512 1S 300S 0S PRECEDENCE 0
+CBR 8 2 0 512 1S 300S 0S PRECEDENCE 0
+FTP/GENERIC 1 17 1000 512 300S 0S PRECEDENCE 0
+CBR 4 15 0 512 1S 300S 0S PRECEDENCE 0
+
+  
+CBR is used to transfer continuous data segments of 512 bytes each at
+1 second interval, starting from 300 seconds till the end of the 
+simulation between Node-2 to Node-16, Node-6 to Node-12, Node-8 to Node-2,
+and Node-4 to Node-15.
+
+Node-1 initiates an FTP/GENERIC session with Node-17.
+  
+
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet dr-bdr.config'
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. dr-bdr.app                   - QualNet configuration file for application input.
+2. dr-bdr.config                - QualNet configuration input file.
+3. dr-bdr.expected.stat         - QualNet statistics collection.
+4. dr-bdr.fault                 - QualNet configuration file for interface fault.
+5. dr-bdr.nodes                 - QualNet node position file.
+6. dr-bdr.ospfv3                - QualNet OSPFv3 configuration input file.
+7. README                       - This file.

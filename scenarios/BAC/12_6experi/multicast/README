@@ -1,0 +1,72 @@
+PURPOSE:-
+--------
+To test the functionality of IEEE 802.16
+when running with multicast and unicast applications.
+
+
+SCENARIO:-
+---------
+1 wireless subnets 192.0.0.0
+192.0.0.0 has 5 nodes (3 to 7) with node 3 as base station (BS) 
+and rests as MS
+
+node 13 is a switch.
+
+node 1 connects node 2 via wired point-to-point link.
+node 2 connects node 3 via wired point-to-point link.
+node 4 connects node 8 via wired point-to-point link.
+node 5 connects node 11 via wired point-to-point link.
+node 6 connects node 13 via wired point-to-point link.
+node 8 connects node 9 via wired point-to-point link.
+node 8 connects node 10 via wired point-to-point link.
+node 11 connects node 12 via wired point-to-point link.
+node 13 connects node 14 via wired point-to-point link.
+node 13 connects node 15 via wired point-to-point link.
+
+                     1 (MCBR src)
+                     |
+                     |
+                     2
+                     |
+                     |
+                     3 (BS)
+                  
+                  4   5   6   7
+                  |   |   |    
+                  |   |   |  
+            9-----8   11 13(switch)
+                  |   |   |\
+                  |   |   |  \
+                 10  12   14  15
+       
+      
+A MCBR flow is from node 1 to multicast group 225.0.0.1. 
+The multicast group includes nodes {7 9 10 12 14}. 
+- MCBR 1 225.0.0.1 0 512 1S 50S 3M
+
+A CBR flow is from node 9 to node 1.
+- CBR 9 1 0 512 1S 50S 3M PRECEDENCE 5
+
+A CBR flow is from node 10 to node 15.
+- CBR 10 15 0 512 1S 50S 3M PRECEDENCE 7
+
+OSPFv2 and MOSPF are unicast routing and multicast 
+routing protocols respectively.
+
+The unicast and multicast packets should be successfully 
+received by their destinations.
+
+RUN:-
+----
+Run '<QUALNET_HOME>/bin/qualnet multicast.config'.
+
+
+
+DESCRIPTION OF THE FILES:-
+-------------------------
+1. multicast.app -  QualNet configuration file for application input.
+2. multicast.config - QualNet configuration input file.
+3. multicast.nodes - QualNet node placement file for the simulation run.
+4. multicast.member - QualNet multicast group membership file
+5. multicast.expected.stat - QualNet statistics collection.
+6. README - This file.

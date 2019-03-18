@@ -1,0 +1,55 @@
+PURPOSE:
+-------
+To show the graft operation of MOSPF in an inter-area topology.  In this
+scenario, some receivers will not receive all the data sent by the source
+since these receivers leave the group early (thus leading to pruning)
+and then rejoin the group (thus leading to grafting).
+
+
+
+SCENARIO:
+---------
+In this scenario, there is one MCBR session, with node 5 being the multicast
+source and nodes 2, 6, 7 and 9 being the multicast group members.
+The multicast group members join the group before the source sends data.
+However, nodes 7 and 9 later temporarily leave the group and rejoin
+at a later time. Nodes 4, 8, 12 and 13 are the IGMP routers.
+Nodes 4, 8, and 12 are the Inter Area Multicast Forwarder.
+
+
+
+             1     2      3
+             |     |      |
+             +-----++-----+
+                    |
+            ........4........
+            :      / \      :
+            :    /     \    :
+   10 --+   :  /         \  :   +-- 6
+        |   :/             \:   |
+        +-- 12   Backbone   8 --+
+   11 --+   :\             /:   +-- 7
+        |   :  \         /  :   |
+    9 --+   :    \     /    :   +-- 5
+            :......\ /......:
+                    13
+
+MCBR is used to transfer data segments of 512B each at 30 second intervals
+until the end of the simulation. Starting at 10 minutes into the simulation.
+
+
+
+RUN:
+-------
+
+Run '<QUALNET_HOME>/bin/qualnet inter-area-graft.config'.
+
+
+DESCRIPTION OF THE FILES:
+-------------------------
+1. inter-area-graft.app -  specifies the application being used.
+2. inter-area-graft.config - the QualNet configuration input file.
+3. inter-area-graft.member - specifies the multicast group.
+4. inter-area-graft.stat - QualNet statistics collection for MCBR and MOSPF.
+5. inter-area-graft.ospf - specifies the different type of area with range.
+6. README - this file.

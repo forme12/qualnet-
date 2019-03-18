@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<category name="Super Application Properties" singlehost="true" loopback="disabled" propertytype="SUPER-APPLICATION-SINGLEHOST" displayname="Super Application">
+
+   <variable name="Source" key="SOURCE" type="SelectionDynamic" keyvisible="false" optional="false"/>
+
+   <variable name="Destination Address" key="MULTICAST-GROUP-ADDRESS" type="Text" default="224.0.1.0" max="255.255.255.255" keyvisible="false" optional="false"/>
+
+   <variable name="Start Time Distribution" key="START-TIME" type="Selection" default="DET" keyvisible="true" optional="false">
+      <option value="DET" name="Deterministic">
+         <variable name="Start Time" key="FIXED-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+      </option>
+
+      <option value="UNI" name="Uniform">
+         <variable name="Earliest Start Time" key="EARLIEST-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+         <variable name="Latest Start Time" key="LATEST-START-TIME" type="Time" default="10S" keyvisible="false" optional="false"/>
+      </option>
+
+      <option value="EXP" name="Exponential">
+         <variable name="Mean Start Time" key="MEAN-START-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+      </option>
+   </variable>
+
+   <variable name="Duration Distribution" key="DURATION" type="Selection" default="DET" keyvisible="true" optional="false">
+      <option value="DET" name="Deterministic">
+         <variable name="Duration" key="FIXED-DURATION-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+      </option>
+
+      <option value="UNI" name="Uniform">
+         <variable name="Shortest Duration" key="SHORTEST-DURATION-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+         <variable name="Longest Duration" key="LONGEST-DURATION-TIME" type="Time" default="10S" keyvisible="false" optional="false"/>
+      </option>
+
+      <option value="EXP" name="Exponential">
+         <variable name="Mean Duration" key="MEAN-DURATION-TIME" type="Time" default="1S" keyvisible="false" optional="false"/>
+      </option>
+   </variable>
+
+   <variable name="Enable Multimedia" key="SPECIFY-MULTIMEDIA" type="Selection" default="DELIVERY-TYPE" keyvisible="false" optional="false">
+      <option value="DELIVERY-TYPE" name="No">
+         <variable name="Delivery Type" key="SPECIFY-DELIVERY-TYPE" type="Selection" default="UNRELIABLE" keyvisible="false" optional="false">
+            <option value="UNRELIABLE" name="Unreliable" />
+         </variable>
+
+         <variable name="Request Packet Count Distribution" key="REQUEST-NUM" type="Selection" default="DET" keyvisible="true" optional="false">
+            <option value="DET" name="Deterministic">
+               <variable name="Number of Request Packets" key="FIXED-REQUEST-NUM" type="Integer" default="1" min="0" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="UNI" name="Uniform">
+               <variable name="Smallest Number of Request Packets" key="SMALL-REQUEST-NUM" type="Integer" default="1" min="0" keyvisible="false" optional="false"/>
+               <variable name="Largest Number of Request Packets" key="LARGE-REQUEST-NUM" type="Integer" default="10" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="EXP" name="Exponential">
+               <variable name="Mean Number of Request Packets" key="MEAN-REQUEST-NUM" type="Integer" default="10" min="0" keyvisible="false" optional="false"/>
+            </option>
+         </variable>
+
+         <variable name="Request Packet Size Distribution" key="REQUEST-SIZE" type="Selection" default="DET" keyvisible="true" optional="false">
+            <option value="DET" name="Deterministic">
+               <variable name="Request Packet Size (bytes)" key="FIXED-REQUEST-SIZE" type="Integer" default="512" min="0" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="UNI" name="Uniform">
+               <variable name="Smallest Request Packet Size (bytes)" key="SMALLEST-REQUEST-SIZE" type="Integer" default="1" min="0" keyvisible="false" optional="false"/>
+               <variable name="Largest Request Packet Size (bytes)" key="LARGEST-REQUEST-SIZE" type="Integer" default="65391" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="EXP" name="Exponential">
+               <variable name="Mean Request Packet Size (bytes)" key="MEAN-REQUEST-SIZE" type="Integer" default="512" min="0" keyvisible="false" optional="false"/>
+            </option>
+         </variable>
+
+         <variable name="Request Packet Interval Distribution" key="REQUEST-INTERVAL" type="Selection" default="DET"  keyvisible="true" optional="false">
+            <option value="DET" name="Deterministic">
+               <variable name="Request Packet Interval" key="FIXED-REQUEST-INTERVAL" type="Time" default="1S" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="UNI" name="Uniform">
+               <variable name="Shortest Request Packet Interval" key="SMALLEST-REQUEST-INTERVAL" type="Time" default="1MS" keyvisible="false" optional="false"/>
+               <variable name="Longest Request Packet Interval" key="LONGEST-REQUEST-INTERVAL" type="Time" default="10S" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="EXP" name="Exponential">
+               <variable name="Mean Request Packet Interval" key="MEAN-REQUEST-INTERVAL" type="Time" default="1S" keyvisible="false" optional="false"/>
+            </option>
+         </variable>
+
+         <variable name="Priority of Request Packets" key="REQUEST-TOS" type="Selection" default="PRECEDENCE" keyvisible="true" optional="true">
+            <option value="TOS" name="TOS" help="value (0-255) of the TOS bits in the IP header">
+               <variable name="TOS Value" key="TOS-BITS" type="Integer" default="0" min="0" max="255" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="DSCP" name="DSCP" help="value (0-63) of the DSCP bits in the IP header">
+               <variable name="DSCP Value" key="DSCP-BITS" type="Integer" default="0" min="0" max="63" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="PRECEDENCE" name="Precedence" help="value (0-7) of the Precedence bits in the IP header">
+               <variable name="Precedence Value" key="PRECEDENCE-BITS" type="Integer" default="0" min="0" max="7" keyvisible="false" optional="false"/>
+            </option>
+         </variable>
+      </option>
+
+      <option value="ENCODING-SCHEME" name="Yes">
+         <variable name="Encoding Scheme" key="SPECIFY-ENCODING-SCHEME" type="Selection" default="VIDEO" keyvisible="false" optional="false">
+            <option value="VIDEO" name="Video">
+               <variable name="Video Scheme" key="SPECIFY-VIDEO-SCHEME" type="Selection" default="H.261" keyvisible="false" optional="false">
+                  <option value="H.261" name="H.261" />
+                  <option value="H.263" name="H.263" />
+                  <option value="MPEG1.M" name="MPEG1.M" />
+                  <option value="MPEG1.H" name="MPEG1.H" />
+                  <option value="MPEG2.M" name="MPEG2.M" />
+                  <option value="MPEG2.H" name="MPEG2.H" />
+               </variable>
+            </option>
+
+            <option value="VOICE" name="Voice">
+               <variable name="Voice Scheme" key="SPECIFY-VOICE-SCHEME" type="Selection" default="G.711" keyvisible="false" optional="false">
+                  <option value="G.711" name="G.711" />
+                  <option value="G.729" name="G.729" />
+                  <option value="G.723.lar6.3" name="G.723.lar6.3" />
+                  <option value="G.723.lar5.3" name="G.723.lar5.3" />
+                  <option value="G.726ar32" name="G.726ar32" />
+                  <option value="G.726ar24" name="G.726ar24" />
+                  <option value="G.728ar16" name="G.728ar16" />
+                  <option value="CELP" name="CELP" />
+                  <option value="MELP" name="MELP" />
+               </variable>
+
+               <variable name="Average Talk Time" key="AVERAGE-TALK-TIME" type="Selection" default="DET" keyvisible="true" optional="false">
+                  <option value="DET" name="Deterministic">
+                     <variable name="Reply Packet Interval" key="FIXED-REPLY-INTERDEPARTURE-DELAY" type="Time" default="1S" keyvisible="false" optional="false"/>
+                  </option>
+
+                  <option value="UNI" name="Uniform">
+                     <variable name="Smallest Reply Packet Interval" key="SMALLEST-REPLY-INTERDEPARTURE-DELAY" type="Time" default="1MS" keyvisible="false" optional="false"/>
+                     <variable name="Longest Reply Packet Interval" key="LONGEST-REPLY-INTERDEPARTURE-DELAY" type="Time" default="10S" keyvisible="false" optional="false"/>
+                  </option>
+
+                  <option value="EXP" name="Exponential">
+                     <variable name="Mean Reply Packet Interval" key="MEAN-REPLY-INTERDEPARTURE-DELAY" type="Time" default="1S" keyvisible="false" optional="false"/>
+                  </option>
+               </variable>
+               <variable name="Mean Spurt Gap Ratio" key="MEAN-SPURT-GAP-RATIO" type="fixed" keyvisible="true" default="1" optional="false" />
+            </option>
+         </variable>
+      </option>
+   </variable>
+
+   <variable name="Enable Fragmentation" key="SPECIFY-FRAGMENT-SIZE" type="Selection" default="N/A" keyvisible="false" optional="true">
+      <option value="N/A" name="No" />
+      <option value="FRAGMENT-SIZE" name="Yes">
+         <variable name="Fragment Size (bytes)" key="FRAGMENT-SIZE-VALUE" type="Integer" default="1024" keyvisible="false" optional="false"/>
+      </option>
+   </variable>
+
+   <variable name="Specify Source Port" key="SPECIFY-SOURCE-PORT" type="Selection" default="N/A" keyvisible="false" optional="true">
+      <option value="N/A" name="No" />
+      <option value="SOURCE-PORT" name="Yes">
+         <variable name="Source Port" key="SOURCE-PORT-VALUE" type="Integer" default="1025" min="0" max="655535" keyvisible="false" optional="false"/>
+      </option>
+   </variable>
+
+   <variable name="Specify Destination Port" key="SPECIFY-DESTINATION-PORT" type="Selection" default="N/A" keyvisible="false" optional="true">
+      <option value="N/A" name="No" />
+      <option value="DESTINATION-PORT" name="Yes">
+         <variable name="Destination Port" key="DESTINATION-PORT-VALUE" type="Integer" default="1025" min="0" max="655535" keyvisible="false" optional="false"/>
+      </option>
+   </variable>
+
+
+   <variable name="Application Name" key="APPLICATION-NAME" type="Text" default="SuperApplication"/>
+
+   <variable name="Chain ID" key="CHAIN-ID"  type="Text" default="" optional="true" keyvisible="true" />
+
+   <variable name="Enable MDP" key="MDP-ENABLED" type="Selection" default="N/A" keyvisible="false" optional="false">
+      <option value="N/A" name="No" />
+      <option value="MDP-ENABLED" name="Yes">
+         <variable name="Specify MDP Profile" key="MDP-PROFILE" type="Selection" default="N/A" keyvisible="false" optional="false" >
+            <option value="N/A" name="No" />
+            <option value="MDP-PROFILE" name="Yes">
+               <variable name="MDP Profile Name" key="MDP-PROFILE-NAME" type="Text" default="[Required]" keyvisible="false" optional="false" />
+            </option>
+         </variable>
+      </option>
+   </variable>
+
+   <variable name="Specify Conditions" key="CONDITIONS" type="Text" default="" keyvisible="true" optional="true"/>
+
+   <variable name="Enable Repeat" key="SPECIFY-REPEAT" type="Selection" default="N/A" keyvisible="false" optional="true">
+      <option value="N/A" name="No" />
+      <option value="REPEAT" name="Yes">
+         <variable name="Repeat Time Distribution" key="REPEAT" type="Selection" default="DET" keyvisible="false" optional="false">
+            <option value="DET" name="Deterministic">
+               <variable name="Repeat Interval" key="FIXED-REPEAT-DELAY" type="Time" default="1S" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="UNI" name="Uniform">
+               <variable name="Smallest Repeat Interval" key="SMALLEST-REPEAT-DELAY" type="Time" default="1MS" keyvisible="false" optional="false"/>
+               <variable name="Longest Repeat Interval" key="LONGEST-REPEAT-DELAY" type="Time" default="10S" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="EXP" name="Exponential">
+               <variable name="Mean Repeat Interval" key="MEAN-REPEAT-DELAY" type="Time" default="1S" keyvisible="false" optional="false"/>
+            </option>
+         </variable>
+
+         <variable name="Repeat Count" key="REPEAT-COUNT" type="Selection" default="DET" keyvisible="false" optional="false">
+            <option value="DET" name="Deterministic">
+               <variable name="Repeat Count" key="FIXED-REPEAT-COUNT" type="Integer" default="1" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="UNI" name="Uniform">
+               <variable name="Smallest Repeat Count" key="SMALLEST-REPEAT-COUNT" type="Integer" default="1" keyvisible="false" optional="false"/>
+               <variable name="Longest Repeat Count" key="LONGEST-REPEAT-COUNT" type="Integer" default="10" keyvisible="false" optional="false"/>
+            </option>
+
+            <option value="EXP" name="Exponential">
+               <variable name="Mean Repeat Count" key="MEAN-REPEAT-COUNT" type="Integer" default="1" keyvisible="false" optional="false"/>
+            </option>
+         </variable>
+      </option>
+   </variable>
+</category>
