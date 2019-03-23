@@ -467,7 +467,32 @@ APP_UdpSendNewHeaderVirtualDataWithPriority(
     StatsDBAppEventParam* appParam = NULL
 #endif
     );
+//added by gl
 
+Message *
+APP_UdpSendNewHeaderVirtualDataWithPriority(
+	Node *node,
+	AppType appType,
+	Address sourceAddr,
+	unsigned short sourcePort,
+	Address destAddr,
+	NodeAddress destId,
+	int appCBRtype,
+	int appSequence,
+	char *header,
+	int headerSize,
+	int payloadSize,
+	TosType priority,
+	clocktype delay,
+	TraceProtocolType traceProtocol,
+	BOOL isMdpEnabled = FALSE,
+	Int32  mdpUniqueId = -1,
+	bool   packetIsEmpty = false
+#ifdef ADDON_DB
+	,
+	StatsDBAppEventParam* appParam = NULL
+#endif
+);
 
 
 // /**
@@ -820,6 +845,10 @@ APP_UdpSendNewHeaderVirtualDataWithPriority(
                         StatsDBAppEventParam* appParam = NULL
 #endif
                         );
+
+
+
+
 
 #ifdef ADDON_BOEINGFCS
 Message*

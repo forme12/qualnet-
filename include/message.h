@@ -431,6 +431,7 @@ public:
 
     bool isEmulationPacket;
 
+	bool packetIsEmpty;
     TimerManager* timerManager;
 
     bool isScheduledOnMainHeap;
